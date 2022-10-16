@@ -406,5 +406,6 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/python,django,node,react
 
 ### Custom Settings ###
-proposal/
-req-spec/
+*.pages
+*.pdf
+*.docx
