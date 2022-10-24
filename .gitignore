@@ -409,3 +409,5 @@ sketch
 *.pages
 *.pdf
 *.docx
+
+secret_key.json
