@@ -409,5 +409,6 @@ sketch
 *.pages
 *.pdf
 *.docx
+.vscode/
 
 secret_key.json

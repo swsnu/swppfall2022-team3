@@ -39,40 +39,6 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ![ui-flow](ui-flow.jpeg)
 
-#### Pages
-
-##### Login Page
-
-##### Sign Up Page
-
-###### Step 1: University Info
-
-###### Step 2: Authentication
-
-###### Step 3: Personal Info
-
-###### Step 4: Tags
-
-###### Step 5:  Introduction
-
-###### Step 6: Photos
-
-###### Step 7: Completed
-
-##### User List Page
-
-##### User Detail Page
-
-##### Pitapat List Page
-
-##### Chat List Page
-
-##### Chat Room Page
-
-##### Setting page
-
-##### Profile Edit page
-
 ### Controller
 
 ![controller](controller.png)
