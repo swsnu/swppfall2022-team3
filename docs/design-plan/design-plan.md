@@ -88,16 +88,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 204
 {}
 ```
 
-**Failed (Duplicated Email)**
+###### Response: Failed (Duplicated Email)
 
 ```json
 // status: 409
@@ -114,16 +112,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 204
 {}
 ```
 
-**Failed (Wrong Verification Code)**
+###### Response: Failed (Wrong Verification Code)
 
 ```json
 // status: 401
@@ -227,16 +223,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 204
 {}
 ```
 
-**Failed (Wrong Email or Password)**
+###### Response: Failed (Wrong Email or Password)
 
 ```json
 // status: 401
@@ -266,9 +260,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 200
@@ -296,7 +288,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -323,9 +315,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 200
@@ -353,14 +343,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
 {}
 ```
 
-**Failed (Invalid Request Body)**
+###### Response: Failed (Invalid Request Body)
 
 ```json
 // status: 400
@@ -375,16 +365,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 204
 {}
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -427,9 +415,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 200
@@ -456,7 +442,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -510,9 +496,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 200
@@ -524,7 +508,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -539,16 +523,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 204
 {}
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -585,16 +567,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 201
 {}
 ```
 
-**Failed (Duplicated Tag Name)**
+###### Response: Failed (Duplicated Tag Name)
 
 ```json
 // status: 409
@@ -611,23 +591,21 @@ A Line between two tables shows their relationship. Its relationship type is den
 }
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 201
 {}
 ```
 
-**Failed (Duplicated Pitapat Request)**
+###### Response: Failed (Duplicated Pitapat Request)
 
 ```json
 // status: 409
 {}
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -642,7 +620,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
+###### Response: Success
 
 ```json
 // status: 200
@@ -666,7 +644,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 ]
 ```
 
-**Failed (Invalid ID Parameter)**
+###### Response: Failed (Invalid ID Parameter)
 
 ```json
 // status: 404
@@ -681,23 +659,21 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 201
 {}
 ```
 
-**Failed (Duplicated Pitapat Response)**
+###### Response: Failed (Duplicated Pitapat Response)
 
 ```json
 // status: 409
 {}
 ```
 
-**Failed (Invalid From or To Parameter)**
+###### Response: Failed (Invalid From or To Parameter)
 
 ```json
 // status: 404
@@ -712,16 +688,14 @@ A Line between two tables shows their relationship. Its relationship type is den
 {}
 ```
 
-###### Response
-
-**Success**
+###### Response: Success
 
 ```json
 // status: 204
 {}
 ```
 
-**Failed (Invalid From or To Parameter)**
+###### Response: Failed (Invalid From or To Parameter)
 
 ```json
 // status: 404
