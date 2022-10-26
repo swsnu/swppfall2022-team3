@@ -4,11 +4,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-
-class Gender(models.TextChoices):
-    MALE = 'M', _('male')
-    FEMALE = 'F', _('female')
-
 class User(AbstractUser):
     user_key = models.AutoField(
         _('user key'),
@@ -45,6 +40,10 @@ class User(AbstractUser):
         max_length=20,
         blank=False,
     )
+
+    class Gender(models.TextChoices):
+        MALE = 'M', _('male')
+        FEMALE = 'F', _('female')
 
     gender = models.CharField(
         _('gender'),
