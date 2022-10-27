@@ -35,6 +35,8 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ### View
 
+The image below is the user interface for view design.
+
 #### UI Flow
 
 ![ui-flow](ui-flow.jpeg)
