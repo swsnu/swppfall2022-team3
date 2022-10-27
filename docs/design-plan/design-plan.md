@@ -58,38 +58,44 @@ The functionality and the requirement for each page are described below.
 - Select tags that represent the user.
 - Write a self-introduction.
 - Upload pictures of the user.
+
 #### Search Page (`/search/`)
 
-  - Show the list of users.
-  - Pictures and the username of each user are shown.
-  - If a user clicks a picture, navigate to the user-detail page.
+- Show the list of users.
+- Pictures and the username of each user are shown.
+- If a user clicks a picture, navigate to the user-detail page.
+
 #### User Detail Page (`/profile/:id/`)
 
-  - Information about the user is shown.
-  - A user can click a ‘pitapat’ button to send a ‘pitapat’.
-  - If navigated from the ‘pitapats received list’, there is a ‘Nah’ button for refusing.
-  - If navigated from the ‘pitapats sent list’, a ‘pitapat’ button is already toggled and it can be canceled.
+- Information about the user is shown.
+- A user can click a ‘pitapat’ button to send a ‘pitapat’.
+- If navigated from the ‘pitapats received list’, there is a ‘Nah’ button for refusing.
+- If navigated from the ‘pitapats sent list’, a ‘pitapat’ button is already toggled and it can be canceled.
+
 #### Chat List Page (`/chat/`)
 
-  - Show the list of chatting.
-  - Chatting rooms are sorted by recently updated order.
-  - Badges represent unseen massages numbers.
-  - If a user clicks a chatting room, navigate to the chat-detail page.
+- Show the list of chatting.
+- Chatting rooms are sorted by recently updated order.
+- Badges represent unseen massages numbers.
+- If a user clicks a chatting room, navigate to the chat-detail page.
+
 #### Chat Detail Page (`/chat/:id/`)
 
-  - This is similar to Kakao Talk chatting room implementation.
+- This is similar to Kakao Talk chatting room implementation.
+
 #### Pitapat List Page (`/pitapat/`)
 
-  - There are ‘pitapats received list’ and ‘pitapats sent list’ tabs.
-  - On the ‘pitapats received list’, a user can see other users who sent pitapats to the user.
-  - On the ‘pitapats sent list’, a user can see other users to whom the user sent pitapats.
-  - If a user clicks a picture, navigate to the user detail page.
+- There are ‘pitapats received list’ and ‘pitapats sent list’ tabs.
+- On the ‘pitapats received list’, a user can see other users who sent pitapats to the user.
+- On the ‘pitapats sent list’, a user can see other users to whom the user sent pitapats.
+- If a user clicks a picture, navigate to the user detail page.
 
 #### Setting Page (`/setting/`)
 
-  - A user can navigate to this page, from the search page, the chat list page, and the pitapats list page by clicking a setting button located at the top right corner.
-  - A user can fix the settings of this service.
-  - If a user clicks his/her profile picture at the top of the page, a user can fix his/her profile.
+- A user can navigate to this page, from the search page, the chat list page, and the pitapats list page by clicking a setting button located at the top right corner.
+- A user can fix the settings of this service.
+- If a user clicks his/her profile picture at the top of the page, a user can fix his/her profile.
+
 ### Controller
 
 ![controller](controller.png)
