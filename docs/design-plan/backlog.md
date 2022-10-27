@@ -39,3 +39,16 @@ Several changes on user interface requirements. The profile button got removed f
 
 <img src='../req-spec/setting.png' height=300 />
 
+## Current Progress
+| Todos                    | Sub-items                                       | Status       |
+|:-------------------------|:------------------------------------------------|:------------:|
+| **Requirement and Spec** | Market Analysis, User Stories, User Interface   | DONE
+| **MVC Design Pattern**   | MVC Diagram                                     | DONE         |
+| **Model**                | E-R Diagram, Entity Description                 | DONE         |
+| **View**                 | UI Flow, UI Description                         | DONE         |
+| **Controller**           | Controller Diagram                              | DONE         |
+| **Frontend Design**      | Pages Diagram, Components Diagram               | DONE         |
+| **Backend Design**       | API Table, HTTP Data Format                     | DONE         |
+| **Planning**             | Implementation Plan, Testing Plan               | DONE         |
+| **Backend Coding**       |                                                 | ONGOING      |
+| **Frontend Coding**      |                                                 | ONGOING      |

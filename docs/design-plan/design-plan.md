@@ -41,7 +41,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 The functionality and the requirement for each page are described below.
 
-#### Sign In Page (`/`)
+#### Sign In Page (`/signin/`)
 
 - Get 'e-mail' and 'password' and check whether the user is a member. After logging in, navigate to the main page.
 - First visitors should click the sign-up button and make an account. Should navigate to the sign-up page.
