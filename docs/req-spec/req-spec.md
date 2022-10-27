@@ -1,6 +1,6 @@
 # Pitapat Campus: Requirements and Specification
 
-Rev. 1.0, 10/12/2022
+Rev. 1.1, 10/28/2022
 
 ## Project Abstract
 
@@ -8,10 +8,6 @@ Rev. 1.0, 10/12/2022
 Users should sign up and log in to use the features of the services. Email authentication is required to create an account; a user proves one's registration by providing a college email address (ex. @snu.ac.kr) and checking the verification code. After filling up basic information, including pictures, and adding tags, users can log in and access to main features: exploring profiles, exchanging “pitapat”, and chatting.
 Users can look at others' profiles in the search tab and send pitapat as an expression of affection for attractive mates. When receiving pitapat, the user can examine the requestor's profile and accept or reject the call. After granting the request, a private chatting room between matched users is opened and the pair can exchange messages.
 Since dating service is more appropriate for mobile, a user interface for mobile devices is designed priorly. There are four main views: search, request list, chatting list, and profile setting. Users can access each main view by pressing the corresponding icon in the navigation bar.
-
-## Document Revision History
-
-- Rev 1.0, 10/12/2022 - initial version
 
 ## Target Customers
 
@@ -163,6 +159,23 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: when the user check a received Pitapat and press Nah button to refuse
     - then: there is no matching up
 
+ ### Seeing the List of Pitapats Sent to Others
+
+- actor: a user who sent pitapats to others.
+- precondition: A User has sent pitapats to other users.
+- trigger: The user presses a pitapat icon on the navigation bar and clicks  the 'pitapats sent list' tab.
+- scenarios
+  - The list of Pitapats sent to others contains the receiver’s basic information such as a nickname, main profile image, and age.
+  - The user can see the profile detail of the sender by clicking the receiver’s main profile image.
+  - The user can cancel a pitapat by clicking the pitapat button which is already toggled on.
+- postconditions
+  - After canceling a pitapat, the received user's profile is removed from the list.
+- acceptance tests:
+  - (1)
+    - given: after sending Pitapats to others
+    - when: when the user checks a sent Pitapat and presses the pitapat button to cancel
+    - then: a received user is removed from the list, and the user is removed from the received pitapats list of the other user who just got canceled
+
 ### Entering the Chat Room List Page
 
 - actor: a user who has completed profile information
@@ -259,3 +272,8 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
 ### Profile Setting Page
 
 <img src='setting.png' height=300 />
+
+## Document Revision History
+
+- Rev. 1.0, 10/12/2022 - initial version
+- Rev. 1.1, 10/28/2022 - updated user stories & user interface

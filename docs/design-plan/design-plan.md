@@ -1,6 +1,6 @@
 # Pitapat Campus: Design and Planning
 
-Rev. 1.0, 10/29/2022
+Rev. 1.0, 10/28/2022
 
 ## System Architecture
 
@@ -39,6 +39,55 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ![ui-flow](ui-flow.jpeg)
 
+The functionality and the requirement for each page are described below.
+
+#### Sign In Page (`/`)
+
+- Get 'e-mail' and 'password' and check whether the user is a member. After logging in, navigate to the main page.
+- First visitors should click the sign-up button and make an account. Should navigate to the sign-up page.
+
+#### Sign Up Page (`/signup/`)
+
+- Get university information and e-mail address.
+- Certify the user's university by receiving the code which is sent to the e-mail address.
+- Get a username and check whether it already exists.
+- Get information about birth date and year.
+- Get information about the major, sex, and sexual orientation.
+- Select tags that represent the user.
+- Write a self-introduction.
+- Upload pictures of the user.
+#### Search Page (`/search/`)
+
+  - Show the list of users.
+  - Pictures and the username of each user are shown.
+  - If a user clicks a picture, navigate to the user-detail page.
+#### User Detail Page (`/profile/:id/`)
+
+  - Information about the user is shown.
+  - A user can click a ‘pitapat’ button to send a ‘pitapat’.
+  - If navigated from the ‘pitapats received list’, there is a ‘Nah’ button for refusing.
+  - If navigated from the ‘pitapats sent list’, a ‘pitapat’ button is already toggled and it can be canceled.
+#### Chat List Page (`/chat/`)
+
+  - Show the list of chatting.
+  - Chatting rooms are sorted by recently updated order.
+  - Badges represent unseen massages numbers.
+  - If a user clicks a chatting room, navigate to the chat-detail page.
+#### Chat Detail Page (`/chat/:id/`)
+
+  - This is similar to Kakao Talk chatting room implementation.
+#### Pitapat List Page (`/pitapat/`)
+
+  - There are ‘pitapats received list’ and ‘pitapats sent list’ tabs.
+  - On the ‘pitapats received list’, a user can see other users who sent pitapats to the user.
+  - On the ‘pitapats sent list’, a user can see other users to whom the user sent pitapats.
+  - If a user clicks a picture, navigate to the user detail page.
+
+#### Setting Page (`/setting/`)
+
+  - A user can navigate to this page, from the search page, the chat list page, and the pitapats list page by clicking a setting button located at the top right corner.
+  - A user can fix the settings of this service.
+  - If a user clicks his/her profile picture at the top of the page, a user can fix his/her profile.
 ### Controller
 
 ![controller](controller.png)
@@ -90,15 +139,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
 ###### Response: Failed (Duplicated Email)
 
+- status: `409`
+
 ```json
-// status: 409
 {}
 ```
 
@@ -114,15 +165,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
 ###### Response: Failed (Wrong Verification Code)
 
+- status: `401`
+
 ```json
-// status: 401
 {}
 ```
 
@@ -159,8 +212,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response
 
+- status: `200`
+
 ```json
-// status: 200
 [
     {
         "id": 1,
@@ -207,8 +261,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response
 
+- status: `201`
+
 ```json
-// status: 201
 {}
 ```
 
@@ -225,15 +280,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
 ###### Response: Failed (Wrong Email or Password)
 
+- status: `401`
+
 ```json
-// status: 401
 {}
 ```
 
@@ -247,8 +304,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
@@ -262,8 +320,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `200`
+
 ```json
-// status: 200
 {
     "id": 1,
     "email": "email@snu.ac.kr",
@@ -290,8 +349,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -317,8 +377,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `200`
+
 ```json
-// status: 200
 {
     "id": 1,
     "email": "email@snu.ac.kr",
@@ -345,15 +406,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
 ###### Response: Failed (Invalid Request Body)
 
+- status: `400`
+
 ```json
-// status: 400
 {}
 ```
 
@@ -367,15 +430,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -389,8 +454,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response
 
+- status: `200`
+
 ```json
-// status: 200
 [
     {
         "id": 1,
@@ -417,8 +483,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `200`
+
 ```json
-// status: 200
 {
     "id": 1,
     "name": "서울대학교",
@@ -444,8 +511,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -470,8 +538,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response
 
+- status: `201`
+
 ```json
-// status: 201
 [
     {
         "id": 10,
@@ -498,8 +567,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `200`
+
 ```json
-// status: 200
 {
     "id": 10,
     "user_id": 1,
@@ -510,8 +580,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -525,15 +596,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -547,8 +620,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response
 
+- status: `200`
+
 ```json
-// status: 200
 [
     "영화",
     "음악",
@@ -569,15 +643,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `201`
+
 ```json
-// status: 201
 {}
 ```
 
 ###### Response: Failed (Duplicated Tag Name)
 
+- status: `409`
+
 ```json
-// status: 409
 {}
 ```
 
@@ -593,22 +669,25 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `201`
+
 ```json
-// status: 201
 {}
 ```
 
 ###### Response: Failed (Duplicated Pitapat Request)
 
+- status: `409`
+
 ```json
-// status: 409
 {}
 ```
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -622,8 +701,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `200`
+
 ```json
-// status: 200
 [
     {
         "id": 1,
@@ -646,8 +726,9 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Failed (Invalid ID Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 []
 ```
 
@@ -661,22 +742,25 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `201`
+
 ```json
-// status: 201
 {}
 ```
 
 ###### Response: Failed (Duplicated Pitapat Response)
 
+- status: `409`
+
 ```json
-// status: 409
 {}
 ```
 
 ###### Response: Failed (Invalid From or To Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -690,15 +774,17 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 ###### Response: Success
 
+- status: `204`
+
 ```json
-// status: 204
 {}
 ```
 
 ###### Response: Failed (Invalid From or To Parameter)
 
+- status: `404`
+
 ```json
-// status: 404
 {}
 ```
 
@@ -710,18 +796,18 @@ Key features are prioritized before the mid-presentation so that they can be com
 
 |      | Page         | Feature                                        | Dependency | Difficulties | Time | Sprints | Manager | Challenges                                                   |
 | ---- | ------------ | ---------------------------------------------- | ---------- | ------------ | ---- | ------- | ------- | ------------------------------------------------------------ |
-| 1    | Login        | Sign in                                        |            | 1            |      | 3       |         |                                                              |
-| 2    | Sign Up      | Authenticate register by university email      |            | 2            |      | 3       |         |                                                              |
-| 3    | Sign Up      | Create a profile                               |            | 4            |      | 4       |         | Upload photo and make user-tag relationship                  |
-| 4    | User List    | Show the list of users' profiles               |            | 3            |      | 2,3     |         | Filter profiles by tags                                      |
-| 5    | User Detail  | Show user's profile in detail                  |            | 2            |      | 2,3     |         |                                                              |
-| 6    | Pitapat List | Show the list of pitapats from others          |            | 2            |      | 2,3     |         |                                                              |
-| 7    | Pitapat List | Accept or reject received pitapat request      | 6          | 3            |      | 2,3     |         | Delete processed users from pitapat list<br />Activate accepted users in Chat List page |
-| 8    | Chat List    | Show the list of chat rooms with matched users |            | 3            |      | 4       |         |                                                              |
-| 9    | Chat         | 1:1 chat with matched user                     |            | 5            |      | 4       |         |                                                              |
-| 10   | Profile Edit | Edit own profile                               |            | 3            |      | 5       |         | Upload or delete photo                                       |
-| 11   | Setting      | Sign out                                       | 1          | 2            |      | 5       |         |                                                              |
-| 12   | Setting      | Withdraw                                       |            | 1            |      |         |         |                                                              |
+| 1    | Login        | Sign in                                        |            | 1            | 2    | 3       |         |                                                              |
+| 2    | Sign Up      | Authenticate register by university email      |            | 2            | 3    | 3       |         |                                                              |
+| 3    | Sign Up      | Create a profile                               |            | 4            | 4    | 4       |         | Upload photo and make user-tag relationship                  |
+| 4    | User List    | Show the list of users' profiles               |            | 3            | 4    | 2,3     |         | Filter profiles by tags                                      |
+| 5    | User Detail  | Show user's profile in detail                  |            | 2            | 3    | 2,3     |         |                                                              |
+| 6    | Pitapat List | Show the list of pitapats from others          |            | 2            | 3    | 2,3     |         |                                                              |
+| 7    | Pitapat List | Accept or reject received pitapat request      | 6          | 3            | 4    | 2,3     |         | Delete processed users from pitapat list<br />Activate accepted users in Chat List page |
+| 8    | Chat List    | Show the list of chat rooms with matched users |            | 3            | 3    | 4       |         |                                                              |
+| 9    | Chat         | 1:1 chat with matched user                     |            | 5            | 5    | 4       |         |                                                              |
+| 10   | Profile Edit | Edit own profile                               |            | 3            | 4    | 5       |         | Upload or delete photo                                       |
+| 11   | Setting      | Sign out                                       | 1          | 2            | 3    | 5       |         |                                                              |
+| 12   | Setting      | Withdraw                                       |            | 1            | 2    | 5       |         |                                                              |
 
 ## Testing Plan
 
@@ -739,4 +825,4 @@ For the acceptance test, cucumber will be used to automatically map user stories
 
 ## Document Revision History
 
-- Rev. 1.0, 10/29/2022 - initial version
+- Rev. 1.0, 10/28/2022 - initial version
