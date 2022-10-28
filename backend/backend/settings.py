@@ -33,7 +33,7 @@ def get_external_value(filename: str, key: str):
     except KeyError:
         raise ImproperlyConfigured(f'key \'{key}\' does not exist')
 
-SECRET_KEY = get_external_value(BASE_DIR / 'backend/secret_key.json', 'secret_key')
+SECRET_KEY = get_external_value(BASE_DIR / 'backend/.secrets/secret_key.json', 'secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

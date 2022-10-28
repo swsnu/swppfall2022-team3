@@ -411,4 +411,5 @@ sketch
 *.docx
 .vscode/
 
-secret_key.json
+.secrets/
+secrets.tar
