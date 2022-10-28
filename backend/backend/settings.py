@@ -24,14 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 def get_external_value(filename: str, key: str):
     try:
-        with open(filename) as f:
-            json_value = json.loads(f.read())
-    except FileNotFoundError:
-        raise ImproperlyConfigured(f'file \'{filename}\' not found')
+        with open(filename, encoding='utf-8') as file:
+            json_value = json.loads(file.read())
+    except FileNotFoundError as error:
+        raise ImproperlyConfigured(f'file \'{filename}\' not found') from error
     try:
         return json_value[key]
-    except KeyError:
-        raise ImproperlyConfigured(f'key \'{key}\' does not exist')
+    except KeyError as error:
+        raise ImproperlyConfigured(f'key \'{key}\' does not exist') from error
 
 SECRET_KEY = get_external_value(BASE_DIR / 'backend/.secrets/secret_key.json', 'secret_key')
 
@@ -47,6 +47,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -100,6 +101,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'user.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

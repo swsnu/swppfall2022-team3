@@ -7,7 +7,7 @@ jobs:
     - cd backend
     - pip install -r requirements.txt
     script:
-    - pylint **/*.py --load-plugins pylint_django
+    - pylint **/*.py
     - coverage run --source='.' manage.py test
     - coverage xml
   - language: node_js
@@ -26,5 +26,5 @@ jobs:
     - cd .. && sonar-scanner
 before_install:
 - openssl aes-256-cbc -K $encrypted_3b9f0b9d36d1_key -iv $encrypted_3b9f0b9d36d1_iv
-  -in secrets.tar.enc -out secrets.tar -d
-- tar xvf secrets.tar
+  -in backend/backend/secrets.tar.enc -out backend/backend/secrets.tar -d
+- tar xvf backend/backend/secrets.tar -C backend/backend
