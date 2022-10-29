@@ -1,0 +1,4 @@
+[MASTER]
+ignore-paths=venv
+django-settings-module=backend.settings
+disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, unused-import
