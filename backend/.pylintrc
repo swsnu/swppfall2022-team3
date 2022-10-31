@@ -1,4 +1,6 @@
 [MASTER]
-ignore-paths=venv
+init-hook='import sys; sys.path.append("./")'
+ignore-paths=venv/, user/migrations/
+load-plugins=pylint_django
 django-settings-module=backend.settings
-disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, unused-import
+disable=import-outside-toplevel, missing-module-docstring, missing-class-docstring, missing-function-docstring, unused-import

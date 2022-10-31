@@ -6,12 +6,12 @@ from .models import User
 from .serializers import UserListSerializer, UserCreateSerializer
 
 class UserView(APIView):
-    def get(self, request, format=None):
+    def get(self, request, _format=None):
         users = User.objects.all()
         serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
+    def post(self, request, _format=None):
         serializer = UserCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

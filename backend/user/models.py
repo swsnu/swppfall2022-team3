@@ -4,6 +4,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
+
+class Gender(models.TextChoices):
+    MALE = 'M', _('male')
+    FEMALE = 'F', _('female')
+
+def year_choices(last_year):
+    return [(year, year) for year in range(1900, last_year + 1)]
+
 class User(AbstractUser):
     user_key = models.AutoField(
         _('user key'),
@@ -41,10 +49,6 @@ class User(AbstractUser):
         blank=False,
     )
 
-    class Gender(models.TextChoices):
-        MALE = 'M', _('male')
-        FEMALE = 'F', _('female')
-
     gender = models.CharField(
         _('gender'),
         max_length=1,
@@ -52,13 +56,10 @@ class User(AbstractUser):
         choices=Gender.choices,
     )
 
-    def year_choices():
-        return [(year, year) for year in range(1900, date.today().year + 1)]
-
     birth_year = models.IntegerField(
         _('year'),
         blank=False,
-        choices=year_choices(),
+        choices=year_choices(date.today().year),
     )
 
     location = models.CharField(
