@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { photos, tags, users } from '../DummyData';
 import { useNavigate } from 'react-router-dom';
 import { getKoreanAge, User } from '../types';
+import AppBar from '../component/AppBar';
 
 export default function ProfileDetail() {
   const navigate = useNavigate();
@@ -15,16 +16,11 @@ export default function ProfileDetail() {
 
   return user ? (
     <div>
-      <div id='appbar' className='flex justify-center py-2'>
-        <button onClick={() => navigate(-1)} className='flex-none px-4 text-lg'>B</button>
-        <div className='flex-auto flex justify-center'>
-          <div className='flex-none text-center text-lg font-bold'>
-            {user.username}/{getKoreanAge(user.birthday)}
-          </div>
-          <div className='flex-none px-2 text-lg'>M</div>
-        </div>
-        <button className='flex-none px-4 text-lg'>P</button>
-      </div>
+      <AppBar
+        page='ProfileDetail'
+        title={`${user.username}/${getKoreanAge(user.birthday)}`}
+        onBack={() => navigate(-1)}
+      />
       <div id='scroll' className='flex overflow-x-auto snap-x snap-mandatory'>
         {user.photos.map((p, index) =>
           <img
