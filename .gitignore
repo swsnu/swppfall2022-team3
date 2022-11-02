@@ -406,10 +406,18 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/python,django,node,react
 
 ### Custom Settings ###
+
+# documentations
 *.pages
 *.pdf
 *.docx
+
+# vscode settings
 .vscode/
 
-.secrets/
-secrets.tar
+# django
+backend/backend/.secrets/
+backend/backend/secrets.tar
+
+# sample image
+frontend/public/psa.jpeg
