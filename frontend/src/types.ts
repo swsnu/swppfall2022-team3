@@ -48,3 +48,7 @@ export interface User extends BaseUser {
   tags: string[];
   photos: string[];
 };
+
+export function getKoreanAge(birthday: Date): number {
+  return (new Date().getFullYear() - birthday.getFullYear() + 1);
+}

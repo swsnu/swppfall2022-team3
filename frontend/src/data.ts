@@ -10,7 +10,7 @@ export const fakePhoto: Photo = {
 export const fakeBaseUser: BaseUser = {
   key: 1,
   email: 'user@snu.ac.kr',
-  username: 'user',
+  username: '홍길동',
   gender: Gender.MALE,
   birthday: new Date('1997-06-02'),
   location: '서울',
@@ -26,3 +26,11 @@ export const fakeUser: User = {
   tags: ['여행', '코딩', '맛집탐방', '헬스'],
   photos: [fakePhoto.path],
 }
+
+export const fakeBaseUsers: BaseUser[] = [
+  fakeBaseUser,
+]
+
+export const fakeUsers: User[] = [
+  fakeUser,
+]
