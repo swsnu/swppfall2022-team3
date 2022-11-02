@@ -334,7 +334,6 @@ The functionality and the requirement for each page are described below.
 {
     "id": 1,
     "email": "email@snu.ac.kr",
-    "password": "password",
     "username": "닉네임3",
     "gender": "M",
     "age": 24,
@@ -391,7 +390,6 @@ The functionality and the requirement for each page are described below.
 {
     "id": 1,
     "email": "email@snu.ac.kr",
-    "password": "password2",
     "username": "닉네임4",
     "gender": "M",
     "age": 24,
