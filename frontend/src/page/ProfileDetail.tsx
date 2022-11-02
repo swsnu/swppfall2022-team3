@@ -23,15 +23,19 @@ export default function ProfileDetail() {
         </div>
         <button className='flex-none px-4 text-lg'>P</button>
       </div>
+<<<<<<< HEAD
       <img id='repr-photo' src={user.photos[0]} alt='repr' />
+=======
+      <div id='scroll' className='flex overflow-x-auto snap-x snap-mandatory'>
+        {user.photos.map((photo, index) =>
+          <img key={index} className='snap-center' src={photo} alt={photo} />
+        )}
+      </div>
+>>>>>>> 84f3ad9 (Add: photo horizontal scroll)
       <div id='tags' className='flex flex-wrap m-1.5 text-sm font-bold text-pink-500'>
-        {user.tags.map((tag) => {
-          return (
-            <div className='flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400'>
-              {tag}
-            </div>
-          );
-        })}
+        {user.tags.map((tag, index) =>
+          <div key={index} className='flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400'>{tag}</div>
+        )}
       </div>
       <div id='intro' className='mx-3 my-2 text-sm'>{user.introduction}</div>
     </div>
