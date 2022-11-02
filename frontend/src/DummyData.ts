@@ -214,7 +214,7 @@ export const photos: Photo[] = [
     key: 1,
     user_key: 1,
     index: 1,
-    path: 'logo512.png',
+    path: '/logo512.png',
   },
 ]
 
