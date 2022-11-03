@@ -6,7 +6,7 @@ import { RootState } from "../index";
 
 const storeKey = "user";
 
-const getInitialState = (): User[] => {
+const getInitialUsers = (): User[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
     localStorage.setItem(storeKey, JSON.stringify(DummyData.users));
@@ -17,7 +17,10 @@ const getInitialState = (): User[] => {
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { users: getInitialState() },
+  initialState: {
+    users: getInitialUsers(),
+    loginUser: null,
+  },
   reducers: {
     add: (state, action: PayloadAction<User>) => {
       const newUsers = [...state.users, action.payload];
