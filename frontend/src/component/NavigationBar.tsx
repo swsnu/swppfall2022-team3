@@ -6,24 +6,21 @@ interface IProps {
   selectedPath: number;
 }
 
-const navigate = useNavigate();
-
-const searchClickHandler = async () => {
-  navigate("/search");
-};
-
-const pitapatClickHandler = async () => {
-  navigate("/pitapat");
-}
-
-const chatClickHandler = async () => {
-  navigate("/chat");
-}
-
 const NavigationBar = (props: IProps) => {
+  const navigate = useNavigate();
+  const searchClickHandler = () => {
+    navigate("/search");
+  };
+  const pitapatClickHandler = () => {
+    navigate("/pitapat");
+  }
+  const chatClickHandler = () => {
+    navigate("/chat");
+  }
+
   return (
     <div className="NavigationBar">
-      { props.selectedPath == 1 ?
+      { props.selectedPath === 1 ?
         <button>
           <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" className="w-6 h-6">
@@ -40,7 +37,7 @@ const NavigationBar = (props: IProps) => {
           </svg>
         </button>
       }
-      { props.selectedPath == 2 ?
+      { props.selectedPath === 2 ?
         <button>
           < svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" className="w-6 h-6">
@@ -57,7 +54,7 @@ const NavigationBar = (props: IProps) => {
           </svg>
         </button>
       }
-      {props.selectedPath == 3 ?
+      {props.selectedPath === 3 ?
         <button>
           <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" className="w-6 h-6">
