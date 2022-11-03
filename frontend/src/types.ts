@@ -58,3 +58,15 @@ export interface User extends BaseUser {
 export function getKoreanAge(birthday: Date): number {
   return (new Date().getFullYear() - birthday.getFullYear() + 1);
 }
+
+export enum Page {
+  SIGN_UP,
+  SIGN_IN,
+  SEARCH,
+  PROFILE_DETAIL,
+  PITAPAT_REQUEST,
+  CHAT_LIST,
+  CHAT_DETAIL,
+  SETTING,
+  PROFILE_UPDATE,
+}

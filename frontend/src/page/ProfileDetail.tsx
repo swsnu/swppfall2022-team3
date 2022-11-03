@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { photos, tags, users } from '../DummyData';
 import { useNavigate } from 'react-router-dom';
-import { getKoreanAge, User } from '../types';
+import { getKoreanAge, Page, User } from '../types';
 import AppBar from '../component/AppBar';
 
 export default function ProfileDetail() {
@@ -17,7 +17,7 @@ export default function ProfileDetail() {
   return user ? (
     <div>
       <AppBar
-        page='ProfileDetail'
+        page={Page.PROFILE_DETAIL}
         title={`${user.username}/${getKoreanAge(user.birthday)}`}
         clickBack={() => navigate(-1)}
       />

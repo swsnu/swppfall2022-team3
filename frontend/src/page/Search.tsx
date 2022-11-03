@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { photos, fakeBaseUsers } from '../DummyData';
-import { getKoreanAge } from '../types';
+import { getKoreanAge, Page } from '../types';
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
+import AppBar from "../component/AppBar";
 //import { fetchUsers, fetchUser } from "../store/slices/user";
 // import { AppDispatch } from "../store";
 
@@ -15,6 +16,7 @@ export default function Search() {
 
   return (
     <div id='search'>
+      <AppBar page={Page.SEARCH} title='두근두근 캠퍼스'/>
       <div id="user-list">
         {fakeBaseUsers.map((user) => {
           return (
