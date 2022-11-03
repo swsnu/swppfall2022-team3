@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { photos, tags, users } from '../DummyData';
 import { useNavigate } from 'react-router-dom';
+import { photos, tags, users } from '../DummyData';
 import { getKoreanAge, Page, User } from '../types';
 import AppBar from '../component/AppBar';
+import PhotoSlider from '../component/PhotoSlider';
 
 export default function ProfileDetail() {
   const navigate = useNavigate();
@@ -21,16 +22,10 @@ export default function ProfileDetail() {
         title={`${user.username}/${getKoreanAge(user.birthday)}`}
         clickBack={() => navigate(-1)}
       />
-      <div id='scroll' className='flex overflow-x-auto snap-x snap-mandatory'>
-        {user.photos.map((p, index) =>
-          <img
-            key={index}
-            className='snap-center w-100%'
-            src={photos.find((photo) => photo.key === p)?.path}
-            alt={String(photos.find((photo) => photo.key === p)?.index)}
-          />
-        )}
-      </div>
+      <PhotoSlider
+        user={user}
+        photos={photos}
+      />
       <div id='tags' className='flex flex-wrap m-1.5 text-sm font-bold text-pink-500'>
         {user.tags.map((t, index) =>
           <div key={index} className='flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400'>
