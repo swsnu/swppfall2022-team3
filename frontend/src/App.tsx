@@ -18,7 +18,7 @@ function App() {
           <Route path='/search' element={<Search />} />
           <Route path='/profile/:id' element={<ProfileDetail />} />
           <Route path='/chat' element={<ChatList />} />
-          <Route path='/chat/:id' element={<ChatDetail />} />
+          <Route path='/chat/:encrypted' element={<ChatDetail />} />
           <Route path='/pitapat' element={<PitapatRequest />} />
           <Route path='/setting' element={<Setting />} />
           <Route path='/*' element={<Navigate replace to={"/signin"}/>} />
