@@ -19,7 +19,7 @@ export default function ProfileDetail() {
       <AppBar
         page='ProfileDetail'
         title={`${user.username}/${getKoreanAge(user.birthday)}`}
-        onBack={() => navigate(-1)}
+        clickBack={() => navigate(-1)}
       />
       <div id='scroll' className='flex overflow-x-auto snap-x snap-mandatory'>
         {user.photos.map((p, index) =>
