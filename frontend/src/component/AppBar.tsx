@@ -23,5 +23,4 @@ export default function AppBar({
   } else {
     return <div id='appbar'></div>;
   }
-
 }

@@ -45,7 +45,7 @@ interface BaseUser {
   major: number;
 }
 
-export interface SimplifiedUser extends BaseUser{
+export interface SimplifiedUser extends BaseUser {
   reprPhoto: number;
 }
 
