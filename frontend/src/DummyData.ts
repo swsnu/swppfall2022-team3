@@ -231,7 +231,7 @@ export const users: User[] = [
     major: 38,
     introduction: '안녕하세요',
     tags: [1, 2, 3, 4],
-    photos: [1],
+    photos: [1, 1, 1],
   },
   {
     key: 2,
