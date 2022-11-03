@@ -1,5 +1,4 @@
 import React from 'react';
-import Profile from "./Profile";
 
 interface IProps {
   name: string;
@@ -8,7 +7,6 @@ interface IProps {
   isAlarmToggled: boolean  // later on
   clickDetail?: React.MouseEventHandler<HTMLButtonElement>;
 }
-
 
 const SearchPageTop = (props: IProps) => {
   return (

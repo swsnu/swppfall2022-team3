@@ -4,7 +4,7 @@ interface IProps {
   key: number;
   username: string;
   koreanAge: number;
-  photo: string;
+  photo?: string;
   clickDetail?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
