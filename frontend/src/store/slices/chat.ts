@@ -17,7 +17,7 @@ const getInitialState = (): Chat[] => {
 
 const chatSlice = createSlice({
   name: "chat",
-  initialState: { chats: getInitialState()},
+  initialState: { chats: getInitialState() },
   reducers: {
     add: (state, action: PayloadAction<Chat>) => {
       const newChats = [...state.chats, action.payload];

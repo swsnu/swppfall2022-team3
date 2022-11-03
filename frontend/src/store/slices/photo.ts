@@ -17,7 +17,7 @@ const getInitialState = (): Photo[] => {
 
 const photoSlice = createSlice({
   name: "photo",
-  initialState: { photos: getInitialState()},
+  initialState: { photos: getInitialState() },
   reducers: {
     add: (state, action: PayloadAction<Photo>) => {
       const newPhotos = [...state.photos, action.payload];

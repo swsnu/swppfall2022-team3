@@ -17,7 +17,7 @@ const getInitialState = (): User[] => {
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { users: getInitialState()},
+  initialState: { users: getInitialState() },
   reducers: {
     add: (state, action: PayloadAction<User>) => {
       const newUsers = [...state.users, action.payload];

@@ -17,7 +17,7 @@ const getInitialState = (): College[] => {
 
 const collegeSlice = createSlice({
   name: "college",
-  initialState: { colleges: getInitialState()},
+  initialState: { colleges: getInitialState() },
   reducers: {},
 })
 

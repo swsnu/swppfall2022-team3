@@ -17,7 +17,7 @@ const getInitialState = (): Pitapat[] => {
 
 const pitapatSlice = createSlice({
   name: "pitapat",
-  initialState: { pitapats: getInitialState()},
+  initialState: { pitapats: getInitialState() },
   reducers: {
     add: (state, action: PayloadAction<Pitapat>) => {
       const newPitapats = [...state.pitapats, action.payload];

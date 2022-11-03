@@ -17,7 +17,7 @@ const getInitialState = (): Major[] => {
 
 const majorSlice = createSlice({
   name: "major",
-  initialState: { majors: getInitialState()},
+  initialState: { majors: getInitialState() },
   reducers: {},
 })
 

@@ -17,7 +17,7 @@ const getInitialState = (): Tag[] => {
 
 const tagSlice = createSlice({
   name: "tag",
-  initialState: { tags: getInitialState()},
+  initialState: { tags: getInitialState() },
   reducers: {},
 })
 
