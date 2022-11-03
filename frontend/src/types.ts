@@ -33,6 +33,19 @@ export interface Photo {
   path: string;
 }
 
+export interface Chat {
+  key: number;
+  from: number;
+  to: number;
+  content: string;
+  regDt: Date;
+}
+
+export interface Pitapat {
+  from: number;
+  to: number;
+}
+
 interface BaseUser {
   key: number;
   email: string;

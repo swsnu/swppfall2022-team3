@@ -1,4 +1,4 @@
-import { University, College, Major, User, SimplifiedUser, Photo, Tag, Gender } from './types';
+import { University, College, Major, User, SimplifiedUser, Photo, Tag, Gender, Chat, Pitapat } from './types';
 
 const simplifyUser = (user: User): SimplifiedUser => ({
   key: user.key,
@@ -218,6 +218,14 @@ export const photos: Photo[] = [
   },
 ]
 
+export const pitapats: Pitapat[] = [
+  { from: 1, to: 3 },
+]
+
+export const chats: Chat[] = [
+
+]
+
 export const users: User[] = [
   {
     key: 1,
@@ -278,4 +286,6 @@ export default {
   users,
   photos,
   tags,
+  pitapats,
+  chats,
 }
