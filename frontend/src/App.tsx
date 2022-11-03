@@ -7,21 +7,22 @@ import ChatList from './page/ChatList';
 import ChatDetail from './page/ChatDetail';
 import PitapatRequest from './page/PitapatRequest';
 import Setting from './page/Setting';
+import path from "./constant/path";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/signin' element={<SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/search' element={<Search />} />
-          <Route path='/profile/:id' element={<ProfileDetail />} />
-          <Route path='/chat' element={<ChatList />} />
-          <Route path='/chat/:encrypted' element={<ChatDetail />} />
-          <Route path='/pitapat' element={<PitapatRequest />} />
-          <Route path='/setting' element={<Setting />} />
-          <Route path='/*' element={<Navigate replace to={"/signin"}/>} />
+          <Route path={path.signIn} element={<SignIn />} />
+          <Route path={path.signUp} element={<SignUp />} />
+          <Route path={path.search} element={<Search />} />
+          <Route path={path.profile} element={<ProfileDetail />} />
+          <Route path={path.chat} element={<ChatList />} />
+          <Route path={path.chatDetail} element={<ChatDetail />} />
+          <Route path={path.pitapat} element={<PitapatRequest />} />
+          <Route path={path.setting} element={<Setting />} />
+          <Route path={'/*'} element={<Navigate replace to={path.signIn}/>} />
         </Routes>
       </BrowserRouter>
     </div>
