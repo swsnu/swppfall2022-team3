@@ -29,7 +29,6 @@ export interface Tag {
 
 export interface Photo {
   key: number;
-  user_key: number;
   index: number;
   path: string;
 }
