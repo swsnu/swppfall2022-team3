@@ -12,7 +12,7 @@ const getInitialUsers = (): User[] => {
     localStorage.setItem(storeKey, JSON.stringify(DummyData.users));
     savedValue = localStorage.getItem(storeKey);
   }
-  return JSON.parse(savedValue!) as User[];
+  return (JSON.parse(savedValue!) as any[]).map((user) => ({...user, birthday: new Date(user.birthday)})) as User[];
 };
 
 const userSlice = createSlice({
