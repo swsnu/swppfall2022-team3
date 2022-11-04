@@ -17,6 +17,7 @@ export interface College {
 export interface University {
   key: number;
   name: string;
+  domain: string;
   colleges: number[];
 }
 

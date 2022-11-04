@@ -18,12 +18,14 @@ export const universities: University[] = [
   {
     key: 1,
     name: "서울대학교",
-    colleges:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    domain: "snu.ac.kr",
+    colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
   {
     key: 2,
     name: "낙성대학교",
-    colleges:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    domain: "nak.ac.kr",
+    colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
 ];
 
@@ -195,18 +197,18 @@ export const majors: Major[] = [
 
 
 export const tags: Tag[] = [
-  { key: 1, name: '여행', type: 'HOBBY'},
-  { key: 2, name: '코딩', type: 'SELF_DEV'},
-  { key: 3, name: '맛집탐방', type: 'HOBBY'},
-  { key: 4, name: '헬스', type: 'SPORT'},
-  { key: 5, name: '요리', type: 'HOBBY'},
-  { key: 6, name: '컴퓨터게임', type: 'HOBBY'},
-  { key: 7, name: '방탈출', type: 'ACTIVITY'},
-  { key: 8, name: '야구관람', type: 'ACTIVITY'},
-  { key: 9, name: '등산', type: 'ACTIVITY'},
-  { key: 10, name: '서핑', type: 'ACTIVITY'},
-  { key: 11, name: '축구', type: 'SPORT'},
-  { key: 12, name: '농구', type: 'SPORT'},
+  { key: 1, name: '여행', type: 'HOBBY' },
+  { key: 2, name: '코딩', type: 'SELF_DEV' },
+  { key: 3, name: '맛집탐방', type: 'HOBBY' },
+  { key: 4, name: '헬스', type: 'SPORT' },
+  { key: 5, name: '요리', type: 'HOBBY' },
+  { key: 6, name: '컴퓨터게임', type: 'HOBBY' },
+  { key: 7, name: '방탈출', type: 'ACTIVITY' },
+  { key: 8, name: '야구관람', type: 'ACTIVITY' },
+  { key: 9, name: '등산', type: 'ACTIVITY' },
+  { key: 10, name: '서핑', type: 'ACTIVITY' },
+  { key: 11, name: '축구', type: 'SPORT' },
+  { key: 12, name: '농구', type: 'SPORT' },
 ];
 
 export const photos: Photo[] = [
