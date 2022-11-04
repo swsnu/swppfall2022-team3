@@ -214,9 +214,33 @@ export const tags: Tag[] = [
 export const photos: Photo[] = [
   {
     key: 1,
-    user_key: 1,
     index: 1,
-    path: '/logo512.png',
+    path: '/photo1.jpeg',
+  },
+  {
+    key: 2,
+    index: 2,
+    path: '/photo2.jpeg',
+  },
+  {
+    key: 3,
+    index: 1,
+    path: '/photo3.jpeg',
+  },
+  {
+    key: 4,
+    index: 2,
+    path: '/photo4.jpeg',
+  },
+  {
+    key: 5,
+    index: 1,
+    path: '/photo5.jpeg',
+  },
+  {
+    key: 6,
+    index: 3,
+    path: '/photo6.jpeg',
   },
 ]
 
@@ -243,7 +267,7 @@ export const users: User[] = [
     major: 38,
     introduction: '안녕하세요',
     tags: [1, 2, 3, 4],
-    photos: [1, 1, 1],
+    photos: [1, 2],
   },
   {
     key: 2,
@@ -257,7 +281,7 @@ export const users: User[] = [
     major: 9,
     introduction: '안녕하세요 ㅎㅎ 반갑습니다 저는 인문대 다니고 있는 99년생 학생이에요!',
     tags: [1, 2, 5, 6, 7, 11],
-    photos: [1],
+    photos: [3, 4, 6],
   },
   {
     key: 3,
@@ -271,11 +295,9 @@ export const users: User[] = [
     major: 21,
     introduction: '처음이라 떨리네요 ㅎㅎ 사회대 다니고있는 23살 여자입니다 잘부탁드려요!!',
     tags: [1, 3, 7],
-    photos: [1],
+    photos: [5],
   },
 ];
-
-export const fakePhoto: Photo = photos[0];
 
 export const fakeBaseUsers: SimplifiedUser[] = users.map(simplifyUser);
 
