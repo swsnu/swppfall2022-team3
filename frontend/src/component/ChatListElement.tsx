@@ -25,7 +25,6 @@ export default function ChatListElement({
       className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}
       onClick={() => {
         const encrypted = encodeURIComponent(AES.encrypt(JSON.stringify({ from: 1, to: user.key }), 'test', ).toString());
-        console.log(`address is /chat/${encrypted}`);
         navigate(`/chat/${encrypted}`);
       }}
     >
