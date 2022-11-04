@@ -9,7 +9,6 @@ import { chatAction, selectChat } from "../store/slices/chat";
 import { AppDispatch } from "../store";
 import ChatBox from "../component/ChatBox";
 import { selectUser } from "../store/slices/user";
-import NavigationBar from "../component/NavigationBar";
 
 
 export default function ChatDetail() {
@@ -35,6 +34,7 @@ export default function ChatDetail() {
         content: chatInput,
       }
     ))
+    setChatInput("");
   }, [dispatch, chatInput, from, to])
 
   useEffect(() => {
@@ -69,8 +69,8 @@ export default function ChatDetail() {
   return (
     <section className={"flex-1 flex flex-col mt-12"}>
       <AppBar title={appBarTitle}/>
-      <section className={'flex-1 flex flex-col'}>{
-        myChats.map((chat) => <ChatBox content={chat.content}/>)
+      <section className={'flex-1 flex flex-col w-full h-full'}>{
+        myChats.map((chat) => <ChatBox content={chat.content} isMine={chat.from === from}/>)
       }</section>
       <article className={"flex flex-row bg-gray-300 p-2 gap-2 items-center"}>
         <input
