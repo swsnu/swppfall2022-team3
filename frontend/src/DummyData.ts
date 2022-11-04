@@ -220,6 +220,7 @@ export const photos: Photo[] = [
 
 export const pitapats: Pitapat[] = [
   { from: 1, to: 3 },
+  { from: 2, to: 1 }
 ]
 
 export const chats: Chat[] = [
