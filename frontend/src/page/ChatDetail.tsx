@@ -67,12 +67,12 @@ export default function ChatDetail() {
   }, [params, navigate, chats, users, to])
 
   return (
-    <section className={"flex-1 flex flex-col mt-12"}>
+    <section className={"flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar title={appBarTitle}/>
       <section className={'flex-1 flex flex-col w-full h-full'}>{
         myChats.map((chat) => <ChatBox content={chat.content} isMine={chat.from === from}/>)
       }</section>
-      <article className={"flex flex-row bg-gray-300 p-2 gap-2 items-center"}>
+      <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
         <input
           className={"rounded bg-white h-8 my-1 flex-1"}
           type={"text"}

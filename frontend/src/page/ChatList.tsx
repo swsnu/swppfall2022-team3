@@ -21,7 +21,7 @@ export default function ChatList() {
   }, [users])
 
   return (
-    <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
+    <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar/>
       <section className={"flex-1 flex flex-col"}>{
          chatRoomInfos.map(({ user, lastChat }) => (
