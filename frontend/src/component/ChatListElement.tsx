@@ -17,8 +17,11 @@ export default function ChatListElement({
   lastChat,
 }: IProps) {
   const navigate = useNavigate();
-  const photos = useSelector(selectPhoto).photos;
-  const photoPath = photos.find((p) => p.key === user.photos[0])!.path;
+  const userPhotos =
+    useSelector(selectPhoto).photos
+      .filter((photo) => user.photos.indexOf(photo.key) !== -1)
+      .sort((a, b) => a.index - b.index);
+  const photoPath = userPhotos[0].path;
 
   return(
     <article
