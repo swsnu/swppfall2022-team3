@@ -3,7 +3,8 @@ import AppBar from "../component/AppBar";
 import ChatListElement from "../component/ChatListElement";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/user";
-import { Page, User } from "../types";
+import { User } from "../types";
+import NavigationBar from "../component/NavigationBar";
 
 
 type ChatRoomInfo = {
@@ -20,8 +21,8 @@ export default function ChatList() {
   }, [users])
 
   return (
-    <section className={"h-screen flex flex-col"}>
-      <AppBar page={Page.CHAT_LIST} title={""} clickBack={() => {}}/>
+    <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
+      <AppBar/>
       <section className={"flex-1 flex flex-col"}>{
          chatRoomInfos.map(({ user, lastChat }) => (
            <ChatListElement
@@ -31,6 +32,7 @@ export default function ChatList() {
            />
          ))
       }</section>
+      <NavigationBar/>
     </section>
   );
 }

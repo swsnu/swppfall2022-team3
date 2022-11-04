@@ -1,43 +1,51 @@
-import { Page } from "../types";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowUturnLeftIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+
 
 interface IProps {
-  page: Page;
-  title: string;
-  clickBack?: React.MouseEventHandler<HTMLButtonElement>;
-};
+  title?: string,
+}
+const iconClassName = "h-8 w-8 mx-2";
 
-export default function AppBar({
-  page,
-  title,
-  clickBack,
-}: IProps) {
-  if (page === Page.PROFILE_DETAIL) {
-    return (
-      <div id='appbar' className='flex justify-center py-2'>
-        <div className='flex-none w-8'>
-          <button onClick={clickBack} className='px-2 text-lg'>B</button>
-        </div>
-        <div className='flex-auto flex justify-center'>
-          <div className='flex-none text-center text-lg font-bold'>{title}</div>
-          <div className='flex-none px-2 text-lg'>M</div>
-        </div>
-        <div className='flex-none w-8'>
-          <button className='px-2 text-lg'>P</button>
-        </div>
-      </div>
-    );
-  } else if (page === Page.SEARCH || page === Page.PITAPAT_REQUEST || page === Page.CHAT_LIST) {
-    return (
-      <div id='appbar' className='flex justify-center py-2'>
-        <div className='flex-none w-8'></div>
-        {/* <button className='flex-none px-4 text-lg'>B</button> */}
-        <div className='flex-auto text-center text-lg font-bold'>{title}</div>
-        <div className='flex-none w-8'>
-          <button className='px-2 text-lg'>P</button>
-        </div>
-      </div>
-    );
-  } else {
-    return <div id='appbar'>not implemented</div>
-  }
+export default function AppBar({ title = "두근두근 캠퍼스"}: IProps) {
+  const pathName = window.location.pathname;
+  const navigate = useNavigate();
+  const [isBackVisible, setIsBackVisible] = useState<boolean>(false);
+
+  const backOnClick = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
+
+  const settingOnClick = useCallback(() => {
+
+  }, []);
+
+  useEffect(() => {
+    const shouldBAckVisible: boolean =
+      (pathName.startsWith("/profile/")) ||
+      (pathName.startsWith("/chat/")) ||
+      (pathName.startsWith("/setting"))
+    setIsBackVisible(shouldBAckVisible);
+  }, [setIsBackVisible, pathName])
+
+  return (
+    <section className='w-full flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-gray-300'>
+      {
+        isBackVisible ?
+          <ArrowUturnLeftIcon
+            className={iconClassName}
+            onClick={backOnClick}
+          /> :
+          <div className={iconClassName}/>
+      }
+      <section className='flex-auto flex justify-center'>
+        <div className='flex-none text-center m-auto text-lg font-bold'>{title}</div>
+      </section>
+      <UserCircleIcon
+        className={iconClassName}
+        onClick={settingOnClick}
+      />
+    </section>
+  );
 }

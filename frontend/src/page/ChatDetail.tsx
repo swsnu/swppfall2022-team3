@@ -2,22 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
-import { Chat, Page } from "../types";
+import { Chat } from "../types";
 import { AES, enc } from "crypto-ts";
 import { useDispatch, useSelector } from "react-redux";
 import { chatAction, selectChat } from "../store/slices/chat";
 import { AppDispatch } from "../store";
 import ChatBox from "../component/ChatBox";
+import { selectUser } from "../store/slices/user";
+import NavigationBar from "../component/NavigationBar";
 
 
 export default function ChatDetail() {
   const params = useParams();
   const navigate = useNavigate();
   const chats = useSelector(selectChat).chats;
+  const users = useSelector(selectUser).users;
   const dispatch = useDispatch<AppDispatch>();
   const [from, setFrom] = useState<number>(0);
   const [to, setTo] = useState<number>(0);
 
+  const [appBarTitle, setAppBarTitle] = useState<string>("");
   const [chatInput, setChatInput] = useState<string>("");
   const [myChats, setMyChats] = useState<Chat[]>([]);
 
@@ -50,6 +54,9 @@ export default function ChatDetail() {
                 ((c.from === decrypted.to) && (c.to === decrypted.from))
             )
           );
+
+          const userTo = users.find((u) => u.key === to);
+          setAppBarTitle(userTo?.username ?? "")
         } else {
           navigate(`/chat`);
         }
@@ -57,12 +64,11 @@ export default function ChatDetail() {
         navigate(`/chat`);
       }
     }
-  }, [params, navigate, chats])
+  }, [params, navigate, chats, users, to])
 
   return (
-    <section className={"h-screen flex flex-col"}>
-      <AppBar page={Page.CHAT_DETAIL} title={""} clickBack={() => {
-      }}/>
+    <section className={"flex-1 flex flex-col mt-12"}>
+      <AppBar title={appBarTitle}/>
       <section className={'flex-1 flex flex-col'}>{
         myChats.map((chat) => <ChatBox content={chat.content}/>)
       }</section>

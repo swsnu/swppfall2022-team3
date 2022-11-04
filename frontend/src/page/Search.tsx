@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { photos, fakeBaseUsers } from '../DummyData';
-import { getKoreanAge, Page } from '../types';
+import { getKoreanAge } from '../types';
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
@@ -15,8 +15,8 @@ export default function Search() {
   };
 
   return (
-    <div id='search'>
-      <AppBar page={Page.SEARCH} title='두근두근 캠퍼스'/>
+    <div className={"mt-12 mb-16"} id='search'>
+      <AppBar/>
       <div id="user-list">
         {fakeBaseUsers.map((user) => {
           return (
@@ -30,7 +30,7 @@ export default function Search() {
           );
         })}
       </div>
-      <NavigationBar selectedPath={1}/>
+      <NavigationBar/>
     </div>
   );
 }
