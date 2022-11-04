@@ -221,12 +221,13 @@ export const photos: Photo[] = [
 ]
 
 export const pitapats: Pitapat[] = [
+  { from: 1, to: 2 },
   { from: 1, to: 3 },
-  { from: 2, to: 1 }
+  { from: 2, to: 1 },
 ]
 
 export const chats: Chat[] = [
-
+  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date('2022-11-01')},
 ]
 
 export const users: User[] = [
