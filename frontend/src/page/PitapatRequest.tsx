@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { photos, fakeBaseUsers, pitapats, fakeBaseUser } from '../DummyData';
-import { getKoreanAge, Page } from '../types';
+import { getKoreanAge } from '../types';
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
-import {isBooleanObject} from "util/types";
 //import { fetchUsers, fetchUser } from "../store/slices/user";
 // import { AppDispatch } from "../store";
 
@@ -29,7 +28,7 @@ export default function PitapatRequest() {
 
   return (
     <div id='pitapat'>
-      <AppBar page={Page.PITAPAT_REQUEST} title='두근두근 캠퍼스'/>
+      <AppBar title={'두근두근 캠퍼스'}/>
       <div>
         <button id="show-req-button"
                 disabled={isItReq}
@@ -80,7 +79,7 @@ export default function PitapatRequest() {
           })}
         </div>
       }
-      <NavigationBar selectedPath={2}/>
+      <NavigationBar/>
     </div>
   );
 }
