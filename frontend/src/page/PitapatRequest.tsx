@@ -1,83 +1,66 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { photos, fakeBaseUsers, pitapats, fakeBaseUser } from '../DummyData';
-import { getKoreanAge } from '../types';
+import { photos, pitapats } from '../DummyData';
+import { getKoreanAge, User } from '../types';
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
-//import { fetchUsers, fetchUser } from "../store/slices/user";
-// import { AppDispatch } from "../store";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/slices/user";
 
 export default function PitapatRequest() {
   const navigate = useNavigate();
-  // when Req is true -> 내가 받은 두근
-  // when Req is false -> 내가 보낸 두근
-  const [isItReq, setIsItReq] = useState<boolean>(true);
-
-  const showReqHandler = () => {
-    setIsItReq(true);
-  };
-
-  const showSentHandler = () => {
-    setIsItReq(false);
-  };
-
-  const clickUserHandler = (key : number) => {
-    navigate("/profile/" + key);
-  };
+  const users = useSelector(selectUser).users;
+  const [isRecvPage, setIsRecvPage] = useState<boolean>(true);
 
   return (
-    <section id='pitapat' className="w-full flex flex-col mt-12 mb-16">
+    <section className="w-full flex flex-col mt-12 mb-16">
       <AppBar title={'두근두근 캠퍼스'}/>
-      <div>
-        <button id="show-req-button"
-                disabled={isItReq}
-                onClick={() => showReqHandler()}>
+      <section>
+        <button
+          disabled={isRecvPage}
+          onClick={() => setIsRecvPage(true)}
+        >
           내가 받은 두근
         </button>
-        <button id="show-sent-button"
-                disabled={!isItReq}
-                onClick={() => showSentHandler()}>
+        <button
+          disabled={!isRecvPage}
+          onClick={() => setIsRecvPage(false)}
+        >
           내가 보낸 두근
         </button>
-      </div>
+      </section>
       {
-        isItReq ?
-        <div id="requested-list">
+        isRecvPage ?
+        <section>
           {pitapats.filter(pitapat => pitapat.to === 1).map((pitapat) => {
-            const fromUser = fakeBaseUsers.find(user => user.key === pitapat.from);
-            if(fromUser) {
-              return (
-                <Profile key={fromUser.key}
-                         username={fromUser.username}
-                         koreanAge={getKoreanAge(fromUser.birthday)}
-                         photo={photos.find((p) => p.key === fromUser.reprPhoto)?.path}
-                         clickDetail={() => clickUserHandler(fromUser.key)}
-                />
-              )
-            }
-            else
-              return null;
+            const from: User = users.find(user => user.key === pitapat.from)!;
+            return (
+              <Profile
+                key={from.key}
+                username={from.username}
+                koreanAge={getKoreanAge(from.birthday)}
+                photo={photos.find((p) => p.key === from.photos[0])?.path!}
+                clickDetail={() => navigate("/profile/" + from.key)}
+              />
+            );
           })}
-        </div>
+        </section>
         :
-        <div id="sent-list">
+        <section>
           {pitapats.filter(pitapat => pitapat.from === 1).map((pitapat) => {
-            const toUser = fakeBaseUsers.find(user => user.key === pitapat.to);
-            if(toUser) {
-              return (
-                <Profile key={toUser.key}
-                         username={toUser.username}
-                         koreanAge={getKoreanAge(toUser.birthday)}
-                         photo={photos.find((p) => p.key === toUser.reprPhoto)?.path}
-                         clickDetail={() => clickUserHandler(toUser.key)}
-                />
-              )
-            }
-            else
-              return null;
+            const to: User = users.find(user => user.key === pitapat.to)!;
+            return (
+              <Profile
+                key={to.key}
+                username={to.username}
+                koreanAge={getKoreanAge(to.birthday)}
+                photo={photos.find((p) => p.key === to.photos[0])?.path!}
+                clickDetail={() => navigate("/profile/" + to.key)}
+              />
+            )
           })}
-        </div>
+        </section>
       }
       <NavigationBar/>
     </section>
