@@ -1,16 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { photos, pitapats } from '../DummyData';
 import { getKoreanAge, User } from '../types';
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/user";
+import { selectPitapat } from "../store/slices/pitapat";
+import { selectPhoto } from "../store/slices/photo";
 
 export default function PitapatRequest() {
   const navigate = useNavigate();
   const users = useSelector(selectUser).users;
+  const pitapats = useSelector(selectPitapat).pitapats;
+  const photos = useSelector(selectPhoto).photos;
   const [isRecvPage, setIsRecvPage] = useState<boolean>(true);
 
   return (

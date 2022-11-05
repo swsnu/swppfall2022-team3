@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { photos, tags, users } from '../DummyData';
-import { getKoreanAge, User } from '../types';
-import AppBar from '../component/AppBar';
-import PhotoSlider from '../component/PhotoSlider';
-import { PitapatButton } from '../component/PitapatButton';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { getKoreanAge, User } from "../types";
+import AppBar from "../component/AppBar";
+import PhotoSlider from "../component/PhotoSlider";
+import { PitapatButton } from "../component/PitapatButton";
+import { useSelector } from "react-redux";
+import { selectUser } from "../store/slices/user";
+import { selectPhoto } from "../store/slices/photo";
+import { selectTag } from "../store/slices/tag";
+
 
 export default function ProfileDetail() {
   const myKey = 1;
+  const users = useSelector(selectUser).users;
+  const photos = useSelector(selectPhoto).photos;
+  const tags = useSelector(selectTag).tags;
   const { id } = useParams();
   const [user, setUser] = useState<User>();
 
@@ -28,14 +35,14 @@ export default function ProfileDetail() {
           />
           <PitapatButton from={myKey} to={user.key}/>
         </section>
-        <article className='flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500'>
+        <article className="flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500">
           {user.tags.map((t, index) =>
-            <div key={index} className='flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400'>
+            <div key={index} className="flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400">
               {tags.find((tag) => tag.key === t)?.name}
             </div>
           )}
         </article>
-        <article className='mx-3 mb-6 text-base'>{user.introduction}</article>
+        <article className="mx-3 mb-6 text-base">{user.introduction}</article>
       </section>
     </section>
 
