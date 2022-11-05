@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { getKoreanAge, User } from "../types";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
-import { PitapatButton } from "../component/PitapatButton";
+import PitapatButton from "../component/PitapatButton";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/user";
 import { selectPhoto } from "../store/slices/photo";

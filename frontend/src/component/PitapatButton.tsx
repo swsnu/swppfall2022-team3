@@ -2,12 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { pitapatAction, selectPitapat } from "../store/slices/pitapat";
 
+
 interface IProps {
   from: number;
   to: number;
 };
 
-export function PitapatButton({
+export default function PitapatButton({
   from,
   to,
 }: IProps) {

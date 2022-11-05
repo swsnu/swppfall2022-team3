@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { getKoreanAge, User } from '../types';
+import { getKoreanAge, User } from "../types";
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/user";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
+
 
 export default function PitapatRequest() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function PitapatRequest() {
 
   return (
     <section className="w-full flex flex-col mt-12 mb-16">
-      <AppBar title={'두근두근 캠퍼스'}/>
+      <AppBar title={"두근두근 캠퍼스"}/>
       <section>
         <button
           disabled={isRecvPage}

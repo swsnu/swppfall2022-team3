@@ -1,14 +1,12 @@
-import React from 'react';
-
 interface IProps {
   name: string;
   age: number;
   gender: boolean;  // female == false, male == true
   isAlarmToggled: boolean  // later on
-  clickDetail?: React.MouseEventHandler<HTMLButtonElement>;
+  clickDetail?: () => void;
 }
 
-const SearchPageTop = (props: IProps) => {
+export default function SearchPageTop(props: IProps) {
   return (
     <button>
       {
@@ -21,6 +19,3 @@ const SearchPageTop = (props: IProps) => {
     </button>
   )
 }
-
-export default SearchPageTop;
-

@@ -1,5 +1,4 @@
-import React from "react";
-import { AES } from 'crypto-ts';
+import { AES } from "crypto-ts";
 import { User } from "../types";
 import { useSelector } from "react-redux";
 import { selectPhoto } from "../store/slices/photo";
@@ -10,7 +9,6 @@ interface IProps {
   user: User,
   lastChat: string | null,
 }
-
 
 export default function ChatListElement({
   user,
@@ -27,13 +25,13 @@ export default function ChatListElement({
     <article
       className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}
       onClick={() => {
-        const encrypted = encodeURIComponent(AES.encrypt(JSON.stringify({ from: 1, to: user.key }), 'test', ).toString());
+        const encrypted = encodeURIComponent(AES.encrypt(JSON.stringify({ from: 1, to: user.key }), "test", ).toString());
         navigate(`/chat/${encrypted}`);
       }}
     >
       <img
         className={"w-16 h-16 m-2 bg-blue-100 rounded-full"}
-        alt={''}
+        alt={""}
         src={photoPath}
       />
       <div className={"flex-1 flex flex-col h-full pl-2"}>

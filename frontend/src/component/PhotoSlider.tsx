@@ -1,7 +1,8 @@
-import Slider from 'react-slick';
-import { Photo, User } from '../types';
+import Slider from "react-slick";
+import { Photo, User } from "../types";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 
 interface IProps {
   user: User;

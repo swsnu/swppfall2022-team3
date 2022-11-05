@@ -1,23 +1,26 @@
-import React from 'react';
-
 interface IProps {
   key: number;
   username: string;
   koreanAge: number;
   photo: string;
-  clickDetail: React.MouseEventHandler<HTMLButtonElement>;
+  clickDetail: () => void;
 }
 
-const Profile = (props: IProps) => {
+export default function Profile({
+  key,
+  username,
+  koreanAge,
+  photo,
+  clickDetail,
+}: IProps) {
   return (
     <div className="Profile">
-      <button onClick={props.clickDetail}>
-        <img key={props.key} className='snap-center' src={props.photo} alt={props.photo} />
+      <button onClick={clickDetail}>
+        <img key={key} className="snap-center" src={photo} alt={photo} />
       </button>
       <div>
-        {props.username}/{props.koreanAge}
+        {username}/{koreanAge}
       </div>
     </div>
   );
 };
-export default Profile;

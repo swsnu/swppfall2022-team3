@@ -1,6 +1,3 @@
-import React from "react";
-
-
 interface IProps {
   content: string,
   isMine: boolean,

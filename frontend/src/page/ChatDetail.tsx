@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
@@ -43,7 +43,7 @@ export default function ChatDetail() {
       navigate(`/chat`);
     } else {
       try {
-        const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, 'test').toString(enc.Utf8));
+        const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
         if (decrypted?.from && decrypted?.to) {
           setFrom(decrypted.from);
           setTo(decrypted.to);
@@ -69,7 +69,7 @@ export default function ChatDetail() {
   return (
     <section className={"flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar title={appBarTitle}/>
-      <section className={'flex-1 flex flex-col w-full h-full'}>{
+      <section className={"flex-1 flex flex-col w-full h-full"}>{
         myChats.map((chat) => <ChatBox content={chat.content} isMine={chat.from === from}/>)
       }</section>
       <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
@@ -80,7 +80,7 @@ export default function ChatDetail() {
           onChange={(e) => {
             setChatInput(e.target.value)
           }}
-          placeholder={'메세지를 입력하세요'}
+          placeholder={"메세지를 입력하세요"}
         />
         <section>
           <button
