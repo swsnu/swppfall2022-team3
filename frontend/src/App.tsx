@@ -12,7 +12,7 @@ import path from "./constant/path";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App flex">
       <BrowserRouter>
         <Routes>
           <Route path={path.signIn} element={<SignIn />} />
