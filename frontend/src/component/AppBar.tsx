@@ -30,7 +30,7 @@ export default function AppBar({ title = "두근두근 캠퍼스"}: IProps) {
   }, [setIsBackVisible, pathName])
 
   return (
-    <section className='w-full flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-gray-300'>
+    <section className='w-full flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-gray-300 z-10'>
       {
         isBackVisible ?
           <ArrowUturnLeftIcon
