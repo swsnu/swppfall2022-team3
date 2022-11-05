@@ -27,7 +27,7 @@ export default function PitapatRequest() {
   };
 
   return (
-    <div id='pitapat'>
+    <section id='pitapat' className="w-full flex flex-col mt-12 mb-16">
       <AppBar title={'두근두근 캠퍼스'}/>
       <div>
         <button id="show-req-button"
@@ -80,6 +80,6 @@ export default function PitapatRequest() {
         </div>
       }
       <NavigationBar/>
-    </div>
+    </section>
   );
 }
