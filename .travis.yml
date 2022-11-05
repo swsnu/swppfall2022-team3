@@ -1,3 +1,7 @@
+branches:
+  only:
+    - main
+    - dev
 dist: bionic
 jobs:
   include:
@@ -20,7 +24,8 @@ jobs:
     - yarn install
     - yarn global add coveralls
     - cd ../backend
-    - source virtualenv/python3.9/bin/activate
+    - python -m venv venv
+    - source venv/bin/activate
     - pip install -r requirements.txt
     - pip install coveralls
     - gem install coveralls-lcov
