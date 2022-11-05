@@ -15,22 +15,22 @@ export default function Search() {
   };
 
   return (
-    <div className={"mt-12 mb-16"} id='search'>
+    <section className={"mt-12 mb-16"}>
       <AppBar/>
-      <div id="user-list">
+      <section>
         {fakeBaseUsers.map((user) => {
           return (
             <Profile
               key={user.key}
               username={user.username}
               koreanAge={getKoreanAge(user.birthday)}
-              photo={photos.find((p) => p.key === user.reprPhoto)?.path}
+              photo={photos.find((p) => p.key === user.reprPhoto)?.path!}
               clickDetail={() => clickUserHandler(user.key)}
             />
           );
         })}
-      </div>
+      </section>
       <NavigationBar/>
-    </div>
+    </section>
   );
 }

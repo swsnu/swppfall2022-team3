@@ -4,8 +4,8 @@ interface IProps {
   key: number;
   username: string;
   koreanAge: number;
-  photo?: string;
-  clickDetail?: React.MouseEventHandler<HTMLButtonElement>;
+  photo: string;
+  clickDetail: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Profile = (props: IProps) => {

@@ -28,14 +28,14 @@ export default function ProfileDetail() {
           />
           <PitapatButton from={myKey} to={user.key}/>
         </section>
-        <article id='tags' className='flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500'>
+        <article className='flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500'>
           {user.tags.map((t, index) =>
             <div key={index} className='flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400'>
               {tags.find((tag) => tag.key === t)?.name}
             </div>
           )}
         </article>
-        <article id='intro' className='mx-3 mb-6 text-base'>{user.introduction}</article>
+        <article className='mx-3 mb-6 text-base'>{user.introduction}</article>
       </section>
     </section>
 
