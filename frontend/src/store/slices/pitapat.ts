@@ -33,5 +33,6 @@ const pitapatSlice = createSlice({
 })
 
 export const selectPitapat = (state: RootState) => state.pitapat;
+export const pitapatAction = pitapatSlice.actions;
 const pitapatReducer = pitapatSlice.reducer;
 export default pitapatReducer;
