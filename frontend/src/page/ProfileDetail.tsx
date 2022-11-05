@@ -5,13 +5,9 @@ import { getKoreanAge, User } from '../types';
 import AppBar from '../component/AppBar';
 import PhotoSlider from '../component/PhotoSlider';
 import { PitapatButton } from '../component/PitapatButton';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
-import { pitapatAction } from '../store/slices/pitapat';
 
 export default function ProfileDetail() {
   const myKey = 1;
-  const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
   const [user, setUser] = useState<User>();
 
@@ -30,10 +26,7 @@ export default function ProfileDetail() {
             user={user}
             photos={photos}
           />
-          <PitapatButton onClick={() => dispatch(pitapatAction.add({
-            from: myKey,
-            to: user.key,
-          }))}/>
+          <PitapatButton from={myKey} to={user.key}/>
         </section>
         <article id='tags' className='flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500'>
           {user.tags.map((t, index) =>
