@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import universityReducer from "./slices/university";
 import collegeReducer from "./slices/college";
 import majorReducer from "./slices/major";
@@ -22,6 +22,9 @@ export const store = configureStore({
     pitapat: pitapatReducer,
     chat: chatReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
