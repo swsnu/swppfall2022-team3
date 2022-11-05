@@ -14,13 +14,13 @@ export default function ProfileDetail() {
   }, [id]);
 
   return user ? (
-    <section className={"mt-12"}>
+    <section className="mt-12">
       <AppBar title={user.username}/>
       <PhotoSlider
         user={user}
         photos={photos}
       />
-      <article id='tags' className='flex flex-wrap m-1.5 text-sm font-bold text-pink-500'>
+      <article id='tags' className='flex flex-wrap w-full m-1.5 text-sm font-bold text-pink-500'>
         {user.tags.map((t, index) =>
           <div key={index} className='flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400'>
             {tags.find((tag) => tag.key === t)?.name}

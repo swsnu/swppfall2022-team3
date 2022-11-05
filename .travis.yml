@@ -19,11 +19,11 @@ jobs:
     - cd frontend
     - yarn install
     - yarn global add coveralls
-    - gem install coveralls-lcov
     - cd ../backend
+    - source virtualenv/python3.9/bin/activate
     - pip install -r requirements.txt
     - pip install coveralls
-    - cd ..
+    - gem install coveralls-lcov
     script:
     - cd frontend
     - ./node_modules/.bin/eslint src
@@ -33,6 +33,5 @@ jobs:
     - pylint **/*.py
     - coverage run --source='.' manage.py test
     - coverage xml
+    - sonar-scanner
     - coveralls --merge=../frontend/coverage.json
-    - cd .. && sonar-scanner
-
