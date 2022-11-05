@@ -22,7 +22,7 @@ export function PitapatButton({
   return (
     <button
       className={"absolute w-20 h-8 bottom-4 right-4 z-10 bg-white rounded-lg border border-pink-600 flex items-center justify-center"}
-      onClick={() => dispatch(pitapatAction.add({
+      onClick={() => dispatch(pitapatAction.toggle({
         from: from,
         to: to,
       }))}
