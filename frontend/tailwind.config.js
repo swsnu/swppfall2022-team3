@@ -7,7 +7,14 @@ module.exports = {
     maxWidth: {
       '2/3': '66%',
     },
-    extend: {},
+  },
+  extend: {
+    height: {
+      '100vw': '100vw',
+    },
+    margin: {
+      'double': '200%',
+    }
   },
   plugins: [],
 }

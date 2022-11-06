@@ -20,12 +20,14 @@ export default function PhotoSlider({
       arrows={false}
       infinite={true}
       swipeToSlide={true}
+      // adaptiveHeight={true}
     >
       {user.photos.map((p, index) =>
         <img
           key={index}
           src={photos.find((photo) => photo.key === p)?.path}
           alt={String(photos.find((photo) => photo.key === p)?.index)}
+          className="object-cover h-[100vw]"
         />
       )}
     </Slider>
