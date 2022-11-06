@@ -20,7 +20,7 @@ export default function PitapatRequest() {
     const sended = pitapats.filter((p) => (p.from === myKey) && (p.to === user?.key)).length > 0;
     const received = pitapats.filter((p) => (p.from === user?.key) && (p.to === myKey)).length > 0;
     if (sended && received) { return PitapatStatus.MATCHED; }
-    else if (sended) { return PitapatStatus.SENDED; }
+    else if (sended) { return PitapatStatus.SENT; }
     else if (received) { return PitapatStatus.RECEIVED; }
     else { return PitapatStatus.NONE; }
   }
@@ -51,6 +51,7 @@ export default function PitapatRequest() {
               const from: User = users.find(user => user.key === pitapat.from)!;
               return (
                 <Profile
+                  key={from.key}
                   myKey={myKey}
                   userKey={from.key}
                   username={from.username}
@@ -67,6 +68,7 @@ export default function PitapatRequest() {
               const to: User = users.find(user => user.key === pitapat.to)!;
               return (
                 <Profile
+                  key={to.key}
                   myKey={myKey}
                   userKey={to.key}
                   username={to.username}

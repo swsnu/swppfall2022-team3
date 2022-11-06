@@ -28,7 +28,7 @@ export default function ProfileDetail() {
     const sended = pitapats.filter((p) => (p.from === myKey) && (p.to === user?.key)).length > 0;
     const received = pitapats.filter((p) => (p.from === user?.key) && (p.to === myKey)).length > 0;
     if (sended && received) { return PitapatStatus.MATCHED; }
-    else if (sended) { return PitapatStatus.SENDED; }
+    else if (sended) { return PitapatStatus.SENT; }
     else if (received) { return PitapatStatus.RECEIVED; }
     else { return PitapatStatus.NONE; }
   }
@@ -44,11 +44,14 @@ export default function ProfileDetail() {
             user={user}
             photos={photos}
           />
-          <PitapatButton
-            status={getpitapatStatus()}
-            from={myKey}
-            to={user.key}
-          />
+          <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>
+            <PitapatButton
+              from={myKey}
+              to={user.key}
+              status={getpitapatStatus()}
+              isListView={false}
+            />
+          </div>
         </section>
         <article className="flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500">
           {user.tags.map((t, index) =>

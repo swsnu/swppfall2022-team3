@@ -1,70 +1,92 @@
-import { ChangeEvent, useState } from "react"
-import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUniversity } from "../store/slices/university";
-import { AppDispatch } from "../store";
-import { selectUser } from "../store/slices/user";
-import { verificationAction } from "../store/slices/verification";
-import { sendVerificationCode } from "../util/email";
-import path from "../constant/path";
+import React, { useState } from "react";
+import { College, Gender, Major, Tag, University } from "../types";
+import UniversityCheck from "../component/signup/UniversityCheck";
+import EmailVerification from "../component/signup/EmailVerification";
+import PersonalInformation from "../component/signup/PersonalInformation";
+import CreateTag from "../component/signup/CreateTag";
+import Introduction from "../component/signup/Introduction";
+import ImageUpload from "../component/signup/ImageUpload";
+import Completed from "../component/signup/Completed";
 
 
 export default function SignUp() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const universities = useSelector(selectUniversity).universities;
-  const users = useSelector(selectUser).users;
-  const [emailDomain, setEmailDomain] = useState<string>(universities[0].domain);
+  const [step, setStep] = useState<number>(0);
+  const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
-
-  const changeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
-    const thisUniv = universities.find((univ) => (univ.name === event.target.value))!;
-    setEmailDomain(thisUniv.domain);
-  }
-
-  const clickHandler = () => {
-    const thisEmail = `${email}@${emailDomain}`;
-    const isExist = users.find((user) => user.email === thisEmail);
-    if (isExist) {
-      alert("이미 존재하는 이메일입니다.");
-      setEmail("");
-    }
-    else {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-      let result = '';
-      const charactersLength = characters.length;
-      for (let i = 0; i < 6; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      sendVerificationCode(thisEmail, result);
-      dispatch(verificationAction.add({ email: thisEmail, verificationCode: result }));
-      navigate(path.signUpverify);
-    }
-  }
+  const [verificationCode, setVerificationCode] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
+  const [birthday, setBirthday] = useState<Date>(new Date());
+  const [college, setCollege] = useState<College | null>(null);
+  const [major, setMajor] = useState<Major | null>(null);
+  const [gender, setGender] = useState<Gender>(Gender.MALE);
+  const [targetGender, setTargetGender] = useState<Gender>(Gender.ALL);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [introduction, setIntroduction] = useState<string>("");
+  // not photo, they are image files yet
+  const [images, setImages] = useState<File[]>([]);
 
   return (
-    <section className="h-screen w-full flex flex-col mt-12 mb-16">
-      <p className="text-center text-pink-500/100 mt-6">소속대학과</p>
-      <p className="text-center text-pink-500/100">학교 이메일을 입력해주세요</p>
-      <div className="text-center mt-16">
-        <select className="w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md" onChange={(event) => changeHandler(event)}>{
-          universities.map((univ) => (
-            <option key={univ.key} value={univ.name} className="text-center">{univ.name}</option>
-          ))
-        }</select>
-      </div>
-      <div className="text-center mt-2">
-        <label className="text-center">
-          <input className="mx-2 w-36 border-solid border-b-4 border-l-2 border-r-2 rounded-md"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}></input>
-          {`@${emailDomain}`}</label>
-      </div>
-      <div className="text-center">
-        <button className="bg-pink-500 text-center text-white mt-24 w-36 h-8 rounded-md"
-          onClick={() => clickHandler()}
-          disabled={!email}>확인</button>
-      </div>
-    </section>
+    step === 0 ?
+      <UniversityCheck
+        university={university}
+        setUniversity={setUniversity}
+        email={email}
+        setEmail={setEmail}
+        setVerificationCode={setVerificationCode}
+        setStep={setStep}
+      /> :
+    step === 1 ?
+      <EmailVerification
+        email={email}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        setStep={setStep}
+      /> :
+    step === 2 ?
+      <PersonalInformation
+        nickname={nickname}
+        setNickname={setNickname}
+        birthday={birthday}
+        setBirthday={setBirthday}
+        college={college}
+        setCollege={setCollege}
+        major={major}
+        setMajor={setMajor}
+        gender={gender}
+        setGender={setGender}
+        targetGender={targetGender}
+        setTargetGender={setTargetGender}
+        setStep={setStep}
+      /> :
+    step === 3 ?
+      <CreateTag
+        tags={tags}
+        setTags={setTags}
+        setStep={setStep}
+      /> :
+    step === 4 ?
+      <Introduction
+        introduction={introduction}
+        setIntroduction={setIntroduction}
+        setStep={setStep}
+      /> :
+    step === 5 ?
+      <ImageUpload
+        images={images}
+        setImages={setImages}
+        setStep={setStep}
+      /> :
+    step === 6 ?
+      <Completed
+      /> :
+      // default component..  but shouldn't be reached here.
+      <UniversityCheck
+        university={university}
+        setUniversity={setUniversity}
+        email={email}
+        setEmail={setEmail}
+        setVerificationCode={setVerificationCode}
+        setStep={setStep}
+      />
   )
 }

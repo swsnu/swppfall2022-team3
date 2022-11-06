@@ -18,7 +18,7 @@ export default function Search() {
     const sended = pitapats.filter((p) => (p.from === myKey) && (p.to === user?.key)).length > 0;
     const received = pitapats.filter((p) => (p.from === user?.key) && (p.to === myKey)).length > 0;
     if (sended && received) { return PitapatStatus.MATCHED; }
-    else if (sended) { return PitapatStatus.SENDED; }
+    else if (sended) { return PitapatStatus.SENT; }
     else if (received) { return PitapatStatus.RECEIVED; }
     else { return PitapatStatus.NONE; }
   }
@@ -30,6 +30,7 @@ export default function Search() {
         {users.filter(user => user.key !== 1).map((user) => {
           return (
             <Profile
+              key={user.key}
               myKey={myKey}
               userKey={user.key}
               username={user.username}

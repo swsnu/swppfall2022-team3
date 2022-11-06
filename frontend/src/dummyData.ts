@@ -5,13 +5,13 @@ export const universities: University[] = [
   {
     key: 1,
     name: "서울대학교",
-    domain: "@snu.ac.kr",
+    domain: "snu.ac.kr",
     colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
   {
     key: 2,
     name: "낙성대학교",
-    domain: "@nak.ac.kr",
+    domain: "nak.ac.kr",
     colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
 ];
@@ -245,7 +245,7 @@ export const users: User[] = [
   {
     key: 1,
     email: 'user@snu.ac.kr',
-    username: '홍길동',
+    username: '김수한무거북이와두루미삼천갑자동방삭치치카포사리사리센타워리워리세브리깡무두셀라구름이허리케인에담벼락담벼락에서생원서생원에고양이고양이엔바둑이바둑이는돌돌이',
     gender: Gender.MALE,
     birthday: new Date('1997-06-02'),
     location: '서울',

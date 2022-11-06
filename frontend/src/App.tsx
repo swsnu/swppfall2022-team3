@@ -1,7 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SignIn from "./page/SignIn";
 import SignUp from "./page/SignUp";
-import SignUpVerify from "./page/SignUpVerify"
 import Search from "./page/Search";
 import ProfileDetail from "./page/ProfileDetail";
 import ChatList from "./page/ChatList";
@@ -17,7 +16,6 @@ function App() {
         <Routes>
           <Route path={path.signIn} element={<SignIn />} />
           <Route path={path.signUp} element={<SignUp />} />
-          <Route path={path.signUpverify} element={<SignUpVerify />} />
           <Route path={path.search} element={<Search />} />
           <Route path={path.profile} element={<ProfileDetail />} />
           <Route path={path.chat} element={<ChatList />} />
