@@ -7,6 +7,8 @@ import { User } from "../types";
 import NavigationBar from "../component/NavigationBar";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectChat } from "../store/slices/chat";
+import {Navigate} from "react-router-dom";
+import path from "../constant/path";
 
 
 type ChatRoomInfo = {
@@ -15,7 +17,8 @@ type ChatRoomInfo = {
 }
 
 export default function ChatList() {
-  const myKey = 1;
+  const loginUser = useSelector(selectUser).loginUser;
+  const myKey = loginUser?.key ?? null;
   const users = useSelector(selectUser).users;
   const pitapats = useSelector(selectPitapat).pitapats;
   const chats = useSelector(selectChat).chats;
@@ -47,19 +50,24 @@ export default function ChatList() {
     )
   }, [users, pitapats, chats])
 
-  return (
-    <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
-      <AppBar/>
-      <section className={"flex-1 flex flex-col"}>{
-         chatRoomInfos.map(({ user, lastChat }) => (
-           <ChatListElement
-             user={user}
-             lastChat={lastChat}
-             key={user.key}
-           />
-         ))
-      }</section>
-      <NavigationBar/>
-    </section>
-  );
+  if (myKey === null) {
+    return <Navigate to={path.signIn} />;
+  }
+  else {
+    return (
+      <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
+        <AppBar/>
+        <section className={"flex-1 flex flex-col"}>{
+          chatRoomInfos.map(({user, lastChat}) => (
+            <ChatListElement
+              user={user}
+              lastChat={lastChat}
+              key={user.key}
+            />
+          ))
+        }</section>
+        <NavigationBar/>
+      </section>
+    );
+  }
 }

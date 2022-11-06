@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import AppBar from "../component/AppBar";
 import { Chat } from "../types";
 import { AES, enc } from "crypto-ts";
@@ -9,9 +9,11 @@ import { chatAction, selectChat } from "../store/slices/chat";
 import { AppDispatch } from "../store";
 import ChatBox from "../component/ChatBox";
 import { selectUser } from "../store/slices/user";
+import path from "../constant/path";
 
 
 export default function ChatDetail() {
+  const loginUser = useSelector(selectUser).loginUser;
   const params = useParams();
   const navigate = useNavigate();
   const chats = useSelector(selectChat).chats;
@@ -66,30 +68,36 @@ export default function ChatDetail() {
     }
   }, [params, navigate, chats, users, to])
 
-  return (
-    <section className={"flex-1 flex flex-col mt-12 mb-16"}>
-      <AppBar title={appBarTitle}/>
-      <section className={"flex-1 flex flex-col w-full h-full"}>{
-        myChats.map((chat) => <ChatBox key={chat.content + chat.regDt.getTime()} content={chat.content} isMine={chat.from === from}/>)
-      }</section>
-      <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
-        <input
-          className={"rounded bg-white h-8 my-1 flex-1"}
-          type={"text"}
-          value={chatInput}
-          onChange={(e) => {
-            setChatInput(e.target.value)
-          }}
-          placeholder={"메세지를 입력하세요"}
-        />
-        <section>
-          <button
-            className={"w-20 h-8 my-2 bg-pink-300 rounded text-white font-bold select-none"}
-            onClick={sendChat}
-          >
-            전송
-          </button>
-        </section>
-      </article>
-    </section>);
+  if (loginUser === null) {
+    return <Navigate to={path.signIn} />;
+  }
+  else {
+    return (
+      <section className={"flex-1 flex flex-col mt-12 mb-16"}>
+        <AppBar title={appBarTitle}/>
+        <section className={"flex-1 flex flex-col w-full h-full"}>{
+          myChats.map((chat) => <ChatBox key={chat.content + chat.regDt.getTime()} content={chat.content}
+                                         isMine={chat.from === from}/>)
+        }</section>
+        <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
+          <input
+            className={"rounded bg-white h-8 my-1 flex-1"}
+            type={"text"}
+            value={chatInput}
+            onChange={(e) => {
+              setChatInput(e.target.value)
+            }}
+            placeholder={"메세지를 입력하세요"}
+          />
+          <section>
+            <button
+              className={"w-20 h-8 my-2 bg-pink-300 rounded text-white font-bold select-none"}
+              onClick={sendChat}
+            >
+              전송
+            </button>
+          </section>
+        </article>
+      </section>);
+  }
 }
