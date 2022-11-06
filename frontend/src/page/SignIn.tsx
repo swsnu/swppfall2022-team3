@@ -1,19 +1,22 @@
 import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { selectUser } from "../store/slices/user";
+import { selectUser, userActions } from "../store/slices/user";
 import path from "../constant/path";
+import { AppDispatch } from "../store";
 
 
 export default function SignIn() {
   const navigate = useNavigate();
   const users = useSelector(selectUser).users;
+  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const loginOnClick = useCallback(() => {
     const thisUser = users.find((user) => (user.email === email));
     if (thisUser) {
+      dispatch(userActions.login(thisUser));
       navigate(path.search);
     }
     else {
