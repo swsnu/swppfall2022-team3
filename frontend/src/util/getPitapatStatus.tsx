@@ -1,4 +1,4 @@
-import {PitapatStatus, User} from "../types";
+import { PitapatStatus, User } from "../types";
 import { Pitapat} from "../types";
 
 export function getPitapatStatus(user: User, myKey: number, pitapats: Pitapat[]): PitapatStatus {

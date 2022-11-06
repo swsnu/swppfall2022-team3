@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {Gender, User} from "../../types";
+import { User } from "../../types";
 import dummyData from "../../dummyData";
 import axios from "axios";
 import { RootState } from "../index";
-import {init} from "emailjs-com";
 
 
 const storeKey = "user";
@@ -12,7 +11,6 @@ export interface UserState {
   users: User[];
   loginUser: User | null;
 }
-
 
 const getInitialUsers = (): User[] => {
   let savedValue = localStorage.getItem(storeKey);
@@ -28,12 +26,12 @@ const initialState: UserState = {
   loginUser: null,
 };
 
-export const login = createAsyncThunk(
+const login = createAsyncThunk(
   "user/",
   async (user: { email: string, password: string }, { dispatch }) => {
-    const response = await axios.post(`/api/user/login/`, user);
+    const response = await axios.post("/user/login/", user);
     if (response.status === 204) {
-      dispatch(userActions.login({ email: user.email }));
+      dispatch(userActions.login(user));
       return true;
     }
     else {
@@ -65,7 +63,11 @@ const userSlice = createSlice({
       state.users = newUsers;
     },
     login: (state, action: PayloadAction<{ email: string }>) => {
-      state.loginUser = state.users.find(user => user.email === action.payload.email) ?? null;
+      const users: User[] = JSON.parse(localStorage.getItem(storeKey)!);
+      const user = users.filter((u) => u.email === action.payload.email);
+      if (user.length > 0) {
+        state.loginUser = user[0];
+      }
     },
   },
 })
