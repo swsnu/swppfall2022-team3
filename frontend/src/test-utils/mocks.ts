@@ -10,6 +10,7 @@ import tagReducer from "../store/slices/tag";
 import universityReducer from "../store/slices/university";
 import userReducer from "../store/slices/user";
 
+
 export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
     reducer: {

@@ -16,5 +16,5 @@ export default function ImageUpload({
     <section>
       this is image upload page
     </section>
-  )
+  );
 }

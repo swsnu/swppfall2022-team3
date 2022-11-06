@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../../types";
-import dummyData from "../../dummyData";
+import { users } from "../../dummyData";
 import axios from "axios";
 import { RootState } from "../index";
 
@@ -16,7 +16,7 @@ export interface UserState {
 const getInitialUsers = (): User[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(dummyData.users));
+    localStorage.setItem(storeKey, JSON.stringify(users));
     savedValue = localStorage.getItem(storeKey);
   }
   return (JSON.parse(savedValue!) as any[]).map((user) => ({...user, birthday: new Date(user.birthday)})) as User[];
@@ -28,13 +28,14 @@ const getLoginUser = (): User | null => {
     return null;
   }
   return JSON.parse(savedValue) as User;
-}
+};
 
 const initialState: UserState = {
   users: getInitialUsers(),
   loginUser: getLoginUser(),
 };
 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const login = createAsyncThunk(
   "user/",
   async (user: { email: string, password: string }, { dispatch }) => {
@@ -62,12 +63,12 @@ const userSlice = createSlice({
       const newUsers: User[] = [];
       state.users.forEach((user) => {
         if (user.key === action.payload.key) {
-          newUsers.push(action.payload)
+          newUsers.push(action.payload);
         }
         else {
-          newUsers.push(user)
+          newUsers.push(user);
         }
-      })
+      });
       localStorage.setItem(storeKey, JSON.stringify(newUsers));
       state.users = newUsers;
     },
@@ -80,7 +81,7 @@ const userSlice = createSlice({
       }
     },
   },
-})
+});
 
 export const userActions = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;

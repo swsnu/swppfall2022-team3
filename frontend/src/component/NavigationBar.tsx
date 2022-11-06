@@ -59,14 +59,14 @@ const NavigationBar = () => {
     else if (pathName.startsWith(path.chat)) {
       newSelectedTab = 2;
     }
-    setSelectedTab(newSelectedTab)
-  }, [pathName])
+    setSelectedTab(newSelectedTab);
+  }, [pathName]);
 
   return (
     <div className={"w-full z-20 h-16 bg-pink-300 fixed bottom-0 flex flex-row align-center"}>
       <button
         className={tabClassName}
-        onClick={(() => { tabOnClickListener(0) })}
+        onClick={(() => { tabOnClickListener(0); })}
       >
         <UserIcon
           className={getIconClassName(0)}
@@ -75,7 +75,7 @@ const NavigationBar = () => {
       </button>
       <button
         className={tabClassName}
-        onClick={(() => { tabOnClickListener(1) })}
+        onClick={(() => { tabOnClickListener(1); })}
       >
         <HeartIcon
           className={getIconClassName(1)}
@@ -84,7 +84,7 @@ const NavigationBar = () => {
       </button>
       <button
         className={tabClassName}
-        onClick={(() => { tabOnClickListener(2) })}
+        onClick={(() => { tabOnClickListener(2); })}
       >
         <ChatBubbleLeftIcon
           className={getIconClassName(2)}

@@ -1,7 +1,10 @@
 export enum Gender {
-  MALE = 'M',
-  FEMALE = 'F',
-  ALL = 'A',
+  // eslint-disable-next-line no-unused-vars
+  MALE = "M",
+  // eslint-disable-next-line no-unused-vars
+  FEMALE = "F",
+  // eslint-disable-next-line no-unused-vars
+  ALL = "A",
 }
 
 export interface Major {
@@ -48,9 +51,13 @@ export interface Pitapat {
 }
 
 export enum PitapatStatus {
+  // eslint-disable-next-line no-unused-vars
   NONE,
+  // eslint-disable-next-line no-unused-vars
   SENT,
+  // eslint-disable-next-line no-unused-vars
   RECEIVED,
+  // eslint-disable-next-line no-unused-vars
   MATCHED,
 }
 

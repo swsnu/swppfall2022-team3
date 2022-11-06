@@ -1,4 +1,4 @@
-import { EmailJSResponseStatus, init, send } from 'emailjs-com';
+import { EmailJSResponseStatus, init, send } from "emailjs-com";
 
 
 const userId = "9WyiS5CMeqEq9CpWW";
@@ -17,10 +17,12 @@ export const sendVerificationCode = async (targetEmail: string, verificationCode
   const templateParams = {
     target_email: targetEmail,
     verification_code: verificationCode,
-  }
+  };
   return await send(serviceId, templateId, templateParams, userId);
-}
+};
 
-export default {
+const email = {
   sendVerificationCode,
-}
+};
+
+export default email;

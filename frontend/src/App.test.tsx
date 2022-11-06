@@ -9,7 +9,7 @@ import App from "./App";
 test("renders App", () => {
   const { container } = render(
     // <Provider store={mockStore}>
-      <App />
+    <App />
     // </Provider>
   );
   expect(container).toBeTruthy();

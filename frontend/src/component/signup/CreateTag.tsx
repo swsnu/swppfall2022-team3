@@ -17,5 +17,5 @@ export default function CreateTag({
     <section>
       this is create tag page
     </section>
-  )
+  );
 }

@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 interface IProps {
   user: User;
   photos: Photo[];
-};
+}
 
 export default function PhotoSlider({
   user,

@@ -37,5 +37,5 @@ export default function PersonalInformation({
     <section>
       this is personal information page
     </section>
-  )
+  );
 }

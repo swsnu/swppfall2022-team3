@@ -22,7 +22,7 @@ export default function ChatList() {
   const pitapats = useSelector(selectPitapat).pitapats;
   const chats = useSelector(selectChat).chats;
   const navigate = useNavigate();
-  const [chatRoomInfos, setChatRoomInfos] = useState<ChatRoomInfo[]>([])
+  const [chatRoomInfos, setChatRoomInfos] = useState<ChatRoomInfo[]>([]);
 
   useEffect(() => {
     if (loginUser) {
@@ -48,12 +48,12 @@ export default function ChatList() {
             user,
             lastChat: myChats.find((c) => (c.to === user.key) || (c.from === user.key))?.content ?? null,
           }))
-      )
+      );
     }
     else {
       navigate(path.signIn);
     }
-  }, [loginUser, users, pitapats, chats, navigate])
+  }, [loginUser, users, pitapats, chats, navigate]);
 
   return (
     <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>

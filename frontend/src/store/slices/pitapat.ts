@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Pitapat } from "../../types";
-import dummyData from "../../dummyData";
+import { pitapats } from "../../dummyData";
 import { RootState } from "../index";
 
 
@@ -9,7 +9,7 @@ const storeKey = "pitapat";
 const getInitialState = (): Pitapat[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(dummyData.pitapats));
+    localStorage.setItem(storeKey, JSON.stringify(pitapats));
     savedValue = localStorage.getItem(storeKey);
   }
   return JSON.parse(savedValue!) as Pitapat[];
@@ -41,7 +41,7 @@ const pitapatSlice = createSlice({
       state.pitapats = newPitapats;
     },
   },
-})
+});
 
 export const selectPitapat = (state: RootState) => state.pitapat;
 export const pitapatAction = pitapatSlice.actions;

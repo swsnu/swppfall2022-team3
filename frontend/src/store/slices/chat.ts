@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Chat } from "../../types";
-import dummyData from "../../dummyData";
+import { chats } from "../../dummyData";
 import { RootState } from "../index";
 
 
@@ -9,7 +9,7 @@ const storeKey = "chat";
 const getInitialState = (): Chat[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(dummyData.chats));
+    localStorage.setItem(storeKey, JSON.stringify(chats));
     savedValue = localStorage.getItem(storeKey);
   }
   return (JSON.parse(savedValue!) as any[]).map((chat) => ({...chat, regDt: new Date(chat.regDt)})) as Chat[];
@@ -25,7 +25,7 @@ const chatSlice = createSlice({
       state.chats = newChats;
     },
   },
-})
+});
 
 export const selectChat = (state: RootState) => state.chat;
 export const chatAction = chatSlice.actions;

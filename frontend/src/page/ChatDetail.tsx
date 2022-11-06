@@ -35,9 +35,9 @@ export default function ChatDetail() {
         regDt: new Date(),
         content: chatInput,
       }
-    ))
+    ));
     setChatInput("");
-  }, [dispatch, chatInput, from, to])
+  }, [dispatch, chatInput, from, to, chats]);
 
   useEffect(() => {
     if (loginUser) {
@@ -64,7 +64,7 @@ export default function ChatDetail() {
               );
 
               const userTo = users.find((u) => u.key === to);
-              setAppBarTitle(userTo?.username ?? "")
+              setAppBarTitle(userTo?.username ?? "");
             }
           } else {
             navigate(path.chat);
@@ -77,7 +77,7 @@ export default function ChatDetail() {
     else {
       navigate(path.signIn);
     }
-  }, [params, navigate, chats, users, loginUser, to])
+  }, [params, navigate, chats, users, loginUser, to]);
 
   return (
     <section className={"flex-1 flex flex-col mt-12 mb-16"}>
@@ -91,7 +91,7 @@ export default function ChatDetail() {
           type={"text"}
           value={chatInput}
           onChange={(e) => {
-            setChatInput(e.target.value)
+            setChatInput(e.target.value);
           }}
           placeholder={"메세지를 입력하세요"}
         />

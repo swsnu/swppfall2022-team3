@@ -22,7 +22,7 @@ export default function SignIn() {
     else {
       alert("이메일이 틀렸습니다.");
     }
-  }, [email]);
+  }, [users, email, dispatch, navigate]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
@@ -71,5 +71,5 @@ export default function SignIn() {
         </div>
       </div>
     </section>
-  )
+  );
 }

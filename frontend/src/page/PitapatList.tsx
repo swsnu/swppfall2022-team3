@@ -28,65 +28,65 @@ export default function PitapatList() {
 
   return (
     loginUser ?
-    <section className={"w-full flex flex-col mt-24 mb-16"}>
-      <AppBar title={"두근두근 캠퍼스"}/>
-      <section className={"top-12 w-full flex flex-row h-12 z-10 fixed bg-white"}>
-        <button
-          className={`flex-1 border font-bold ${isRecvPage ? "border-pink-300 text-pink-500" : "border-gray-400 text-gray-400"}`}
-          disabled={isRecvPage}
-          onClick={() => setIsRecvPage(true)}
-        >
+      <section className={"w-full flex flex-col mt-24 mb-16"}>
+        <AppBar title={"두근두근 캠퍼스"}/>
+        <section className={"top-12 w-full flex flex-row h-12 z-10 fixed bg-white"}>
+          <button
+            className={`flex-1 border font-bold ${isRecvPage ? "border-pink-300 text-pink-500" : "border-gray-400 text-gray-400"}`}
+            disabled={isRecvPage}
+            onClick={() => setIsRecvPage(true)}
+          >
           내가 받은 두근
-        </button>
-        <button
-          className={`flex-1 border font-bold ${isRecvPage ? "border-gray-400 text-gray-400" : "border-pink-300 text-pink-500"}`}
-          disabled={!isRecvPage}
-          onClick={() => setIsRecvPage(false)}
-        >
+          </button>
+          <button
+            className={`flex-1 border font-bold ${isRecvPage ? "border-gray-400 text-gray-400" : "border-pink-300 text-pink-500"}`}
+            disabled={!isRecvPage}
+            onClick={() => setIsRecvPage(false)}
+          >
           내가 보낸 두근
-        </button>
-      </section>
-      {
-        isRecvPage ?
-        <section>
-          {pitapats.filter((p) =>
-            (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED)
-          ).map((p) => {
-            const from: User = users.find(user => user.key === p.from)!;
-            return (
-              <Profile
-                key={from.key}
-                myKey={loginUser.key}
-                userKey={from.key}
-                username={from.username}
-                koreanAge={getKoreanAge(from.birthday)}
-                photo={photos.find((p) => p.key === from.photos[0])?.path!}
-                status={getPitapatStatus(loginUser.key, from.key, pitapats)}
-              />
-            );
-          })}
+          </button>
         </section>
-        :
-        <section>
-          {pitapats.filter((p) =>
-            (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) !== PitapatStatus.MATCHED)
-          ).map((p) => {
-            const to: User = users.find(user => user.key === p.to)!;
-            return (
-              <Profile
-                key={to.key}
-                myKey={loginUser.key}
-                userKey={to.key}
-                username={to.username}
-                koreanAge={getKoreanAge(to.birthday)}
-                photo={photos.find((p) => p.key === to.photos[0])?.path!}
-                status={getPitapatStatus(loginUser.key, to.key, pitapats)}
-              />
-            )
-          })}
-        </section>
-      }
-      <NavigationBar/>
-    </section> : <section></section>
+        {
+          isRecvPage ?
+            <section>
+              {pitapats.filter((p) =>
+                (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED)
+              ).map((p) => {
+                const from: User = users.find(user => user.key === p.from)!;
+                return (
+                  <Profile
+                    key={from.key}
+                    myKey={loginUser.key}
+                    userKey={from.key}
+                    username={from.username}
+                    koreanAge={getKoreanAge(from.birthday)}
+                    photo={photos.find((p) => p.key === from.photos[0])?.path!}
+                    status={getPitapatStatus(loginUser.key, from.key, pitapats)}
+                  />
+                );
+              })}
+            </section>
+            :
+            <section>
+              {pitapats.filter((p) =>
+                (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) !== PitapatStatus.MATCHED)
+              ).map((p) => {
+                const to: User = users.find(user => user.key === p.to)!;
+                return (
+                  <Profile
+                    key={to.key}
+                    myKey={loginUser.key}
+                    userKey={to.key}
+                    username={to.username}
+                    koreanAge={getKoreanAge(to.birthday)}
+                    photo={photos.find((p) => p.key === to.photos[0])?.path!}
+                    status={getPitapatStatus(loginUser.key, to.key, pitapats)}
+                  />
+                );
+              })}
+            </section>
+        }
+        <NavigationBar/>
+      </section> : <section></section>
   );
 }

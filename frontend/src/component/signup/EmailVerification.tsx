@@ -28,7 +28,7 @@ export default function EmailVerification({
       }
       else {
         clearInterval(countdown);
-        alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.")
+        alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.");
         navigate("/signup");
       }
     }, 1000);
@@ -41,8 +41,8 @@ export default function EmailVerification({
       .then(() => {
       });
     setVerificationCode(newCode);
-    setSec(180)
-  }, [email, setSec]);
+    setSec(180);
+  }, [email, setSec, setVerificationCode]);
 
   const clickHandler = useCallback(() => {
     if (code === verificationCode) {
@@ -88,5 +88,5 @@ export default function EmailVerification({
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -35,58 +35,58 @@ export default function SignUp() {
         setVerificationCode={setVerificationCode}
         setStep={setStep}
       /> :
-    step === 1 ?
-      <EmailVerification
-        email={email}
-        verificationCode={verificationCode}
-        setVerificationCode={setVerificationCode}
-        setStep={setStep}
-      /> :
-    step === 2 ?
-      <PersonalInformation
-        nickname={nickname}
-        setNickname={setNickname}
-        birthday={birthday}
-        setBirthday={setBirthday}
-        college={college}
-        setCollege={setCollege}
-        major={major}
-        setMajor={setMajor}
-        gender={gender}
-        setGender={setGender}
-        targetGender={targetGender}
-        setTargetGender={setTargetGender}
-        setStep={setStep}
-      /> :
-    step === 3 ?
-      <CreateTag
-        tags={tags}
-        setTags={setTags}
-        setStep={setStep}
-      /> :
-    step === 4 ?
-      <Introduction
-        introduction={introduction}
-        setIntroduction={setIntroduction}
-        setStep={setStep}
-      /> :
-    step === 5 ?
-      <ImageUpload
-        images={images}
-        setImages={setImages}
-        setStep={setStep}
-      /> :
-    step === 6 ?
-      <Completed
-      /> :
-      // default component..  but shouldn't be reached here.
-      <UniversityCheck
-        university={university}
-        setUniversity={setUniversity}
-        email={email}
-        setEmail={setEmail}
-        setVerificationCode={setVerificationCode}
-        setStep={setStep}
-      />
-  )
+      step === 1 ?
+        <EmailVerification
+          email={email}
+          verificationCode={verificationCode}
+          setVerificationCode={setVerificationCode}
+          setStep={setStep}
+        /> :
+        step === 2 ?
+          <PersonalInformation
+            nickname={nickname}
+            setNickname={setNickname}
+            birthday={birthday}
+            setBirthday={setBirthday}
+            college={college}
+            setCollege={setCollege}
+            major={major}
+            setMajor={setMajor}
+            gender={gender}
+            setGender={setGender}
+            targetGender={targetGender}
+            setTargetGender={setTargetGender}
+            setStep={setStep}
+          /> :
+          step === 3 ?
+            <CreateTag
+              tags={tags}
+              setTags={setTags}
+              setStep={setStep}
+            /> :
+            step === 4 ?
+              <Introduction
+                introduction={introduction}
+                setIntroduction={setIntroduction}
+                setStep={setStep}
+              /> :
+              step === 5 ?
+                <ImageUpload
+                  images={images}
+                  setImages={setImages}
+                  setStep={setStep}
+                /> :
+                step === 6 ?
+                  <Completed
+                  /> :
+                // default component..  but shouldn't be reached here.
+                  <UniversityCheck
+                    university={university}
+                    setUniversity={setUniversity}
+                    email={email}
+                    setEmail={setEmail}
+                    setVerificationCode={setVerificationCode}
+                    setStep={setStep}
+                  />
+  );
 }

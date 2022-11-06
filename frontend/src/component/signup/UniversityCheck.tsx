@@ -30,7 +30,7 @@ export default function UniversityCheck({
 
   const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setUniversity(universities.find((univ) => (univ.name === event.target.value))!);
-  }, []);
+  }, [universities, setUniversity]);
 
   const clickHandler = useCallback(() => {
     const targetEmail = `${email}@${university?.domain}`;
@@ -46,7 +46,7 @@ export default function UniversityCheck({
       setVerificationCode(code);
       setStep(1);
     }
-  }, [users, email, setStep]);
+  }, [users, email, university, setStep, setVerificationCode]);
 
   useEffect(() => {
     if (university) {
@@ -69,18 +69,18 @@ export default function UniversityCheck({
           value={undefined}
           onChange={changeHandler}
         >{
-          ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
-            .concat(universities)
-            .map((univ) => (
-              <option
-                key={univ.key}
-                value={univ.name}
-                className={"text-center"}
-              >{
-                univ.name
-              }</option>
-            ))
-        }</select>
+            ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
+              .concat(universities)
+              .map((univ) => (
+                <option
+                  key={univ.key}
+                  value={univ.name}
+                  className={"text-center"}
+                >{
+                    univ.name
+                  }</option>
+              ))
+          }</select>
       </div>
       <div className={"text-center mt-2"}>
         <label className={"text-center"}>
@@ -102,5 +102,5 @@ export default function UniversityCheck({
         </button>
       </div>
     </section>
-  )
+  );
 }

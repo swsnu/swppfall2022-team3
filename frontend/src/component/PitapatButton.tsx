@@ -10,7 +10,7 @@ interface IProps {
   to: number;
   status: PitapatStatus;
   isListView: boolean;
-};
+}
 
 export default function PitapatButton({
   from,
@@ -41,9 +41,9 @@ export default function PitapatButton({
       <div className={"flex-none text-sm mx-1.5 font-bold text-pink-600"}>
         {
           (status === PitapatStatus.NONE) ? "두근" :
-          (status === PitapatStatus.RECEIVED) ? "수락" :
-          (status === PitapatStatus.SENT) ? "취소" :
-          "매칭"
+            (status === PitapatStatus.RECEIVED) ? "수락" :
+              (status === PitapatStatus.SENT) ? "취소" :
+                "매칭"
         }
       </div>
     </button>

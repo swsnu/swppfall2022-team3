@@ -1,4 +1,4 @@
-import { University, College, Major, User, Photo, Tag, Gender, Chat, Pitapat } from './types';
+import { University, College, Major, User, Photo, Tag, Gender, Chat, Pitapat } from "./types";
 
 
 export const universities: University[] = [
@@ -184,103 +184,103 @@ export const majors: Major[] = [
 
 
 export const tags: Tag[] = [
-  { key: 1, name: '여행', type: 'HOBBY' },
-  { key: 2, name: '코딩', type: 'SELF_DEV' },
-  { key: 3, name: '맛집탐방', type: 'HOBBY' },
-  { key: 4, name: '헬스', type: 'SPORT' },
-  { key: 5, name: '요리', type: 'HOBBY' },
-  { key: 6, name: '컴퓨터게임', type: 'HOBBY' },
-  { key: 7, name: '방탈출', type: 'ACTIVITY' },
-  { key: 8, name: '야구관람', type: 'ACTIVITY' },
-  { key: 9, name: '등산', type: 'ACTIVITY' },
-  { key: 10, name: '서핑', type: 'ACTIVITY' },
-  { key: 11, name: '축구', type: 'SPORT' },
-  { key: 12, name: '농구', type: 'SPORT' },
+  { key: 1, name: "여행", type: "HOBBY" },
+  { key: 2, name: "코딩", type: "SELF_DEV" },
+  { key: 3, name: "맛집탐방", type: "HOBBY" },
+  { key: 4, name: "헬스", type: "SPORT" },
+  { key: 5, name: "요리", type: "HOBBY" },
+  { key: 6, name: "컴퓨터게임", type: "HOBBY" },
+  { key: 7, name: "방탈출", type: "ACTIVITY" },
+  { key: 8, name: "야구관람", type: "ACTIVITY" },
+  { key: 9, name: "등산", type: "ACTIVITY" },
+  { key: 10, name: "서핑", type: "ACTIVITY" },
+  { key: 11, name: "축구", type: "SPORT" },
+  { key: 12, name: "농구", type: "SPORT" },
 ];
 
 export const photos: Photo[] = [
   {
     key: 1,
     index: 1,
-    path: '/photo1.jpeg',
+    path: "/photo1.jpeg",
   },
   {
     key: 2,
     index: 2,
-    path: '/photo2.jpeg',
+    path: "/photo2.jpeg",
   },
   {
     key: 3,
     index: 1,
-    path: '/photo3.jpeg',
+    path: "/photo3.jpeg",
   },
   {
     key: 4,
     index: 2,
-    path: '/photo4.jpeg',
+    path: "/photo4.jpeg",
   },
   {
     key: 5,
     index: 1,
-    path: '/photo5.jpeg',
+    path: "/photo5.jpeg",
   },
   {
     key: 6,
     index: 3,
-    path: '/photo6.jpeg',
+    path: "/photo6.jpeg",
   },
-]
+];
 
 export const pitapats: Pitapat[] = [
   { from: 1, to: 2 },
   { from: 1, to: 3 },
   { from: 2, to: 1 },
-]
+];
 
 export const chats: Chat[] = [
-  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date('2022-11-01') },
-]
+  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01") },
+];
 
 export const users: User[] = [
   {
     key: 1,
-    email: 'user@snu.ac.kr',
-    username: '김수한무거북이와두루미삼천갑자동방삭치치카포사리사리센타워리워리세브리깡무두셀라구름이허리케인에담벼락담벼락에서생원서생원에고양이고양이엔바둑이바둑이는돌돌이',
+    email: "user@snu.ac.kr",
+    username: "김수한무거북이와두루미삼천갑자동방삭치치카포사리사리센타워리워리세브리깡무두셀라구름이허리케인에담벼락담벼락에서생원서생원에고양이고양이엔바둑이바둑이는돌돌이",
     gender: Gender.MALE,
-    birthday: new Date('1997-06-02'),
-    location: '서울',
+    birthday: new Date("1997-06-02"),
+    location: "서울",
     university: 1,
     college: 4,
     major: 38,
-    introduction: '안녕하세요',
+    introduction: "안녕하세요",
     tags: [1, 2, 3, 4],
     photos: [1, 2],
   },
   {
     key: 2,
-    email: 'test@snu.ac.kr',
-    username: 'nana99',
+    email: "test@snu.ac.kr",
+    username: "nana99",
     gender: Gender.MALE,
-    birthday: new Date('1999-05-02'),
-    location: '서울',
+    birthday: new Date("1999-05-02"),
+    location: "서울",
     university: 1,
     college: 1,
     major: 9,
-    introduction: '안녕하세요 ㅎㅎ 반갑습니다 저는 인문대 다니고 있는 99년생 학생이에요!',
+    introduction: "안녕하세요 ㅎㅎ 반갑습니다 저는 인문대 다니고 있는 99년생 학생이에요!",
     tags: [1, 2, 5, 6, 7, 11],
     photos: [3, 4, 6],
   },
   {
     key: 3,
-    email: 'test2@snu.ac.kr',
-    username: 'pretty_good',
+    email: "test2@snu.ac.kr",
+    username: "pretty_good",
     gender: Gender.FEMALE,
-    birthday: new Date('2000-03-02'),
-    location: '서울',
+    birthday: new Date("2000-03-02"),
+    location: "서울",
     university: 1,
     college: 2,
     major: 21,
-    introduction: '처음이라 떨리네요 ㅎㅎ 사회대 다니고있는 23살 여자입니다 잘부탁드려요!!',
+    introduction: "처음이라 떨리네요 ㅎㅎ 사회대 다니고있는 23살 여자입니다 잘부탁드려요!!",
     tags: [1, 3, 7],
     photos: [5],
   },

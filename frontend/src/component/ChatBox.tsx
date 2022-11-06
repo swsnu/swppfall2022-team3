@@ -14,5 +14,5 @@ export default function ChatBox({
     <article className={`${basicChatClassName} ${isMine ? myChatClassname : othersChatClassName}`}>{
       content
     }</article>
-  )
+  );
 }

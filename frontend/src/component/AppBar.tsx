@@ -19,14 +19,14 @@ export default function AppBar({ title = defaultTitle}: IProps) {
   }, [navigate]);
 
   const settingOnClick = useCallback(() => {
-    navigate('/setting');
+    navigate("/setting");
   }, [navigate]);
 
   useEffect(() => {
     const shouldBackVisible: boolean =
       /^\/profile\/\d+$/.test(pathName) ||
       /^\/chat\/.+$/.test(pathName) ||
-      /^\/setting\/?$/.test(pathName)
+      /^\/setting\/?$/.test(pathName);
     setIsBackVisible(shouldBackVisible);
   }, [setIsBackVisible, pathName]);
 
