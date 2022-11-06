@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Tag } from "../../types";
-import DummyData from "../../DummyData";
+import dummyData from "../../dummyData";
 import { RootState } from "../index";
 
 
@@ -9,7 +9,7 @@ const storeKey = "tag";
 const getInitialState = (): Tag[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(DummyData.tags));
+    localStorage.setItem(storeKey, JSON.stringify(dummyData.tags));
     savedValue = localStorage.getItem(storeKey);
   }
   return JSON.parse(savedValue!) as Tag[];

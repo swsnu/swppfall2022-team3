@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Photo } from "../../types";
-import DummyData from "../../DummyData";
+import dummyData from "../../dummyData";
 import { RootState } from "../index";
 
 
@@ -9,7 +9,7 @@ const storeKey = "photo";
 const getInitialState = (): Photo[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(DummyData.photos));
+    localStorage.setItem(storeKey, JSON.stringify(dummyData.photos));
     savedValue = localStorage.getItem(storeKey);
   }
   return JSON.parse(savedValue!) as Photo[];

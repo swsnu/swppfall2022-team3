@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../../types";
-import DummyData from "../../DummyData";
+import dummyData from "../../dummyData";
 import { RootState } from "../index";
 
 
@@ -9,7 +9,7 @@ const storeKey = "user";
 const getInitialUsers = (): User[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(DummyData.users));
+    localStorage.setItem(storeKey, JSON.stringify(dummyData.users));
     savedValue = localStorage.getItem(storeKey);
   }
   return (JSON.parse(savedValue!) as any[]).map((user) => ({...user, birthday: new Date(user.birthday)})) as User[];

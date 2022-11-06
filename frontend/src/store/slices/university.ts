@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { University } from "../../types";
-import DummyData from "../../DummyData";
+import dummyData from "../../dummyData";
 import { RootState } from "../index";
 
 
@@ -9,7 +9,7 @@ const storeKey = "university";
 const getInitialState = (): University[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(DummyData.universities));
+    localStorage.setItem(storeKey, JSON.stringify(dummyData.universities));
     savedValue = localStorage.getItem(storeKey);
   }
   return JSON.parse(savedValue!) as University[];
