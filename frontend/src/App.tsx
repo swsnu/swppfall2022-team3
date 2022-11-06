@@ -5,7 +5,7 @@ import Search from "./page/Search";
 import ProfileDetail from "./page/ProfileDetail";
 import ChatList from "./page/ChatList";
 import ChatDetail from "./page/ChatDetail";
-import PitapatRequest from "./page/PitapatRequest";
+import PitapatList from "./page/PitapatList";
 import Setting from "./page/Setting";
 import path from "./constant/path";
 
@@ -21,7 +21,7 @@ function App() {
           <Route path={path.profile} element={<ProfileDetail />} />
           <Route path={path.chat} element={<ChatList />} />
           <Route path={path.chatDetail} element={<ChatDetail />} />
-          <Route path={path.pitapat} element={<PitapatRequest />} />
+          <Route path={path.pitapat} element={<PitapatList />} />
           <Route path={path.setting} element={<Setting />} />
           <Route path={"/*"} element={<Navigate replace to={path.signIn} />} />
         </Routes>

@@ -8,11 +8,11 @@ import path from "../constant/path";
 import { selectUser } from "../store/slices/user";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
-import { getKoreanAge, User } from "../types";
+import { getKoreanAge, PitapatStatus, User } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
-export default function PitapatRequest() {
+export default function PitapatList() {
   const navigate = useNavigate();
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
@@ -49,7 +49,9 @@ export default function PitapatRequest() {
       {
         isRecvPage ?
         <section>
-          {pitapats.filter(p => p.to === loginUser.key).map((p) => {
+          {pitapats.filter((p) =>
+            (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) != PitapatStatus.MATCHED)
+          ).map((p) => {
             const from: User = users.find(user => user.key === p.from)!;
             return (
               <Profile
@@ -59,14 +61,16 @@ export default function PitapatRequest() {
                 username={from.username}
                 koreanAge={getKoreanAge(from.birthday)}
                 photo={photos.find((p) => p.key === from.photos[0])?.path!}
-                status={getPitapatStatus(from, loginUser.key, pitapats)}
+                status={getPitapatStatus(loginUser.key, from.key, pitapats)}
               />
             );
           })}
         </section>
         :
         <section>
-          {pitapats.filter(p => p.from === loginUser.key).map((p) => {
+          {pitapats.filter((p) =>
+            (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) != PitapatStatus.MATCHED)
+          ).map((p) => {
             const to: User = users.find(user => user.key === p.to)!;
             return (
               <Profile
@@ -76,7 +80,7 @@ export default function PitapatRequest() {
                 username={to.username}
                 koreanAge={getKoreanAge(to.birthday)}
                 photo={photos.find((p) => p.key === to.photos[0])?.path!}
-                status={getPitapatStatus(to, loginUser.key, pitapats)}
+                status={getPitapatStatus(loginUser.key, to.key, pitapats)}
               />
             )
           })}

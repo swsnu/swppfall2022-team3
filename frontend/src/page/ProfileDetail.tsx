@@ -48,7 +48,7 @@ export default function ProfileDetail() {
             <PitapatButton
               from={loginUser.key}
               to={user.key}
-              status={getPitapatStatus(user, loginUser.key, pitapats)}
+              status={getPitapatStatus(loginUser.key, user.key, pitapats)}
               isListView={false}
             />
           </div>

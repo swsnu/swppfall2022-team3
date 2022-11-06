@@ -39,7 +39,7 @@ export default function Search() {
               username={user.username}
               koreanAge={getKoreanAge(user.birthday)}
               photo={photos.find((p) => p.key === user.photos[0])?.path!}
-              status={getPitapatStatus(user, loginUser.key, pitapats)}
+              status={getPitapatStatus(loginUser.key, user.key, pitapats)}
             />
           );
         })}
