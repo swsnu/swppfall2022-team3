@@ -21,7 +21,7 @@ export default function CreateTag({
 
   const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setTag(variousTags.find((targetTag) => (targetTag.name === event.target.value))!);
-  }, []);
+  }, [variousTags]);
 
   const clickHandler = () => {
     if (tag) {
@@ -29,11 +29,11 @@ export default function CreateTag({
         setTags([...tags, tag]);
       }
     }
-  }
+  };
 
   const clickConfirmHandler = useCallback(() => {
     setStep(4);
-  }, [])
+  }, [setStep]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
