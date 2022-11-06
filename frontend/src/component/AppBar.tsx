@@ -30,7 +30,7 @@ export default function AppBar({ title = "두근두근 캠퍼스"}: IProps) {
   }, [setIsBackVisible, pathName])
 
   return (
-    <section className="w-full flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-gray-300 z-10">
+    <section className="w-full flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-pink-300 z-10">
       {
         isBackVisible ?
           <ArrowUturnLeftIcon
@@ -40,7 +40,7 @@ export default function AppBar({ title = "두근두근 캠퍼스"}: IProps) {
           <div className={iconClassName}/>
       }
       <section className="flex-auto flex justify-center">
-        <div className="flex-none text-center m-auto text-lg font-bold">{title}</div>
+        <div className="flex-none text-center m-auto text-lg font-bold text-pink-500">{title}</div>
       </section>
       <UserCircleIcon
         className={iconClassName}

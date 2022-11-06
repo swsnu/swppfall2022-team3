@@ -20,20 +20,37 @@ export default function PitapatRequest() {
   return (
     <section className="w-full flex flex-col mt-12 mb-16">
       <AppBar title={"두근두근 캠퍼스"}/>
-      <section>
-        <button
+      {isRecvPage ?
+        <section className="flex flex-row h-10">
+          <button className="flex-1 border border-pink-300 bg-pink-300 font-bold text-white"
+                  disabled={isRecvPage}
+                  onClick={() => setIsRecvPage(true)}
+          >
+            내가 받은 두근
+          </button>
+          <button className="flex-1 border border-pink-300 font-bold text-pink-500"
+                  disabled={!isRecvPage}
+                  onClick={() => setIsRecvPage(false)}
+          >
+            내가 보낸 두근
+          </button>
+        </section>
+        :
+        <section className="flex flex-row h-10">
+          <button className="flex-1 border border-pink-300 font-bold text-pink-500"
           disabled={isRecvPage}
           onClick={() => setIsRecvPage(true)}
-        >
+          >
           내가 받은 두근
-        </button>
-        <button
+          </button>
+          <button className="flex-1 border border-pink-300 bg-pink-300 font-bold text-white"
           disabled={!isRecvPage}
           onClick={() => setIsRecvPage(false)}
-        >
+          >
           내가 보낸 두근
-        </button>
-      </section>
+          </button>
+        </section>
+      }
       {
         isRecvPage ?
         <section>
