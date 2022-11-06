@@ -26,39 +26,24 @@ export default function PitapatRequest() {
   }
 
   return (
-    <section className="w-full flex flex-col mt-12 mb-16">
+    <section className={"w-full flex flex-col mt-24 mb-16"}>
       <AppBar title={"두근두근 캠퍼스"}/>
-      {isRecvPage ?
-        <section className="flex flex-row h-10">
-          <button className="flex-1 border border-pink-300 font-bold text-pink-500"
-                  disabled={isRecvPage}
-                  onClick={() => setIsRecvPage(true)}
-          >
-            내가 받은 두근
-          </button>
-          <button className="flex-1 border border-gray-400 font-bold text-gray-400"
-                  disabled={!isRecvPage}
-                  onClick={() => setIsRecvPage(false)}
-          >
-            내가 보낸 두근
-          </button>
-        </section>
-        :
-        <section className="flex flex-row h-10">
-          <button className="flex-1 border border-gray-400 font-bold text-gray-400"
-                  disabled={isRecvPage}
-                  onClick={() => setIsRecvPage(true)}
-          >
-            내가 받은 두근
-          </button>
-          <button className="flex-1 border border-pink-300 font-bold text-pink-500"
-                  disabled={!isRecvPage}
-                  onClick={() => setIsRecvPage(false)}
-          >
-            내가 보낸 두근
-          </button>
-        </section>
-      }
+      <section className={"top-12 w-full flex flex-row h-12 z-10 fixed bg-white"}>
+        <button
+          className={`flex-1 border font-bold ${isRecvPage ? "border-pink-300 text-pink-500" : "border-gray-400 text-gray-400"}`}
+          disabled={isRecvPage}
+          onClick={() => setIsRecvPage(true)}
+        >
+          내가 받은 두근
+        </button>
+        <button
+          className={`flex-1 border font-bold ${isRecvPage ? "border-gray-400 text-gray-400" : "border-pink-300 text-pink-500"}`}
+          disabled={!isRecvPage}
+          onClick={() => setIsRecvPage(false)}
+        >
+          내가 보낸 두근
+        </button>
+      </section>
       {
         isRecvPage ?
           <section>
