@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/user";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
-import { useNavigate } from "react-router";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 import path from "../constant/path";
 import { Navigate } from "react-router-dom";
@@ -20,7 +19,6 @@ export default function PitapatRequest() {
   const pitapats = useSelector(selectPitapat).pitapats;
   const photos = useSelector(selectPhoto).photos;
   const [isRecvPage, setIsRecvPage] = useState<boolean>(true);
-  const navigate = useNavigate();
 
 
   if (myKey === null) {

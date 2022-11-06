@@ -7,7 +7,6 @@ import { selectUser } from "../store/slices/user";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import path from "../constant/path";
-import { useNavigate } from "react-router";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 import { Navigate } from "react-router-dom";
 
@@ -18,7 +17,6 @@ export default function Search() {
   const users = useSelector(selectUser).users;
   const photos = useSelector(selectPhoto).photos;
   const pitapats = useSelector(selectPitapat).pitapats;
-  const navigate = useNavigate();
 
 
   if (myKey === null) {
