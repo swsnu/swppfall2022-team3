@@ -7,7 +7,7 @@ import { User } from "../types";
 import NavigationBar from "../component/NavigationBar";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectChat } from "../store/slices/chat";
-import {Navigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import path from "../constant/path";
 
 
@@ -18,56 +18,56 @@ type ChatRoomInfo = {
 
 export default function ChatList() {
   const loginUser = useSelector(selectUser).loginUser;
-  const myKey = loginUser?.key ?? null;
   const users = useSelector(selectUser).users;
   const pitapats = useSelector(selectPitapat).pitapats;
   const chats = useSelector(selectChat).chats;
+  const navigate = useNavigate();
   const [chatRoomInfos, setChatRoomInfos] = useState<ChatRoomInfo[]>([])
 
   useEffect(() => {
-    const sentPitapatKeys =
-      pitapats
-        .filter((p) => p.from === myKey)
-        .map((p) => p.to);
-    const receivedPitapatKeys =
-      pitapats
-        .filter((p) => p.to === myKey)
-        .map((p) => p.from);
-    const myChats =
-      chats
-        .filter((c) => (c.to === myKey) || (c.from === myKey))
-        .sort((a, b) => a.regDt.getTime() - b.regDt.getTime())
-        .reverse();
+    if (loginUser) {
+      const sentPitapatKeys =
+        pitapats
+          .filter((p) => p.from === loginUser.key)
+          .map((p) => p.to);
+      const receivedPitapatKeys =
+        pitapats
+          .filter((p) => p.to === loginUser.key)
+          .map((p) => p.from);
+      const myChats =
+        chats
+          .filter((c) => (c.to === loginUser.key) || (c.from === loginUser.key))
+          .sort((a, b) => a.regDt.getTime() - b.regDt.getTime())
+          .reverse();
 
-    setChatRoomInfos(
-      users
-        .filter((user) => user.key !== myKey)
-        .filter((user) => (sentPitapatKeys.indexOf(user.key) !== -1) && (receivedPitapatKeys.indexOf(user.key) !== -1))
-        .map((user) => ({
-          user,
-          lastChat: myChats.find((c) => (c.to === user.key) || (c.from === user.key))?.content ?? null,
-        }))
-    )
-  }, [users, pitapats, chats])
+      setChatRoomInfos(
+        users
+          .filter((user) => user.key !== loginUser.key)
+          .filter((user) => (sentPitapatKeys.indexOf(user.key) !== -1) && (receivedPitapatKeys.indexOf(user.key) !== -1))
+          .map((user) => ({
+            user,
+            lastChat: myChats.find((c) => (c.to === user.key) || (c.from === user.key))?.content ?? null,
+          }))
+      )
+    }
+    else {
+      navigate(path.signIn);
+    }
+  }, [loginUser, users, pitapats, chats, navigate])
 
-  if (myKey === null) {
-    return <Navigate to={path.signIn} />;
-  }
-  else {
-    return (
-      <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
-        <AppBar/>
-        <section className={"flex-1 flex flex-col"}>{
-          chatRoomInfos.map(({user, lastChat}) => (
-            <ChatListElement
-              user={user}
-              lastChat={lastChat}
-              key={user.key}
-            />
-          ))
-        }</section>
-        <NavigationBar/>
-      </section>
-    );
-  }
+  return (
+    <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
+      <AppBar/>
+      <section className={"flex-1 flex flex-col"}>{
+        chatRoomInfos.map(({user, lastChat}) => (
+          <ChatListElement
+            user={user}
+            lastChat={lastChat}
+            key={user.key}
+          />
+        ))
+      }</section>
+      <NavigationBar/>
+    </section>
+  );
 }

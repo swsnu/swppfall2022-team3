@@ -40,33 +40,43 @@ export default function ChatDetail() {
   }, [dispatch, chatInput, from, to])
 
   useEffect(() => {
-    const encrypted = params.encrypted ?? null;
-    if (encrypted === null) {
-      navigate(`/chat`);
-    } else {
-      try {
-        const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
-        if (decrypted?.from && decrypted?.to) {
-          setFrom(decrypted.from);
-          setTo(decrypted.to);
-          setMyChats(
-            chats.filter(
-              (c) =>
-                ((c.from === decrypted.from) && (c.to === decrypted.to)) ||
-                ((c.from === decrypted.to) && (c.to === decrypted.from))
-            )
-          );
+    if (loginUser) {
+      const encrypted = params.encrypted ?? null;
+      if (encrypted === null) {
+        navigate(path.chat);
+      } else {
+        try {
+          const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
+          if (decrypted?.from && decrypted?.to) {
+            if (decrypted.from !== loginUser.key) {
+              navigate(path.chat);
+            }
+            else {
+              setFrom(decrypted.from);
+              setTo(decrypted.to);
+              setMyChats(
+                chats.filter(
+                  (c) =>
+                    ((c.from === decrypted.from) && (c.to === decrypted.to)) ||
+                    ((c.from === decrypted.to) && (c.to === decrypted.from))
+                )
+              );
 
-          const userTo = users.find((u) => u.key === to);
-          setAppBarTitle(userTo?.username ?? "")
-        } else {
-          navigate(`/chat`);
+              const userTo = users.find((u) => u.key === to);
+              setAppBarTitle(userTo?.username ?? "")
+            }
+          } else {
+            navigate(path.chat);
+          }
+        } catch (_) {
+          navigate(path.chat);
         }
-      } catch (_) {
-        navigate(`/chat`);
       }
     }
-  }, [params, navigate, chats, users, to])
+    else {
+      navigate(path.signIn);
+    }
+  }, [params, navigate, chats, users, loginUser, to])
 
   if (loginUser === null) {
     return <Navigate to={path.signIn} />;
