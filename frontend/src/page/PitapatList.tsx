@@ -50,7 +50,7 @@ export default function PitapatList() {
         isRecvPage ?
         <section>
           {pitapats.filter((p) =>
-            (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) != PitapatStatus.MATCHED)
+            (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED)
           ).map((p) => {
             const from: User = users.find(user => user.key === p.from)!;
             return (
@@ -69,7 +69,7 @@ export default function PitapatList() {
         :
         <section>
           {pitapats.filter((p) =>
-            (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) != PitapatStatus.MATCHED)
+            (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) !== PitapatStatus.MATCHED)
           ).map((p) => {
             const to: User = users.find(user => user.key === p.to)!;
             return (
