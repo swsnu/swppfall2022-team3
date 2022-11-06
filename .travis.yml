@@ -6,6 +6,7 @@ branches:
 dist: bionic
 jobs:
   include:
+<<<<<<< Updated upstream
   - language: node_js
     node_js: 14
     install:
@@ -18,26 +19,37 @@ jobs:
     - yarn test --coverage --watchAll=false
     # - coveralls-lcov -v -n coverage/lcov.info > coverage.json
     - coveralls
+=======
+>>>>>>> Stashed changes
   - language: python
     python: 3.9.6
-    addons:
-      sonarcloud:
-        organization: swsnu
-        token:
-          secure: yO0SyRutghkiZwugUwlRXzqVwr776DOb5CWyDMXcByJ5eHbHxtLsDSSNOxoi1UNhD4kKHzHOukT+nJZUHW8Yd81OGheDONMPkNzrIC9PTN0bF6yU/sR55Gy4CA+0s99cjxnk8+2KvO4bCuOKUX/FOjIWWqkYSOWDoWAsLnxgtTHPW4PWK6pbIfvUqMl+ICifSYTsBQQrbOIQuF4IspUULWoLhh5mTw2ovFCt8hsT2VvWSoo2j6Y7iHfr9IbLnzRPHzDTEJdtMZCcfru1/QHmz1DsTibbvN9knA+emlCjSmv4Ea8jnTfLiTfTM3DUG6Lg8kV11BgMn4R5U0C339lv+87PPoyGjLKctOwtKuauokygdQ8QI9KApnVJ2Y0ah1XMT8pKoLngMmHtR9RIjs21sbGAdQYKmoiT/YbOFfRM6vUi7wB/QAEjST3RZVezS4vm/gnJFun+O8wE7+9jN65G6SMceTO+0obLzscD7zxOmOGmFNZ0zu7I2PpFKoo/TsPtWaO30jf5UBg2IjfrcHKAfvwh6o5qMx9uO19ilAOjLdJyeRgc2bf7qUFCf315XrNLPwJc7K5ITrDOojwLWpet5OUnQ+x7xpmypD7QvVFm1WQYTRjXLE4UauxrGRd2hhladcUbG0COngXjx1//mev4RkzTrIA8IkqwQv47x0bKCqc=
+    node_js: 14
     before_install:
     - openssl aes-256-cbc -K $encrypted_3b9f0b9d36d1_key -iv $encrypted_3b9f0b9d36d1_iv
       -in backend/backend/secrets.tar.enc -out backend/backend/secrets.tar -d
     - tar xvf backend/backend/secrets.tar -C backend/backend
     install:
-    - cd backend
+    - gem install coveralls-lcov
+    - cd frontend
+    - yarn install
+    - yarn global add coveralls
+    - cd ../backend
     - pip install -r requirements.txt
     - pip install coveralls
-    - gem install coveralls-lcov
     script:
+    - cd ../frontend
+    - ./node_modules/.bin/eslint src/**/*.ts src/**.*.tsx
+    - yarn test --coverage --watchAll=false
+    - coveralls-lcov -v -n coverage/lcov.info > coverage.json
+    - cd ../backend
     # - pylint **/*.py
     - coverage run --source='.' manage.py test
     - coverage xml
-    - coveralls
     - cd ..
     - sonar-scanner
+    - coveralls --merge=frontend/coverage.json
+    addons:
+      sonarcloud:
+        organization: swsnu
+        token:
+          secure: yO0SyRutghkiZwugUwlRXzqVwr776DOb5CWyDMXcByJ5eHbHxtLsDSSNOxoi1UNhD4kKHzHOukT+nJZUHW8Yd81OGheDONMPkNzrIC9PTN0bF6yU/sR55Gy4CA+0s99cjxnk8+2KvO4bCuOKUX/FOjIWWqkYSOWDoWAsLnxgtTHPW4PWK6pbIfvUqMl+ICifSYTsBQQrbOIQuF4IspUULWoLhh5mTw2ovFCt8hsT2VvWSoo2j6Y7iHfr9IbLnzRPHzDTEJdtMZCcfru1/QHmz1DsTibbvN9knA+emlCjSmv4Ea8jnTfLiTfTM3DUG6Lg8kV11BgMn4R5U0C339lv+87PPoyGjLKctOwtKuauokygdQ8QI9KApnVJ2Y0ah1XMT8pKoLngMmHtR9RIjs21sbGAdQYKmoiT/YbOFfRM6vUi7wB/QAEjST3RZVezS4vm/gnJFun+O8wE7+9jN65G6SMceTO+0obLzscD7zxOmOGmFNZ0zu7I2PpFKoo/TsPtWaO30jf5UBg2IjfrcHKAfvwh6o5qMx9uO19ilAOjLdJyeRgc2bf7qUFCf315XrNLPwJc7K5ITrDOojwLWpet5OUnQ+x7xpmypD7QvVFm1WQYTRjXLE4UauxrGRd2hhladcUbG0COngXjx1//mev4RkzTrIA8IkqwQv47x0bKCqc=
