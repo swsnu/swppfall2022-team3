@@ -30,9 +30,8 @@ jobs:
     # - pylint **/*.py
     - coverage run --source='.' manage.py test
     - coverage xml
-    - cd ..
-    - sonar-scanner
-    - coveralls --merge=frontend/coverage.json
+    - coveralls --merge=../frontend/coverage.json
+    - cd .. && sonar-scanner
     addons:
       sonarcloud:
         organization: swsnu
