@@ -31,7 +31,7 @@ export default function ChatDetail() {
       {
         from,
         to,
-        key: 0,
+        key: chats.map((c) => c.key).reduce((acc, k) => acc < k ? k : acc, 0) + 1,
         regDt: new Date(),
         content: chatInput,
       }
