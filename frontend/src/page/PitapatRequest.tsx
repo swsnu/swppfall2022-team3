@@ -10,6 +10,7 @@ import { selectPhoto } from "../store/slices/photo";
 import { useNavigate } from "react-router";
 import { getPitapatStatus } from "../component/getPitapatStatus";
 import path from "../constant/path";
+import { Navigate } from "react-router-dom";
 
 
 export default function PitapatRequest() {
@@ -23,7 +24,7 @@ export default function PitapatRequest() {
 
 
   if (myKey === null) {
-    navigate(path.signIn);
+    return <Navigate to={path.signIn} />;
   }
   else {
     return (

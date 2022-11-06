@@ -9,6 +9,7 @@ import { selectPitapat } from "../store/slices/pitapat";
 import path from "../constant/path";
 import { useNavigate } from "react-router";
 import { getPitapatStatus } from "../component/getPitapatStatus";
+import { Navigate } from "react-router-dom";
 
 
 export default function Search() {
@@ -21,7 +22,7 @@ export default function Search() {
 
 
   if (myKey === null) {
-    navigate(path.signIn);
+    return <Navigate to={path.signIn} />;
   }
   else {
     return (
