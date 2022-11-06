@@ -46,6 +46,7 @@ export default function SignIn() {
         </article>
         <input
           className={"h-8 ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
