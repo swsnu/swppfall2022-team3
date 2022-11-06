@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import {Navigate, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import { Chat } from "../types";
 import { AES, enc } from "crypto-ts";
@@ -26,12 +26,6 @@ export default function ChatDetail() {
   const [chatInput, setChatInput] = useState<string>("");
   const [myChats, setMyChats] = useState<Chat[]>([]);
 
-  useEffect(() => {
-    if (loginUser === null) {
-      navigate(path.signIn);
-    }
-  }, [navigate, loginUser]);
-
   const sendChat = useCallback(() => {
     dispatch(chatAction.add(
       {
@@ -50,7 +44,8 @@ export default function ChatDetail() {
       const encrypted = params.encrypted ?? null;
       if (encrypted === null) {
         navigate(path.chat);
-      } else {
+      }
+      else {
         try {
           const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
           if (decrypted?.from && decrypted?.to) {
@@ -85,12 +80,10 @@ export default function ChatDetail() {
   }, [params, navigate, chats, users, loginUser, to])
 
   return (
-    loginUser ?
     <section className={"flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar title={appBarTitle}/>
       <section className={"flex-1 flex flex-col w-full h-full"}>{
-        myChats.map((chat) => <ChatBox key={chat.content + chat.regDt.getTime()} content={chat.content}
-                                       isMine={chat.from === from}/>)
+        myChats.map((chat) => <ChatBox key={chat.content + chat.regDt.getTime()} content={chat.content} isMine={chat.from === from}/>)
       }</section>
       <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
         <input
@@ -111,6 +104,6 @@ export default function ChatDetail() {
           </button>
         </section>
       </article>
-    </section> : <section></section>
+    </section>
   );
 }
