@@ -23,7 +23,7 @@ export default function SignUp() {
   }
 
   const clickHandler = () => {
-    const thisEmail = email + emailDomain;
+    const thisEmail = `${email}@${emailDomain}`;
     const isExist = users.find((user) => user.email === thisEmail);
     if (isExist) {
       alert("이미 존재하는 이메일입니다.");
@@ -58,7 +58,7 @@ export default function SignUp() {
           <input className="mx-2 w-36 border-solid border-b-4 border-l-2 border-r-2 rounded-md"
             value={email}
             onChange={(event) => setEmail(event.target.value)}></input>
-          {emailDomain}</label>
+          {`@${emailDomain}`}</label>
       </div>
       <div className="text-center">
         <button className="bg-pink-500 text-center text-white mt-24 w-36 h-8 rounded-md"
