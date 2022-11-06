@@ -46,7 +46,7 @@ export interface Pitapat {
   to: number;
 }
 
-interface BaseUser {
+export interface User {
   key: number;
   email: string;
   username: string;
@@ -56,13 +56,6 @@ interface BaseUser {
   university: number;
   college: number;
   major: number;
-}
-
-export interface SimplifiedUser extends BaseUser {
-  reprPhoto: number;
-}
-
-export interface User extends BaseUser {
   introduction: string;
   tags: number[];
   photos: number[];

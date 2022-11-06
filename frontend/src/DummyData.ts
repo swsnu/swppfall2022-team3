@@ -1,17 +1,4 @@
-import { University, College, Major, User, SimplifiedUser, Photo, Tag, Gender, Chat, Pitapat } from './types';
-
-const simplifyUser = (user: User): SimplifiedUser => ({
-  key: user.key,
-  email: user.email,
-  username: user.username,
-  gender: user.gender,
-  birthday: user.birthday,
-  location: user.location,
-  university: user.university,
-  college: user.college,
-  major: user.major,
-  reprPhoto: user.photos[0],
-})
+import { University, College, Major, User, Photo, Tag, Gender, Chat, Pitapat } from './types';
 
 
 export const universities: University[] = [
@@ -299,11 +286,7 @@ export const users: User[] = [
   },
 ];
 
-export const fakeBaseUsers: SimplifiedUser[] = users.map(simplifyUser);
-
 export const fakeUser: User = users[0];
-
-export const fakeBaseUser: SimplifiedUser = simplifyUser(fakeUser);
 
 export default {
   universities,
