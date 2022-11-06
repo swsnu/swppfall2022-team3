@@ -18,7 +18,7 @@ export default function Search() {
   };
 
   return (
-    <section className={"mt-12 mb-16"}>
+    <section className={"mt-12 mb-16 w-full"}>
       <AppBar/>
       <section>
         {users.map((user) => {

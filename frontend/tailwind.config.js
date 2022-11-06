@@ -12,9 +12,6 @@ module.exports = {
     height: {
       '100vw': '100vw',
     },
-    margin: {
-      'double': '200%',
-    }
   },
   plugins: [],
 }
