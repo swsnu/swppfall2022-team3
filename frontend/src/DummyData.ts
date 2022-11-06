@@ -288,7 +288,7 @@ export const users: User[] = [
 
 export const fakeUser: User = users[0];
 
-export default {
+const dummyData = {
   universities,
   colleges,
   majors,
@@ -297,4 +297,6 @@ export default {
   tags,
   pitapats,
   chats,
-}
+};
+
+export default dummyData;

@@ -32,19 +32,20 @@ export default function ChatList() {
         .map((p) => p.from);
     const myChats =
       chats
-        .filter((c) => (c.to === myKey) || (c.from == myKey))
+        .filter((c) => (c.to === myKey) || (c.from === myKey))
         .sort((a, b) => a.regDt.getTime() - b.regDt.getTime())
         .reverse();
 
     setChatRoomInfos(
       users
+        .filter((user) => user.key !== myKey)
         .filter((user) => (sentPitapatKeys.indexOf(user.key) !== -1) && (receivedPitapatKeys.indexOf(user.key) !== -1))
         .map((user) => ({
           user,
           lastChat: myChats.find((c) => (c.to === user.key) || (c.from === user.key))?.content ?? null,
         }))
     )
-  }, [users])
+  }, [users, pitapats, chats])
 
   return (
     <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>

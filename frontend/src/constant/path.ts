@@ -8,7 +8,7 @@ const chatDetail = "/chat/:encrypted";
 const pitapat = "/pitapat";
 const setting = "/setting";
 
-export default {
+const paths = {
   signIn,
   signUp,
   signUpverify,
@@ -19,3 +19,5 @@ export default {
   pitapat,
   setting,
 };
+
+export default paths;

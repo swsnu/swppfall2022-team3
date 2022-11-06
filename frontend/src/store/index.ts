@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import universityReducer from "./slices/university";
 import collegeReducer from "./slices/college";
 import majorReducer from "./slices/major";

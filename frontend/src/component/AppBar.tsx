@@ -20,7 +20,7 @@ export default function AppBar({ title = defaultTitle}: IProps) {
 
   const settingOnClick = useCallback(() => {
     navigate('/setting');
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const shouldBackVisible: boolean =
