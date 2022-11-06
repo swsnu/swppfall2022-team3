@@ -47,7 +47,7 @@ export default function PitapatRequest() {
       {
         isRecvPage ?
           <section>
-            {pitapats.filter(pitapat => pitapat.to === 1).map((pitapat) => {
+            {pitapats.filter(pitapat => pitapat.to === myKey).map((pitapat) => {
               const from: User = users.find(user => user.key === pitapat.from)!;
               return (
                 <Profile
@@ -64,7 +64,7 @@ export default function PitapatRequest() {
           </section>
           :
           <section>
-            {pitapats.filter(pitapat => pitapat.from === 1).map((pitapat) => {
+            {pitapats.filter(pitapat => pitapat.from === myKey).map((pitapat) => {
               const to: User = users.find(user => user.key === pitapat.to)!;
               return (
                 <Profile

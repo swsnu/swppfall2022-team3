@@ -27,7 +27,7 @@ export default function Search() {
     <section className={"mt-12 mb-16 w-full"}>
       <AppBar/>
       <section>
-        {users.filter(user => user.key !== 1).map((user) => {
+        {users.filter(user => user.key !== myKey).map((user) => {
           return (
             <Profile
               key={user.key}
