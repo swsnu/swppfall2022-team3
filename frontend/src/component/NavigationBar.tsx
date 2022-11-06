@@ -63,7 +63,7 @@ const NavigationBar = () => {
   }, [pathName])
 
   return (
-    <div className="w-full h-16 bg-pink-300 fixed bottom-0 flex flex-row align-center">
+    <div className="w-full h-16 bg-pink-300 fixed bottom-0 flex flex-row align-center z-50">
       <button
         className={tabClassName}
         onClick={(() => { tabOnClickListener(0) })}
