@@ -27,7 +27,7 @@ export default function PhotoSlider({
           key={index}
           src={photos.find((photo) => photo.key === p)?.path}
           alt={String(photos.find((photo) => photo.key === p)?.index)}
-          className="object-cover h-[100vw]"
+          className={"object-cover h-[100vw]"}
         />
       )}
     </Slider>
