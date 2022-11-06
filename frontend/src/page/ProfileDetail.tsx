@@ -44,11 +44,14 @@ export default function ProfileDetail() {
             user={user}
             photos={photos}
           />
-          <PitapatButton
-            status={getpitapatStatus()}
-            from={myKey}
-            to={user.key}
-          />
+          <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>
+            <PitapatButton
+              from={myKey}
+              to={user.key}
+              status={getpitapatStatus()}
+              isListView={false}
+            />
+          </div>
         </section>
         <article className="flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500">
           {user.tags.map((t, index) =>

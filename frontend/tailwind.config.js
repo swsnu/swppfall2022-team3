@@ -8,10 +8,5 @@ module.exports = {
       '2/3': '66%',
     },
   },
-  extend: {
-    height: {
-      '100vw': '100vw',
-    },
-  },
   plugins: [],
 }

@@ -51,6 +51,7 @@ export default function PitapatRequest() {
               const from: User = users.find(user => user.key === pitapat.from)!;
               return (
                 <Profile
+                  key={from.key}
                   myKey={myKey}
                   userKey={from.key}
                   username={from.username}
@@ -67,6 +68,7 @@ export default function PitapatRequest() {
               const to: User = users.find(user => user.key === pitapat.to)!;
               return (
                 <Profile
+                  key={to.key}
                   myKey={myKey}
                   userKey={to.key}
                   username={to.username}

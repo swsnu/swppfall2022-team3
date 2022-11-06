@@ -30,6 +30,7 @@ export default function Search() {
         {users.map((user) => {
           return (
             <Profile
+              key={user.key}
               myKey={myKey}
               userKey={user.key}
               username={user.username}
