@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getKoreanAge, User } from "../types";
+import { getKoreanAge, PitapatStatus, User } from "../types";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import PitapatButton from "../component/PitapatButton";
@@ -8,19 +8,30 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/user";
 import { selectPhoto } from "../store/slices/photo";
 import { selectTag } from "../store/slices/tag";
+import { selectPitapat } from "../store/slices/pitapat";
 
 
 export default function ProfileDetail() {
   const myKey = 1;
   const users = useSelector(selectUser).users;
   const photos = useSelector(selectPhoto).photos;
+  const pitapats = useSelector(selectPitapat).pitapats;
   const tags = useSelector(selectTag).tags;
   const { id } = useParams();
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
     setUser(users.find((user) => user.key === Number(id)));
-  }, [id]);
+  }, [id, users]);
+
+  function getpitapatStatus(): PitapatStatus {
+    const sended = pitapats.filter((p) => (p.from === myKey) && (p.to === user?.key)).length > 0;
+    const received = pitapats.filter((p) => (p.from === user?.key) && (p.to === myKey)).length > 0;
+    if (sended && received) { return PitapatStatus.MATCHED; }
+    else if (sended) { return PitapatStatus.SENDED; }
+    else if (received) { return PitapatStatus.RECEIVED; }
+    else { return PitapatStatus.NONE; }
+  }
 
   return user ? (
     // add bottom margin if navigation bar is added
@@ -33,7 +44,11 @@ export default function ProfileDetail() {
             user={user}
             photos={photos}
           />
-          <PitapatButton from={myKey} to={user.key}/>
+          <PitapatButton
+            status={getpitapatStatus()}
+            from={myKey}
+            to={user.key}
+          />
         </section>
         <article className="flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500">
           {user.tags.map((t, index) =>

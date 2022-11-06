@@ -46,6 +46,8 @@ export interface Pitapat {
   to: number;
 }
 
+export enum PitapatStatus { NONE, SENDED, RECEIVED, MATCHED };
+
 export interface User {
   key: number;
   email: string;
