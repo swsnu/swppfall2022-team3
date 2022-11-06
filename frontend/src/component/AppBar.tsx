@@ -7,8 +7,9 @@ interface IProps {
   title?: string,
 }
 const iconClassName = "h-8 w-8 mx-2";
+const defaultTitle = "두근두근 캠퍼스";
 
-export default function AppBar({ title = "두근두근 캠퍼스"}: IProps) {
+export default function AppBar({ title = defaultTitle}: IProps) {
   const pathName = window.location.pathname;
   const navigate = useNavigate();
   const [isBackVisible, setIsBackVisible] = useState<boolean>(false);
@@ -39,8 +40,8 @@ export default function AppBar({ title = "두근두근 캠퍼스"}: IProps) {
           /> :
           <div className={iconClassName}/>
       }
-      <section className="flex-auto flex justify-center">
-        <div className="flex-none text-center m-auto text-lg font-bold text-pink-500">{title}</div>
+      <section className={"flex-auto flex justify-center"}>
+        <div className={`flex-none text-center m-auto text-lg font-bold ${title === defaultTitle ? "text-pink-500" : ""}`}>{title}</div>
       </section>
       <UserCircleIcon
         className={iconClassName}
