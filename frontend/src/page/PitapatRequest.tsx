@@ -8,7 +8,7 @@ import { selectUser } from "../store/slices/user";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
 import { useNavigate } from "react-router";
-import { getPitapatStatus } from "../component/getPitapatStatus";
+import { getPitapatStatus } from "../util/getPitapatStatus";
 import path from "../constant/path";
 import { Navigate } from "react-router-dom";
 
