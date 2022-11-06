@@ -9,9 +9,10 @@ import PitapatRequest from "./page/PitapatRequest";
 import Setting from "./page/Setting";
 import path from "./constant/path";
 
+
 function App() {
   return (
-    <div className="App flex">
+    <div className={"App flex"}>
       <BrowserRouter>
         <Routes>
           <Route path={path.signIn} element={<SignIn />} />
