@@ -28,21 +28,21 @@ export default function SignIn() {
         캠퍼스
       </h1>
       <div className={"flex flex-row justify-center mt-28"}>
-        <article className={"flex-1 text-pink-500 font-bold text-center"}>
+        <article className={"flex-1 text-pink-500 font-bold text-center leading-10"}>
           이메일:
         </article>
         <input
-          className={"ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          className={"h-8 ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
       </div>
       <div className={"flex flex-row justify-center mb-24"}>
-        <article className={"flex-1 text-pink-500 font-bold text-center"}>
+        <article className={"flex-1 text-pink-500 font-bold text-center leading-10"}>
           비밀번호:
         </article>
         <input
-          className={"ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          className={"h-8 ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
@@ -50,7 +50,7 @@ export default function SignIn() {
       <div className={"text-center mt-16"}>
         <div>
           <button
-            className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 w-36 h-8 rounded-md"}
+            className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 w-36 h-12 rounded-md"}
             disabled={!email || !password}
             onClick={loginOnClick}
           >
@@ -59,7 +59,7 @@ export default function SignIn() {
         </div>
         <div>
           <button
-            className={"bg-pink-500 text-center text-white mt-2 w-36 h-8 rounded-md"}
+            className={"bg-pink-500 text-center text-white mt-2 w-36 h-12 rounded-md"}
             onClick={() => navigate(path.signUp)}
           >
             회원가입

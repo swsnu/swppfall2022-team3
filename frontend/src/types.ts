@@ -1,6 +1,7 @@
 export enum Gender {
   MALE = 'M',
   FEMALE = 'F',
+  ALL = 'A',
 }
 
 export interface Major {
@@ -46,7 +47,12 @@ export interface Pitapat {
   to: number;
 }
 
-export enum PitapatStatus { NONE, SENDED, RECEIVED, MATCHED };
+export enum PitapatStatus {
+  NONE,
+  SENT,
+  RECEIVED,
+  MATCHED,
+}
 
 export interface User {
   key: number;

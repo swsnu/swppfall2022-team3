@@ -41,7 +41,7 @@ export default function PitapatButton({
         {
           (status === PitapatStatus.NONE) ? "두근" :
           (status === PitapatStatus.RECEIVED) ? "수락" :
-          (status === PitapatStatus.SENDED) ? "취소" :
+          (status === PitapatStatus.SENT) ? "취소" :
           "매칭"
         }
       </div>

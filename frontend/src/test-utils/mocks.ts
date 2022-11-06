@@ -9,7 +9,6 @@ import pitapatReducer from "../store/slices/pitapat";
 import tagReducer from "../store/slices/tag";
 import universityReducer from "../store/slices/university";
 import userReducer from "../store/slices/user";
-import verificationReducer from "../store/slices/verification";
 
 export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
@@ -22,7 +21,6 @@ export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
       tag: tagReducer,
       pitapat: pitapatReducer,
       chat: chatReducer,
-      verification: verificationReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
       serializableCheck: false,
