@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import axios from "axios";
 import { User } from "../../types";
 import { users } from "../../dummyData";
-import axios from "axios";
 import { RootState } from "../index";
 
 
@@ -36,19 +36,19 @@ const initialState: UserState = {
 };
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-const login = createAsyncThunk(
-  "user/",
-  async (user: { email: string, password: string }, { dispatch }) => {
-    const response = await axios.post("/user/login/", user);
-    if (response.status === 204) {
-      dispatch(userActions.login(user));
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-);
+// const login = createAsyncThunk(
+//   "user/",
+//   async (user: { email: string, password: string }, { dispatch }) => {
+//     const response = await axios.post("/user/login/", user);
+//     if (response.status === 204) {
+//       dispatch(userActions.login(user));
+//       return true;
+//     }
+//     else {
+//       return false;
+//     }
+//   }
+// );
 
 const userSlice = createSlice({
   name: "user",
