@@ -1,3 +1,10 @@
+import AppBar from "../component/AppBar";
+
+
 export default function Setting() {
-  return (<div></div>);
+  return (
+    <section>
+      <AppBar/>
+    </section>
+  );
 }

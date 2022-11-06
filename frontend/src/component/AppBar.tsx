@@ -19,16 +19,16 @@ export default function AppBar({ title = defaultTitle}: IProps) {
   }, [navigate]);
 
   const settingOnClick = useCallback(() => {
-
+    navigate('/setting');
   }, []);
 
   useEffect(() => {
-    const shouldBAckVisible: boolean =
-      (pathName.startsWith("/profile/")) ||
-      (pathName.startsWith("/chat/")) ||
-      (pathName.startsWith("/setting"))
-    setIsBackVisible(shouldBAckVisible);
-  }, [setIsBackVisible, pathName])
+    const shouldBackVisible: boolean =
+      /^\/profile\/\d+$/.test(pathName) ||
+      /^\/chat\/.+$/.test(pathName) ||
+      /^\/setting\/?$/.test(pathName)
+    setIsBackVisible(shouldBackVisible);
+  }, [setIsBackVisible, pathName]);
 
   return (
     <section className="w-full flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-pink-300 z-10">
