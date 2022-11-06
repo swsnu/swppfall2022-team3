@@ -22,7 +22,12 @@ export default function Profile({
           alt={photo}
           className="object-cover w-full h-[100vw]"
         />
-        <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-gray-800 opacity-70 flex text-white font-bold justify-center">
+        <div
+          className={"absolute bottom-0 left-0 right-0 px-4 py-2 flex text-white font-bold justify-center"}
+          style={{
+            background: "linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, #000000 100%)",
+          }}
+        >
           {username}/{koreanAge}
         </div>
       </button>
