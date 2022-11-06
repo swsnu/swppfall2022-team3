@@ -49,34 +49,34 @@ export default function PitapatRequest() {
       {
         isRecvPage ?
         <section>
-          {pitapats.filter(pitapat => pitapat.to === loginUser!.key).map((pitapat) => {
+          {pitapats.filter(pitapat => pitapat.to === loginUser.key).map((pitapat) => {
             const from: User = users.find(user => user.key === pitapat.from)!;
             return (
               <Profile
                 key={from.key}
-                myKey={loginUser!.key}
+                myKey={loginUser.key}
                 userKey={from.key}
                 username={from.username}
                 koreanAge={getKoreanAge(from.birthday)}
                 photo={photos.find((p) => p.key === from.photos[0])?.path!}
-                status={getPitapatStatus(from, loginUser!.key, pitapats)}
+                status={getPitapatStatus(from, loginUser.key, pitapats)}
               />
             );
           })}
         </section>
         :
         <section>
-          {pitapats.filter(pitapat => pitapat.from === loginUser!.key).map((pitapat) => {
+          {pitapats.filter(pitapat => pitapat.from === loginUser.key).map((pitapat) => {
             const to: User = users.find(user => user.key === pitapat.to)!;
             return (
               <Profile
                 key={to.key}
-                myKey={loginUser!.key}
+                myKey={loginUser.key}
                 userKey={to.key}
                 username={to.username}
                 koreanAge={getKoreanAge(to.birthday)}
                 photo={photos.find((p) => p.key === to.photos[0])?.path!}
-                status={getPitapatStatus(to, loginUser!.key, pitapats)}
+                status={getPitapatStatus(to, loginUser.key, pitapats)}
               />
             )
           })}

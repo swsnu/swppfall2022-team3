@@ -26,6 +26,12 @@ export default function ChatDetail() {
   const [chatInput, setChatInput] = useState<string>("");
   const [myChats, setMyChats] = useState<Chat[]>([]);
 
+  useEffect(() => {
+    if (loginUser === null) {
+      navigate(path.signIn);
+    }
+  }, [navigate, loginUser]);
+
   const sendChat = useCallback(() => {
     dispatch(chatAction.add(
       {
@@ -78,36 +84,33 @@ export default function ChatDetail() {
     }
   }, [params, navigate, chats, users, loginUser, to])
 
-  if (loginUser === null) {
-    return <Navigate to={path.signIn} />;
-  }
-  else {
-    return (
-      <section className={"flex-1 flex flex-col mt-12 mb-16"}>
-        <AppBar title={appBarTitle}/>
-        <section className={"flex-1 flex flex-col w-full h-full"}>{
-          myChats.map((chat) => <ChatBox key={chat.content + chat.regDt.getTime()} content={chat.content}
-                                         isMine={chat.from === from}/>)
-        }</section>
-        <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
-          <input
-            className={"rounded bg-white h-8 my-1 flex-1"}
-            type={"text"}
-            value={chatInput}
-            onChange={(e) => {
-              setChatInput(e.target.value)
-            }}
-            placeholder={"메세지를 입력하세요"}
-          />
-          <section>
-            <button
-              className={"w-20 h-8 my-2 bg-pink-300 rounded text-white font-bold select-none"}
-              onClick={sendChat}
-            >
-              전송
-            </button>
-          </section>
-        </article>
-      </section>);
-  }
+  return (
+    loginUser ?
+    <section className={"flex-1 flex flex-col mt-12 mb-16"}>
+      <AppBar title={appBarTitle}/>
+      <section className={"flex-1 flex flex-col w-full h-full"}>{
+        myChats.map((chat) => <ChatBox key={chat.content + chat.regDt.getTime()} content={chat.content}
+                                       isMine={chat.from === from}/>)
+      }</section>
+      <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
+        <input
+          className={"rounded bg-white h-8 my-1 flex-1"}
+          type={"text"}
+          value={chatInput}
+          onChange={(e) => {
+            setChatInput(e.target.value)
+          }}
+          placeholder={"메세지를 입력하세요"}
+        />
+        <section>
+          <button
+            className={"w-20 h-8 my-2 bg-pink-300 rounded text-white font-bold select-none"}
+            onClick={sendChat}
+          >
+            전송
+          </button>
+        </section>
+      </article>
+    </section> : <section></section>
+  );
 }

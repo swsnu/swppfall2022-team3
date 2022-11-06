@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { pitapatAction, selectPitapat } from "../store/slices/pitapat";
+import { selectUser } from "../store/slices/user";
 import { PitapatStatus } from "../types";
 
 
@@ -17,12 +18,12 @@ export default function PitapatButton({
   status,
   isListView,
 }: IProps) {
-  const myKey = 1;
+  const loginUser = useSelector(selectUser).loginUser;
   const dispatch = useDispatch<AppDispatch>();
   const pitapats = useSelector(selectPitapat).pitapats;
 
   function isPitapatAlreadySended() {
-    return pitapats.filter((p) => p.from === myKey).filter((p) => p.to === to).length !== 0;
+    return pitapats.filter((p) => p.from === loginUser!.key).filter((p) => p.to === to).length !== 0;
   }
 
   return (

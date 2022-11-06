@@ -30,16 +30,16 @@ export default function Search() {
     <section className={"mt-12 mb-16 w-full"}>
       <AppBar/>
       <section>
-        {users.filter(user => user.key !== loginUser!.key).map((user) => {
+        {users.filter(user => user.key !== loginUser.key).map((user) => {
           return (
             <Profile
               key={user.key}
-              myKey={loginUser!.key}
+              myKey={loginUser.key}
               userKey={user.key}
               username={user.username}
               koreanAge={getKoreanAge(user.birthday)}
               photo={photos.find((p) => p.key === user.photos[0])?.path!}
-              status={getPitapatStatus(user, loginUser!.key, pitapats)}
+              status={getPitapatStatus(user, loginUser.key, pitapats)}
             />
           );
         })}
