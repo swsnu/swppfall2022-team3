@@ -5,13 +5,13 @@ export const universities: University[] = [
   {
     key: 1,
     name: "서울대학교",
-    domain: "snu.ac.kr",
+    domain: "@snu.ac.kr",
     colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
   {
     key: 2,
     name: "낙성대학교",
-    domain: "nak.ac.kr",
+    domain: "@nak.ac.kr",
     colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
 ];
@@ -238,7 +238,7 @@ export const pitapats: Pitapat[] = [
 ]
 
 export const chats: Chat[] = [
-  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date('2022-11-01')},
+  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date('2022-11-01') },
 ]
 
 export const users: User[] = [

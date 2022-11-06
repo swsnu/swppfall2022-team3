@@ -7,6 +7,7 @@ import photoReducer from "./slices/photo";
 import tagReducer from "./slices/tag";
 import chatReducer from "./slices/chat";
 import pitapatReducer from "./slices/pitapat";
+import verificationReducer from "./slices/verification"
 
 
 export const backendUrl = "/";
@@ -21,6 +22,7 @@ export const store = configureStore({
     tag: tagReducer,
     pitapat: pitapatReducer,
     chat: chatReducer,
+    verification: verificationReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,

@@ -1,11 +1,20 @@
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { sendVerificationCode } from "../util/email";
+import { verificationAction, selectVerification } from "../store/slices/verification";
+import { AppDispatch } from "../store";
+
 
 
 export default function SignUpVerify() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const email = useSelector(selectVerification).email;
+  const verificationCode = useSelector(selectVerification).verificationCode;
   const [min, setMin] = useState<number>(3);
   const [sec, setSec] = useState<number>(0);
-  const navigate = useNavigate();
+  const [code, setCode] = useState<string>("");
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -15,8 +24,8 @@ export default function SignUpVerify() {
       if (sec === 0) {
         if (min === 0) {
           clearInterval(countdown);
-          window.alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.")
-          navigate("/signup")
+          alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.")
+          navigate("/signup");
         } else {
           setMin(min - 1);
           setSec(59);
@@ -27,8 +36,26 @@ export default function SignUpVerify() {
   }, [min, sec, navigate]);
 
   const clickReSendHandler = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 6; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    sendVerificationCode(email, result);
+    dispatch(verificationAction.add({ email: email, verificationCode: result }));
     setMin(3);
     setSec(0);
+  }
+
+  const clickHandler = () => {
+    if (code === verificationCode) {
+      navigate("/search");
+    }
+    else {
+      alert("인증 코드가 틀렸습니다. 다시 학교 이메일을 입력해주세요.");
+      navigate("/signup");
+    }
   }
 
   return (
@@ -38,18 +65,21 @@ export default function SignUpVerify() {
       <div className="text-center mt-16">
         <label className="text-center">
           <input className="w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"
-            placeholder=" 인증코드">
+            placeholder=" 인증코드"
+            value={code}
+            onChange={(event) => setCode(event.target.value)}>
           </input>
           {`${min}:`}{sec < 10 ? `0${sec}` : `${sec}`}</label>
       </div>
       <div className="text-center mt-24">
         <div>
-          <button className="bg-white-500 text-center text-pink border-solid border-b-4 border-l-2 border-r-2 w-36 h-8 rounded-md"
+          <button className="bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 w-36 h-8 rounded-md"
             onClick={() => clickReSendHandler()}>
             재전송</button>
         </div>
         <div>
-          <button className="bg-pink-500 text-center text-white mt-2 w-36 h-8 rounded-md">확인</button>
+          <button className="bg-pink-500 text-center text-white mt-2 w-36 h-8 rounded-md"
+            onClick={() => clickHandler()}>확인</button>
         </div>
       </div>
     </section>
