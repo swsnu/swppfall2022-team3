@@ -1,6 +1,5 @@
 const signIn = "/signin";
 const signUp = "/signup";
-const signUpverify = "/signup/verify"
 const search = "/search";
 const profile = "/profile/:id";
 const chat = "/chat";
@@ -11,7 +10,6 @@ const setting = "/setting";
 const paths = {
   signIn,
   signUp,
-  signUpverify,
   search,
   profile,
   chat,
