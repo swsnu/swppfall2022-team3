@@ -6,6 +6,7 @@ import { RootState } from "../index";
 
 
 const storeKey = "user";
+const loginStoreKey = "loginUser";
 
 export interface UserState {
   users: User[];
@@ -21,9 +22,17 @@ const getInitialUsers = (): User[] => {
   return (JSON.parse(savedValue!) as any[]).map((user) => ({...user, birthday: new Date(user.birthday)})) as User[];
 };
 
+const getLoginUser = (): User | null => {
+  const savedValue = localStorage.getItem(loginStoreKey);
+  if (savedValue === null) {
+    return null;
+  }
+  return JSON.parse(savedValue) as User;
+}
+
 const initialState: UserState = {
   users: getInitialUsers(),
-  loginUser: null,
+  loginUser: getLoginUser(),
 };
 
 const login = createAsyncThunk(
@@ -67,6 +76,7 @@ const userSlice = createSlice({
       const user = users.filter((u) => u.email === action.payload.email);
       if (user.length > 0) {
         state.loginUser = user[0];
+        localStorage.setItem(loginStoreKey, JSON.stringify(user[0]));
       }
     },
   },
