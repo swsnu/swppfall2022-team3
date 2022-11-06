@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { getKoreanAge, User } from "../types";
+import { getKoreanAge, PitapatStatus, User } from "../types";
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
@@ -11,11 +10,20 @@ import { selectPhoto } from "../store/slices/photo";
 
 
 export default function PitapatRequest() {
-  const navigate = useNavigate();
+  const myKey = 1;
   const users = useSelector(selectUser).users;
   const pitapats = useSelector(selectPitapat).pitapats;
   const photos = useSelector(selectPhoto).photos;
   const [isRecvPage, setIsRecvPage] = useState<boolean>(true);
+
+  function getpitapatStatus(user: User): PitapatStatus {
+    const sended = pitapats.filter((p) => (p.from === myKey) && (p.to === user?.key)).length > 0;
+    const received = pitapats.filter((p) => (p.from === user?.key) && (p.to === myKey)).length > 0;
+    if (sended && received) { return PitapatStatus.MATCHED; }
+    else if (sended) { return PitapatStatus.SENDED; }
+    else if (received) { return PitapatStatus.RECEIVED; }
+    else { return PitapatStatus.NONE; }
+  }
 
   return (
     <section className="w-full flex flex-col mt-12 mb-16">
@@ -58,11 +66,12 @@ export default function PitapatRequest() {
               const from: User = users.find(user => user.key === pitapat.from)!;
               return (
                 <Profile
-                  key={from.key}
+                  myKey={myKey}
+                  userKey={from.key}
                   username={from.username}
                   koreanAge={getKoreanAge(from.birthday)}
                   photo={photos.find((p) => p.key === from.photos[0])?.path!}
-                  clickDetail={() => navigate("/profile/" + from.key)}
+                  status={getpitapatStatus(from)}
                 />
               );
             })}
@@ -73,11 +82,12 @@ export default function PitapatRequest() {
               const to: User = users.find(user => user.key === pitapat.to)!;
               return (
                 <Profile
-                  key={to.key}
+                  myKey={myKey}
+                  userKey={to.key}
                   username={to.username}
                   koreanAge={getKoreanAge(to.birthday)}
                   photo={photos.find((p) => p.key === to.photos[0])?.path!}
-                  clickDetail={() => navigate("/profile/" + to.key)}
+                  status={getpitapatStatus(to)}
                 />
               )
             })}

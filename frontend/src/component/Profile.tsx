@@ -1,23 +1,32 @@
+import { useNavigate } from "react-router";
+import { PitapatStatus } from "../types";
+import PitapatButton from "./PitapatButton";
+
+
 interface IProps {
-  key: number;
+  myKey: number;
+  userKey: number;
   username: string;
   koreanAge: number;
   photo: string;
-  clickDetail: () => void;
+  status: PitapatStatus;
 }
 
 export default function Profile({
-  key,
+  myKey,
+  userKey,
   username,
   koreanAge,
   photo,
-  clickDetail,
+  status,
 }: IProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="relative h-[100vw]">
-      <button onClick={clickDetail} className="w-full">
+      <button onClick={() => navigate("/profile/" + userKey)} className="w-full z-0">
         <img
-          key={key}
+          key={userKey}
           src={photo}
           alt={photo}
           className="object-cover w-full h-[100vw]"
@@ -31,6 +40,11 @@ export default function Profile({
           {username}/{koreanAge}
         </div>
       </button>
+      <PitapatButton
+        status={status}
+        from={myKey}
+        to={userKey}
+      />
     </div>
   );
 };
