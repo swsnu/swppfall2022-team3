@@ -62,10 +62,11 @@ export default function EmailVerification({
       </p>
       <div className={"text-center mt-16"}>
         <label className={"text-center"}>
-          <input className={"w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-                 placeholder={" 인증코드"}
-                 value={code}
-                 onChange={(event) => setCode(event.target.value)}>
+          <input
+            className={"w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+            placeholder={" 인증코드"}
+            value={code}
+            onChange={(event) => setCode(event.target.value)}>
           </input>
           {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
         </label>

@@ -54,18 +54,18 @@ export default function CreateTag({
           value={undefined}
           onChange={changeHandler}
         >{
-          ([{ key: 0, name: "", type: "" }] as Tag[])
-            .concat(variousTags)
-            .map((targetTag) => (
-              <option
-                key={targetTag.key}
-                value={targetTag.name}
-                className={"text-center"}
-              >{
-                targetTag.name
-              }</option>
-            ))
-        }</select>
+            ([{ key: 0, name: "", type: "" }] as Tag[])
+              .concat(variousTags)
+              .map((targetTag) => (
+                <option
+                  key={targetTag.key}
+                  value={targetTag.name}
+                  className={"text-center"}
+                >{
+                    targetTag.name
+                  }</option>
+              ))
+          }</select>
         <button onClick={() => clickHandler()}>
           <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500"/>
         </button>

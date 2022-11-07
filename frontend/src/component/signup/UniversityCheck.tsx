@@ -67,18 +67,18 @@ export default function UniversityCheck({
           value={undefined}
           onChange={changeHandler}
         >{
-          ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
-            .concat(universities)
-            .map((univ) => (
-              <option
-                key={univ.key}
-                value={univ.name}
-                className={"text-center"}
-              >{
-                univ.name
-              }</option>
-            ))
-        }</select>
+            ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
+              .concat(universities)
+              .map((univ) => (
+                <option
+                  key={univ.key}
+                  value={univ.name}
+                  className={"text-center"}
+                >{
+                    univ.name
+                  }</option>
+              ))
+          }</select>
       </div>
       <div className={"text-center mt-2"}>
         <label className={"text-center"}>
