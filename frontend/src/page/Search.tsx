@@ -1,4 +1,4 @@
-import { getKoreanAge } from "../types";
+import { getKoreanAge, PitapatStatus } from "../types";
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
@@ -30,7 +30,9 @@ export default function Search() {
       <section className={"mt-12 mb-16 w-full"}>
         <AppBar/>
         <section>
-          {users.filter(user => user.key !== loginUser.key).map((user) => {
+          {users.filter((user) =>
+            (user.key !== loginUser.key) && (getPitapatStatus(loginUser.key, user.key, pitapats) === PitapatStatus.NONE)
+          ).map((user) => {
             const photo = photos.find((p) => p.key === user.photos[0]);
             return (
               <Profile
