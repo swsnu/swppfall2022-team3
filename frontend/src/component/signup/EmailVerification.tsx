@@ -35,9 +35,12 @@ export default function EmailVerification({
     return () => clearInterval(countdown);
   }, [sec, navigate]);
 
-  const clickReSendHandler = useCallback(async () => {
+  const clickReSendHandler = useCallback(() => {
     const newCode = verification.getCode();
-    await sendVerificationCode(email, newCode);
+    sendVerificationCode(email, newCode)
+      .then(() => {
+        return;
+      });
     setVerificationCode(newCode);
     setSec(180);
   }, [email, setSec, setVerificationCode]);
@@ -47,14 +50,14 @@ export default function EmailVerification({
       setStep(2);
     }
     else {
-      alert("인증 코드가 틀렸습니다.");
+      alert("잘못된 인증코드입니다 \n다시 한 번 확인해주세요.");
     }
   }, [code, verificationCode, setStep]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
       <p className={"text-center text-pink-500/100 mt-6"}>
-        인증 코드가 발송되었습니다!<br/>
+        인증 코드가 발송되었습니다!<br />
         이메일을 확인해주세요.
       </p>
       <div className={"text-center mt-16"}>

@@ -16,12 +16,14 @@ export default function CreateTag({
   setTags,
   setStep,
 }: IProps) {
-  const storeTags = useSelector(selectTag).tags;
-  const [tag, setTag] = useState<Tag>();
+  const variousTags = useSelector(selectTag).tags;
+  const [tag, setTag] = useState<Tag | null>(null);
+  const [hasSubmit, setHasSubmit] = useState<boolean>(false);
 
   const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setTag(storeTags.find((targetTag) => (targetTag.name === event.target.value)));
-  }, [storeTags]);
+    const toAddedTag = variousTags.find((targetTag) => (targetTag.name === event.target.value));
+    setTag((toAddedTag) ? (toAddedTag) : null);
+  }, [variousTags]);
 
   const clickHandler = () => {
     if (tag) {
@@ -32,8 +34,13 @@ export default function CreateTag({
   };
 
   const clickConfirmHandler = useCallback(() => {
-    setStep(4);
-  }, [setStep]);
+    if (tags) {
+      setStep(4);
+    }
+    else {
+      setHasSubmit(true);
+    }
+  }, [setStep, tags]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
@@ -48,7 +55,7 @@ export default function CreateTag({
           onChange={changeHandler}
         >{
             ([{ key: 0, name: "", type: "" }] as Tag[])
-              .concat(storeTags)
+              .concat(variousTags)
               .map((targetTag) => (
                 <option
                   key={targetTag.key}
@@ -63,6 +70,7 @@ export default function CreateTag({
           <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500" />
         </button>
       </div>
+      <article className={"ml-12 text-red-500 text-sm"}>{(hasSubmit) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
       <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
         {tags.map((t) =>
           <div key={t.key} className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
@@ -74,7 +82,6 @@ export default function CreateTag({
         <button
           className={"bg-pink-500 text-center text-white mt-48 w-36 h-12 rounded-md"}
           onClick={() => clickConfirmHandler()}
-          disabled={tags.length === 0}
         >
           다음
         </button>

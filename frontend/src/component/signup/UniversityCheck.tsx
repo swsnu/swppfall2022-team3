@@ -8,8 +8,8 @@ import verification from "../../util/verification";
 
 
 interface IProps {
-  university: University | undefined,
-  setUniversity: Dispatch<SetStateAction<University | undefined>>,
+  university: University | null,
+  setUniversity: Dispatch<SetStateAction<University | null>>,
   email: string,
   setEmail: Dispatch<SetStateAction<string>>,
   setVerificationCode: Dispatch<SetStateAction<string>>,
@@ -29,7 +29,8 @@ export default function UniversityCheck({
   const [userInput, setUserInput] = useState<string>("");
 
   const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setUniversity(universities.find((univ) => (univ.name === event.target.value)));
+    const targetUniversity = universities.find((univ) => (univ.name === event.target.value));
+    setUniversity(targetUniversity ? targetUniversity : null);
   }, [universities, setUniversity]);
 
   const clickHandler = useCallback(async () => {
@@ -57,7 +58,7 @@ export default function UniversityCheck({
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
       <p className={"text-center text-pink-500/100 mt-6"}>
-        소속대학과<br/>
+        소속대학과<br />
         학교 이메일을 입력해주세요
       </p>
       <div className={"text-center mt-16"}>

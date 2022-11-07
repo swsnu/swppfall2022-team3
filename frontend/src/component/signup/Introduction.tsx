@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import CompleteSentence from "./CompleteSentence";
 
 
@@ -13,9 +13,16 @@ export default function Introduction({
   setIntroduction,
   setStep
 }: IProps) {
+  const [hasSubmit, setHasSubmit] = useState<boolean>(false);
+
   const clickConfirmHandler = useCallback(() => {
-    setStep(5);
-  }, [setStep]);
+    if (introduction) {
+      setStep(5);
+    }
+    else {
+      setHasSubmit(true);
+    }
+  }, [setStep, introduction]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
@@ -30,11 +37,11 @@ export default function Introduction({
         >
         </textarea>
       </div>
+      <article className={"ml-8 text-red-500 text-sm"}>{(hasSubmit) ? "필수 작성 항목입니다." : " "}</article>
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-8 w-36 h-12 rounded-md"}
           onClick={() => clickConfirmHandler()}
-          disabled={!introduction}
         >
           다음
         </button>
