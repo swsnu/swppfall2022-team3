@@ -48,7 +48,7 @@ export default function SignUp() {
           major: major.key,
           introduction,
           tags: tagsKey,
-          photos: [12, 13]
+          photos: [13, 14]
         }
       ));
       navigate("/signin");

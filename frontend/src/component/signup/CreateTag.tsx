@@ -34,7 +34,7 @@ export default function CreateTag({
   };
 
   const clickConfirmHandler = useCallback(() => {
-    if (tags) {
+    if (tags.length !== 0) {
       setStep(4);
     }
     else {
@@ -45,7 +45,7 @@ export default function CreateTag({
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
       <p className="text-center text-pink-500/100 mt-6">
-        나를 표현하는 태그를 입력해보세요!<br/>
+        나를 표현하는 태그를 입력해보세요!<br />
         ex) 취미 (등산, 그림, ...)
       </p>
       <div className={"flex flex-row justify-center mt-12"}>
@@ -67,7 +67,7 @@ export default function CreateTag({
               ))
           }</select>
         <button onClick={() => clickHandler()}>
-          <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500"/>
+          <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500" />
         </button>
       </div>
       <article className={"ml-12 text-red-500 text-sm"}>{(hasSubmit) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>

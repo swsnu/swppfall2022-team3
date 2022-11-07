@@ -46,8 +46,8 @@ export default function PersonalInformation({
 
   const nicknameHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const newNickname = e.target.value;
-    setNickname(newNickname)
-  }, [setNickname])
+    setNickname(newNickname);
+  }, [setNickname]);
 
   const birthdayHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const date = e.target.valueAsDate;
@@ -106,7 +106,7 @@ export default function PersonalInformation({
 
   return (
     <section className={"h-screen w-full flex flex-col"}>
-      <CompleteSentence/>
+      <CompleteSentence />
       <InformationInput
         label={"닉네임"}
         value={nickname}
