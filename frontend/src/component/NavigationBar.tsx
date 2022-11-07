@@ -17,7 +17,7 @@ const NavigationBar = () => {
   const [selectedTab, setSelectedTab] = useState<TabIndex>(-1);
 
   const tabOnClickListener = useCallback((tabIndex: TabIndex) => {
-    let targetPath: string = "";
+    let targetPath = "";
 
     if (tabIndex === 0) {
       targetPath = "/search";

@@ -1,8 +1,10 @@
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { AES } from "crypto-ts";
 import { User } from "../types";
 import { useSelector } from "react-redux";
 import { selectPhoto } from "../store/slices/photo";
-import { useNavigate } from "react-router-dom";
+import { selectUser } from "../store/slices/user";
 
 
 interface IProps {
@@ -14,6 +16,7 @@ export default function ChatListElement({
   user,
   lastChat,
 }: IProps) {
+  const loginUser = useSelector(selectUser).loginUser!;
   const navigate = useNavigate();
   const userPhotos =
     useSelector(selectPhoto).photos
@@ -21,12 +24,21 @@ export default function ChatListElement({
       .sort((a, b) => a.index - b.index);
   const photoPath = userPhotos[0].path;
 
+  const elementHandler = useCallback(() => {
+    const jsonString = JSON.stringify({ from: loginUser.key, to: user.key });
+    const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test", ).toString());
+    navigate(`/chat/${encrypted}`);
+  }, [user, navigate]);
+
   return(
     <article
+      role={"presentation"}
       className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}
-      onClick={() => {
-        const encrypted = encodeURIComponent(AES.encrypt(JSON.stringify({ from: 1, to: user.key }), "test", ).toString());
-        navigate(`/chat/${encrypted}`);
+      onClick={elementHandler}
+      onKeyUp={(e) => {
+        if (e.key === "Enter") {
+          elementHandler();
+        }
       }}
     >
       <img
