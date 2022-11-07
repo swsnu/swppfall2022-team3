@@ -263,8 +263,10 @@ export const photos: Photo[] = [
 
 export const pitapats: Pitapat[] = [
   { from: 1, to: 2 },
-  { from: 1, to: 3 },
+  { from: 1, to: 5 },
   { from: 2, to: 1 },
+  { from: 8, to: 1 },
+  { from: 9, to: 1 },
 ];
 
 export const chats: Chat[] = [
