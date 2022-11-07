@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";
 import { College, Gender, Major } from "../../types";
+import { parseGender } from "../../util/parseGender";
 import CompleteSentence from "./CompleteSentence";
 
 
@@ -11,10 +12,10 @@ interface IProps {
   setNickname: Dispatch<SetStateAction<string>>,
   birthday: Date,
   setBirthday: Dispatch<SetStateAction<Date>>,
-  college: College | null,
-  setCollege: Dispatch<SetStateAction<College | null>>,
-  major: Major | null,
-  setMajor: Dispatch<SetStateAction<Major | null>>,
+  college: College | undefined,
+  setCollege: Dispatch<SetStateAction<College | undefined>>,
+  major: Major | undefined,
+  setMajor: Dispatch<SetStateAction<Major | undefined>>,
   gender: Gender,
   setGender: Dispatch<SetStateAction<Gender>>,
   targetGender: Gender,
@@ -45,22 +46,25 @@ export default function PersonalInformation({
     if (event.match(/^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/)) {
       setBirthday(new Date(event));
     }
+    else {
+      alert("날짜 형식이 맞지 않습니다");
+    }
   };
 
   const changeCollegeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setCollege(colleges.find((col) => (col.name === event.target.value))!);
+    setCollege(colleges.find((col) => (col.name === event.target.value)));
   }, [setCollege, colleges]);
 
   const changeMajorHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setMajor(majors.find((mjr) => (mjr.name === event.target.value))!);
+    setMajor(majors.find((mjr) => (mjr.name === event.target.value)));
   }, [setMajor, majors]);
 
   const changeGenderHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setGender((event.target.value === "M") ? (Gender.MALE) : (Gender.FEMALE));
+    setGender(parseGender(event.target.value));
   }, [setGender]);
 
   const changeTargetGenderHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setTargetGender((event.target.value === "M") ? (Gender.MALE) : ((event.target.value === "F") ? (Gender.FEMALE) : (Gender.ALL)));
+    setTargetGender(parseGender(event.target.value));
   }, [setTargetGender]);
 
   const clickConfirmHandler = useCallback(() => {

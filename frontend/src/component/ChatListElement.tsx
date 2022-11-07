@@ -16,7 +16,7 @@ export default function ChatListElement({
   user,
   lastChat,
 }: IProps) {
-  const loginUser = useSelector(selectUser).loginUser!;
+  const loginUser = useSelector(selectUser).loginUser;
   const navigate = useNavigate();
   const userPhotos =
     useSelector(selectPhoto).photos
@@ -25,10 +25,12 @@ export default function ChatListElement({
   const photoPath = userPhotos[0].path;
 
   const elementHandler = useCallback(() => {
-    const jsonString = JSON.stringify({ from: loginUser.key, to: user.key });
-    const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test", ).toString());
-    navigate(`/chat/${encrypted}`);
-  }, [user, navigate]);
+    if (loginUser) {
+      const jsonString = JSON.stringify({ from: loginUser.key, to: user.key });
+      const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test", ).toString());
+      navigate(`/chat/${encrypted}`);
+    }
+  }, [user, loginUser, navigate]);
 
   return(
     <article

@@ -16,12 +16,12 @@ export default function CreateTag({
   setTags,
   setStep,
 }: IProps) {
-  const variousTags = useSelector(selectTag).tags;
-  const [tag, setTag] = useState<Tag | null>(null);
+  const storeTags = useSelector(selectTag).tags;
+  const [tag, setTag] = useState<Tag>();
 
   const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setTag(variousTags.find((targetTag) => (targetTag.name === event.target.value))!);
-  }, [variousTags]);
+    setTag(storeTags.find((targetTag) => (targetTag.name === event.target.value)));
+  }, [storeTags]);
 
   const clickHandler = () => {
     if (tag) {
@@ -48,7 +48,7 @@ export default function CreateTag({
           onChange={changeHandler}
         >{
             ([{ key: 0, name: "", type: "" }] as Tag[])
-              .concat(variousTags)
+              .concat(storeTags)
               .map((targetTag) => (
                 <option
                   key={targetTag.key}

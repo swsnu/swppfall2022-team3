@@ -8,7 +8,7 @@ import path from "../constant/path";
 import { selectUser } from "../store/slices/user";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
-import { getKoreanAge, PitapatStatus, User } from "../types";
+import { getKoreanAge, PitapatStatus } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
@@ -52,18 +52,23 @@ export default function PitapatList() {
               {pitapats.filter((p) =>
                 (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED)
               ).map((p) => {
-                const from: User = users.find(user => user.key === p.from)!;
-                return (
-                  <Profile
-                    key={from.key}
-                    myKey={loginUser.key}
-                    userKey={from.key}
-                    username={from.username}
-                    koreanAge={getKoreanAge(from.birthday)}
-                    photo={photos.find((p) => p.key === from.photos[0])?.path!}
-                    status={getPitapatStatus(loginUser.key, from.key, pitapats)}
-                  />
-                );
+                const from = users.find(user => user.key === p.from);
+                if (from) {
+                  const photo = photos.find((p) => p.key === from.photos[0]);
+                  return (
+                    <Profile
+                      key={from.key}
+                      myKey={loginUser.key}
+                      userKey={from.key}
+                      username={from.username}
+                      koreanAge={getKoreanAge(from.birthday)}
+                      photo={photo ? photo.path : ""}
+                      status={getPitapatStatus(loginUser.key, from.key, pitapats)}
+                    />
+                  );
+                } else {
+                  throw Error("invalid user");
+                }
               })}
             </section>
             :
@@ -71,18 +76,23 @@ export default function PitapatList() {
               {pitapats.filter((p) =>
                 (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) !== PitapatStatus.MATCHED)
               ).map((p) => {
-                const to: User = users.find(user => user.key === p.to)!;
-                return (
-                  <Profile
-                    key={to.key}
-                    myKey={loginUser.key}
-                    userKey={to.key}
-                    username={to.username}
-                    koreanAge={getKoreanAge(to.birthday)}
-                    photo={photos.find((p) => p.key === to.photos[0])?.path!}
-                    status={getPitapatStatus(loginUser.key, to.key, pitapats)}
-                  />
-                );
+                const to = users.find(user => user.key === p.to);
+                if (to) {
+                  const photo = photos.find((p) => p.key === to.photos[0]);
+                  return (
+                    <Profile
+                      key={to.key}
+                      myKey={loginUser.key}
+                      userKey={to.key}
+                      username={to.username}
+                      koreanAge={getKoreanAge(to.birthday)}
+                      photo={photo ? photo.path : ""}
+                      status={getPitapatStatus(loginUser.key, to.key, pitapats)}
+                    />
+                  );
+                } else {
+                  throw Error("invalid user");
+                }
               })}
             </section>
         }

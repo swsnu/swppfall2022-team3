@@ -31,6 +31,7 @@ export default function Search() {
         <AppBar/>
         <section>
           {users.filter(user => user.key !== loginUser.key).map((user) => {
+            const photo = photos.find((p) => p.key === user.photos[0]);
             return (
               <Profile
                 key={user.key}
@@ -38,7 +39,7 @@ export default function Search() {
                 userKey={user.key}
                 username={user.username}
                 koreanAge={getKoreanAge(user.birthday)}
-                photo={photos.find((p) => p.key === user.photos[0])?.path!}
+                photo={photo ? photo.path : ""}
                 status={getPitapatStatus(loginUser.key, user.key, pitapats)}
               />
             );

@@ -11,13 +11,13 @@ import Completed from "../component/signup/Completed";
 
 export default function SignUp() {
   const [step, setStep] = useState<number>(0);
-  const [university, setUniversity] = useState<University | null>(null);
+  const [university, setUniversity] = useState<University>();
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
-  const [college, setCollege] = useState<College | null>(null);
-  const [major, setMajor] = useState<Major | null>(null);
+  const [college, setCollege] = useState<College>();
+  const [major, setMajor] = useState<Major>();
   const [gender, setGender] = useState<Gender>(Gender.MALE);
   const [targetGender, setTargetGender] = useState<Gender>(Gender.ALL);
   const [tags, setTags] = useState<Tag[]>([]);

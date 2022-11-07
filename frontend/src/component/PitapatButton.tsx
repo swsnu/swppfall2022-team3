@@ -23,8 +23,11 @@ export default function PitapatButton({
   const dispatch = useDispatch<AppDispatch>();
   const pitapats = useSelector(selectPitapat).pitapats;
 
-  function isPitapatAlreadySended() {
-    return pitapats.filter((p) => p.from === loginUser!.key).filter((p) => p.to === to).length !== 0;
+  function isPitapatAlreadySended(): boolean {
+    if (!loginUser) {
+      return false;
+    }
+    return pitapats.filter((p) => p.from === loginUser.key).filter((p) => p.to === to).length !== 0;
   }
 
   return (

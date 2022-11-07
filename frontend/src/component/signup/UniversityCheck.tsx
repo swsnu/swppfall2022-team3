@@ -8,8 +8,8 @@ import { University } from "../../types";
 
 
 interface IProps {
-  university: University | null,
-  setUniversity: Dispatch<SetStateAction<University | null>>,
+  university: University | undefined,
+  setUniversity: Dispatch<SetStateAction<University | undefined>>,
   email: string,
   setEmail: Dispatch<SetStateAction<string>>,
   setVerificationCode: Dispatch<SetStateAction<string>>,
@@ -29,19 +29,17 @@ export default function UniversityCheck({
   const [userInput, setUserInput] = useState<string>("");
 
   const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setUniversity(universities.find((univ) => (univ.name === event.target.value))!);
+    setUniversity(universities.find((univ) => (univ.name === event.target.value)));
   }, [universities, setUniversity]);
 
-  const clickHandler = useCallback(() => {
+  const clickHandler = useCallback(async () => {
     const isExist = users.find((user) => user.email === email);
     if (isExist) {
       alert("이미 존재하는 이메일입니다.");
     }
     else {
       const code = verification.getCode();
-      sendVerificationCode(email, code)
-        .then(() => {
-        });
+      await sendVerificationCode(email, code);
       setVerificationCode(code);
       setStep(1);
     }

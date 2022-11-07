@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router";
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { sendVerificationCode } from "../../util/email";
 import verification from "../../util/verification";
 
@@ -35,11 +35,9 @@ export default function EmailVerification({
     return () => clearInterval(countdown);
   }, [sec, navigate]);
 
-  const clickReSendHandler = useCallback(() => {
+  const clickReSendHandler = useCallback(async () => {
     const newCode = verification.getCode();
-    sendVerificationCode(email, newCode)
-      .then(() => {
-      });
+    await sendVerificationCode(email, newCode);
     setVerificationCode(newCode);
     setSec(180);
   }, [email, setSec, setVerificationCode]);
