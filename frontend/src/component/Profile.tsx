@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { selectPitapat } from "../store/slices/pitapat";
 import { PitapatStatus } from "../types";
+import { getPitapatStatus } from "../util/getPitapatStatus";
 import PitapatButton from "./PitapatButton";
 
 
@@ -22,6 +25,7 @@ export default function Profile({
   status,
 }: IProps) {
   const navigate = useNavigate();
+  const pitapats = useSelector(selectPitapat).pitapats;
 
   return (
     <div className={"relative h-[100vw]"}>
@@ -38,17 +42,25 @@ export default function Profile({
           background: "linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, #000000 100%)",
         }}
       >
-        <div className={"flex flex-row"}>
+        <div className={"flex flex-row items-center"}>
           <div className={"flex-none w-16"}>
+            {getPitapatStatus(myKey, userKey, pitapats) ? <PitapatButton
+              from={myKey}
+              to={userKey}
+              pitapatStatus={status}
+              isAccept={false}
+              isListView={true}
+            /> : ""}
           </div>
-          <div className={"flex-auto truncate flex flex-col justify-center text-center text-white text-lg font-bold"}>
+          <div className={"flex-auto truncate flex flex-col text-center text-white text-lg font-bold"}>
             <div className={"flex-none mx-2 truncate"}>{username}/{koreanAge}</div>
           </div>
-          <div className={"flex-none w-16 flex flex-col justify-center"}>
+          <div className={"flex-none w-16"}>
             <PitapatButton
               from={myKey}
               to={userKey}
-              status={status}
+              pitapatStatus={status}
+              isAccept={true}
               isListView={true}
             />
           </div>

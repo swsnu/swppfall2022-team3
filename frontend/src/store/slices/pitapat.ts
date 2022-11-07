@@ -26,7 +26,9 @@ const pitapatSlice = createSlice({
         localStorage.setItem(storeKey, JSON.stringify(newPitapats));
         state.pitapats = newPitapats;
       } else {
-        const newPitapats = state.pitapats.filter((p) => (p.from !== action.payload.from) || (p.to !== action.payload.to));
+        const newPitapats = state.pitapats.filter((p) =>
+          (p.from !== action.payload.from) || (p.to !== action.payload.to)
+        );
         localStorage.setItem(storeKey, JSON.stringify(newPitapats));
         state.pitapats = newPitapats;
       }
@@ -37,7 +39,9 @@ const pitapatSlice = createSlice({
       state.pitapats = newPitapats;
     },
     delete: (state, action: PayloadAction<Pitapat>) => {
-      const newPitapats = state.pitapats.filter((p) => (p.from !== action.payload.from) || (p.to !== action.payload.to));
+      const newPitapats = state.pitapats.filter((p) =>
+        (p.from !== action.payload.from) || (p.to !== action.payload.to)
+      );
       localStorage.setItem(storeKey, JSON.stringify(newPitapats));
       state.pitapats = newPitapats;
     },
