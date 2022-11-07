@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";
 import paths from "../constant/path";
@@ -47,14 +47,16 @@ export default function Setting() {
             <button
               className={"flex-none w-fit text-left text-base"}
               onClick={() => navigate("/profile/edit/")}
-            >프로필 수정</button>
+            >프로필 수정
+            </button>
           </div>
         </article>
         <article className={"flex items-center h-12 border-b"}>
           <button
             className={"w-fit ml-4 text-left text-lg"}
             onClick={() => dispatch(userActions.logout())}
-          >로그아웃</button>
+          >로그아웃
+          </button>
         </article>
       </section> : <section></section>
   );

@@ -21,7 +21,7 @@ const getInitialUsers = (): User[] => {
     savedValue = dummy;
   }
   return (JSON.parse(savedValue) as User[]).map((user) =>
-    ({...user, birthday: new Date(user.birthday)})
+    ({ ...user, birthday: new Date(user.birthday) })
   );
 };
 

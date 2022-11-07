@@ -14,7 +14,7 @@ const getInitialState = (): Chat[] => {
     savedValue = dummy;
   }
   return (JSON.parse(savedValue) as Chat[]).map((chat) =>
-    ({...chat, regDt: new Date(chat.regDt)})
+    ({ ...chat, regDt: new Date(chat.regDt) })
   );
 };
 

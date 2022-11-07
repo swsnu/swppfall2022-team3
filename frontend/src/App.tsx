@@ -16,15 +16,15 @@ function App() {
     <div className={"App flex"}>
       <BrowserRouter>
         <Routes>
-          <Route path={path.signIn} element={<SignIn />} />
-          <Route path={path.signUp} element={<SignUp />} />
-          <Route path={path.search} element={<Search />} />
-          <Route path={path.profile} element={<ProfileDetail />} />
-          <Route path={path.chat} element={<ChatList />} />
-          <Route path={path.chatDetail} element={<ChatDetail />} />
-          <Route path={path.pitapat} element={<PitapatList />} />
-          <Route path={path.setting} element={<Setting />} />
-          <Route path={"/*"} element={<Navigate replace to={path.signIn} />} />
+          <Route path={path.signIn} element={<SignIn/>}/>
+          <Route path={path.signUp} element={<SignUp/>}/>
+          <Route path={path.search} element={<Search/>}/>
+          <Route path={path.profile} element={<ProfileDetail/>}/>
+          <Route path={path.chat} element={<ChatList/>}/>
+          <Route path={path.chatDetail} element={<ChatDetail/>}/>
+          <Route path={path.pitapat} element={<PitapatList/>}/>
+          <Route path={path.setting} element={<Setting/>}/>
+          <Route path={"/*"} element={<Navigate replace to={path.signIn}/>}/>
         </Routes>
       </BrowserRouter>
     </div>

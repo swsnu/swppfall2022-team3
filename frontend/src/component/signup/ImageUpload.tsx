@@ -20,7 +20,7 @@ export default function ImageUpload({
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
-      <CompleteSentetnce />
+      <CompleteSentetnce/>
       <article className={"mt-8 ml-8"}>프로필 이미지</article>
       <div className={"flex flex-wrap my-4"}>
         <input
@@ -57,7 +57,7 @@ export default function ImageUpload({
         ></input>
       </div>
       <article className="text-center text-pink-500/100 mt-6">
-        경고문구<br />
+        경고문구<br/>
         ex) 본인의 사진이어야 합니다.
       </article>
       <div className={"text-center"}>

@@ -86,14 +86,14 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    < section className={"h-screen w-full flex flex-col mt-12 mb-16"} >
-      <CompleteSentence />
+    < section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
+      <CompleteSentence/>
       <article className={"mt-4 ml-8 leading-10"}>닉네임</article>
       <div className="text-center">
         <input className={"w-64 indent-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          placeholder={"닉네임"}
-          value={nickname}
-          onChange={(event) => setNickname(event.target.value)}>
+               placeholder={"닉네임"}
+               value={nickname}
+               onChange={(event) => setNickname(event.target.value)}>
         </input>
       </div>
       <div>
@@ -102,8 +102,8 @@ export default function PersonalInformation({
       </div>
       <div className="text-center">
         <input className={"w-64 indent-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          placeholder={"YYYY-MM-DD"}
-          onChange={(event) => changeBirthdayHandler(event.target.value)}>
+               placeholder={"YYYY-MM-DD"}
+               onChange={(event) => changeBirthdayHandler(event.target.value)}>
         </input>
       </div>
       <div>
@@ -116,18 +116,18 @@ export default function PersonalInformation({
           value={undefined}
           onChange={changeCollegeHandler}
         >{
-            ([{ key: 0, name: "", majors: [] }] as College[])
-              .concat(colleges)
-              .map((col) => (
-                <option
-                  key={col.key}
-                  value={col.name}
-                >{
-                    col.name
-                  }
-                </option>
-              ))
-          }</select>
+          ([{ key: 0, name: "", majors: [] }] as College[])
+            .concat(colleges)
+            .map((col) => (
+              <option
+                key={col.key}
+                value={col.name}
+              >{
+                col.name
+              }
+              </option>
+            ))
+        }</select>
       </div>
       <div>
         <article className={"ml-8 text-red-500 text-sm"}>{(hasSubmit && !college) ? "필수 작성 항목입니다." : " "}</article>
@@ -139,16 +139,16 @@ export default function PersonalInformation({
           value={undefined}
           onChange={changeMajorHandler}
         >{
-            targetMajors.map((mjr) => (
-              <option
-                key={mjr.key}
-                value={mjr.name}
-              >{
-                  mjr.name
-                }
-              </option>
-            ))
-          }</select>
+          targetMajors.map((mjr) => (
+            <option
+              key={mjr.key}
+              value={mjr.name}
+            >{
+              mjr.name
+            }
+            </option>
+          ))
+        }</select>
       </div>
       <div>
         <article className={"ml-8 text-red-500 text-sm"}>{(hasSubmit && !major) ? "필수 작성 항목입니다." : " "}</article>
@@ -188,6 +188,6 @@ export default function PersonalInformation({
           다음
         </button>
       </div>
-    </section >
+    </section>
   );
 }

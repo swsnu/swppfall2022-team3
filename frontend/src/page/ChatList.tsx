@@ -59,7 +59,7 @@ export default function ChatList() {
     <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar/>
       <section className={"flex-1 flex flex-col"}>{
-        chatRoomInfos.map(({user, lastChat}) => (
+        chatRoomInfos.map(({ user, lastChat }) => (
           <ChatListElement
             user={user}
             lastChat={lastChat}

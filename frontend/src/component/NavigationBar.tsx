@@ -37,8 +37,12 @@ const NavigationBar = () => {
 
   const getIconClassName = useCallback((index: TabIndex): string => {
     // const defaultIconClassName = `h-8 w-8 stroke-1 stroke-${tabColor}`;
-    if (selectedTab === index) {return "h-8 w-8 stroke-1 stroke-white fill-white";}
-    else {return "h-8 w-8 stroke-1 stroke-white fill-none";}
+    if (selectedTab === index) {
+      return "h-8 w-8 stroke-1 stroke-white fill-white";
+    }
+    else {
+      return "h-8 w-8 stroke-1 stroke-white fill-none";
+    }
   }, [selectedTab]);
 
   const getStroke = useCallback(
@@ -64,7 +68,9 @@ const NavigationBar = () => {
     <div className={"w-full z-20 h-16 bg-pink-300 fixed bottom-0 flex flex-row align-center"}>
       <button
         className={tabClassName}
-        onClick={(() => { tabOnClickListener(0); })}
+        onClick={(() => {
+          tabOnClickListener(0);
+        })}
       >
         <UserIcon
           className={getIconClassName(0)}
@@ -73,7 +79,9 @@ const NavigationBar = () => {
       </button>
       <button
         className={tabClassName}
-        onClick={(() => { tabOnClickListener(1); })}
+        onClick={(() => {
+          tabOnClickListener(1);
+        })}
       >
         <HeartIcon
           className={getIconClassName(1)}
@@ -82,7 +90,9 @@ const NavigationBar = () => {
       </button>
       <button
         className={tabClassName}
-        onClick={(() => { tabOnClickListener(2); })}
+        onClick={(() => {
+          tabOnClickListener(2);
+        })}
       >
         <ChatBubbleLeftIcon
           className={getIconClassName(2)}

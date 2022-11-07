@@ -25,7 +25,8 @@ const pitapatSlice = createSlice({
         const newPitapats = [...state.pitapats, action.payload];
         localStorage.setItem(storeKey, JSON.stringify(newPitapats));
         state.pitapats = newPitapats;
-      } else {
+      }
+      else {
         const newPitapats = state.pitapats.filter((p) =>
           (p.from !== action.payload.from) || (p.to !== action.payload.to)
         );

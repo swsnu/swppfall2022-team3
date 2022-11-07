@@ -27,12 +27,12 @@ export default function ChatListElement({
   const elementHandler = useCallback(() => {
     if (loginUser) {
       const jsonString = JSON.stringify({ from: loginUser.key, to: user.key });
-      const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test", ).toString());
+      const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test",).toString());
       navigate(`/chat/${encrypted}`);
     }
   }, [user, loginUser, navigate]);
 
-  return(
+  return (
     <article
       role={"presentation"}
       className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}

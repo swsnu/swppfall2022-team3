@@ -33,12 +33,16 @@ export default function PitapatButton({
   }
 
   function getIconText(isAccept: boolean) {
-    if (!isAccept) { return "X"; }
+    if (!isAccept) {
+      return "X";
+    }
     return isPitapatAlreadySended() ? "♥" : "♡";
   }
 
   function getButtonText(isAccept: boolean, status: PitapatStatus) {
-    if (!isAccept) { return "거절"; }
+    if (!isAccept) {
+      return "거절";
+    }
     switch (status) {
     case PitapatStatus.NONE:
       return "두근";
@@ -54,7 +58,8 @@ export default function PitapatButton({
   function onClickPitapatButton(isAccept: boolean) {
     if (isAccept) {
       dispatch(pitapatAction.toggle({ from: from, to: to }));
-    } else {
+    }
+    else {
       dispatch(pitapatAction.delete({ from: to, to: from }));
     }
   }

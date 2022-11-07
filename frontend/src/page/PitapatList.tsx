@@ -36,41 +36,42 @@ export default function PitapatList() {
             disabled={isRecvPage}
             onClick={() => setIsRecvPage(true)}
           >
-          내가 받은 두근
+            내가 받은 두근
           </button>
           <button
             className={`flex-1 border font-bold ${isRecvPage ? "border-gray-400 text-gray-400" : "border-pink-300 text-pink-500"}`}
             disabled={!isRecvPage}
             onClick={() => setIsRecvPage(false)}
           >
-          내가 보낸 두근
+            내가 보낸 두근
           </button>
         </section>
         {
           isRecvPage ?
-            <section>
-              {pitapats.filter((p) =>
-                (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED)
-              ).map((p) => {
-                const from = users.find(user => user.key === p.from);
-                if (from) {
-                  const photo = photos.find((p) => p.key === from.photos[0]);
-                  return (
-                    <Profile
-                      key={from.key}
-                      myKey={loginUser.key}
-                      userKey={from.key}
-                      username={from.username}
-                      koreanAge={getKoreanAge(from.birthday)}
-                      photo={photo ? photo.path : ""}
-                      status={getPitapatStatus(loginUser.key, from.key, pitapats)}
-                    />
-                  );
-                } else {
-                  throw Error("invalid user");
-                }
-              })}
-            </section>
+            <section>{
+              pitapats
+                .filter((p) => (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED))
+                .map((p) => {
+                  const from = users.find(user => user.key === p.from);
+                  if (from) {
+                    const photo = photos.find((p) => p.key === from.photos[0]);
+                    return (
+                      <Profile
+                        key={from.key}
+                        myKey={loginUser.key}
+                        userKey={from.key}
+                        username={from.username}
+                        koreanAge={getKoreanAge(from.birthday)}
+                        photo={photo ? photo.path : ""}
+                        status={getPitapatStatus(loginUser.key, from.key, pitapats)}
+                      />
+                    );
+                  }
+                  else {
+                    throw Error("invalid user");
+                  }
+                })
+            }</section>
             :
             <section>
               {pitapats.filter((p) =>
@@ -90,7 +91,8 @@ export default function PitapatList() {
                       status={getPitapatStatus(loginUser.key, to.key, pitapats)}
                     />
                   );
-                } else {
+                }
+                else {
                   throw Error("invalid user");
                 }
               })}

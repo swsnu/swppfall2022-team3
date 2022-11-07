@@ -26,7 +26,7 @@ export default function Introduction({
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
-      <CompleteSentence />
+      <CompleteSentence/>
       <article className={"mt-8 ml-8"}>소개글</article>
       <div className={"text-center"}>
         <textarea

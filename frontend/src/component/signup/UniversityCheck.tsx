@@ -58,7 +58,7 @@ export default function UniversityCheck({
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
       <p className={"text-center text-pink-500/100 mt-6"}>
-        소속대학과<br />
+        소속대학과<br/>
         학교 이메일을 입력해주세요
       </p>
       <div className={"text-center mt-16"}>
@@ -67,18 +67,18 @@ export default function UniversityCheck({
           value={undefined}
           onChange={changeHandler}
         >{
-            ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
-              .concat(universities)
-              .map((univ) => (
-                <option
-                  key={univ.key}
-                  value={univ.name}
-                  className={"text-center"}
-                >{
-                    univ.name
-                  }</option>
-              ))
-          }</select>
+          ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
+            .concat(universities)
+            .map((univ) => (
+              <option
+                key={univ.key}
+                value={univ.name}
+                className={"text-center"}
+              >{
+                univ.name
+              }</option>
+            ))
+        }</select>
       </div>
       <div className={"text-center mt-2"}>
         <label className={"text-center"}>
