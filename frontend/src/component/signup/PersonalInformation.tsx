@@ -1,21 +1,21 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { College, Gender, Major } from "../../types";
 
 
 interface IProps {
   nickname: string,
-  setNickname: Function,
+  setNickname: Dispatch<SetStateAction<string>>,
   birthday: Date,
-  setBirthday: Function,
+  setBirthday: Dispatch<SetStateAction<Date>>,
   college: College | null,
   setCollege: Function,
   major: Major | null,
-  setMajor: Function,
+  setMajor: Dispatch<SetStateAction<Major | null>>,
   gender: Gender,
-  setGender: Function,
+  setGender: Dispatch<SetStateAction<Gender>>,
   targetGender: Gender,
-  setTargetGender: Function,
-  setStep: Function,
+  setTargetGender: Dispatch<SetStateAction<Gender>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function PersonalInformation({

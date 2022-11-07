@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 
 interface IProps {
   introduction: string,
-  setIntroduction: Function,
-  setStep: Function,
+  setIntroduction: Dispatch<SetStateAction<string>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function Introduction({

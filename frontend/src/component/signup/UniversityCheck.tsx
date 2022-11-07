@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
@@ -9,11 +9,11 @@ import { University } from "../../types";
 
 interface IProps {
   university: University | null,
-  setUniversity: Function,
+  setUniversity: Dispatch<SetStateAction<University | null>>,
   email: string,
-  setEmail: Function,
-  setVerificationCode: Function,
-  setStep: Function,
+  setEmail: Dispatch<SetStateAction<string>>,
+  setVerificationCode: Dispatch<SetStateAction<string>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function UniversityCheck({

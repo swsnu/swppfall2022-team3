@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 
 interface IProp {
   images: File[],
-  setImages: Function,
-  setStep: Function,
+  setImages: Dispatch<SetStateAction<File[]>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function ImageUpload({

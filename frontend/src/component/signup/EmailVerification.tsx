@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useCallback, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { sendVerificationCode } from "../../util/email";
 import verification from "../../util/verification";
 
@@ -7,8 +7,8 @@ import verification from "../../util/verification";
 interface IProps {
   email: string,
   verificationCode: string,
-  setVerificationCode: Function,
-  setStep: Function,
+  setVerificationCode: Dispatch<SetStateAction<string>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function EmailVerification({

@@ -1,9 +1,8 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 interface IProps {
-  setStep: Function,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function Completed() {
