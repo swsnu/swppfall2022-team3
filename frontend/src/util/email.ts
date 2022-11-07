@@ -1,4 +1,4 @@
-import { EmailJSResponseStatus, init, send } from "emailjs-com";
+import { EmailJSResponseStatus, init, send } from "@emailjs/browser";
 
 
 const userId = "9WyiS5CMeqEq9CpWW";
