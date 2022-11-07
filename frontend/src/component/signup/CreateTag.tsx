@@ -29,7 +29,7 @@ export default function CreateTag({
         setTags([...tags, tag]);
       }
     }
-  }
+  };
 
   const clickConfirmHandler = useCallback(() => {
     setStep(4);
@@ -80,5 +80,5 @@ export default function CreateTag({
         </button>
       </div>
     </section>
-  )
+  );
 }

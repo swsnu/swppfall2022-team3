@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
-import CompleteSentence from "./CompleteSentence"
+import CompleteSentence from "./CompleteSentence";
+
 
 interface IProps {
   introduction: string,
@@ -14,7 +15,7 @@ export default function Introduction({
 }: IProps) {
   const clickConfirmHandler = useCallback(() => {
     setStep(5);
-  }, [setStep])
+  }, [setStep]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
@@ -39,5 +40,5 @@ export default function Introduction({
         </button>
       </div>
     </section>
-  )
+  );
 }

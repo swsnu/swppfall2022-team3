@@ -1,3 +1,6 @@
+import React from "react";
+
+
 export default function CompleteSentence() {
   return (
     <div>
@@ -7,5 +10,5 @@ export default function CompleteSentence() {
         본인을 소개해보세요!!
       </p>
     </div>
-  )
+  );
 }

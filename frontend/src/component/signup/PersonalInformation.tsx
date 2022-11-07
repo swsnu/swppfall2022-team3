@@ -43,12 +43,12 @@ export default function PersonalInformation({
 
   const changeBirthdayHandler = (event: string) => {
     if (event.match(/^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/)) {
-      setBirthday(new Date(event))
+      setBirthday(new Date(event));
     }
     else {
       setBirthday();
     }
-  }
+  };
 
   const changeCollegeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setCollege(colleges.find((col) => (col.name === event.target.value))!);
@@ -169,5 +169,5 @@ export default function PersonalInformation({
         </button>
       </div>
     </section >
-  )
+  );
 }
