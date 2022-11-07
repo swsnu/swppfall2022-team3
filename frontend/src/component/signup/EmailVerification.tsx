@@ -74,18 +74,18 @@ export default function EmailVerification({
       <div className={"text-center mt-24"}>
         <div>
           <button
-            className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 w-36 h-8 rounded-md"}
-            onClick={clickReSendHandler}
-          >
-            재전송
-          </button>
-        </div>
-        <div>
-          <button
             className={"bg-pink-500 text-center text-white mt-2 w-36 h-8 rounded-md"}
             onClick={clickHandler}
           >
             확인
+          </button>
+        </div>
+        <div>
+          <button
+            className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 w-36 h-8 rounded-md"}
+            onClick={clickReSendHandler}
+          >
+            재전송
           </button>
         </div>
       </div>
