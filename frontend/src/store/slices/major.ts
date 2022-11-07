@@ -9,10 +9,11 @@ const storeKey = "major";
 const getInitialState = (): Major[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(majors));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(majors);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return JSON.parse(savedValue!) as Major[];
+  return JSON.parse(savedValue) as Major[];
 };
 
 const majorSlice = createSlice({

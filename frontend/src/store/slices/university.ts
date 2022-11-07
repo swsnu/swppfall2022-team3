@@ -9,10 +9,11 @@ const storeKey = "university";
 const getInitialState = (): University[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(universities));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(universities);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return JSON.parse(savedValue!) as University[];
+  return JSON.parse(savedValue) as University[];
 };
 
 const universitySlice = createSlice({

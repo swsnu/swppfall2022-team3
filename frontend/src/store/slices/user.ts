@@ -16,10 +16,13 @@ export interface UserState {
 const getInitialUsers = (): User[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(users));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(users);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return (JSON.parse(savedValue!) as any[]).map((user) => ({...user, birthday: new Date(user.birthday)})) as User[];
+  return (JSON.parse(savedValue) as User[]).map((user) =>
+    ({...user, birthday: new Date(user.birthday)})
+  );
 };
 
 const getLoginUser = (): User | null => {
@@ -73,7 +76,7 @@ const userSlice = createSlice({
       state.users = newUsers;
     },
     login: (state, action: PayloadAction<{ email: string }>) => {
-      const users: User[] = JSON.parse(localStorage.getItem(storeKey)!);
+      const users: User[] = state.users;
       const user = users.filter((u) => u.email === action.payload.email);
       if (user.length > 0) {
         state.loginUser = user[0];

@@ -9,10 +9,11 @@ const storeKey = "pitapat";
 const getInitialState = (): Pitapat[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(pitapats));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(pitapats);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return JSON.parse(savedValue!) as Pitapat[];
+  return JSON.parse(savedValue) as Pitapat[];
 };
 
 const pitapatSlice = createSlice({

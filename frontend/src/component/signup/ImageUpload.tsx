@@ -15,7 +15,7 @@ export default function ImageUpload({
 }: IProp) {
   const clickConfirmHandler = useCallback(() => {
     setStep(5);
-  }, []);
+  }, [setStep]);
 
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>

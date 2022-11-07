@@ -9,10 +9,13 @@ const storeKey = "chat";
 const getInitialState = (): Chat[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(chats));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(chats);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return (JSON.parse(savedValue!) as any[]).map((chat) => ({...chat, regDt: new Date(chat.regDt)})) as Chat[];
+  return (JSON.parse(savedValue) as Chat[]).map((chat) =>
+    ({...chat, regDt: new Date(chat.regDt)})
+  );
 };
 
 const chatSlice = createSlice({

@@ -9,10 +9,11 @@ const storeKey = "photo";
 const getInitialState = (): Photo[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(photos));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(photos);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return JSON.parse(savedValue!) as Photo[];
+  return JSON.parse(savedValue) as Photo[];
 };
 
 const photoSlice = createSlice({
