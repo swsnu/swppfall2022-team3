@@ -33,20 +33,19 @@ export default function UniversityCheck({
   }, [universities, setUniversity]);
 
   const clickHandler = useCallback(() => {
-    const targetEmail = `${email}@${university?.domain}`;
-    const isExist = users.find((user) => user.email === targetEmail);
+    const isExist = users.find((user) => user.email === email);
     if (isExist) {
       alert("이미 존재하는 이메일입니다.");
     }
     else {
       const code = verification.getCode();
-      sendVerificationCode(targetEmail, code)
+      sendVerificationCode(email, code)
         .then(() => {
         });
       setVerificationCode(code);
       setStep(1);
     }
-  }, [users, email, university, setStep, setVerificationCode]);
+  }, [users, email, setStep, setVerificationCode]);
 
   useEffect(() => {
     if (university) {
