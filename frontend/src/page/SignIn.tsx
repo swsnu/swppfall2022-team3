@@ -54,7 +54,7 @@ export default function SignIn() {
       <div className={"text-center mt-16"}>
         <div>
           <button
-            className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 w-36 h-12 rounded-md"}
+            className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
             disabled={!email || !password}
             onClick={loginOnClick}
           >
@@ -63,7 +63,7 @@ export default function SignIn() {
         </div>
         <div>
           <button
-            className={"bg-pink-500 text-center text-white mt-2 w-36 h-12 rounded-md"}
+            className={"bg-white-500 text-center text-pink-400 border-solid border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
             onClick={() => navigate(path.signUp)}
           >
             회원가입

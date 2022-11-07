@@ -82,7 +82,7 @@ export default function EmailVerification({
         </div>
         <div>
           <button
-            className={"bg-white-500 text-center text-pink-400 m-2 border-solid border-b-4 border-l-2 border-r-2 w-36 h-12 rounded-md"}
+            className={"bg-white-500 text-center text-pink-400 m-2 border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
             onClick={clickReSendHandler}
           >
             재전송
