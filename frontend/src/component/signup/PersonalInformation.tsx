@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";
@@ -8,18 +8,18 @@ import CompleteSentence from "./CompleteSentence";
 
 interface IProps {
   nickname: string,
-  setNickname: Function,
+  setNickname: Dispatch<SetStateAction<string>>,
   birthday: Date,
-  setBirthday: Function,
+  setBirthday: Dispatch<SetStateAction<Date>>,
   college: College | null,
-  setCollege: Function,
+  setCollege: Dispatch<SetStateAction<College | null>>,
   major: Major | null,
-  setMajor: Function,
+  setMajor: Dispatch<SetStateAction<Major | null>>,
   gender: Gender,
-  setGender: Function,
+  setGender: Dispatch<SetStateAction<Gender>>,
   targetGender: Gender,
-  setTargetGender: Function,
-  setStep: Function,
+  setTargetGender: Dispatch<SetStateAction<Gender>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function PersonalInformation({
@@ -45,9 +45,6 @@ export default function PersonalInformation({
     if (event.match(/^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/)) {
       setBirthday(new Date(event));
     }
-    else {
-      setBirthday();
-    }
   };
 
   const changeCollegeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
@@ -59,11 +56,11 @@ export default function PersonalInformation({
   }, [setMajor, majors]);
 
   const changeGenderHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setGender(event.target.value);
+    setGender((event.target.value === "M") ? (Gender.MALE) : (Gender.FEMALE));
   }, [setGender]);
 
   const changeTargetGenderHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    setTargetGender(event.target.value);
+    setTargetGender((event.target.value === "M") ? (Gender.MALE) : ((event.target.value === "F") ? (Gender.FEMALE) : (Gender.ALL)));
   }, [setTargetGender]);
 
   const clickConfirmHandler = useCallback(() => {
@@ -140,7 +137,7 @@ export default function PersonalInformation({
       <div className="text-center">
         <select
           className={"w-64 indent-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          value={undefined}
+          value={gender}
           onChange={changeGenderHandler}
         >
           <option key="0" value={Gender.MALE}>남자</option>
@@ -151,7 +148,7 @@ export default function PersonalInformation({
       <div className="text-center">
         <select
           className={"w-64 indent-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          value={undefined}
+          value={targetGender}
           onChange={changeTargetGenderHandler}
         >
           <option key="0" value={Gender.FEMALE}>여자</option>

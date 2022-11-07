@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
 import CompleteSentence from "./CompleteSentence";
 
 
 interface IProps {
   introduction: string,
-  setIntroduction: Function,
-  setStep: Function,
+  setIntroduction: Dispatch<SetStateAction<string>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function Introduction({

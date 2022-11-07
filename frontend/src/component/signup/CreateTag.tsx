@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from "react";
 import { selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 
 interface IProps {
   tags: Tag[],
-  setTags: Function,
-  setStep: Function,
+  setTags: Dispatch<SetStateAction<Tag[]>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function CreateTag({
