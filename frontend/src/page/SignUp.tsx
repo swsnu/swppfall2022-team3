@@ -15,7 +15,7 @@ import { College, Gender, Major, Tag, University } from "../types";
 
 
 export default function SignUp() {
-  const [step, setStep] = useState<number>(6);
+  const [step, setStep] = useState<number>(0);
   const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
