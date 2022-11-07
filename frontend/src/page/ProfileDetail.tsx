@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getKoreanAge, User } from "../types";
 import AppBar from "../component/AppBar";

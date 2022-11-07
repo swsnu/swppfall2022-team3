@@ -9,7 +9,7 @@ import { selectPitapat } from "../store/slices/pitapat";
 import path from "../constant/path";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 
 export default function Search() {
