@@ -2,9 +2,9 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, u
 import { useSelector } from "react-redux";
 import { selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
-import verification from "../../util/verification";
-import { sendVerificationCode } from "../../util/email";
 import { University } from "../../types";
+import { sendVerificationCode } from "../../util/email";
+import verification from "../../util/verification";
 
 
 interface IProps {

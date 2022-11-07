@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Photo } from "../../types";
 import { photos } from "../../dummyData";
+import { Photo } from "../../types";
 import { RootState } from "../index";
 
 

@@ -1,15 +1,15 @@
-import { getKoreanAge, PitapatStatus } from "../types";
-import Profile from "../component/Profile";
-import NavigationBar from "../component/NavigationBar";
-import AppBar from "../component/AppBar";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../store/slices/user";
+import { useNavigate } from "react-router-dom";
+import AppBar from "../component/AppBar";
+import NavigationBar from "../component/NavigationBar";
+import Profile from "../component/Profile";
+import path from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
-import path from "../constant/path";
+import { selectUser } from "../store/slices/user";
+import { getKoreanAge, PitapatStatus } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
 
 
 export default function Search() {

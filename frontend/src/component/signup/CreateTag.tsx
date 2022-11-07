@@ -1,8 +1,8 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from "react";
+import { useSelector } from "react-redux";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { useSelector } from "react-redux";
 
 
 interface IProps {

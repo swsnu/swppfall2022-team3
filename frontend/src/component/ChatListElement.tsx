@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AES } from "crypto-ts";
-import { User } from "../types";
-import { useSelector } from "react-redux";
 import { selectPhoto } from "../store/slices/photo";
 import { selectUser } from "../store/slices/user";
+import { User } from "../types";
 
 
 interface IProps {

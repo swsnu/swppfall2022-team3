@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { College, Gender, Major, Tag, University } from "../types";
-import UniversityCheck from "../component/signup/UniversityCheck";
-import EmailVerification from "../component/signup/EmailVerification";
-import PersonalInformation from "../component/signup/PersonalInformation";
-import CreateTag from "../component/signup/CreateTag";
-import Introduction from "../component/signup/Introduction";
-import ImageUpload from "../component/signup/ImageUpload";
 import Completed from "../component/signup/Completed";
+import CreateTag from "../component/signup/CreateTag";
+import EmailVerification from "../component/signup/EmailVerification";
+import ImageUpload from "../component/signup/ImageUpload";
+import Introduction from "../component/signup/Introduction";
+import PersonalInformation from "../component/signup/PersonalInformation";
+import UniversityCheck from "../component/signup/UniversityCheck";
+import { College, Gender, Major, Tag, University } from "../types";
 
 
 export default function SignUp() {

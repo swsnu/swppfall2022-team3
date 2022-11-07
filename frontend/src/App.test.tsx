@@ -1,6 +1,6 @@
 import React from "react";
-import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
+import { render } from "@testing-library/react";
 import App from "./App";
 import { chats, colleges, majors, photos, pitapats, tags, universities, users } from "./dummyData";
 import { getMockStore } from "./test-utils/mocks";

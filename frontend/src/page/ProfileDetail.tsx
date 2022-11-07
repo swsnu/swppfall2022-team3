@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { getKoreanAge, User } from "../types";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import PitapatButton from "../component/PitapatButton";
-import { useSelector } from "react-redux";
-import { selectUser } from "../store/slices/user";
-import { selectPhoto } from "../store/slices/photo";
-import { selectTag } from "../store/slices/tag";
-import { selectPitapat } from "../store/slices/pitapat";
-import { getPitapatStatus } from "../util/getPitapatStatus";
 import path from "../constant/path";
+import { selectPhoto } from "../store/slices/photo";
+import { selectPitapat } from "../store/slices/pitapat";
+import { selectTag } from "../store/slices/tag";
+import { selectUser } from "../store/slices/user";
+import { getKoreanAge, User } from "../types";
+import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
 export default function ProfileDetail() {

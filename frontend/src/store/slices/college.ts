@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { College } from "../../types";
 import { colleges } from "../../dummyData";
+import { College } from "../../types";
 import { RootState } from "../index";
 
 

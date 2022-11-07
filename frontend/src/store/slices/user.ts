@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // import axios from "axios";
-import { User } from "../../types";
 import { users } from "../../dummyData";
+import { User } from "../../types";
 import { RootState } from "../index";
 
 

@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-import AppBar from "../component/AppBar";
-import { Chat } from "../types";
 import { AES, enc } from "crypto-ts";
-import { useDispatch, useSelector } from "react-redux";
-import { chatAction, selectChat } from "../store/slices/chat";
-import { AppDispatch } from "../store";
+import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
-import { selectUser } from "../store/slices/user";
 import path from "../constant/path";
+import { AppDispatch } from "../store";
+import { chatAction, selectChat } from "../store/slices/chat";
+import { selectUser } from "../store/slices/user";
+import { Chat } from "../types";
 
 
 export default function ChatDetail() {

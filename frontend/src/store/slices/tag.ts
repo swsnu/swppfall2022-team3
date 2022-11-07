@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Tag } from "../../types";
 import { tags } from "../../dummyData";
+import { Tag } from "../../types";
 import { RootState } from "../index";
 
 

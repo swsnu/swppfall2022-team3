@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Profile from "../component/Profile";
-import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
+import NavigationBar from "../component/NavigationBar";
+import Profile from "../component/Profile";
 import paths from "../constant/path";
-import { selectUser } from "../store/slices/user";
-import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
+import { selectPitapat } from "../store/slices/pitapat";
+import { selectUser } from "../store/slices/user";
 import { getKoreanAge, PitapatStatus } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 

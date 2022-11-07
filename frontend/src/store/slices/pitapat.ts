@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Pitapat } from "../../types";
 import { pitapats } from "../../dummyData";
+import { Pitapat } from "../../types";
 import { RootState } from "../index";
 
 

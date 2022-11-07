@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Chat } from "../../types";
 import { chats } from "../../dummyData";
+import { Chat } from "../../types";
 import { RootState } from "../index";
 
 
