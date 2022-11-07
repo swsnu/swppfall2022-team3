@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 
 interface IProps {
   tags: Tag[],
-  setTags: Dispatch<SetStateAction<Tag[]>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  setTags: Function,
+  setStep: Function,
 }
 
 export default function CreateTag({
@@ -25,10 +25,11 @@ export default function CreateTag({
 
   const clickHandler = () => {
     if (tag) {
-      if (!tags.includes(tag))
+      if (!tags.includes(tag)) {
         setTags([...tags, tag]);
+      }
     }
-  };
+  }
 
   const clickConfirmHandler = useCallback(() => {
     setStep(4);
@@ -75,9 +76,9 @@ export default function CreateTag({
           onClick={() => clickConfirmHandler()}
           disabled={tags.length === 0}
         >
-          확인
+          다음
         </button>
       </div>
     </section>
-  );
+  )
 }
