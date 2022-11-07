@@ -1,7 +1,6 @@
 branches:
   only:
     - main
-    - dev
     - integration
 dist: bionic
 jobs:
