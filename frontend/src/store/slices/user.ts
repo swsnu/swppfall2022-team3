@@ -83,6 +83,10 @@ const userSlice = createSlice({
         localStorage.setItem(loginStoreKey, JSON.stringify(user[0]));
       }
     },
+    logout: (state, _action: PayloadAction<void>) => {
+      state.loginUser = null;
+      localStorage.removeItem(loginStoreKey);
+    },
   },
 });
 

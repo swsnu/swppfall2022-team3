@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Profile from "../component/Profile";
 import NavigationBar from "../component/NavigationBar";
 import AppBar from "../component/AppBar";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { selectUser } from "../store/slices/user";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectPhoto } from "../store/slices/photo";
@@ -22,7 +22,7 @@ export default function PitapatList() {
 
   useEffect(() => {
     if (loginUser === null) {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [navigate, loginUser]);
 
