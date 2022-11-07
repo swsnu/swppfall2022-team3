@@ -1,20 +1,16 @@
-import React, { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
+import React, { Dispatch, HTMLInputTypeAttribute, SetStateAction } from "react";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { Gender } from "../../types";
 
 
-const dateToString = (date: Date): string => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day}`;
-};
-
 interface IProps {
   label: string,
-  value: string | Date,
+  value: string | number | Date,
+  setValue: Dispatch<SetStateAction<any>>
   type: HTMLInputTypeAttribute | "select",
-  onChange: ChangeEventHandler,
-  shouldWarn?: boolean,
   placeholder?: string,
   options?: { name: string, value: string | Gender | number }[],
 }
@@ -22,47 +18,73 @@ interface IProps {
 export default function InformationInput({
   label,
   value,
+  setValue,
   type,
-  onChange,
-  placeholder,
   options,
-  shouldWarn = false,
 }: IProps) {
   return (
-    <article className={`flex flex-col mx-12 item-center ${shouldWarn ? "" : "mb-6"}`}>
-      <article className={"font-bold"}>
-        {label}
-      </article>
+    <article className={"flex flex-col mx-12 item-center mb-6"}>
       {
         type === "select" ?
-          <select
-            className={"w-64 h-10 indent-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            value={value as string}
-            onChange={onChange}
+          <FormControl
+            sx={{
+              maxWidth: 320,
+              minWidth: 200,
+            }}
+            size={"small"}
+            required
           >
-            {
-              options?.map(({ name, value }) => (
-                <option
-                  key={value}
-                  value={value}
-                >
-                  { name }
-                </option>
-              ))
-            }
-          </select> :
-          <input
-            className={"w-64 h-10 indent-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            placeholder={placeholder}
-            type={type}
-            value={(typeof value === "string") ? value : dateToString(value)}
-            onChange={onChange}
-          />
-      }
-      {
-        shouldWarn ?
-          <article className={"h-6 ml-8 text-red-500 text-xs"}>필수 작성 항목입니다.</article>:
-          null
+            <InputLabel id={`input-label-${label}`}>
+              {label}
+            </InputLabel>
+            <Select
+              label={label}
+              variant={"outlined"}
+              value={value}
+              onChange={(e) => {
+                (setValue as Dispatch<SetStateAction<string | number>>)(e.target.value as (string | number));
+              }}
+            >
+              {
+                options?.map(({ name, value }) => (<MenuItem value={value} key={value}>{name}</MenuItem>))
+              }
+            </Select>
+          </FormControl> :
+          type === "date" ?
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <MobileDatePicker
+                label={label}
+                value={value}
+                inputFormat={"YYYY/MM/DD"}
+                onChange={(newValue) => {
+                  (setValue as Dispatch<SetStateAction<Date>>)(newValue ? new Date(newValue) : new Date());
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    sx={{
+                      maxWidth: 320,
+                      minWidth: 200,
+                    }}
+                    size={"small"}
+                    required
+                  />)}
+              />
+            </LocalizationProvider> :
+            <TextField
+              sx={{
+                maxWidth: 320,
+                minWidth: 200,
+              }}
+              size={"small"}
+              label={label}
+              variant={"outlined"}
+              value={value}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
+              required
+            />
       }
     </article>
   );

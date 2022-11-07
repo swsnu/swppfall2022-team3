@@ -1,10 +1,11 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
 import { sendVerificationCode } from "../../util/email";
 import verification from "../../util/verification";
+import InformationInput from "./InformationInput";
 
 
 interface IProps {
@@ -26,12 +27,8 @@ export default function UniversityCheck({
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
   const users = useSelector(selectUser).users;
+  const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [userInput, setUserInput] = useState<string>("");
-
-  const changeHandler = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    const targetUniversity = universities.find((univ) => (univ.name === event.target.value));
-    setUniversity(targetUniversity ? targetUniversity : null);
-  }, [universities, setUniversity]);
 
   const clickHandler = useCallback(async () => {
     const isExist = users.find((user) => user.email === email);
@@ -47,6 +44,10 @@ export default function UniversityCheck({
   }, [users, email, setStep, setVerificationCode]);
 
   useEffect(() => {
+    setUniversity(universities.find((u) => u.key === selectedUniversityKey) ?? null);
+  }, [selectedUniversityKey, setUniversity, universities]);
+
+  useEffect(() => {
     if (university) {
       setEmail(`${userInput}@${university.domain}`);
     }
@@ -56,30 +57,22 @@ export default function UniversityCheck({
   }, [university, userInput, setEmail]);
 
   return (
-    <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
-      <p className={"text-center text-pink-500/100 mt-6"}>
+    <section className={"h-screen w-full flex flex-col mt-12 mb-16 items-center"}>
+      <p className={"text-center text-pink-500/100 my-6"}>
         소속대학과<br/>
         학교 이메일을 입력해주세요
       </p>
-      <div className={"text-center mt-16"}>
-        <select
-          className={"w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          value={undefined}
-          onChange={changeHandler}
-        >{
-            ([{ key: 0, name: "", domain: "", colleges: [] }] as University[])
-              .concat(universities)
-              .map((univ) => (
-                <option
-                  key={univ.key}
-                  value={univ.name}
-                  className={"text-center"}
-                >{
-                    univ.name
-                  }</option>
-              ))
-          }</select>
-      </div>
+      <InformationInput
+        label={"소속대학"}
+        value={selectedUniversityKey}
+        setValue={setSelectedUniversityKey}
+        type={"select"}
+        options={
+          ([{ name: "", key: 0 }] as University[])
+            .concat(universities)
+            .map((u) => ({ name: u.name, value: u.key }))
+        }
+      />
       <div className={"text-center mt-2"}>
         <label className={"text-center"}>
           <input
