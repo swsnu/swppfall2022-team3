@@ -42,6 +42,7 @@ export default function Search() {
                 username={user.username}
                 koreanAge={getKoreanAge(user.birthday)}
                 photo={photo ? photo.path : ""}
+                isRecvPage={false}
                 status={getPitapatStatus(loginUser.key, user.key, pitapats)}
               />
             );

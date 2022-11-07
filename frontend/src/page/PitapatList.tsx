@@ -63,6 +63,7 @@ export default function PitapatList() {
                         username={from.username}
                         koreanAge={getKoreanAge(from.birthday)}
                         photo={photo ? photo.path : ""}
+                        isRecvPage={isRecvPage}
                         status={getPitapatStatus(loginUser.key, from.key, pitapats)}
                       />
                     );
@@ -88,6 +89,7 @@ export default function PitapatList() {
                       username={to.username}
                       koreanAge={getKoreanAge(to.birthday)}
                       photo={photo ? photo.path : ""}
+                      isRecvPage={isRecvPage}
                       status={getPitapatStatus(loginUser.key, to.key, pitapats)}
                     />
                   );
