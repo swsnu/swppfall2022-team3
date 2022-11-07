@@ -15,12 +15,12 @@ import { College, Gender, Major, Tag, University } from "../types";
 
 
 export default function SignUp() {
-  const [step, setStep] = useState<number>(0);
+  const [step, setStep] = useState<number>(6);
   const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
-  const [birthday, setBirthday] = useState<Date | null>(null);
+  const [birthday, setBirthday] = useState<Date>(new Date());
   const [college, setCollege] = useState<College | null>(null);
   const [major, setMajor] = useState<Major | null>(null);
   const [gender, setGender] = useState<Gender>(Gender.MALE);
@@ -120,7 +120,7 @@ export default function SignUp() {
                     </div>
                   </section>
                   :
-                  // default component..  but shouldn't be reached here.
+                  // default component.. but shouldn't be reached here.
                   <UniversityCheck
                     university={university}
                     setUniversity={setUniversity}
