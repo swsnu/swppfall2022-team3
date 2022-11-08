@@ -24,13 +24,14 @@ export default function InformationInput({
   options,
 }: IProps) {
   return (
-    <article className={"flex flex-col mx-12 item-center mb-6"}>
+    <article className={"flex flex-col item-center mb-6"}>
       {
         type === "select" ?
           <FormControl
             sx={{
               maxWidth: 320,
               minWidth: 200,
+              width: "100%",
             }}
             size={"small"}
             required

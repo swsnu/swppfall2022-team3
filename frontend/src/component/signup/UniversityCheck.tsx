@@ -31,11 +31,10 @@ export default function UniversityCheck({
   const users = useSelector(selectUser).users;
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [userInput, setUserInput] = useState<string>("");
-  const [userInputPw, setUserInputPw] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
-    const isExist = users.find((user) => user.email === email);
-    if (isExist) {
+    const doesEmailExist = users.find((user) => user.email === email);
+    if (doesEmailExist) {
       alert("이미 존재하는 이메일입니다.");
     }
     else {
@@ -66,50 +65,38 @@ export default function UniversityCheck({
           소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
-        <InformationInput
-          label={"소속대학"}
-          value={selectedUniversityKey}
-          setValue={setSelectedUniversityKey}
-          type={"select"}
-          options={
-            ([{ name: "", key: 0 }] as University[])
-              .concat(universities)
-              .map((u) => ({ name: u.name, value: u.key }))
-          }
-        />
-        <div className={"flex flex-row text-center mb-6"}>
-          <TextField
-            sx={{
-              maxWidth: 120,
-              minWidth: 80,
-            }}
-            size={"small"}
-            label={"이메일"}
-            variant={"outlined"}
-            value={userInput}
-            onChange={(e) => {
-              setUserInput(e.target.value);
-            }}
-            required
+        <section className="w-[12.5rem]">
+          <InformationInput
+            label={"소속대학"}
+            value={selectedUniversityKey}
+            setValue={setSelectedUniversityKey}
+            type={"select"}
+            options={
+              ([{ name: "", key: 0 }] as University[])
+                .concat(universities)
+                .map((u) => ({ name: u.name, value: u.key }))
+            }
           />
-          <article className={"flex-initial w-20 mt-2"}>
-            {`@${university?.domain ?? ""}`}
-          </article>
-        </div>
-        <TextField
-          sx={{
-            maxWidth: 320,
-            minWidth: 200,
-          }}
-          size={"small"}
-          label={"비밀번호"}
-          variant={"outlined"}
-          value={userInputPw}
-          onChange={(e) => {
-            setUserInputPw(e.target.value);
-          }}
-          required
-        />
+          <div className={"flex flex-row items-center text-center mb-6"}>
+            <TextField
+              sx={{
+                maxWidth: 120,
+                minWidth: 80,
+              }}
+              size={"small"}
+              label={"이메일"}
+              variant={"outlined"}
+              value={userInput}
+              onChange={(e) => {
+                setUserInput(e.target.value);
+              }}
+              required
+            />
+            <article className={"flex-initial w-20 ml-2 text-left"}>
+              {university ? `@${university.domain}` : ""}
+            </article>
+          </div>
+        </section>
       </section>
       <section className={"text-center"}>
         <button
