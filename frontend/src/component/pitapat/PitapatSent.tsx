@@ -32,7 +32,7 @@ export default function PitapatSent({
             username={to.username}
             koreanAge={getKoreanAge(to.birthday)}
             photo={photo ? photo.path : ""}
-            showRejectButton={true}
+            showRejectButton={false}
             isLastElement={(index === pitapats.length - 1) ? true : false}
             status={getPitapatStatus(loginUser?.key ?? -1, to.key, pitapats)}
           />
