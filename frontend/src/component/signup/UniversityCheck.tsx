@@ -65,7 +65,7 @@ export default function UniversityCheck({
           소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
-        <section className="w-[12.5rem]">
+        <div>
           <InformationInput
             label={"소속대학"}
             value={selectedUniversityKey}
@@ -77,6 +77,8 @@ export default function UniversityCheck({
                 .map((u) => ({ name: u.name, value: u.key }))
             }
           />
+        </div>
+        <section className="w-[12.5rem]">
           <div className={"flex flex-row items-center text-center mb-6"}>
             <TextField
               sx={{
