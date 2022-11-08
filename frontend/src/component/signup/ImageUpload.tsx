@@ -19,7 +19,7 @@ export default function ImageUpload({
   }, [setStep]);
 
   return (
-    <section className={"w-full mt-12 mb-16"}>
+    <section className={"flex flex-col items-center w-full mt-12 mb-16"}>
       <section className={"w-full h-[36rem] flex flex-col"}>
         <p className="mb-8 text-center text-pink-500/100">
           나를 대표할 수 있는<br />
@@ -55,14 +55,14 @@ export default function ImageUpload({
           ※ 본인의 사진이어야 합니다.
         </article>
       </section>
-      <section className={"text-center mt-8"}>
+      <article className={"absolute bottom-12"}>
         <button
           className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
           onClick={confirmOnClick}
         >
           완료
         </button>
-      </section>
+      </article>
     </section>
   );
 }

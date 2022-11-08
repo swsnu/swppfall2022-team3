@@ -88,10 +88,9 @@ export default function PersonalInformation({
     <section className="flex flex-col items-center w-full mt-12 mb-16">
       <p className="mb-8 text-center text-pink-500/100">
         인증 완료!!<br />
-        다른 친구들을 만나기 위해<br />
-        본인을 소개해보세요!
+        다른 친구들에게 본인을 소개해보세요!
       </p>
-      <section className={"flex-auto w-[12.5rem] h-fit flex flex-col items-center"}>
+      <section className={"flex-none h-fit flex flex-col items-center"}>
         <InformationInput
           label={"닉네임"}
           value={nickname}
@@ -155,14 +154,14 @@ export default function PersonalInformation({
           ]}
         />
       </section>
-      <section className={"text-center mt-8"}>
+      <article className={"absolute bottom-12"}>
         <button
           className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
           onClick={confirmOnClick}
         >
           다음
         </button>
-      </section>
+      </article>
     </section>
   );
 }
