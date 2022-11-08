@@ -104,6 +104,11 @@ export default function ChatDetail() {
           onChange={(e) => {
             setChatInput(e.target.value);
           }}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              sendChat();
+            }
+          }}
           placeholder={"메세지를 입력하세요"}
         />
         <section>
