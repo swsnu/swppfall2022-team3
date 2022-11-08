@@ -22,7 +22,6 @@ export default function EmailVerification({
   const navigate = useNavigate();
   const [sec, setSec] = useState<number>(180);
   const [code, setCode] = useState<string>("");
-  const [userInputPw, setUserInputPw] = useState<string>("");
 
   useEffect(() => {
     const countdown = setInterval(() => {

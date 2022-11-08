@@ -32,7 +32,7 @@ export default function Profile({
   const pitapats = useSelector(selectPitapat).pitapats;
 
   return (
-    <div className={`relative h-[100vw] ${isLastElement ? "" : "mb-2"}`}>
+    <article className={`relative h-[100vw] ${isLastElement ? "" : "mb-2"}`}>
       <button onClick={() => navigate("/profile/" + userKey)} className={"w-full z-0"}>
         <img
           src={photo}
@@ -70,6 +70,6 @@ export default function Profile({
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
