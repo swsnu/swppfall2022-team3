@@ -26,7 +26,7 @@ export default function Search() {
     }
   }, [navigate, loginUser]);
 
-  const asdf = useCallback((loginUser: User) => {
+  const getNoneStatusProfiles = useCallback((loginUser: User) => {
     const showUsers = users.filter((user) =>
       (user.key !== loginUser.key) && (getPitapatStatus(loginUser.key, user.key, pitapats) === PitapatStatus.NONE)
     );
@@ -53,7 +53,7 @@ export default function Search() {
       <section className={"mt-12 w-full"}>
         <AppBar/>
         <section className="h-fit pb-[56px]">
-          {asdf(loginUser)}
+          {getNoneStatusProfiles(loginUser)}
         </section>
         <NavigationBar/>
       </section> : <section></section>
