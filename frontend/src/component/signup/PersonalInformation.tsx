@@ -85,7 +85,7 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className="flex flex-col items-center w-full mt-12 mb-16">
+    <section className="relative h-[100vh] flex flex-col items-center w-full mt-20 mb-16">
       <p className="mb-8 text-center text-pink-500/100">
         인증 완료!!<br />
         다른 친구들에게 본인을 소개해보세요!

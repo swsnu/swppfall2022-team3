@@ -25,16 +25,16 @@ export default function Introduction({
   }, [setStep, introduction]);
 
   return (
-    <section className={"flex flex-col items-center w-full mt-12 mb-16"}>
+    <section className={"flex flex-col items-center w-full mt-20 mb-16"}>
       <section className={"w-full h-[36rem] flex flex-col items-center"}>
         <p className="mb-8 text-center text-pink-500/100">
           자신의 매력을 어필할 수 있는<br />
           소개글을 작성해보세요!
         </p>
-        <section className="w-60">
+        <section className="w-[80vw]">
           <div className={"text-center"}>
             <textarea
-              className={"w-full h-96 inline-block align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+              className={"w-full h-[50vh] align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
               placeholder="소개글을 작성해주세요!"
               value={introduction}
               onChange={(event) => setIntroduction(event.target.value)}

@@ -46,7 +46,7 @@ export default function CreateTag({
   }, [setStep, tags]);
 
   return (
-    <section className={"flex flex-col items-center w-full mt-12 mb-16"}>
+    <section className={"flex flex-col items-center w-full mt-20 mb-16"}>
       <section className={"w-full h-[36rem] flex flex-col items-center"}>
         <p className="text-center text-pink-500/100">
           나를 표현하는 태그를 입력해보세요!<br />
@@ -58,7 +58,7 @@ export default function CreateTag({
               <FormControl
                 sx={{
                   maxWidth: 320,
-                  minWidth: 240,
+                  minWidth: 200,
                 }}
                 size={"small"}
                 required

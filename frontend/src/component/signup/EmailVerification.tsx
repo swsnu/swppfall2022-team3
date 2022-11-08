@@ -83,22 +83,6 @@ export default function EmailVerification({
             {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
           </div>
         </div>
-        <div className="place-content-center text-center mr-8">
-          <TextField
-            sx={{
-              maxWidth: 320,
-              minWidth: 200,
-            }}
-            size={"small"}
-            label={"비밀번호"}
-            variant={"outlined"}
-            value={userInputPw}
-            onChange={(e) => {
-              setUserInputPw(e.target.value);
-            }}
-            required
-          />
-        </div>
       </section>
       <section>
         <div className={"text-center"}>

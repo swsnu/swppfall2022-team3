@@ -19,7 +19,7 @@ export default function ImageUpload({
   }, [setStep]);
 
   return (
-    <section className={"flex flex-col items-center w-full mt-12 mb-16"}>
+    <section className={"flex flex-col items-center w-full mt-20 mb-16"}>
       <section className={"w-full h-[36rem] flex flex-col"}>
         <p className="mb-8 text-center text-pink-500/100">
           나를 대표할 수 있는<br />
