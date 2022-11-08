@@ -25,7 +25,7 @@ export default function PitapatButton({
   const loginUser = useSelector(selectUser).loginUser;
   const pitapats = useSelector(selectPitapat).pitapats;
 
-  function isPitapatAlreadySended(): boolean {
+  function isPitapatAlreadysent(): boolean {
     if (!loginUser) {
       return false;
     }
@@ -36,7 +36,7 @@ export default function PitapatButton({
     if (!isAccept) {
       return "X";
     }
-    return isPitapatAlreadySended() ? "♥" : "♡";
+    return isPitapatAlreadysent() ? "♥" : "♡";
   }
 
   function getButtonText(isAccept: boolean, status: PitapatStatus) {
