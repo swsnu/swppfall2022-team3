@@ -19,15 +19,15 @@ export default function CreateTag({
   setTags,
   setStep,
 }: IProps) {
-  const variousTags = useSelector(selectTag).tags;
+  const existingTags = useSelector(selectTag).tags;
   const [tag, setTag] = useState<Tag | null>(null);
   const [selectedTagKey, setSelectedTagKey] = useState<number>(0);
   const [submittedWithNoTag, setSubmittedWithNoTag] = useState<boolean>(false);
 
   useEffect(() => {
-    const targetTag = variousTags.find((t) => (t.key === selectedTagKey));
+    const targetTag = existingTags.find((t) => (t.key === selectedTagKey));
     setTag(targetTag ?? null);
-  }, [setTag, selectedTagKey, variousTags]);
+  }, [setTag, selectedTagKey, existingTags]);
 
   const addTagOnClick = useCallback(() => {
     if (tag) {
@@ -58,7 +58,7 @@ export default function CreateTag({
               <FormControl
                 sx={{
                   maxWidth: 320,
-                  minWidth: 200,
+                  minWidth: 240,
                 }}
                 size={"small"}
                 required
@@ -76,7 +76,7 @@ export default function CreateTag({
                 >
                   {
                     ([{ key: 0, name: "", type: "" }] as Tag[])
-                      .concat(variousTags)
+                      .concat(existingTags)
                       .map((t) => ({ name: t.name, value: t.key }))
                       .map(({ name, value }) => (<MenuItem value={value} key={value}>{name}</MenuItem>))
                   }
