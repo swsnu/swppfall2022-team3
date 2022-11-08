@@ -4,9 +4,9 @@ import CompleteSentence from "./CompleteSentence";
 
 
 interface IProps {
-  introduction: string,
-  setIntroduction: Dispatch<SetStateAction<string>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  introduction: string;
+  setIntroduction: Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function Introduction({

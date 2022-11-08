@@ -9,8 +9,8 @@ import { User } from "../types";
 
 
 interface IProps {
-  user: User,
-  lastChat: string | null,
+  user: User;
+  lastChat: string | null;
 }
 
 export default function ChatListElement({

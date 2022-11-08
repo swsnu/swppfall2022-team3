@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 
 interface IProps {
-  content: string,
-  isMine: boolean,
-  sender: number,
-  photoPath: string,
+  content: string;
+  isMine: boolean;
+  sender: number;
+  photoPath: string;
 }
 
 const basicChatClassName = "p-2 m-1 border w-auto max-w-2/3 rounded-xl";

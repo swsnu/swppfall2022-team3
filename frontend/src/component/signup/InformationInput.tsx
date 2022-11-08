@@ -8,12 +8,12 @@ import { Gender } from "../../types";
 
 
 interface IProps {
-  label: string,
-  value: string | number | Date | Gender,
-  setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>,
-  type: HTMLInputTypeAttribute | "select",
-  isPassword?: boolean,
-  options?: { name: string, value: string | Gender | number }[],
+  label: string;
+  value: string | number | Date | Gender;
+  setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>;
+  type: HTMLInputTypeAttribute | "select";
+  isPassword?: boolean;
+  options?: { name: string; value: string | Gender | number }[];
 }
 
 export default function InformationInput({

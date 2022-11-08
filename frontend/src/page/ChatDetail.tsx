@@ -49,7 +49,7 @@ export default function ChatDetail() {
       }
       else {
         try {
-          const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
+          const decrypted: { from: number; to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
           if (decrypted?.from && decrypted?.to) {
             if (decrypted.from !== loginUser.key) {
               navigate(paths.chat);

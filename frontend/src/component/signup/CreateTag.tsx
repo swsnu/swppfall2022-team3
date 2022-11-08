@@ -8,9 +8,9 @@ import { Tag } from "../../types";
 
 
 interface IProps {
-  tags: Tag[],
-  setTags: Dispatch<SetStateAction<Tag[]>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  tags: Tag[];
+  setTags: Dispatch<SetStateAction<Tag[]>>;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function CreateTag({

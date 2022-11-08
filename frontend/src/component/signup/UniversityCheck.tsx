@@ -11,12 +11,12 @@ import InformationInput from "./InformationInput";
 
 
 interface IProps {
-  university: University | null,
-  setUniversity: Dispatch<SetStateAction<University | null>>,
-  email: string,
-  setEmail: Dispatch<SetStateAction<string>>,
-  setVerificationCode: Dispatch<SetStateAction<string>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  university: University | null;
+  setUniversity: Dispatch<SetStateAction<University | null>>;
+  email: string;
+  setEmail: Dispatch<SetStateAction<string>>;
+  setVerificationCode: Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function UniversityCheck({

@@ -5,9 +5,9 @@ import ImageUploadIcon from "./ImageUploadIcon";
 
 
 interface IProps {
-  uploadedPhotos: File[],
-  setUploadedPhotos: Dispatch<SetStateAction<File[]>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  uploadedPhotos: File[];
+  setUploadedPhotos: Dispatch<SetStateAction<File[]>>;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function ImageUpload({

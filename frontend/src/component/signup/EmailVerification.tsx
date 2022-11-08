@@ -7,10 +7,10 @@ import verification from "../../util/verification";
 
 
 interface IProps {
-  email: string,
-  verificationCode: string,
-  setVerificationCode: Dispatch<SetStateAction<string>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  email: string;
+  verificationCode: string;
+  setVerificationCode: Dispatch<SetStateAction<string>>;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function EmailVerification({

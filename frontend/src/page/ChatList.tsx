@@ -13,8 +13,8 @@ import { User } from "../types";
 
 
 type ChatRoomInfo = {
-  user: User,
-  lastChat: string | null,
+  user: User;
+  lastChat: string | null;
 }
 
 export default function ChatList() {

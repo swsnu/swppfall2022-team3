@@ -5,7 +5,7 @@ import { ArrowUturnLeftIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 
 
 interface IProps {
-  title?: string,
+  title?: string;
 }
 
 const iconClassName = "h-8 w-8 mx-2";

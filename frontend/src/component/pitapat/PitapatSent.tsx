@@ -8,7 +8,7 @@ import Profile from "../Profile";
 
 
 interface IProps {
-  pitapats: Pitapat[],
+  pitapats: Pitapat[];
 }
 
 export default function PitapatSent({

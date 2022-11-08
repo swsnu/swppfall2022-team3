@@ -5,7 +5,7 @@ interface IProps {
   name: string;
   age: number;
   gender: boolean;  // female == false, male == true
-  isAlarmToggled: boolean  // later on
+  isAlarmToggled: boolean;  // later on
   clickDetail?: () => void;
 }
 
