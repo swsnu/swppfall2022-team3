@@ -17,6 +17,60 @@ const mockStore = getMockStore({
   chat: { chats: chats },
 });
 
+jest.mock(
+  "./page/SignIn",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/SignUp",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/Search",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/ProfileDetail",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/ChatList",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/ChatDetail",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/PitapatList",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/Setting",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
+jest.mock(
+  "./page/ProfileUpdate",
+  // eslint-disable-next-line react/display-name
+  () => () => <div></div>,
+);
+
 test("renders App", () => {
   const { container } = render(
     <Provider store={mockStore}>
