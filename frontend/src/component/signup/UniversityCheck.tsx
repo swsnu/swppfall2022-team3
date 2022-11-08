@@ -30,7 +30,7 @@ export default function UniversityCheck({
   const universities = useSelector(selectUniversity).universities;
   const users = useSelector(selectUser).users;
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
-  const [userInput, setUserInput] = useState<string>("");
+  const [emailInput, setEmailInput] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
     const doesEmailExist = users.find((user) => user.email === email);
@@ -51,12 +51,12 @@ export default function UniversityCheck({
 
   useEffect(() => {
     if (university) {
-      setEmail(`${userInput}@${university.domain}`);
+      setEmail(`${emailInput}@${university.domain}`);
     }
     else {
       setEmail("");
     }
-  }, [university, userInput, setEmail]);
+  }, [university, emailInput, setEmail]);
 
   return (
     <section className={"w-full mt-12 mb-16"}>
@@ -65,7 +65,7 @@ export default function UniversityCheck({
           소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
-        <div>
+        <section className="flex flex-col items-center">
           <InformationInput
             label={"소속대학"}
             value={selectedUniversityKey}
@@ -77,27 +77,27 @@ export default function UniversityCheck({
                 .map((u) => ({ name: u.name, value: u.key }))
             }
           />
-        </div>
-        <section className="w-[12.5rem]">
-          <div className={"flex flex-row items-center text-center mb-6"}>
-            <TextField
-              sx={{
-                maxWidth: 120,
-                minWidth: 80,
-              }}
-              size={"small"}
-              label={"이메일"}
-              variant={"outlined"}
-              value={userInput}
-              onChange={(e) => {
-                setUserInput(e.target.value);
-              }}
-              required
-            />
-            <article className={"flex-initial w-20 ml-2 text-left"}>
-              {university ? `@${university.domain}` : ""}
-            </article>
-          </div>
+          <section className="w-[15rem]">
+            <div className={"flex flex-row items-center text-center mb-6"}>
+              <TextField
+                sx={{
+                  maxWidth: 160,
+                  minWidth: 80,
+                }}
+                size={"small"}
+                label={"이메일"}
+                variant={"outlined"}
+                value={emailInput}
+                onChange={(e) => {
+                  setEmailInput(e.target.value);
+                }}
+                required
+              />
+              <article className={"flex-initial w-20 ml-2 text-left"}>
+                {university ? `@${university.domain}` : ""}
+              </article>
+            </div>
+          </section>
         </section>
       </section>
       <section className={"text-center"}>
