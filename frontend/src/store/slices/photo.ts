@@ -28,6 +28,7 @@ const photoSlice = createSlice({
   },
 });
 
+export const photoActions = photoSlice.actions;
 export const selectPhoto = (state: RootState) => state.photo;
 const photoReducer = photoSlice.reducer;
 export default photoReducer;

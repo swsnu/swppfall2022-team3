@@ -28,7 +28,7 @@ export default function Introduction({
   return (
     <section className={"h-screen w-full flex flex-col"}>
       <CompleteSentence/>
-      <article className={"mt-4 mb-2 mx-8"}>소개글</article>
+      <article className={"mt-4 mb-2 text-center"}>소개글</article>
       <div className={"text-center"}>
         <textarea
           className={"w-64 h-96 inline-block align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}

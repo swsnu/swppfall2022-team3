@@ -1,80 +1,58 @@
 import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
-import { photos } from "../../dummyData";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import CompleteSentetnce from "./CompleteSentence";
+import ImageUploadIcon from "./ImageUploadIcon";
 
 
-interface IProp {
-  images: File[],
-  setImages: Dispatch<SetStateAction<File[]>>,
+interface IProps {
+  uploadedPhotos: File[],
+  setUploadedPhotos: Dispatch<SetStateAction<File[]>>,
   setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function ImageUpload({
-  images,
-  setImages,
+  uploadedPhotos,
+  setUploadedPhotos,
   setStep,
-}: IProp) {
-  const [hasClickImgFirst, setHasClickImgFirst] = useState<boolean>(false);
-  const [hasClickImgSecond, setHasClickImgSecond] = useState<boolean>(false);
-
-  const imgSecondOnClick = useCallback(() => {
-    if (hasClickImgFirst) {
-      setHasClickImgSecond(true);
-    }
-  }, [setHasClickImgSecond, hasClickImgFirst]);
-
+}: IProps) {
   const confirmOnClick = useCallback(() => {
     setStep(6);
   }, [setStep]);
 
-
   return (
     <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
       <CompleteSentetnce />
-      <article className={"mt-8 ml-8"}>
+      <article className={"text-center"}>
         프로필 이미지
       </article>
-      <div className={"flex flex-wrap my-4"}>
-        <input
-          className={"flex-none mx-10 w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          type="image"
-          onClick={() => (setHasClickImgFirst(true))}
-          src={hasClickImgFirst ? photos[12].path : photos[14].path}
-          alt={String(photos[12].index)}
+      <section className={"flex flex-wrap px-10"}>
+        {uploadedPhotos.map((photo, index) => {
+          const examples = ["photo13.jpeg", "photo14.jpeg"];
+          return <ImageUploadIcon
+            key={index}
+            src={examples[index]}
+            disabled={true}
+            uploadedPhotos={uploadedPhotos}
+            setUploadedPhotos={setUploadedPhotos}
+          />;
+
+          // DO NOT DELETE: will be used with real server
+          // return <ImageUploadIcon
+          //   src={photo.name}
+          //   key={index}
+          //   uploadedPhotos={uploadedPhotos}
+          //   setUploadedPhotos={setUploadedPhotos}
+          // />;
+        })}
+        <ImageUploadIcon
+          src="plus.jpeg"
+          disabled={false}
+          uploadedPhotos={uploadedPhotos}
+          setUploadedPhotos={setUploadedPhotos}
         />
-        <input
-          className={"flex-none w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          type="image"
-          onClick={imgSecondOnClick}
-          src={hasClickImgFirst ? (hasClickImgSecond ? photos[13].path : photos[14].path) : ""}
-          alt=""
-        />
-        <input
-          className={"flex-none mx-10 my-4 w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          type="image"
-          src={hasClickImgSecond ? photos[14].path : ""}
-          alt=""
-        />
-        <input
-          className={"flex-none w-24 h-24 my-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          type="image"
-          alt=""
-        />
-        <input
-          className={"flex-none mx-10 w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          type="image"
-          alt=""
-        />
-        <input
-          className={"flex-none w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-          type="image"
-          alt=""
-        />
-      </div>
+      </section>
       <article className="text-center text-pink-500/100 mt-6">
-        경고문구<br />
-        ex) 본인의 사진이어야 합니다.
+        ※ 본인의 사진이어야 합니다.
       </article>
       <div className={"text-center"}>
         <button

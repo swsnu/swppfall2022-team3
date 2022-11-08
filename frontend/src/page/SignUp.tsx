@@ -10,14 +10,16 @@ import Introduction from "../component/signup/Introduction";
 import PersonalInformation from "../component/signup/PersonalInformation";
 import UniversityCheck from "../component/signup/UniversityCheck";
 import paths from "../constant/path";
-import { users } from "../dummyData";
 import { AppDispatch } from "../store";
+// import { selectPhoto } from "../store/slices/photo";
 import { selectUser, userActions } from "../store/slices/user";
 import { College, Gender, Major, Tag, University } from "../types";
 
 
 export default function SignUp() {
+  const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
+  // const photos = useSelector(selectPhoto).photos;
   const [step, setStep] = useState<number>(0);
   const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -30,8 +32,7 @@ export default function SignUp() {
   const [targetGender, setTargetGender] = useState<Gender>(Gender.ALL);
   const [tags, setTags] = useState<Tag[]>([]);
   const [introduction, setIntroduction] = useState<string>("");
-  // not photo, they are image files yet
-  const [images, setImages] = useState<File[]>([]);
+  const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -42,7 +43,21 @@ export default function SignUp() {
   }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(() => {
-    const tagsKey = tags.map((tag) => tag.key);
+    // DO NOT DELETE: will be used with real server
+    // uploadedPhotos.forEach((photo) => {
+    //   const key = photos.length + 1;
+    //   const temp = (photo as File).name.split(".");
+    //   const extension = temp[temp.length - 1];
+    //   const filename = `photo${key}.${extension}`;
+    //   dispatch(photoActions.add({
+    //     key: key,
+    //     index: 1,
+    //     path: filename,
+    //   }));
+    //   // TODO: save image in server
+    // });
+
+    const tagKeys = tags.map((tag) => tag.key);
     if (university && college && major && birthday) {
       dispatch(userActions.add(
         {
@@ -56,13 +71,13 @@ export default function SignUp() {
           college: college.key,
           major: major.key,
           introduction,
-          tags: tagsKey,
+          tags: tagKeys,
           photos: [13, 14]
         }
       ));
       navigate("/signin");
     }
-  }, [dispatch, birthday, college, email, gender, introduction, major, navigate, nickname, tags, university]);
+  }, [dispatch, navigate, users, birthday, college, email, gender, introduction, major, nickname, tags, university]);
 
   return (
     step === 0 ?
@@ -111,8 +126,8 @@ export default function SignUp() {
               /> :
               step === 5 ?
                 <ImageUpload
-                  images={images}
-                  setImages={setImages}
+                  uploadedPhotos={uploadedPhotos}
+                  setUploadedPhotos={setUploadedPhotos}
                   setStep={setStep}
                 /> :
                 step === 6 ?

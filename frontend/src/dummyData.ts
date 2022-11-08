@@ -269,12 +269,6 @@ export const photos: Photo[] = [
     index: 10,
     path: "/photo14.jpeg",
   },
-  {
-    key: 15,
-    index: 99,
-    path: "/photo15.jpeg",
-  },
-
 ];
 
 export const pitapats: Pitapat[] = [
