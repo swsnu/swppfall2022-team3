@@ -69,6 +69,7 @@ export default function PitapatButton({
     <button
       className={`${isListView ? "flex-none" : "absolute right-4"} w-16 h-8 z-10 bg-white rounded-lg border ${isAccept ? "border-pink-600" : "border-blue-600"} flex items-center justify-center`}
       onClick={pitapatOnClick}
+      disabled={pitapatStatus === PitapatStatus.MATCHED}
     >
       <div className={`flex-none mx-0.5 font-bold ${isAccept ? "text-pink-600" : "text-blue-600"}`}>
         {getIconText()}
