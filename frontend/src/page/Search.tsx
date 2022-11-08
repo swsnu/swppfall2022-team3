@@ -50,9 +50,9 @@ export default function Search() {
 
   return (
     loginUser ?
-      <section className={"mt-12 mb-[56px] w-full"}>
+      <section className={"mt-12 w-full"}>
         <AppBar/>
-        <section>
+        <section className="h-fit pb-[56px]">
           {asdf(loginUser)}
         </section>
         <NavigationBar/>

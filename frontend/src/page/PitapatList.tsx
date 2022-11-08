@@ -37,7 +37,7 @@ export default function PitapatList() {
   }, [navigate, loginUser]);
 
   return (
-    <section className={"w-full flex flex-col mt-24 mb-[56px]"}>
+    <section className={"w-full flex flex-col mt-24"}>
       <AppBar title={"두근두근 캠퍼스"}/>
       <ThemeProvider theme={theme}>
         <Tabs
@@ -54,33 +54,31 @@ export default function PitapatList() {
           <Tab label={"보낸 두근"}/>
         </Tabs>
       </ThemeProvider>
-      {
-        selectedTabIndex === 0 ?
-          (
-            <PitapatReceived
-              pitapats={
-                pitapats
-                  .filter((p) =>
-                    (p.to === loginUser?.key) &&
-                    (getPitapatStatus(loginUser?.key, p.from, pitapats) !== PitapatStatus.MATCHED)
-                  )
-              }
-            />
-          ) :
-          <section>
-            {
-              <PitapatSent
+      <section className="pb-[56px]">
+        {
+          selectedTabIndex === 0 ?
+            (
+              <PitapatReceived
                 pitapats={
                   pitapats
                     .filter((p) =>
-                      (p.from === loginUser?.key) &&
-                      (getPitapatStatus(loginUser?.key, p.to, pitapats) !== PitapatStatus.MATCHED)
+                      (p.to === loginUser?.key) &&
+                    (getPitapatStatus(loginUser?.key, p.from, pitapats) !== PitapatStatus.MATCHED)
                     )
                 }
               />
-            }
-          </section>
-      }
+            ) :
+            <PitapatSent
+              pitapats={
+                pitapats
+                  .filter((p) =>
+                    (p.from === loginUser?.key) &&
+                        (getPitapatStatus(loginUser?.key, p.to, pitapats) !== PitapatStatus.MATCHED)
+                  )
+              }
+            />
+        }
+      </section>
       <NavigationBar/>
     </section>
   );
