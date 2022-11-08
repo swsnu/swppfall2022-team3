@@ -44,6 +44,7 @@ export default function PersonalInformation({
   const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(0);
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(0);
   const [targetMajors, setTargetMajors] = useState<Major[]>([]);
+  const [userInputPw, setUserInputPw] = useState<string>("");
 
   const confirmOnClick = useCallback(() => {
     if (
@@ -92,6 +93,13 @@ export default function PersonalInformation({
           value={nickname}
           setValue={setNickname}
           type={"text"}
+        />
+        <InformationInput
+          label={"비밀번호"}
+          value={userInputPw}
+          setValue={setUserInputPw}
+          type={"text"}
+          isPassword={true}
         />
         <InformationInput
           label={"생년월일"}

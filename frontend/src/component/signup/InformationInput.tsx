@@ -12,7 +12,7 @@ interface IProps {
   value: string | number | Date | Gender,
   setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>,
   type: HTMLInputTypeAttribute | "select",
-  placeholder?: string,
+  isPassword?: boolean,
   options?: { name: string, value: string | Gender | number }[],
 }
 
@@ -21,6 +21,7 @@ export default function InformationInput({
   value,
   setValue,
   type,
+  isPassword,
   options,
 }: IProps) {
   return (
@@ -80,6 +81,7 @@ export default function InformationInput({
               }}
               size={"small"}
               label={label}
+              type={isPassword ? "password" : "text"}
               variant={"outlined"}
               value={value}
               onChange={(e) => {
