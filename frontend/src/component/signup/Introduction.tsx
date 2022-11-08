@@ -27,18 +27,20 @@ export default function Introduction({
 
   return (
     <section className={"h-screen w-full mt-12 mb-16"}>
-      <section className={"h-screen w-full h-[36rem] flex flex-col"}>
+      <section className={"h-screen w-full h-[36rem] flex flex-col items-center"}>
         <CompleteSentence />
-        <article className={"mt-4 mb-2 mx-8"}>소개글</article>
-        <div className={"text-center"}>
-          <textarea
-            className={"w-64 h-96 inline-block align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            placeholder="소개글을 작성해주세요!"
-            value={introduction}
-            onChange={(event) => setIntroduction(event.target.value)}
-          >
-          </textarea>
-        </div>
+        <section className="w-[85%]">
+          <article className={"mt-4 mb-2"}>소개글</article>
+          <div className={"text-center"}>
+            <textarea
+              className={"w-full h-96 inline-block align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+              placeholder="소개글을 작성해주세요!"
+              value={introduction}
+              onChange={(event) => setIntroduction(event.target.value)}
+            >
+            </textarea>
+          </div>
+        </section>
         <article className={"ml-8 text-red-500 text-sm"}>{(hasSubmit) ? "필수 작성 항목입니다." : " "}</article>
       </section>
       <section className={"text-center mt-8"}>
