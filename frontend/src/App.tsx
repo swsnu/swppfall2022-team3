@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import paths from "./constant/path";
 import ChatDetail from "./page/ChatDetail";
@@ -13,6 +14,10 @@ import SignUp from "./page/SignUp";
 
 
 function App() {
+  useEffect(() => {
+    document.title = "두근두근 캠퍼스";
+  });
+
   return (
     <div className={"App h-screen flex"}>
       <BrowserRouter>
