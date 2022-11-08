@@ -20,7 +20,7 @@ export default function SignUp() {
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
   // const photos = useSelector(selectPhoto).photos;
-  const [step, setStep] = useState<number>(0);
+  const [step, setStep] = useState<number>(3);
   const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
