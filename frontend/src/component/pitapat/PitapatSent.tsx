@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { useSelector } from "react-redux";
 import { selectPhoto } from "../../store/slices/photo";
 import { selectUser } from "../../store/slices/user";
@@ -21,7 +21,7 @@ export default function PitapatSent({
   return (
     <section>
       {
-        pitapats.map((pitapat) => {
+        pitapats.map((pitapat, index) => {
           const to = users.find(user => user.key === pitapat.to)!;
           const photo = photos.find((p) => p.key === to.photos[0]);
           return (
@@ -33,6 +33,7 @@ export default function PitapatSent({
               koreanAge={getKoreanAge(to.birthday)}
               photo={photo ? photo.path : ""}
               showRejectButton={false}
+              isLastElement={(index === pitapats.length - 1) ? true : false}
               status={getPitapatStatus(loginUser?.key ?? -1, to.key, pitapats)}
             />
           );

@@ -14,6 +14,7 @@ interface IProps {
   koreanAge: number;
   photo: string;
   showRejectButton: boolean;
+  isLastElement: boolean;
   status: PitapatStatus;
 }
 
@@ -24,13 +25,14 @@ export default function Profile({
   koreanAge,
   photo,
   showRejectButton,
+  isLastElement,
   status,
 }: IProps) {
   const navigate = useNavigate();
   const pitapats = useSelector(selectPitapat).pitapats;
 
   return (
-    <div className={"relative h-[100vw]"}>
+    <div className={`relative h-[100vw] ${isLastElement ? "" : "mb-2"}`}>
       <button onClick={() => navigate("/profile/" + userKey)} className={"w-full z-0"}>
         <img
           src={photo}
