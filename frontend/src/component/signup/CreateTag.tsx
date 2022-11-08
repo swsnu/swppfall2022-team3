@@ -48,12 +48,12 @@ export default function CreateTag({
   return (
     <section className={"h-screen w-full mt-12 mb-16"}>
       <section className={"h-screen w-full h-[36rem] flex flex-col"}>
-        <p className="text-center text-pink-500/100 mt-6">
+        <p className="text-center text-pink-500/100">
           나를 표현하는 태그를 입력해보세요!<br />
           ex) 취미 (등산, 그림, ...)
         </p>
-        <div className={"flex flex-row justify-center mt-12 mb-6"}>
-          <article className={"flex flex-col item-center mb-6"}>
+        <div className={"flex flex-row justify-center mt-8"}>
+          <article className={"flex flex-col item-center"}>
             <FormControl
               sx={{
                 maxWidth: 320,
@@ -83,10 +83,10 @@ export default function CreateTag({
             </FormControl>
           </article>
           <button onClick={addTagOnClick}>
-            <PlusCircleIcon className="h-8 w-8 mb-6 stroke-1 stroke-white fill-pink-500" />
+            <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500" />
           </button>
         </div>
-        <article className={"ml-12 text-red-500 text-sm"}>{(hasSubmit) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
+        <article className={"ml-12 text-red-500 mb-12 text-sm"}>{(hasSubmit) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
         <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
           {tags.map((t) =>
             <div key={t.key} className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>

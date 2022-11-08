@@ -22,7 +22,9 @@ export default function ImageUpload({
   return (
     <section className={"h-screen w-full mt-12 mb-16"}>
       <section className={"h-screen w-full h-[36rem] flex flex-col"}>
-        <CompleteSentetnce />
+        <div className={"mb-8"}>
+          <CompleteSentetnce />
+        </div>
         <article className={"ml-6"}>
           프로필 이미지
         </article>

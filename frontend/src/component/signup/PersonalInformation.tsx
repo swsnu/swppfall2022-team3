@@ -84,7 +84,9 @@ export default function PersonalInformation({
   return (
     <section className="h-screen w-full mt-12 mb-16">
       <section className={"h-screen w-full h-[36rem] flex flex-col items-center"}>
-        <CompleteSentence />
+        <div className="mb-8">
+          <CompleteSentence />
+        </div>
         <InformationInput
           label={"닉네임"}
           value={nickname}

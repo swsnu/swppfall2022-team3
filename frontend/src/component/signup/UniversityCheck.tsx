@@ -76,7 +76,7 @@ export default function UniversityCheck({
               .map((u) => ({ name: u.name, value: u.key }))
           }
         />
-        <div className={"flex flex-col text-center mt-2"}>
+        <div className={"flex flex-col text-center"}>
           <TextField
             sx={{
               maxWidth: 320,

@@ -2,6 +2,7 @@ import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { TextField } from "@mui/material";
 import paths from "../constant/path";
 import { AppDispatch } from "../store";
 import { selectUser, userActions } from "../store/slices/user";
@@ -35,29 +36,46 @@ export default function SignIn() {
   return (
     <section className={"h-screen w-full mt-12 mb-16"}>
       <section className={"h-screen w-full h-[32rem] flex flex-col"}>
-        <h1 className={"text-center text-5xl text-pink-500 font-bold mt-16"}>
+        <h1 className={"text-center text-5xl text-pink-500 font-bold mt-24 my-16"}>
           두근두근<br />
           캠퍼스
         </h1>
-        <div className={"flex flex-row justify-center mt-28"}>
-          <article className={"flex-1 text-pink-500 font-bold text-center leading-10"}>
+        <div className={"flex flex-row place-content-center"}>
+          <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
             이메일:
           </article>
-          <input
-            className={"h-8 ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          <TextField
+            sx={{
+              maxWidth: 320,
+              minWidth: 200,
+            }}
+            size={"small"}
+            label={""}
+            variant={"outlined"}
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            required
           />
         </div>
-        <div className={"flex flex-row justify-center mb-24"}>
-          <article className={"flex-1 text-pink-500 font-bold text-center leading-10"}>
+        <div className={"flex flex-row place-content-center mt-6 mb-24"}>
+          <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
             비밀번호:
           </article>
-          <input
-            className={"h-8 ml-4 mr-8 my-1 w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            type="password"
+          <TextField
+            sx={{
+              maxWidth: 320,
+              minWidth: 200,
+            }}
+            size={"small"}
+            label={""}
+            variant={"outlined"}
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            required
           />
         </div>
       </section>

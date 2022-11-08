@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { TextField } from "@mui/material";
 import { sendVerificationCode } from "../../util/email";
 import verification from "../../util/verification";
 
@@ -58,20 +59,28 @@ export default function EmailVerification({
   return (
     <section className={"h-screen w-full mt-12 mb-16"}>
       <section className={"h-screen w-full h-[32rem] flex flex-col"}>
-        <p className={"text-center text-pink-500/100 mt-36"}>
+        <p className={"text-center text-pink-500/100 mt-36 my-16"}>
           인증 코드가 발송되었습니다!<br />
           이메일을 확인해주세요.
         </p>
-        <div className={"text-center mt-16"}>
-          <label className={"text-center"}>
-            <input
-              className={"w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-              placeholder={" 인증코드"}
-              value={code}
-              onChange={(event) => setCode(event.target.value)}>
-            </input>
+        <div className={"flex flex-row place-content-center"}>
+          <TextField
+            sx={{
+              maxWidth: 320,
+              minWidth: 200,
+            }}
+            size={"small"}
+            label={"인증코드"}
+            variant={"outlined"}
+            value={code}
+            onChange={(e) => {
+              setCode(e.target.value);
+            }}
+            required
+          />
+          <div className={"mt-2"}>
             {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
-          </label>
+          </div>
         </div>
       </section>
       <section>
