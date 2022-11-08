@@ -2,24 +2,33 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createTheme, Tab, Tabs, ThemeProvider } from "@mui/material";
 import AppBar from "../component/AppBar";
 import NavigationBar from "../component/NavigationBar";
-import Profile from "../component/Profile";
+import PitapatReceived from "../component/pitapat/PitapatReceived";
+import PitapatSent from "../component/pitapat/PitapatSent";
 import paths from "../constant/path";
-import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge, PitapatStatus } from "../types";
+import { PitapatStatus } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
+type TabIndex = 0 | 1;
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#F48FB1",
+    }
+  }
+});
+
 export default function PitapatList() {
   const navigate = useNavigate();
-  const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
   const pitapats = useSelector(selectPitapat).pitapats;
-  const photos = useSelector(selectPhoto).photos;
-  const [isRecvPage, setIsRecvPage] = useState<boolean>(true);
+  const [selectedTabIndex, setSelectedTabIndex] = useState<TabIndex>(0);
 
   useEffect(() => {
     if (!loginUser) {
@@ -28,80 +37,51 @@ export default function PitapatList() {
   }, [navigate, loginUser]);
 
   return (
-    loginUser ?
-      <section className={"w-full flex flex-col mt-24 mb-16"}>
-        <AppBar title={"두근두근 캠퍼스"}/>
-        <section className={"top-12 w-full flex flex-row h-12 z-10 fixed bg-white"}>
-          <button
-            className={`flex-1 border font-bold ${isRecvPage ? "border-pink-300 text-pink-500" : "border-gray-400 text-gray-400"}`}
-            disabled={isRecvPage}
-            onClick={() => setIsRecvPage(true)}
-          >
-            내가 받은 두근
-          </button>
-          <button
-            className={`flex-1 border font-bold ${isRecvPage ? "border-gray-400 text-gray-400" : "border-pink-300 text-pink-500"}`}
-            disabled={!isRecvPage}
-            onClick={() => setIsRecvPage(false)}
-          >
-            내가 보낸 두근
-          </button>
-        </section>
-        {
-          isRecvPage ?
-            <section>{
-              pitapats
-                .filter((p) => (p.to === loginUser.key) && (getPitapatStatus(loginUser.key, p.from, pitapats) !== PitapatStatus.MATCHED))
-                .map((p) => {
-                  const from = users.find(user => user.key === p.from);
-                  if (from) {
-                    const photo = photos.find((p) => p.key === from.photos[0]);
-                    return (
-                      <Profile
-                        key={from.key}
-                        myKey={loginUser.key}
-                        userKey={from.key}
-                        username={from.username}
-                        koreanAge={getKoreanAge(from.birthday)}
-                        photo={photo ? photo.path : ""}
-                        isRecvPage={isRecvPage}
-                        status={getPitapatStatus(loginUser.key, from.key, pitapats)}
-                      />
-                    );
-                  }
-                  else {
-                    throw Error("invalid user");
-                  }
-                })
-            }</section>
-            :
-            <section>
-              {pitapats.filter((p) =>
-                (p.from === loginUser.key) && (getPitapatStatus(loginUser.key, p.to, pitapats) !== PitapatStatus.MATCHED)
-              ).map((p) => {
-                const to = users.find(user => user.key === p.to);
-                if (to) {
-                  const photo = photos.find((p) => p.key === to.photos[0]);
-                  return (
-                    <Profile
-                      key={to.key}
-                      myKey={loginUser.key}
-                      userKey={to.key}
-                      username={to.username}
-                      koreanAge={getKoreanAge(to.birthday)}
-                      photo={photo ? photo.path : ""}
-                      isRecvPage={isRecvPage}
-                      status={getPitapatStatus(loginUser.key, to.key, pitapats)}
-                    />
-                  );
+    <section className={"w-full flex flex-col mt-24 mb-16"}>
+      <AppBar title={"두근두근 캠퍼스"}/>
+      <ThemeProvider theme={theme}>
+        <Tabs
+          className={"top-12 w-full flex flex-row h-12 z-10 fixed"}
+          value={selectedTabIndex}
+          onChange={(_, newValue) => setSelectedTabIndex(newValue)}
+          sx={{
+            backgroundColor: "white",
+          }}
+          textColor={"primary"}
+          variant={"fullWidth"}
+        >
+          <Tab label={"받은 두근"}/>
+          <Tab label={"보낸 두근"}/>
+        </Tabs>
+      </ThemeProvider>
+      {
+        selectedTabIndex === 0 ?
+          (
+            <PitapatReceived
+              pitapats={
+                pitapats
+                  .filter((p) =>
+                    (p.to === loginUser?.key) &&
+                    (getPitapatStatus(loginUser?.key, p.from, pitapats) !== PitapatStatus.MATCHED)
+                  )
+              }
+            />
+          ) :
+          <section>
+            {
+              <PitapatSent
+                pitapats={
+                  pitapats
+                    .filter((p) =>
+                      (p.from === loginUser?.key) &&
+                      (getPitapatStatus(loginUser?.key, p.to, pitapats) !== PitapatStatus.MATCHED)
+                    )
                 }
-                else {
-                  throw Error("invalid user");
-                }
-              })}
-            </section>
-        }
-        <NavigationBar/>
-      </section> : <section></section>
+              />
+            }
+          </section>
+      }
+      <NavigationBar/>
+    </section>
   );
 }

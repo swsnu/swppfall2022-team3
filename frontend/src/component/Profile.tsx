@@ -13,7 +13,7 @@ interface IProps {
   username: string;
   koreanAge: number;
   photo: string;
-  isRecvPage: boolean;
+  showRejectButton: boolean;
   status: PitapatStatus;
 }
 
@@ -23,7 +23,7 @@ export default function Profile({
   username,
   koreanAge,
   photo,
-  isRecvPage,
+  showRejectButton,
   status,
 }: IProps) {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ export default function Profile({
       >
         <div className={"flex flex-row items-center"}>
           <div className={"flex-none w-16"}>
-            {getPitapatStatus(myKey, userKey, pitapats) && isRecvPage ? <PitapatButton
+            {getPitapatStatus(myKey, userKey, pitapats) && showRejectButton ? <PitapatButton
               from={myKey}
               to={userKey}
               pitapatStatus={status}
