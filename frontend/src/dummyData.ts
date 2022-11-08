@@ -34,7 +34,7 @@ export const colleges: College[] = [
   },
   {
     key: 4,
-    name: "공학대학",
+    name: "공과대학",
     majors: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
   },
   {
