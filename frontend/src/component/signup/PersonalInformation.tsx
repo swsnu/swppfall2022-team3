@@ -82,71 +82,73 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className={"h-screen w-full flex flex-col items-center"}>
-      <CompleteSentence/>
-      <InformationInput
-        label={"닉네임"}
-        value={nickname}
-        setValue={setNickname}
-        type={"text"}
-      />
-      <InformationInput
-        label={"생년월일"}
-        value={birthday}
-        setValue={setBirthday}
-        type={"date"}
-      />
-      <InformationInput
-        label={"단과대"}
-        value={selectedCollegeKey}
-        setValue={setSelectedCollegeKey}
-        type={"select"}
-        options={
-          ([{ key: 0, name: "", majors: [] }] as College[])
-            .concat(colleges)
-            .map((col) => ({ name: col.name, value: col.key }))
-        }
-      />
-      <InformationInput
-        label={"학과"}
-        value={selectedMajorKey}
-        setValue={setSelectedMajorKey}
-        type={"select"}
-        options={
-          ([{ key: 0, name: "" }] as Major[])
-            .concat(targetMajors)
-            .map((m) => ({ name: m.name, value: m.key }))
-        }
-      />
-      <InformationInput
-        label={"성별"}
-        value={gender}
-        setValue={setGender}
-        type={"select"}
-        options={[
-          { name: "남자", value: Gender.MALE },
-          { name: "여자", value: Gender.FEMALE },
-        ]}
-      />
-      <InformationInput
-        label={"관심성별"}
-        value={targetGender}
-        setValue={setTargetGender}
-        type={"select"}
-        options={[
-          { name: "남자", value: Gender.MALE },
-          { name: "여자", value: Gender.FEMALE },
-          { name: "상관없음", value: Gender.ALL },
-        ]}
-      />
-      <div className={"text-center"}>
+    <section className="h-screen w-full mt-12 mb-16">
+      <section className={"h-screen w-full h-[36rem] flex flex-col items-center"}>
+        <CompleteSentence />
+        <InformationInput
+          label={"닉네임"}
+          value={nickname}
+          setValue={setNickname}
+          type={"text"}
+        />
+        <InformationInput
+          label={"생년월일"}
+          value={birthday}
+          setValue={setBirthday}
+          type={"date"}
+        />
+        <InformationInput
+          label={"단과대"}
+          value={selectedCollegeKey}
+          setValue={setSelectedCollegeKey}
+          type={"select"}
+          options={
+            ([{ key: 0, name: "", majors: [] }] as College[])
+              .concat(colleges)
+              .map((col) => ({ name: col.name, value: col.key }))
+          }
+        />
+        <InformationInput
+          label={"학과"}
+          value={selectedMajorKey}
+          setValue={setSelectedMajorKey}
+          type={"select"}
+          options={
+            ([{ key: 0, name: "" }] as Major[])
+              .concat(targetMajors)
+              .map((m) => ({ name: m.name, value: m.key }))
+          }
+        />
+        <InformationInput
+          label={"성별"}
+          value={gender}
+          setValue={setGender}
+          type={"select"}
+          options={[
+            { name: "남자", value: Gender.MALE },
+            { name: "여자", value: Gender.FEMALE },
+          ]}
+        />
+        <InformationInput
+          label={"관심성별"}
+          value={targetGender}
+          setValue={setTargetGender}
+          type={"select"}
+          options={[
+            { name: "남자", value: Gender.MALE },
+            { name: "여자", value: Gender.FEMALE },
+            { name: "상관없음", value: Gender.ALL },
+          ]}
+        />
+      </section>
+      <section className={"text-center mt-8"}>
         <button
-          className={"bg-pink-500 text-center text-white mt-2 w-36 h-12 rounded-md"}
+          className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
           onClick={confirmOnClick}
         >
           다음
         </button>
-      </div>
+      </section>
     </section>
   );
 }

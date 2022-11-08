@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import Completed from "../component/signup/Completed";
 import CreateTag from "../component/signup/CreateTag";
@@ -131,7 +131,7 @@ export default function SignUp() {
                   setStep={setStep}
                 /> :
                 step === 6 ?
-                  <section className="h-screen w-full flex flex-col mt-48 mb-16">
+                  <section className="h-screen w-full flex flex-col mt-64 mb-16">
                     <Completed
                     />
                     <div className={"text-center"}>

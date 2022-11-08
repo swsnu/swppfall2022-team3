@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { TextField } from "@mui/material";
 import { selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
@@ -58,41 +59,52 @@ export default function UniversityCheck({
   }, [university, userInput, setEmail]);
 
   return (
-    <section className={"h-screen w-full flex flex-col mt-12 mb-16 items-center"}>
-      <p className={"text-center text-pink-500/100 my-6"}>
-        소속대학과<br/>
-        학교 이메일을 입력해주세요
-      </p>
-      <InformationInput
-        label={"소속대학"}
-        value={selectedUniversityKey}
-        setValue={setSelectedUniversityKey}
-        type={"select"}
-        options={
-          ([{ name: "", key: 0 }] as University[])
-            .concat(universities)
-            .map((u) => ({ name: u.name, value: u.key }))
-        }
-      />
-      <div className={"text-center mt-2"}>
-        <label className={"text-center"}>
-          <input
-            className={"mx-2 w-36 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+    <section className={"h-screen w-full mt-12 mb-16"}>
+      <section className={"h-screen w-full h-[32rem] flex flex-col items-center"}>
+        <p className={"text-center text-pink-500/100 mt-36 my-16"}>
+          소속대학과<br />
+          학교 이메일을 입력해주세요
+        </p>
+        <InformationInput
+          label={"소속대학"}
+          value={selectedUniversityKey}
+          setValue={setSelectedUniversityKey}
+          type={"select"}
+          options={
+            ([{ name: "", key: 0 }] as University[])
+              .concat(universities)
+              .map((u) => ({ name: u.name, value: u.key }))
+          }
+        />
+        <div className={"flex flex-col text-center mt-2"}>
+          <TextField
+            sx={{
+              maxWidth: 320,
+              minWidth: 200,
+            }}
+            size={"small"}
+            label={"이메일"}
+            variant={"outlined"}
             value={userInput}
-            onChange={(event) => setUserInput(event.target.value)}
+            onChange={(e) => {
+              setUserInput(e.target.value);
+            }}
+            required
           />
-          {`@${university?.domain ?? ""}`}
-        </label>
-      </div>
-      <div className={"text-center"}>
+          <article>
+            {`@${university?.domain ?? ""}`}
+          </article>
+        </div>
+      </section>
+      <section className={"text-center"}>
         <button
-          className={"bg-pink-500 text-center text-white mt-24 w-36 h-12 rounded-md"}
+          className={"bg-pink-500 text-center text-white mt-14 w-36 h-12 rounded-md"}
           onClick={confirmOnClick}
           disabled={!email}
         >
           확인
         </button>
-      </div>
+      </section>
     </section>
   );
 }

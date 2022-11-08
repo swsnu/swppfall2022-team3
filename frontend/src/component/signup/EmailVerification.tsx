@@ -30,11 +30,11 @@ export default function EmailVerification({
       else {
         clearInterval(countdown);
         alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.");
-        navigate("/signup");
+        setStep(0);
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [sec, navigate]);
+  }, [sec, navigate, setStep]);
 
   const resendOnClick = useCallback(() => {
     const newCode = verification.getCode();
@@ -56,40 +56,44 @@ export default function EmailVerification({
   }, [code, verificationCode, setStep]);
 
   return (
-    <section className={"h-screen w-full flex flex-col mt-12 mb-16"}>
-      <p className={"text-center text-pink-500/100 mt-6"}>
-        인증 코드가 발송되었습니다!<br/>
-        이메일을 확인해주세요.
-      </p>
-      <div className={"text-center mt-16"}>
-        <label className={"text-center"}>
-          <input
-            className={"w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            placeholder={" 인증코드"}
-            value={code}
-            onChange={(event) => setCode(event.target.value)}>
-          </input>
-          {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
-        </label>
-      </div>
-      <div className={"text-center mt-24"}>
-        <div>
-          <button
-            className={"bg-pink-500 text-center text-white m-2 w-36 h-12 rounded-md"}
-            onClick={confirmOnClick}
-          >
-            확인
-          </button>
+    <section className={"h-screen w-full mt-12 mb-16"}>
+      <section className={"h-screen w-full h-[32rem] flex flex-col"}>
+        <p className={"text-center text-pink-500/100 mt-36"}>
+          인증 코드가 발송되었습니다!<br />
+          이메일을 확인해주세요.
+        </p>
+        <div className={"text-center mt-16"}>
+          <label className={"text-center"}>
+            <input
+              className={"w-48 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+              placeholder={" 인증코드"}
+              value={code}
+              onChange={(event) => setCode(event.target.value)}>
+            </input>
+            {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
+          </label>
         </div>
-        <div>
-          <button
-            className={"bg-white-500 text-center text-pink-400 m-2 border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
-            onClick={resendOnClick}
-          >
-            재전송
-          </button>
+      </section>
+      <section>
+        <div className={"text-center"}>
+          <div>
+            <button
+              className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
+              onClick={confirmOnClick}
+            >
+              확인
+            </button>
+          </div>
+          <div>
+            <button
+              className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
+              onClick={resendOnClick}
+            >
+              재전송
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     </section>
   );
 }
