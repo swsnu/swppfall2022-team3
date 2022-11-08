@@ -40,7 +40,7 @@ export default function SignIn() {
           두근두근<br />
           캠퍼스
         </h1>
-        <div className={"flex flex-row place-content-center"}>
+        <div className={"flex flex-row place-content-center mr-6"}>
           <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
             이메일
           </article>
@@ -59,7 +59,7 @@ export default function SignIn() {
             required
           />
         </div>
-        <div className={"flex flex-row place-content-center mt-6 mb-24"}>
+        <div className={"flex flex-row place-content-center mt-6 mr-6 mb-24"}>
           <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
             비밀번호
           </article>
