@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { AppDispatch } from "../store";
 import { selectUser, userActions } from "../store/slices/user";
 
@@ -10,15 +10,22 @@ import { selectUser, userActions } from "../store/slices/user";
 export default function SignIn() {
   const navigate = useNavigate();
   const users = useSelector(selectUser).users;
+  const loginUser = useSelector(selectUser).loginUser;
   const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  useEffect(() => {
+    if (loginUser) {
+      navigate(paths.signIn);
+    }
+  }, [navigate, loginUser]);
 
   const loginOnClick = useCallback(() => {
     const verifiedUser = users.find((user) => (user.email === email));
     if (verifiedUser) {
       dispatch(userActions.login(verifiedUser));
-      navigate(path.search);
+      navigate(paths.search);
     }
     else {
       alert("이메일이 틀렸습니다.");
@@ -65,7 +72,7 @@ export default function SignIn() {
         <div>
           <button
             className={"bg-white-500 text-center text-pink-400 border-solid border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
-            onClick={() => navigate(path.signUp)}
+            onClick={() => navigate(paths.signUp)}
           >
             회원가입
           </button>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import NavigationBar from "../component/NavigationBar";
 import Profile from "../component/Profile";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
@@ -22,7 +22,7 @@ export default function Search() {
 
   useEffect(() => {
     if (!loginUser) {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [navigate, loginUser]);
 

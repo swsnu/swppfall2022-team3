@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatListElement from "../component/ChatListElement";
 import NavigationBar from "../component/NavigationBar";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { selectChat } from "../store/slices/chat";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
@@ -52,7 +52,7 @@ export default function ChatList() {
       );
     }
     else {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [loginUser, users, pitapats, chats, navigate]);
 

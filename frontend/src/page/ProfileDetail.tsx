@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import PitapatButton from "../component/PitapatButton";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectTag } from "../store/slices/tag";
@@ -26,7 +26,7 @@ export default function ProfileDetail() {
 
   useEffect(() => {
     if (!loginUser) {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [navigate, loginUser]);
 

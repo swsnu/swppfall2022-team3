@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AES, enc } from "crypto-ts";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { AppDispatch } from "../store";
 import { chatAction, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
@@ -44,14 +44,14 @@ export default function ChatDetail() {
     if (loginUser) {
       const encrypted = params.encrypted ?? null;
       if (encrypted === null) {
-        navigate(path.chat);
+        navigate(paths.chat);
       }
       else {
         try {
           const decrypted: { from: number, to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
           if (decrypted?.from && decrypted?.to) {
             if (decrypted.from !== loginUser.key) {
-              navigate(path.chat);
+              navigate(paths.chat);
             }
             else {
               setFrom(decrypted.from);
@@ -69,15 +69,15 @@ export default function ChatDetail() {
             }
           }
           else {
-            navigate(path.chat);
+            navigate(paths.chat);
           }
         } catch (_) {
-          navigate(path.chat);
+          navigate(paths.chat);
         }
       }
     }
     else {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [params, navigate, chats, users, loginUser, to]);
 

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector , useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import Completed from "../component/signup/Completed";
 import CreateTag from "../component/signup/CreateTag";
@@ -9,13 +9,15 @@ import ImageUpload from "../component/signup/ImageUpload";
 import Introduction from "../component/signup/Introduction";
 import PersonalInformation from "../component/signup/PersonalInformation";
 import UniversityCheck from "../component/signup/UniversityCheck";
+import paths from "../constant/path";
 import { users } from "../dummyData";
 import { AppDispatch } from "../store";
-import { userActions } from "../store/slices/user";
+import { selectUser, userActions } from "../store/slices/user";
 import { College, Gender, Major, Tag, University } from "../types";
 
 
 export default function SignUp() {
+  const loginUser = useSelector(selectUser).loginUser;
   const [step, setStep] = useState<number>(0);
   const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -32,6 +34,12 @@ export default function SignUp() {
   const [images, setImages] = useState<File[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loginUser) {
+      navigate(paths.signIn);
+    }
+  }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(() => {
     const tagsKey = tags.map((tag) => tag.key);

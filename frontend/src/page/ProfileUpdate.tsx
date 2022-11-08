@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
-import path from "../constant/path";
+import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
@@ -19,7 +19,7 @@ export default function ProfileUpdate() {
 
   useEffect(() => {
     if (!loginUser) {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [navigate, loginUser]);
 

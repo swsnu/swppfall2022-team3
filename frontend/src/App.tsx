@@ -1,6 +1,6 @@
 import * as React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import path from "./constant/path";
+import paths from "./constant/path";
 import ChatDetail from "./page/ChatDetail";
 import ChatList from "./page/ChatList";
 import PitapatList from "./page/PitapatList";
@@ -17,16 +17,16 @@ function App() {
     <div className={"App flex"}>
       <BrowserRouter>
         <Routes>
-          <Route path={path.signIn} element={<SignIn/>}/>
-          <Route path={path.signUp} element={<SignUp/>}/>
-          <Route path={path.search} element={<Search/>}/>
-          <Route path={path.profile} element={<ProfileDetail/>}/>
-          <Route path={path.chat} element={<ChatList/>}/>
-          <Route path={path.chatDetail} element={<ChatDetail/>}/>
-          <Route path={path.pitapat} element={<PitapatList/>}/>
-          <Route path={path.setting} element={<Setting/>}/>
-          <Route path={path.profileEdit} element={<ProfileUpdate/>}/>
-          <Route path={"/*"} element={<Navigate replace to={path.signIn}/>}/>
+          <Route path={paths.signIn} element={<SignIn/>}/>
+          <Route path={paths.signUp} element={<SignUp/>}/>
+          <Route path={paths.search} element={<Search/>}/>
+          <Route path={paths.profile} element={<ProfileDetail/>}/>
+          <Route path={paths.chat} element={<ChatList/>}/>
+          <Route path={paths.chatDetail} element={<ChatDetail/>}/>
+          <Route path={paths.pitapat} element={<PitapatList/>}/>
+          <Route path={paths.setting} element={<Setting/>}/>
+          <Route path={paths.profileEdit} element={<ProfileUpdate/>}/>
+          <Route path={"/*"} element={<Navigate replace to={paths.signIn}/>}/>
         </Routes>
       </BrowserRouter>
     </div>
