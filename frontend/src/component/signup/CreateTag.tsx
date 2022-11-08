@@ -22,7 +22,7 @@ export default function CreateTag({
   const variousTags = useSelector(selectTag).tags;
   const [tag, setTag] = useState<Tag | null>(null);
   const [selectedTagKey, setSelectedTagKey] = useState<number>(0);
-  const [hasSubmit, setHasSubmit] = useState<boolean>(false);
+  const [submittedWithNoTag, setSubmittedWithNoTag] = useState<boolean>(false);
 
   useEffect(() => {
     const targetTag = variousTags.find((t) => (t.key === selectedTagKey));
@@ -40,9 +40,8 @@ export default function CreateTag({
   const confirmOnClick = useCallback(() => {
     if (tags.length !== 0) {
       setStep(4);
-    }
-    else {
-      setHasSubmit(true);
+    } else {
+      setSubmittedWithNoTag(true);
     }
   }, [setStep, tags]);
 
@@ -94,7 +93,7 @@ export default function CreateTag({
               />
             </button>
           </div>
-          <article className={"ml-12 text-red-500 mb-12 text-sm"}>{(hasSubmit) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
+          <article className={"ml-2 text-red-500 mb-4 text-sm"}>{(submittedWithNoTag) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
           <article className={"flex-none w-full flex flex-row flex-wrap text-base font-bold text-pink-500 justify-start"}>
             {tags.map((t) =>
               <div key={t.key} className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
