@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import * as React from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";

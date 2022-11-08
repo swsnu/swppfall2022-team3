@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";

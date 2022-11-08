@@ -1,4 +1,5 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from "react";
+import * as React from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { selectTag } from "../../store/slices/tag";

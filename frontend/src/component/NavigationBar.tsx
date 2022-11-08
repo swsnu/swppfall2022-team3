@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HeartIcon, UserIcon, ChatBubbleLeftIcon } from "@heroicons/react/20/solid";
 import path from "../constant/path";

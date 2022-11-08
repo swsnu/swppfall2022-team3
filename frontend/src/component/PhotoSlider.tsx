@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import Slider from "react-slick";
 import { Photo, User } from "../types";
 import "slick-carousel/slick/slick.css";

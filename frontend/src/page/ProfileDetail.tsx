@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import AppBar from "../component/AppBar";
@@ -24,7 +25,7 @@ export default function ProfileDetail() {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    if (loginUser === null) {
+    if (!loginUser) {
       navigate(path.signIn);
     }
   }, [navigate, loginUser]);

@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import * as React from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import path from "../constant/path";
