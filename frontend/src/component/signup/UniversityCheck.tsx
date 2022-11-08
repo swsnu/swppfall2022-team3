@@ -87,7 +87,7 @@ export default function UniversityCheck({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-24 w-36 h-12 rounded-md"}
-          onClick={() => confirmOnClick()}
+          onClick={confirmOnClick}
           disabled={!email}
         >
           확인

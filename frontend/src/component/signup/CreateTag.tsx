@@ -67,7 +67,7 @@ export default function CreateTag({
                   }</option>
               ))
           }</select>
-        <button onClick={() => addTagOnClick()}>
+        <button onClick={addTagOnClick}>
           <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500" />
         </button>
       </div>
@@ -82,7 +82,7 @@ export default function CreateTag({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-48 w-36 h-12 rounded-md"}
-          onClick={() => confirmOnClick()}
+          onClick={confirmOnClick}
         >
           다음
         </button>
