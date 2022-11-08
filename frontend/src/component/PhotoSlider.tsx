@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import { Photo, User } from "../types";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "./PhotoSlider.css";
 
 
 interface IProps {
@@ -21,7 +22,8 @@ export default function PhotoSlider({
       arrows={false}
       infinite={true}
       swipeToSlide={true}
-      // adaptiveHeight={true}
+      dots={true}
+      dotsClass={"dots"}
     >
       {user.photos.map((p, index) =>
         <img
