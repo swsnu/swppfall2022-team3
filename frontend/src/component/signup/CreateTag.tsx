@@ -1,16 +1,17 @@
 import * as React from "react";
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { pink } from "@mui/material/colors";
 import { selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
 
 
 interface IProps {
-  tags: Tag[];
-  setTags: Dispatch<SetStateAction<Tag[]>>;
-  setStep: Dispatch<SetStateAction<number>>;
+  tags: Tag[],
+  setTags: Dispatch<SetStateAction<Tag[]>>,
+  setStep: Dispatch<SetStateAction<number>>,
 }
 
 export default function CreateTag({
@@ -82,8 +83,14 @@ export default function CreateTag({
               </Select>
             </FormControl>
           </article>
-          <button onClick={addTagOnClick}>
-            <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500" />
+          <button
+            className={"ml-2"}
+            onClick={addTagOnClick}
+          >
+            <AddCircleIcon
+              style={{ color: pink[500] }}
+              fontSize="large"
+            />
           </button>
         </div>
         <article className={"ml-12 text-red-500 mb-12 text-sm"}>{(hasSubmit) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
