@@ -131,7 +131,7 @@ export default function SignUp() {
                   setStep={setStep}
                 /> :
                 step === 6 ?
-                  <section className="h-screen w-full flex flex-col mt-64 mb-16">
+                  <section className="w-full flex flex-col mt-64 mb-16">
                     <Completed
                     />
                     <div className={"text-center"}>

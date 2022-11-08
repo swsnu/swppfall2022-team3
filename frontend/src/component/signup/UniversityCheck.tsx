@@ -59,8 +59,8 @@ export default function UniversityCheck({
   }, [university, userInput, setEmail]);
 
   return (
-    <section className={"h-screen w-full mt-12 mb-16"}>
-      <section className={"h-screen w-full h-[32rem] flex flex-col items-center"}>
+    <section className={"w-full mt-12 mb-16"}>
+      <section className={"w-full h-[32rem] flex flex-col items-center"}>
         <p className={"text-center text-pink-500/100 mt-36 my-16"}>
           소속대학과<br />
           학교 이메일을 입력해주세요

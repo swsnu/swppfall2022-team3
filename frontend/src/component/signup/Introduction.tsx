@@ -26,8 +26,8 @@ export default function Introduction({
   }, [setStep, introduction]);
 
   return (
-    <section className={"h-screen w-full mt-12 mb-16"}>
-      <section className={"h-screen w-full h-[36rem] flex flex-col items-center"}>
+    <section className={"w-full mt-12 mb-16"}>
+      <section className={"w-full h-[36rem] flex flex-col items-center"}>
         <CompleteSentence />
         <section className="w-[85%]">
           <article className={"mt-4 mb-2"}>소개글</article>

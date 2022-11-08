@@ -82,8 +82,8 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className="h-screen w-full mt-12 mb-16">
-      <section className={"h-screen w-full h-[36rem] flex flex-col items-center"}>
+    <section className="w-full mt-12 mb-16">
+      <section className={"w-full h-[36rem] flex flex-col items-center"}>
         <div className="mb-8">
           <CompleteSentence />
         </div>

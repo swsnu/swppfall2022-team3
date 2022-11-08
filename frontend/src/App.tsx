@@ -14,7 +14,7 @@ import SignUp from "./page/SignUp";
 
 function App() {
   return (
-    <div className={"App flex"}>
+    <div className={"App h-screen flex"}>
       <BrowserRouter>
         <Routes>
           <Route path={paths.signIn} element={<SignIn/>}/>
