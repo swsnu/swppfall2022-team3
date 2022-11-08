@@ -8,8 +8,8 @@ import { Gender } from "../../types";
 
 interface IProps {
   label: string,
-  value: string | number | Date,
-  setValue: Dispatch<SetStateAction<any>>
+  value: string | number | Date | Gender,
+  setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>,
   type: HTMLInputTypeAttribute | "select",
   placeholder?: string,
   options?: { name: string, value: string | Gender | number }[],
@@ -81,7 +81,7 @@ export default function InformationInput({
               variant={"outlined"}
               value={value}
               onChange={(e) => {
-                setValue(e.target.value);
+                (setValue as Dispatch<SetStateAction<string>>)(e.target.value);
               }}
               required
             />
