@@ -37,7 +37,7 @@ export default function PitapatList() {
   }, [navigate, loginUser]);
 
   return (
-    <section className={"w-full flex flex-col mt-24 mb-16"}>
+    <section className={"w-full flex flex-col mt-24 mb-[56px]"}>
       <AppBar title={"두근두근 캠퍼스"}/>
       <ThemeProvider theme={theme}>
         <Tabs
