@@ -26,13 +26,13 @@ export default function CreateTag({
     setTag((toAddedTag) ? (toAddedTag) : null);
   }, [variousTags]);
 
-  const clickHandler = () => {
+  const clickHandler = useCallback(() => {
     if (tag) {
       if (!tags.includes(tag)) {
         setTags([...tags, tag]);
       }
     }
-  };
+  }, [tag, tags, setTags]);
 
   const clickConfirmHandler = useCallback(() => {
     if (tags.length !== 0) {

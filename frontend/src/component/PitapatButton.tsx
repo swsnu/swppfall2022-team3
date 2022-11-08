@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { pitapatAction, selectPitapat } from "../store/slices/pitapat";
@@ -25,25 +26,25 @@ export default function PitapatButton({
   const loginUser = useSelector(selectUser).loginUser;
   const pitapats = useSelector(selectPitapat).pitapats;
 
-  function isPitapatAlreadySended(): boolean {
+  const isPitapatAlreadySended = useCallback(() => {
     if (!loginUser) {
       return false;
     }
     return pitapats.filter((p) => p.from === loginUser.key).filter((p) => p.to === to).length !== 0;
-  }
+  }, [loginUser, pitapats, to]);
 
-  function getIconText(isAccept: boolean) {
+  const getIconText = useCallback(() => {
     if (!isAccept) {
       return "X";
     }
     return isPitapatAlreadySended() ? "♥" : "♡";
-  }
+  }, [isAccept, isPitapatAlreadySended]);
 
-  function getButtonText(isAccept: boolean, status: PitapatStatus) {
+  const getButtonText = useCallback(() => {
     if (!isAccept) {
       return "거절";
     }
-    switch (status) {
+    switch (pitapatStatus) {
     case PitapatStatus.NONE:
       return "두근";
     case PitapatStatus.RECEIVED:
@@ -53,27 +54,27 @@ export default function PitapatButton({
     case PitapatStatus.MATCHED:
       return "매칭";
     }
-  }
+  }, [isAccept, pitapatStatus]);
 
-  function onClickPitapatButton(isAccept: boolean) {
+  const onClickPitapatButton = useCallback(() => {
     if (isAccept) {
       dispatch(pitapatAction.toggle({ from: from, to: to }));
     }
     else {
       dispatch(pitapatAction.delete({ from: to, to: from }));
     }
-  }
+  }, [dispatch, isAccept, from, to]);
 
   return (
     <button
       className={`${isListView ? "flex-none" : "absolute right-4"} w-16 h-8 z-10 bg-white rounded-lg border ${isAccept ? "border-pink-600" : "border-blue-600"} flex items-center justify-center`}
-      onClick={() => onClickPitapatButton(isAccept)}
+      onClick={() => onClickPitapatButton()}
     >
       <div className={`flex-none mx-0.5 font-bold ${isAccept ? "text-pink-600" : "text-blue-600"}`}>
-        {getIconText(isAccept)}
+        {getIconText()}
       </div>
       <div className={`flex-none text-sm mx-1.5 font-bold ${isAccept ? "text-pink-600" : "text-blue-600"}`}>
-        {getButtonText(isAccept, pitapatStatus)}
+        {getButtonText()}
       </div>
     </button>
   );

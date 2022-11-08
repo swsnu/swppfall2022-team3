@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";
@@ -21,10 +21,10 @@ export default function Setting() {
     }
   }, [navigate, loginUser]);
 
-  function getReprPhotoPath(): string {
+  const getReprPhotoPath = useCallback(() => {
     const photo = photos.find((p) => p.key === loginUser?.photos[0]);
     return photo ? photo.path : "";
-  }
+  }, [loginUser, photos]);
 
   return (
     <section className={"flex-1 flex flex-col mt-12 mb-16"}>

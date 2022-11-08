@@ -12,7 +12,7 @@ type TabIndex = 0 | 1 | 2 | -1;
 
 const tabClassName = "flex-1 flex items-center justify-center";
 
-const NavigationBar = () => {
+export default function NavigationBar() {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const [selectedTab, setSelectedTab] = useState<TabIndex>(-1);
@@ -102,5 +102,4 @@ const NavigationBar = () => {
       </button>
     </div>
   );
-};
-export default NavigationBar;
+}
