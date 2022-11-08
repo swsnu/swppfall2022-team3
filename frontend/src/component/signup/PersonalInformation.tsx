@@ -9,24 +9,28 @@ import InformationInput from "./InformationInput";
 
 
 interface IProps {
-  nickname: string,
-  setNickname: Dispatch<SetStateAction<string>>,
-  birthday: Date,
-  setBirthday: Dispatch<SetStateAction<Date>>,
-  college: College | null,
-  setCollege: Dispatch<SetStateAction<College | null>>,
-  major: Major | null,
-  setMajor: Dispatch<SetStateAction<Major | null>>,
-  gender: Gender,
-  setGender: Dispatch<SetStateAction<Gender>>,
-  targetGender: Gender,
-  setTargetGender: Dispatch<SetStateAction<Gender>>,
-  setStep: Dispatch<SetStateAction<number>>,
+  nickname: string;
+  setNickname: Dispatch<SetStateAction<string>>;
+  password: string;
+  setPassword: Dispatch<SetStateAction<string>>;
+  birthday: Date;
+  setBirthday: Dispatch<SetStateAction<Date>>;
+  college: College | null;
+  setCollege: Dispatch<SetStateAction<College | null>>;
+  major: Major | null;
+  setMajor: Dispatch<SetStateAction<Major | null>>;
+  gender: Gender;
+  setGender: Dispatch<SetStateAction<Gender>>;
+  targetGender: Gender;
+  setTargetGender: Dispatch<SetStateAction<Gender>>;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function PersonalInformation({
   nickname,
   setNickname,
+  password,
+  setPassword,
   birthday,
   setBirthday,
   college,
@@ -44,7 +48,6 @@ export default function PersonalInformation({
   const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(0);
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(0);
   const [targetMajors, setTargetMajors] = useState<Major[]>([]);
-  const [userInputPw, setUserInputPw] = useState<string>("");
 
   const confirmOnClick = useCallback(() => {
     if (
@@ -96,8 +99,8 @@ export default function PersonalInformation({
         />
         <InformationInput
           label={"비밀번호"}
-          value={userInputPw}
-          setValue={setUserInputPw}
+          value={password}
+          setValue={setPassword}
           type={"text"}
           isPassword={true}
         />

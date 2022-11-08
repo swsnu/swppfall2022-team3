@@ -25,6 +25,7 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [college, setCollege] = useState<College | null>(null);
   const [major, setMajor] = useState<Major | null>(null);
@@ -100,6 +101,8 @@ export default function SignUp() {
           <PersonalInformation
             nickname={nickname}
             setNickname={setNickname}
+            password={password}
+            setPassword={setPassword}
             birthday={birthday}
             setBirthday={setBirthday}
             college={college}
