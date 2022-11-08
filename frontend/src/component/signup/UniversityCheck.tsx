@@ -31,6 +31,7 @@ export default function UniversityCheck({
   const users = useSelector(selectUser).users;
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [userInput, setUserInput] = useState<string>("");
+  const [userInputPw, setUserInputPw] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
     const isExist = users.find((user) => user.email === email);
@@ -76,11 +77,11 @@ export default function UniversityCheck({
               .map((u) => ({ name: u.name, value: u.key }))
           }
         />
-        <div className={"flex flex-col text-center"}>
+        <div className={"flex flex-row text-center mb-6"}>
           <TextField
             sx={{
-              maxWidth: 320,
-              minWidth: 200,
+              maxWidth: 120,
+              minWidth: 80,
             }}
             size={"small"}
             label={"이메일"}
@@ -91,10 +92,24 @@ export default function UniversityCheck({
             }}
             required
           />
-          <article>
+          <article className={"flex-initial w-20 mt-2"}>
             {`@${university?.domain ?? ""}`}
           </article>
         </div>
+        <TextField
+          sx={{
+            maxWidth: 320,
+            minWidth: 200,
+          }}
+          size={"small"}
+          label={"비밀번호"}
+          variant={"outlined"}
+          value={userInputPw}
+          onChange={(e) => {
+            setUserInputPw(e.target.value);
+          }}
+          required
+        />
       </section>
       <section className={"text-center"}>
         <button
