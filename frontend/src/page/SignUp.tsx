@@ -37,7 +37,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (loginUser) {
-      navigate(paths.signIn);
+      navigate(paths.search);
     }
   }, [navigate, loginUser]);
 
