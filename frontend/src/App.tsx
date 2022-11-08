@@ -19,22 +19,20 @@ function App() {
   });
 
   return (
-    <div className={"App h-screen flex"}>
-      <BrowserRouter>
-        <Routes>
-          <Route path={paths.signIn} element={<SignIn/>}/>
-          <Route path={paths.signUp} element={<SignUp/>}/>
-          <Route path={paths.search} element={<Search/>}/>
-          <Route path={paths.profile} element={<ProfileDetail/>}/>
-          <Route path={paths.chat} element={<ChatList/>}/>
-          <Route path={paths.chatDetail} element={<ChatDetail/>}/>
-          <Route path={paths.pitapat} element={<PitapatList/>}/>
-          <Route path={paths.setting} element={<Setting/>}/>
-          <Route path={paths.profileEdit} element={<ProfileUpdate/>}/>
-          <Route path={"/*"} element={<Navigate replace to={paths.signIn}/>}/>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={paths.signIn} element={<SignIn/>}/>
+        <Route path={paths.signUp} element={<SignUp/>}/>
+        <Route path={paths.search} element={<Search/>}/>
+        <Route path={paths.profile} element={<ProfileDetail/>}/>
+        <Route path={paths.chat} element={<ChatList/>}/>
+        <Route path={paths.chatDetail} element={<ChatDetail/>}/>
+        <Route path={paths.pitapat} element={<PitapatList/>}/>
+        <Route path={paths.setting} element={<Setting/>}/>
+        <Route path={paths.profileEdit} element={<ProfileUpdate/>}/>
+        <Route path={"/*"} element={<Navigate replace to={paths.signIn}/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
