@@ -42,7 +42,7 @@ export default function SignIn() {
         </h1>
         <div className={"flex flex-row place-content-center"}>
           <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
-            이메일:
+            이메일
           </article>
           <TextField
             sx={{
@@ -61,7 +61,7 @@ export default function SignIn() {
         </div>
         <div className={"flex flex-row place-content-center mt-6 mb-24"}>
           <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
-            비밀번호:
+            비밀번호
           </article>
           <TextField
             sx={{
