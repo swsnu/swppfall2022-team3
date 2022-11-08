@@ -22,6 +22,7 @@ export default function EmailVerification({
   const navigate = useNavigate();
   const [sec, setSec] = useState<number>(180);
   const [code, setCode] = useState<string>("");
+  const [userInputPw, setUserInputPw] = useState<string>("");
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -63,7 +64,7 @@ export default function EmailVerification({
           인증 코드가 발송되었습니다!<br />
           이메일을 확인해주세요.
         </p>
-        <div className={"flex flex-row place-content-center"}>
+        <div className={"flex flex-row place-content-center mb-6"}>
           <TextField
             sx={{
               maxWidth: 320,
@@ -81,6 +82,22 @@ export default function EmailVerification({
           <div className={"mt-2"}>
             {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
           </div>
+        </div>
+        <div className="place-content-center text-center mr-8">
+          <TextField
+            sx={{
+              maxWidth: 320,
+              minWidth: 200,
+            }}
+            size={"small"}
+            label={"비밀번호"}
+            variant={"outlined"}
+            value={userInputPw}
+            onChange={(e) => {
+              setUserInputPw(e.target.value);
+            }}
+            required
+          />
         </div>
       </section>
       <section>
