@@ -293,7 +293,7 @@ export const users: User[] = [
   {
     key: 1,
     email: "user@snu.ac.kr",
-    username: "김두한",
+    username: "홍길동",
     gender: Gender.MALE,
     birthday: new Date("1997-06-02"),
     location: "서울",
