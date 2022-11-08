@@ -82,11 +82,11 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className="w-full mt-12 mb-16">
-      <section className={"w-full h-[36rem] flex flex-col items-center"}>
-        <div className="mb-8">
-          <CompleteSentence />
-        </div>
+    <section className="flex flex-col items-center w-full mt-12 mb-16">
+      <div className="mb-8">
+        <CompleteSentence />
+      </div>
+      <section className={"flex-auto w-[12.5rem] h-fit flex flex-col items-center"}>
         <InformationInput
           label={"닉네임"}
           value={nickname}
