@@ -70,6 +70,7 @@ export default function SignIn() {
             }}
             size={"small"}
             label={""}
+            type={"password"}
             variant={"outlined"}
             value={password}
             onChange={(e) => {
