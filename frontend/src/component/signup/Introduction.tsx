@@ -16,7 +16,7 @@ export default function Introduction({
 }: IProps) {
   const [hasSubmit, setHasSubmit] = useState<boolean>(false);
 
-  const clickConfirmHandler = useCallback(() => {
+  const confirmOnClick = useCallback(() => {
     if (introduction) {
       setStep(5);
     }
@@ -42,7 +42,7 @@ export default function Introduction({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-8 w-36 h-12 rounded-md"}
-          onClick={() => clickConfirmHandler()}
+          onClick={() => confirmOnClick()}
         >
           다음
         </button>

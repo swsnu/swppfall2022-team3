@@ -45,7 +45,7 @@ export default function PersonalInformation({
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(0);
   const [targetMajors, setTargetMajors] = useState<Major[]>([]);
 
-  const clickConfirmHandler = useCallback(() => {
+  const confirmOnClick = useCallback(() => {
     if (
       nickname &&
       birthday &&
@@ -142,7 +142,7 @@ export default function PersonalInformation({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-2 w-36 h-12 rounded-md"}
-          onClick={clickConfirmHandler}
+          onClick={confirmOnClick}
         >
           다음
         </button>

@@ -33,7 +33,7 @@ export default function SignUp() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const createProfileHandler = useCallback(() => {
+  const confirmOnClick = useCallback(() => {
     const tagsKey = tags.map((tag) => tag.key);
     if (university && college && major && birthday) {
       dispatch(userActions.add(
@@ -114,7 +114,7 @@ export default function SignUp() {
                     <div className={"text-center"}>
                       <button
                         className={"bg-pink-500 text-center text-white mt-16 w-36 h-12 rounded-md"}
-                        onClick={createProfileHandler}
+                        onClick={confirmOnClick}
                       >
                         완료
                       </button>

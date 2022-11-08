@@ -18,13 +18,13 @@ export default function ImageUpload({
   const [hasClickImgFirst, setHasClickImgFirst] = useState<boolean>(false);
   const [hasClickImgSecond, setHasClickImgSecond] = useState<boolean>(false);
 
-  const clickImgSecondHandler = useCallback(() => {
+  const imgSecondOnClick = useCallback(() => {
     if (hasClickImgFirst) {
       setHasClickImgSecond(true);
     }
   }, [setHasClickImgSecond, hasClickImgFirst]);
 
-  const clickConfirmHandler = useCallback(() => {
+  const confirmOnClick = useCallback(() => {
     setStep(6);
   }, [setStep]);
 
@@ -44,7 +44,7 @@ export default function ImageUpload({
         <input
           className={"flex-none w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
           type="image"
-          onClick={clickImgSecondHandler}
+          onClick={imgSecondOnClick}
           src={hasClickImgFirst ? (hasClickImgSecond ? photos[13].path : photos[14].path) : ""}
           alt=""
         ></input>
@@ -77,7 +77,7 @@ export default function ImageUpload({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-8 w-36 h-12 rounded-md"}
-          onClick={() => clickConfirmHandler()}
+          onClick={() => confirmOnClick()}
         >
           완료
         </button>

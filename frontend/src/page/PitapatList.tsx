@@ -22,7 +22,7 @@ export default function PitapatList() {
   const [isRecvPage, setIsRecvPage] = useState<boolean>(true);
 
   useEffect(() => {
-    if (loginUser === null) {
+    if (!loginUser) {
       navigate(paths.signIn);
     }
   }, [navigate, loginUser]);

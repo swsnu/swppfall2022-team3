@@ -36,7 +36,7 @@ export default function EmailVerification({
     return () => clearInterval(countdown);
   }, [sec, navigate]);
 
-  const clickReSendHandler = useCallback(() => {
+  const resendOnClick = useCallback(() => {
     const newCode = verification.getCode();
     sendVerificationCode(email, newCode)
       .then(() => {
@@ -46,7 +46,7 @@ export default function EmailVerification({
     setSec(180);
   }, [email, setSec, setVerificationCode]);
 
-  const clickHandler = useCallback(() => {
+  const confirmOnClick = useCallback(() => {
     if (code === verificationCode) {
       setStep(2);
     }
@@ -76,7 +76,7 @@ export default function EmailVerification({
         <div>
           <button
             className={"bg-pink-500 text-center text-white m-2 w-36 h-12 rounded-md"}
-            onClick={clickHandler}
+            onClick={confirmOnClick}
           >
             확인
           </button>
@@ -84,7 +84,7 @@ export default function EmailVerification({
         <div>
           <button
             className={"bg-white-500 text-center text-pink-400 m-2 border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
-            onClick={clickReSendHandler}
+            onClick={resendOnClick}
           >
             재전송
           </button>

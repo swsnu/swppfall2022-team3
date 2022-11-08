@@ -15,9 +15,9 @@ export default function SignIn() {
   const [password, setPassword] = useState<string>("");
 
   const loginOnClick = useCallback(() => {
-    const thisUser = users.find((user) => (user.email === email));
-    if (thisUser) {
-      dispatch(userActions.login(thisUser));
+    const verifiedUser = users.find((user) => (user.email === email));
+    if (verifiedUser) {
+      dispatch(userActions.login(verifiedUser));
       navigate(path.search);
     }
     else {

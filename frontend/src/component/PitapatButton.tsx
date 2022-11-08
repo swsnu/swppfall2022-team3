@@ -56,7 +56,7 @@ export default function PitapatButton({
     }
   }, [isAccept, pitapatStatus]);
 
-  const onClickPitapatButton = useCallback(() => {
+  const pitapatOnClick = useCallback(() => {
     if (isAccept) {
       dispatch(pitapatAction.toggle({ from: from, to: to }));
     }
@@ -68,7 +68,7 @@ export default function PitapatButton({
   return (
     <button
       className={`${isListView ? "flex-none" : "absolute right-4"} w-16 h-8 z-10 bg-white rounded-lg border ${isAccept ? "border-pink-600" : "border-blue-600"} flex items-center justify-center`}
-      onClick={() => onClickPitapatButton()}
+      onClick={() => pitapatOnClick()}
     >
       <div className={`flex-none mx-0.5 font-bold ${isAccept ? "text-pink-600" : "text-blue-600"}`}>
         {getIconText()}

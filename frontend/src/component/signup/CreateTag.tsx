@@ -26,7 +26,7 @@ export default function CreateTag({
     setTag((toAddedTag) ? (toAddedTag) : null);
   }, [variousTags]);
 
-  const clickHandler = useCallback(() => {
+  const addTagOnClick = useCallback(() => {
     if (tag) {
       if (!tags.includes(tag)) {
         setTags([...tags, tag]);
@@ -34,7 +34,7 @@ export default function CreateTag({
     }
   }, [tag, tags, setTags]);
 
-  const clickConfirmHandler = useCallback(() => {
+  const confirmOnClick = useCallback(() => {
     if (tags.length !== 0) {
       setStep(4);
     }
@@ -67,7 +67,7 @@ export default function CreateTag({
                   }</option>
               ))
           }</select>
-        <button onClick={() => clickHandler()}>
+        <button onClick={() => addTagOnClick()}>
           <PlusCircleIcon className="h-8 w-8 stroke-1 stroke-white fill-pink-500" />
         </button>
       </div>
@@ -82,7 +82,7 @@ export default function CreateTag({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-48 w-36 h-12 rounded-md"}
-          onClick={() => clickConfirmHandler()}
+          onClick={() => confirmOnClick()}
         >
           다음
         </button>

@@ -31,7 +31,7 @@ export default function UniversityCheck({
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [userInput, setUserInput] = useState<string>("");
 
-  const clickHandler = useCallback(async () => {
+  const confirmOnClick = useCallback(async () => {
     const isExist = users.find((user) => user.email === email);
     if (isExist) {
       alert("이미 존재하는 이메일입니다.");
@@ -87,7 +87,7 @@ export default function UniversityCheck({
       <div className={"text-center"}>
         <button
           className={"bg-pink-500 text-center text-white mt-24 w-36 h-12 rounded-md"}
-          onClick={() => clickHandler()}
+          onClick={() => confirmOnClick()}
           disabled={!email}
         >
           확인

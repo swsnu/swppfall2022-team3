@@ -25,7 +25,7 @@ export default function ChatListElement({
       .sort((a, b) => a.index - b.index);
   const photoPath = userPhotos[0].path;
 
-  const elementHandler = useCallback(() => {
+  const elementOnClick = useCallback(() => {
     if (loginUser) {
       const jsonString = JSON.stringify({ from: loginUser.key, to: user.key });
       const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test",).toString());
@@ -39,7 +39,7 @@ export default function ChatListElement({
       className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}
       onKeyUp={(e) => {
         if (e.key === "Enter") {
-          elementHandler();
+          elementOnClick();
         }
       }}
     >
@@ -52,7 +52,7 @@ export default function ChatListElement({
       </button>
       <button
         className={"flex-1 flex flex-col h-full pl-2"}
-        onClick={elementHandler}>
+        onClick={elementOnClick}>
         <article className={"basis-1/4 pt-2 font-bold text-lg"}>{user.username}</article>
         <article className={"basis-3/4 items-center text-gray-600"}>{lastChat ?? "대화를 시작해보세요!!"}</article>
       </button>

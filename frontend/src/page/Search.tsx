@@ -21,7 +21,7 @@ export default function Search() {
   const photos = useSelector(selectPhoto).photos;
 
   useEffect(() => {
-    if (loginUser === null) {
+    if (!loginUser) {
       navigate(path.signIn);
     }
   }, [navigate, loginUser]);
