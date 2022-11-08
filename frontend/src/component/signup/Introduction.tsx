@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
-import CompleteSentence from "./CompleteSentence";
 
 
 interface IProps {
@@ -28,9 +27,11 @@ export default function Introduction({
   return (
     <section className={"w-full mt-12 mb-16"}>
       <section className={"w-full h-[36rem] flex flex-col items-center"}>
-        <CompleteSentence />
-        <section className="w-[85%]">
-          <article className={"mt-4 mb-2"}>소개글</article>
+        <p className="mb-8 text-center text-pink-500/100">
+          자신의 매력을 어필할 수 있는<br />
+          소개글을 작성해보세요!
+        </p>
+        <section className="w-60">
           <div className={"text-center"}>
             <textarea
               className={"w-full h-96 inline-block align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}

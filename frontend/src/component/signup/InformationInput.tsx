@@ -25,7 +25,7 @@ export default function InformationInput({
   options,
 }: IProps) {
   return (
-    <article className={"flex-1 flex flex-col items-center justify-center mb-6"}>
+    <article className={"flex-1 flex flex-col items-center justify-center mb-8"}>
       {
         type === "select" ?
           <FormControl

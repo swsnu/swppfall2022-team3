@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";
 import { College, Gender, Major } from "../../types";
-import CompleteSentence from "./CompleteSentence";
 import InformationInput from "./InformationInput";
 
 
@@ -87,9 +86,11 @@ export default function PersonalInformation({
 
   return (
     <section className="flex flex-col items-center w-full mt-12 mb-16">
-      <div className="mb-8">
-        <CompleteSentence />
-      </div>
+      <p className="mb-8 text-center text-pink-500/100">
+        인증 완료!!<br />
+        다른 친구들을 만나기 위해<br />
+        본인을 소개해보세요!
+      </p>
       <section className={"flex-auto w-[12.5rem] h-fit flex flex-col items-center"}>
         <InformationInput
           label={"닉네임"}

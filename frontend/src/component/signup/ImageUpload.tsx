@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Dispatch, SetStateAction, useCallback } from "react";
-import CompleteSentetnce from "./CompleteSentence";
 import ImageUploadIcon from "./ImageUploadIcon";
 
 
@@ -22,12 +21,10 @@ export default function ImageUpload({
   return (
     <section className={"w-full mt-12 mb-16"}>
       <section className={"w-full h-[36rem] flex flex-col"}>
-        <div className={"mb-8"}>
-          <CompleteSentetnce />
-        </div>
-        <article className={"ml-6"}>
-          프로필 이미지
-        </article>
+        <p className="mb-8 text-center text-pink-500/100">
+          나를 대표할 수 있는<br />
+          사진을 올려주세요!
+        </p>
         <section className={"flex flex-wrap px-12"}>
           {uploadedPhotos.map((photo, index) => {
             const examples = ["photo13.jpeg", "photo14.jpeg"];
