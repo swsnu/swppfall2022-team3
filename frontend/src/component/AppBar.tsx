@@ -15,6 +15,7 @@ export default function AppBar({ title = defaultTitle }: IProps) {
   const pathName = window.location.pathname;
   const navigate = useNavigate();
   const [isBackVisible, setIsBackVisible] = useState<boolean>(false);
+  const [isUserVisible, setIsUserVisible] = useState<boolean>(false);
 
   const backOnClick = useCallback(() => {
     navigate(-1);
@@ -28,9 +29,18 @@ export default function AppBar({ title = defaultTitle }: IProps) {
     const shouldBackVisible: boolean =
       /^\/profile\/\d+$/.test(pathName) ||
       /^\/chat\/.+$/.test(pathName) ||
-      /^\/setting\/?$/.test(pathName);
+      /^\/setting\/?$/.test(pathName) ||
+      /^\/profile\/edit\/?$/.test(pathName);
     setIsBackVisible(shouldBackVisible);
   }, [setIsBackVisible, pathName]);
+
+  useEffect(() => {
+    const shouldUserVisible: boolean =
+      /^\/search\/?$/.test(pathName) ||
+      /^\/pitapat\/?$/.test(pathName) ||
+      /^\/chat\/?$/.test(pathName);
+    setIsUserVisible(shouldUserVisible);
+  }, [setIsUserVisible, pathName]);
 
   return (
     <section className={"w-full z-20 flex justify-center p-2 fixed top-0 bg-white border-b-2 border-b-pink-300 z-10"}>
@@ -46,10 +56,14 @@ export default function AppBar({ title = defaultTitle }: IProps) {
         <div
           className={`flex-none text-center m-auto text-lg font-bold ${title === defaultTitle ? "text-pink-500" : ""}`}>{title}</div>
       </section>
-      <UserCircleIcon
-        className={iconClassName}
-        onClick={settingOnClick}
-      />
+      {
+        isUserVisible ?
+          <UserCircleIcon
+            className={iconClassName}
+            onClick={settingOnClick}
+          /> :
+          <div className={iconClassName}/>
+      }
     </section>
   );
 }
