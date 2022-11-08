@@ -29,19 +29,14 @@ export default function ChatListElement({
     if (loginUser) {
       const jsonString = JSON.stringify({ from: loginUser.key, to: user.key });
       const encrypted = encodeURIComponent(AES.encrypt(jsonString, "test",).toString());
-      navigate(`/chat/${encrypted}`);
+      navigate(`/chat/${encrypted}`, { state: { photoPath: photoPath }});
     }
-  }, [user, loginUser, navigate]);
+  }, [user, loginUser, navigate, photoPath]);
 
   return (
     <article
       role={"presentation"}
       className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}
-      onKeyUp={(e) => {
-        if (e.key === "Enter") {
-          elementOnClick();
-        }
-      }}
     >
       <button onClick={() => navigate("/profile/" + user.key)}>
         <img

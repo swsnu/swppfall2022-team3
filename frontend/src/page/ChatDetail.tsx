@@ -2,7 +2,7 @@ import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AES, enc } from "crypto-ts";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
@@ -14,6 +14,7 @@ import { Chat } from "../types";
 
 
 export default function ChatDetail() {
+  const { state } = useLocation();
   const loginUser = useSelector(selectUser).loginUser;
   const params = useParams();
   const navigate = useNavigate();
@@ -89,7 +90,9 @@ export default function ChatDetail() {
           <ChatBox
             key={chat.content + chat.regDt.getTime()}
             content={chat.content}
+            sender={chat.from}
             isMine={chat.from === from}
+            photoPath={state.photoPath}
           />
         ))
       }</section>
