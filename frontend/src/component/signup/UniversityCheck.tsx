@@ -103,7 +103,7 @@ export default function UniversityCheck({
           className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
           onClick={confirmOnClick}
         >
-        인증메일 전송
+          확인
         </button>
       </section>
     </section>

@@ -57,13 +57,13 @@ export default function EmailVerification({
   }, [code, verificationCode, setStep]);
 
   return (
-    <section className={"w-full"}>
-      <section className={"w-full h-[32rem] flex flex-col"}>
-        <p className={"text-center text-pink-500/100 mt-36 my-16"}>
+    <section className={"h-full w-full flex flex-col items-center"}>
+      <section className={"flex-1"}>
+        <p className={"text-center text-pink-500/100 mt-16"}>
           인증 코드가 발송되었습니다!<br />
           이메일을 확인해주세요.
         </p>
-        <div className={"flex flex-row place-content-center mb-6"}>
+        <div className={"flex flex-row place-content-center mt-8"}>
           <InformationInput
             label={"인증코드"}
             value={code}
@@ -75,25 +75,19 @@ export default function EmailVerification({
           </div>
         </div>
       </section>
-      <section>
-        <div className={"text-center"}>
-          <div>
-            <button
-              className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
-              onClick={confirmOnClick}
-            >
-              확인
-            </button>
-          </div>
-          <div>
-            <button
-              className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
-              onClick={resendOnClick}
-            >
-              재전송
-            </button>
-          </div>
-        </div>
+      <section className={"text-center flex flex-col"}>
+        <button
+          className={"w-36 min-h-12 h-12 mt-12 bg-pink-500 text-center text-white rounded-md"}
+          onClick={confirmOnClick}
+        >
+          확인
+        </button>
+        <button
+          className={"w-36 min-h-12 h-12 mt-4 mb-12 bg-white-500 text-pink-400 text-center border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          onClick={resendOnClick}
+        >
+          재전송
+        </button>
       </section>
     </section>
   );
