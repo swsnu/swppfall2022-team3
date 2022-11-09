@@ -90,7 +90,7 @@ export default function PersonalInformation({
         인증 완료!!<br />
         다른 친구들에게 본인을 소개해보세요!
       </p>
-      <section className={"flex-none h-fit flex flex-col items-center mb-32"}>
+      <section className={"flex-none h-fit flex flex-col items-center bg-white z-10 mb-32"}>
         <InformationInput
           label={"닉네임"}
           value={nickname}
@@ -154,7 +154,7 @@ export default function PersonalInformation({
           ]}
         />
       </section>
-      <article className={"absolute bottom-12"}>
+      <article className={"fixed bottom-12"}>
         <button
           className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
           onClick={confirmOnClick}
