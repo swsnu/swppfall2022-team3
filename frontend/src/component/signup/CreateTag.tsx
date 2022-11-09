@@ -47,7 +47,7 @@ export default function CreateTag({
 
   return (
     <section className={"flex flex-col items-center w-full"}>
-      <section className={"w-full mt-16 h-[36rem] flex flex-col items-center"}>
+      <section className={"w-full mt-16 flex-1 flex flex-col items-center"}>
         <p className="text-center text-pink-500/100">
           나를 표현하는 태그를 입력해보세요!<br />
           ex) 취미 (등산, 그림, ...)
