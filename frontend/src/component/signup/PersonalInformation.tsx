@@ -85,7 +85,7 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className="relative h-full flex flex-col items-center w-full">
+    <section className="h-full flex flex-col items-center w-full">
       <p className="mt-16 h-fit text-center text-pink-500/100">
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!
@@ -154,12 +154,14 @@ export default function PersonalInformation({
           ]}
         />
       </section>
-      <button
-        className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
-        onClick={confirmOnClick}
-      >
-        다음
-      </button>
+      <section>
+        <button
+          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          onClick={confirmOnClick}
+        >
+          다음
+        </button>
+      </section>
     </section>
   );
 }

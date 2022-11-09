@@ -55,12 +55,14 @@ export default function ImageUpload({
       <article className="text-center text-pink-500/100 mt-6">
         ※ 본인의 사진이어야 합니다.
       </article>
-      <button
-        className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
-        onClick={confirmOnClick}
-      >
-        완료
-      </button>
+      <section>
+        <button
+          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          onClick={confirmOnClick}
+        >
+          완료
+        </button>
+      </section>
     </section>
   );
 }

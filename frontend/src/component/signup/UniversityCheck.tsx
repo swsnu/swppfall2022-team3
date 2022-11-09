@@ -98,7 +98,7 @@ export default function UniversityCheck({
           </article>
         </section>
       </section>
-      <section className={"text-center"}>
+      <section>
         <button
           className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
           onClick={confirmOnClick}

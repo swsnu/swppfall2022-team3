@@ -101,12 +101,14 @@ export default function CreateTag({
           )}
         </article>
       </section>
-      <button
-        className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
-        onClick={confirmOnClick}
-      >
-        다음
-      </button>
+      <section>
+        <button
+          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          onClick={confirmOnClick}
+        >
+          다음
+        </button>
+      </section>
     </section>
   );
 }
