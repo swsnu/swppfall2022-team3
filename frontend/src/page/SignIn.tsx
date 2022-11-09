@@ -34,7 +34,7 @@ export default function SignIn() {
   }, [users, email, dispatch, navigate]);
 
   return (
-    <section className={"w-full mt-12 mb-16"}>
+    <section className={"w-full flex-1 flex flex-col justify-center"}>
       <section className={"w-full h-[32rem] flex flex-col"}>
         <h1 className={"text-center text-5xl text-pink-500 font-bold mt-24 my-16"}>
           두근두근<br />
