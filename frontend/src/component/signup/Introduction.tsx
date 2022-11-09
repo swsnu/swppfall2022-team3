@@ -25,22 +25,19 @@ export default function Introduction({
   }, [setStep, introduction]);
 
   return (
-    <section className={"flex flex-col items-center w-full"}>
+    <section className={"flex flex-col items-center w-full h-full"}>
       <p className="mt-16 mb-8 text-center text-pink-500/100">
         자신의 매력을 어필할 수 있는<br/>
         소개글을 작성해보세요!
       </p>
-      <section className="flex-1 flex flex-col w-full items-center">
-        <div className={"text-center w-4/5"}>
-          <textarea
-            className={"w-full h-[50vh] align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            placeholder="소개글을 작성해주세요!"
-            value={introduction}
-            onChange={(event) => setIntroduction(event.target.value)}
-          >
-          </textarea>
-        </div>
-        <article className={"text-red-500 text-sm w-4/5 indent-4"}>
+      <section className="flex-1 flex flex-col w-4/5 justify-center">
+        <textarea
+          className={"w-full h-80 align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          placeholder="소개글을 작성해주세요!"
+          value={introduction}
+          onChange={(event) => setIntroduction(event.target.value)}
+        />
+        <article className={"text-red-500 text-sm w-full indent-4"}>
           {(hasSubmit) ? "필수 작성 항목입니다." : " "}
         </article>
       </section>
