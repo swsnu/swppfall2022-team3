@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Pitapat } from "../../types";
 import { pitapats } from "../../dummyData";
+import { Pitapat } from "../../types";
 import { RootState } from "../index";
 
 
@@ -9,10 +9,11 @@ const storeKey = "pitapat";
 const getInitialState = (): Pitapat[] => {
   let savedValue = localStorage.getItem(storeKey);
   if (savedValue === null) {
-    localStorage.setItem(storeKey, JSON.stringify(pitapats));
-    savedValue = localStorage.getItem(storeKey);
+    const dummy = JSON.stringify(pitapats);
+    localStorage.setItem(storeKey, dummy);
+    savedValue = dummy;
   }
-  return JSON.parse(savedValue!) as Pitapat[];
+  return JSON.parse(savedValue) as Pitapat[];
 };
 
 const pitapatSlice = createSlice({
@@ -24,8 +25,11 @@ const pitapatSlice = createSlice({
         const newPitapats = [...state.pitapats, action.payload];
         localStorage.setItem(storeKey, JSON.stringify(newPitapats));
         state.pitapats = newPitapats;
-      } else {
-        const newPitapats = state.pitapats.filter((p) => (p.from !== action.payload.from) || (p.to !== action.payload.to));
+      }
+      else {
+        const newPitapats = state.pitapats.filter((p) =>
+          (p.from !== action.payload.from) || (p.to !== action.payload.to)
+        );
         localStorage.setItem(storeKey, JSON.stringify(newPitapats));
         state.pitapats = newPitapats;
       }
@@ -36,7 +40,9 @@ const pitapatSlice = createSlice({
       state.pitapats = newPitapats;
     },
     delete: (state, action: PayloadAction<Pitapat>) => {
-      const newPitapats = state.pitapats.filter((p) => (p.from !== action.payload.from) || (p.to !== action.payload.to));
+      const newPitapats = state.pitapats.filter((p) =>
+        (p.from !== action.payload.from) || (p.to !== action.payload.to)
+      );
       localStorage.setItem(storeKey, JSON.stringify(newPitapats));
       state.pitapats = newPitapats;
     },

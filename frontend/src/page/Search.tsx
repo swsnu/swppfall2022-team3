@@ -1,15 +1,16 @@
-import { getKoreanAge } from "../types";
-import Profile from "../component/Profile";
-import NavigationBar from "../component/NavigationBar";
-import AppBar from "../component/AppBar";
+import * as React from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../store/slices/user";
+import { useNavigate } from "react-router-dom";
+import AppBar from "../component/AppBar";
+import NavigationBar from "../component/NavigationBar";
+import Profile from "../component/Profile";
+import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
-import path from "../constant/path";
+import { selectUser } from "../store/slices/user";
+import { getKoreanAge, PitapatStatus, User } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 
 export default function Search() {
@@ -20,29 +21,39 @@ export default function Search() {
   const photos = useSelector(selectPhoto).photos;
 
   useEffect(() => {
-    if (loginUser === null) {
-      navigate(path.signIn);
+    if (!loginUser) {
+      navigate(paths.signIn);
     }
   }, [navigate, loginUser]);
 
+  const getNoneStatusProfiles = useCallback((loginUser: User) => {
+    const showUsers = users.filter((user) =>
+      (user.key !== loginUser.key) && (getPitapatStatus(loginUser.key, user.key, pitapats) === PitapatStatus.NONE)
+    );
+    return showUsers.map((user, index) => {
+      const photo = photos.find((p) => p.key === user.photos[0]);
+      return (
+        <Profile
+          key={user.key}
+          myKey={loginUser.key}
+          userKey={user.key}
+          username={user.username}
+          koreanAge={getKoreanAge(user.birthday)}
+          photo={photo ? photo.path : ""}
+          showRejectButton={false}
+          isLastElement={(index === showUsers.length - 1) ? true : false}
+          status={getPitapatStatus(loginUser.key, user.key, pitapats)}
+        />
+      );
+    });
+  }, [users, photos, pitapats]);
+
   return (
     loginUser ?
-      <section className={"mt-12 mb-16 w-full"}>
+      <section className={"mt-12 w-full"}>
         <AppBar/>
-        <section>
-          {users.filter(user => user.key !== loginUser.key).map((user) => {
-            return (
-              <Profile
-                key={user.key}
-                myKey={loginUser.key}
-                userKey={user.key}
-                username={user.username}
-                koreanAge={getKoreanAge(user.birthday)}
-                photo={photos.find((p) => p.key === user.photos[0])?.path!}
-                status={getPitapatStatus(loginUser.key, user.key, pitapats)}
-              />
-            );
-          })}
+        <section className="h-fit pb-[56px]">
+          {getNoneStatusProfiles(loginUser)}
         </section>
         <NavigationBar/>
       </section> : <section></section>

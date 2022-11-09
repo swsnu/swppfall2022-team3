@@ -1,19 +1,20 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatListElement from "../component/ChatListElement";
-import { useSelector } from "react-redux";
+import NavigationBar from "../component/NavigationBar";
+import paths from "../constant/path";
+import { selectChat } from "../store/slices/chat";
+import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
 import { User } from "../types";
-import NavigationBar from "../component/NavigationBar";
-import { selectPitapat } from "../store/slices/pitapat";
-import { selectChat } from "../store/slices/chat";
-import { useNavigate } from "react-router-dom";
-import path from "../constant/path";
 
 
 type ChatRoomInfo = {
-  user: User,
-  lastChat: string | null,
+  user: User;
+  lastChat: string | null;
 }
 
 export default function ChatList() {
@@ -51,15 +52,15 @@ export default function ChatList() {
       );
     }
     else {
-      navigate(path.signIn);
+      navigate(paths.signIn);
     }
   }, [loginUser, users, pitapats, chats, navigate]);
 
   return (
-    <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
+    <section className={"w-full flex-1 flex flex-col mt-12 mb-[56px]"}>
       <AppBar/>
       <section className={"flex-1 flex flex-col"}>{
-        chatRoomInfos.map(({user, lastChat}) => (
+        chatRoomInfos.map(({ user, lastChat }) => (
           <ChatListElement
             user={user}
             lastChat={lastChat}

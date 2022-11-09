@@ -1,16 +1,17 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { getKoreanAge, User } from "../types";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import PitapatButton from "../component/PitapatButton";
-import { useSelector } from "react-redux";
-import { selectUser } from "../store/slices/user";
+import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
-import { selectTag } from "../store/slices/tag";
 import { selectPitapat } from "../store/slices/pitapat";
+import { selectTag } from "../store/slices/tag";
+import { selectUser } from "../store/slices/user";
+import { getKoreanAge, User } from "../types";
 import { getPitapatStatus } from "../util/getPitapatStatus";
-import path from "../constant/path";
 
 
 export default function ProfileDetail() {
@@ -24,8 +25,8 @@ export default function ProfileDetail() {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    if (loginUser === null) {
-      navigate(path.signIn);
+    if (!loginUser) {
+      navigate(paths.signIn);
     }
   }, [navigate, loginUser]);
 
@@ -48,7 +49,8 @@ export default function ProfileDetail() {
             <PitapatButton
               from={loginUser.key}
               to={user.key}
-              status={getPitapatStatus(loginUser.key, user.key, pitapats)}
+              pitapatStatus={getPitapatStatus(loginUser.key, user.key, pitapats)}
+              isAccept={true}
               isListView={false}
             />
           </div>

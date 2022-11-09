@@ -12,8 +12,9 @@ const initialize = () => {
 };
 
 export const sendVerificationCode = async (targetEmail: string, verificationCode: number | string): Promise<EmailJSResponseStatus> => {
-  if (!isInitialized)
+  if (!isInitialized) {
     initialize();
+  }
   const templateParams = {
     target_email: targetEmail,
     verification_code: verificationCode,

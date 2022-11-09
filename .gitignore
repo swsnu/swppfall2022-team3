@@ -421,3 +421,6 @@ backend/backend/secrets.tar
 
 # sample image
 frontend/public/psa.jpeg
+
+# yarn.lock
+yarn.lock

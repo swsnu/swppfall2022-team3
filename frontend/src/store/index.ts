@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import universityReducer from "./slices/university";
+import chatReducer from "./slices/chat";
 import collegeReducer from "./slices/college";
 import majorReducer from "./slices/major";
-import userReducer from "./slices/user";
 import photoReducer from "./slices/photo";
-import tagReducer from "./slices/tag";
-import chatReducer from "./slices/chat";
 import pitapatReducer from "./slices/pitapat";
+import tagReducer from "./slices/tag";
+import universityReducer from "./slices/university";
+import userReducer from "./slices/user";
 
 
 export const backendUrl = "/";
