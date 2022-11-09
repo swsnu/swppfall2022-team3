@@ -86,11 +86,11 @@ export default function PersonalInformation({
 
   return (
     <section className="relative h-full flex flex-col items-center w-full">
-      <p className="my-8 h-16 w-full text-center text-pink-500/100">
+      <p className="mt-16 h-fit text-center text-pink-500/100">
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!
       </p>
-      <section className={"flex-1 flex flex-col items-center justify-center space-y-4"}>
+      <section className={"flex-1 flex flex-col items-center justify-start space-y-4 mt-8"}>
         <InformationInput
           label={"닉네임"}
           value={nickname}
@@ -155,7 +155,7 @@ export default function PersonalInformation({
         />
       </section>
       <button
-        className={"w-36 min-h-12 h-12 m-6 bg-pink-500 text-center text-white rounded-md"}
+        className={"w-36 min-h-12 h-12 mt-6 mb-12 bg-pink-500 text-center text-white rounded-md"}
         onClick={confirmOnClick}
       >
         다음
