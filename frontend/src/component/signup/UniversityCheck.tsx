@@ -59,13 +59,13 @@ export default function UniversityCheck({
   }, [university, emailInput, setEmail]);
 
   return (
-    <section className={"w-full"}>
-      <section className={"w-full h-[32rem] flex flex-col items-center"}>
-        <p className={"text-center text-pink-500/100 mt-36 my-16"}>
+    <section className={"h-full w-full flex flex-col items-center"}>
+      <section className={"flex-1"}>
+        <p className={"mt-16 h-fit text-center text-pink-500/100"}>
           소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
-        <section className="flex flex-col items-center space-y-4">
+        <section className="flex flex-col items-center space-y-4 mt-8">
           <InformationInput
             label={"소속대학"}
             value={selectedUniversityKey}
@@ -100,11 +100,10 @@ export default function UniversityCheck({
       </section>
       <section className={"text-center"}>
         <button
-          className={"bg-pink-500 text-center text-white mt-14 w-36 h-12 rounded-md"}
+          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
           onClick={confirmOnClick}
-          disabled={!email}
         >
-          확인
+        인증메일 전송
         </button>
       </section>
     </section>

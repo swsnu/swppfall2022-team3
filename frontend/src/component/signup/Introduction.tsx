@@ -42,7 +42,7 @@ export default function Introduction({
         </article>
       </section>
       <button
-        className={"w-36 h-12 min-h-12 my-12 bg-pink-500 text-center text-white rounded-md"}
+        className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
         onClick={confirmOnClick}
       >
         다음
