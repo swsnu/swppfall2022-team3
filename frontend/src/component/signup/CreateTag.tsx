@@ -46,8 +46,8 @@ export default function CreateTag({
   }, [setStep, tags]);
 
   return (
-    <section className={"flex flex-col items-center w-full mt-20 mb-16"}>
-      <section className={"w-full h-[36rem] flex flex-col items-center"}>
+    <section className={"flex flex-col items-center w-full"}>
+      <section className={"w-full mt-16 h-[36rem] flex flex-col items-center"}>
         <p className="text-center text-pink-500/100">
           나를 표현하는 태그를 입력해보세요!<br />
           ex) 취미 (등산, 그림, ...)

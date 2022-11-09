@@ -59,7 +59,7 @@ export default function UniversityCheck({
   }, [university, emailInput, setEmail]);
 
   return (
-    <section className={"w-full mt-12 mb-16"}>
+    <section className={"w-full"}>
       <section className={"w-full h-[32rem] flex flex-col items-center"}>
         <p className={"text-center text-pink-500/100 mt-36 my-16"}>
           소속대학과<br />

@@ -25,9 +25,9 @@ export default function Introduction({
   }, [setStep, introduction]);
 
   return (
-    <section className={"flex flex-col items-center w-full mt-20 mb-16"}>
+    <section className={"flex flex-col items-center w-full"}>
       <section className={"w-full h-[36rem] flex flex-col items-center"}>
-        <p className="mb-8 text-center text-pink-500/100">
+        <p className="mt-16 mb-8 text-center text-pink-500/100">
           자신의 매력을 어필할 수 있는<br />
           소개글을 작성해보세요!
         </p>

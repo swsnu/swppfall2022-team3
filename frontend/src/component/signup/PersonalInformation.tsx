@@ -85,12 +85,12 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className="relative h-[100vh] flex flex-col items-center w-full mt-20 mb-16">
-      <p className="mb-8 text-center text-pink-500/100">
+    <section className="relative h-fit flex flex-col items-center w-full">
+      <p className="mt-16 mb-8 text-center text-pink-500/100">
         인증 완료!!<br />
         다른 친구들에게 본인을 소개해보세요!
       </p>
-      <section className={"flex-none h-fit flex flex-col items-center"}>
+      <section className={"flex-none h-fit flex flex-col items-center mb-32"}>
         <InformationInput
           label={"닉네임"}
           value={nickname}

@@ -57,7 +57,7 @@ export default function EmailVerification({
   }, [code, verificationCode, setStep]);
 
   return (
-    <section className={"w-full mt-12 mb-16"}>
+    <section className={"w-full"}>
       <section className={"w-full h-[32rem] flex flex-col"}>
         <p className={"text-center text-pink-500/100 mt-36 my-16"}>
           인증 코드가 발송되었습니다!<br />
