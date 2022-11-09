@@ -29,16 +29,18 @@ export default function ChatDetail() {
   const [myChats, setMyChats] = useState<Chat[]>([]);
 
   const sendChat = useCallback(() => {
-    dispatch(chatAction.add(
-      {
-        from,
-        to,
-        key: chats.map((c) => c.key).reduce((acc, k) => acc < k ? k : acc, 0) + 1,
-        regDt: new Date(),
-        content: chatInput,
-      }
-    ));
-    setChatInput("");
+    if (chatInput !== "") {
+      dispatch(chatAction.add(
+        {
+          from,
+          to,
+          key: chats.map((c) => c.key).reduce((acc, k) => acc < k ? k : acc, 0) + 1,
+          regDt: new Date(),
+          content: chatInput,
+        }
+      ));
+      setChatInput("");
+    }
   }, [dispatch, chatInput, from, to, chats]);
 
   useEffect(() => {
