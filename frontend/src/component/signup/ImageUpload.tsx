@@ -20,12 +20,12 @@ export default function ImageUpload({
 
   return (
     <section className={"flex flex-col items-center w-full"}>
-      <section className={"mt-16 w-full h-[36rem] flex flex-col"}>
-        <p className="mb-8 text-center text-pink-500/100">
-          나를 대표할 수 있는<br />
-          사진을 올려주세요!
-        </p>
-        <section className={"flex flex-wrap px-12"}>
+      <p className="mt-16 mb-8 text-center text-pink-500/100">
+        나를 대표할 수 있는<br />
+        사진을 올려주세요!
+      </p>
+      <section className={"flex-1 flex flex-col justify-start"}>
+        <section className={"grid grid-cols-2 gap-2 px-12"}>
           {uploadedPhotos.map((photo, index) => {
             const examples = ["photo13.jpeg", "photo14.jpeg"];
             return <ImageUploadIcon
@@ -51,18 +51,16 @@ export default function ImageUpload({
             setUploadedPhotos={setUploadedPhotos}
           />
         </section>
-        <article className="text-center text-pink-500/100 mt-6">
-          ※ 본인의 사진이어야 합니다.
-        </article>
       </section>
-      <article className={"absolute bottom-12"}>
-        <button
-          className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
-          onClick={confirmOnClick}
-        >
-          완료
-        </button>
+      <article className="text-center text-pink-500/100 mt-6">
+        ※ 본인의 사진이어야 합니다.
       </article>
+      <button
+        className={"w-36 h-12 min-h-12 my-12 bg-pink-500 text-center text-white rounded-md"}
+        onClick={confirmOnClick}
+      >
+        완료
+      </button>
     </section>
   );
 }

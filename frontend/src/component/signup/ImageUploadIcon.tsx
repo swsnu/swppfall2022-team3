@@ -29,7 +29,7 @@ export default function ImageUploadIcon({
   }, []);
 
   return (
-    <div className={"flex-auto flex place-content-center"}>
+    <div className={"w-fit h-fit"}>
       <input
         ref={uploadRef}
         className={"hidden"}
@@ -43,7 +43,7 @@ export default function ImageUploadIcon({
         onClick={imageOnClick}
       >
         <img
-          className={"flex-none w-24 h-24 mb-4 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          className={"w-24 h-24 border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
           src={src}
           alt=""
         />
