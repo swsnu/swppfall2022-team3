@@ -29,7 +29,7 @@ export default function ChatBox({
         </article>
       ) :
       (
-        <article className={"flex flex-auto p-2 w-full"}>
+        <article className={"flex p-2 w-full"}>
           <button
             className={"flex flex-col"}
             onClick={() => navigate("/profile/" + sender)}
