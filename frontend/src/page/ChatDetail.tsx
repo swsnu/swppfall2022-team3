@@ -87,7 +87,7 @@ export default function ChatDetail() {
   return (
     <section className={"flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar title={appBarTitle}/>
-      <section className={"flex-1 flex flex-col w-full h-full"}>{
+      <section className={"flex-1 flex flex-col overflow-scroll"}>{
         myChats.map((chat) => (
           <ChatBox
             key={chat.content + chat.regDt.getTime()}
