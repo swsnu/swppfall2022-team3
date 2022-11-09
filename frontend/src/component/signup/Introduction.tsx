@@ -30,7 +30,7 @@ export default function Introduction({
         자신의 매력을 어필할 수 있는<br/>
         소개글을 작성해보세요!
       </p>
-      <section className="flex-1 flex flex-col w-4/5 justify-center">
+      <section className="flex-1 flex flex-col w-4/5 justify-start">
         <textarea
           className={"w-full h-80 align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
           placeholder="소개글을 작성해주세요!"
