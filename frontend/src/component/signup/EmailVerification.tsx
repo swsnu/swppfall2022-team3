@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { TextField } from "@mui/material";
 import { sendVerificationCode } from "../../util/email";
 import verification from "../../util/verification";
+import InformationInput from "./InformationInput";
 
 
 interface IProps {
@@ -64,21 +64,13 @@ export default function EmailVerification({
           이메일을 확인해주세요.
         </p>
         <div className={"flex flex-row place-content-center mb-6"}>
-          <TextField
-            sx={{
-              maxWidth: 320,
-              minWidth: 200,
-            }}
-            size={"small"}
+          <InformationInput
             label={"인증코드"}
-            variant={"outlined"}
             value={code}
-            onChange={(e) => {
-              setCode(e.target.value);
-            }}
-            required
+            setValue={setCode}
+            type={"text"}
           />
-          <div className={"mt-2"}>
+          <div className={"m-2"}>
             {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
           </div>
         </div>

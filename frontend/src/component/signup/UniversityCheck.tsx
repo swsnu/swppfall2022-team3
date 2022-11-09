@@ -65,7 +65,7 @@ export default function UniversityCheck({
           소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
-        <section className="flex flex-col items-center">
+        <section className="flex flex-col items-center space-y-4">
           <InformationInput
             label={"소속대학"}
             value={selectedUniversityKey}
@@ -77,27 +77,25 @@ export default function UniversityCheck({
                 .map((u) => ({ name: u.name, value: u.key }))
             }
           />
-          <section className="w-[15rem]">
-            <div className={"flex flex-row items-center text-center mb-6"}>
-              <TextField
-                sx={{
-                  maxWidth: 160,
-                  minWidth: 80,
-                }}
-                size={"small"}
-                label={"이메일"}
-                variant={"outlined"}
-                value={emailInput}
-                onChange={(e) => {
-                  setEmailInput(e.target.value);
-                }}
-                required
-              />
-              <article className={"flex-initial w-20 ml-2 text-left"}>
-                {university ? `@${university.domain}` : ""}
-              </article>
-            </div>
-          </section>
+          <article className={"flex flex-row items-center text-center mb-6"}>
+            <TextField
+              sx={{
+                maxWidth: 160,
+                minWidth: 80,
+              }}
+              size={"small"}
+              label={"이메일"}
+              variant={"outlined"}
+              value={emailInput}
+              onChange={(e) => {
+                setEmailInput(e.target.value);
+              }}
+              required
+            />
+            <article className={`flex-initial w-16 mx-2 text-left ${university ? "" : "text-gray-400"} overflow-x-visible`}>
+              {university ? `@${university.domain}` : "@pitapat.com"}
+            </article>
+          </article>
         </section>
       </section>
       <section className={"text-center"}>

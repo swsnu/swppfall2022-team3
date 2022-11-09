@@ -5,8 +5,11 @@ module.exports = {
   ],
   theme: {
     maxWidth: {
-      '2/3': '66%',
+      "2/3": "66%",
     },
+    minHeight: {
+      "12": "3rem",
+    }
   },
   plugins: [],
 }
