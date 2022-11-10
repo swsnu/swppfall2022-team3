@@ -10,7 +10,8 @@ import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge, User } from "../types";
+import { User } from "../types";
+import { getKoreanAge } from "../util/getKoreanAge";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 

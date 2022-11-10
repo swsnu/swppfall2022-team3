@@ -8,7 +8,7 @@ import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge } from "../types";
+import { getKoreanAge } from "../util/getKoreanAge";
 
 
 export default function ProfileUpdate() {

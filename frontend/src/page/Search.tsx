@@ -9,7 +9,8 @@ import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge, PitapatStatus, User } from "../types";
+import { PitapatStatus, User } from "../types";
+import { getKoreanAge } from "../util/getKoreanAge";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 

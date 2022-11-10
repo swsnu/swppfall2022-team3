@@ -3,7 +3,8 @@ import { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { selectPhoto } from "../../store/slices/photo";
 import { selectUser } from "../../store/slices/user";
-import { getKoreanAge, Pitapat } from "../../types";
+import { Pitapat } from "../../types";
+import { getKoreanAge } from "../../util/getKoreanAge";
 import { getPitapatStatus } from "../../util/getPitapatStatus";
 import Profile from "../Profile";
 
