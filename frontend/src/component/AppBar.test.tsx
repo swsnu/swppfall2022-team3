@@ -75,7 +75,7 @@ describe("AppBar", () => {
     expect(mockNavigate).toBeCalled();
   });
 
-  it("should print pink title text when default title", () => {
+  it("prints pink title text when default title", () => {
     render(
       <MemoryRouter>
         <Routes>
