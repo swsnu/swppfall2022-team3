@@ -66,6 +66,7 @@ export interface User {
   email: string;
   username: string;
   gender: Gender;
+  targetGender: Gender;
   birthday: Date;
   location: string;
   university: number;
