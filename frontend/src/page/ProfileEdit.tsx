@@ -11,7 +11,7 @@ import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/getKoreanAge";
 
 
-export default function ProfileUpdate() {
+export default function ProfileEdit() {
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
   const photos = useSelector(selectPhoto).photos;
