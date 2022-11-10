@@ -36,6 +36,7 @@
     "no-unused-vars": "warn",
     "no-unused-expressions": "warn",
     "curly": "warn",
+    "react/display-name": "off",
     "import/no-unresolved": [2, {"commonjs": true, "amd": true}],
     "import/newline-after-import": ["error", { "count": 2 }],
     "import/order": [
@@ -67,15 +68,15 @@
     "@typescript-eslint/member-delimiter-style": [
       "error",
       {
-          "multiline": {
-              "delimiter": "semi",
-              "requireLast": true
-          },
-          "singleline": {
-              "delimiter": "semi",
-              "requireLast": false
-          }
+        "multiline": {
+            "delimiter": "semi",
+            "requireLast": true
+        },
+        "singleline": {
+            "delimiter": "semi",
+            "requireLast": false
+        }
       }
-  ]
+    ]
   }
 }
