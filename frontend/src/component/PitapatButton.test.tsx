@@ -95,13 +95,13 @@ describe("PitapatButton", () => {
     expect(mockDispatch).toBeCalled();
   });
 
-  it("have flex-none style in list view", () => {
+  it("has flex-none style in list view", () => {
     render(getElement(mockStore, PitapatStatus.NONE, true, true));
     const button = screen.getByText("두근");
     expect(button).toHaveStyle("flex: flex-none");
   });
 
-  it("have pink border in when isAccept", () => {
+  it("has pink border in when isAccept", () => {
     render(getElement(mockStore, PitapatStatus.NONE, true, false));
     const button = screen.getByText("두근");
     expect(button).toHaveStyle("border-color: rgb(219 39 119)");
