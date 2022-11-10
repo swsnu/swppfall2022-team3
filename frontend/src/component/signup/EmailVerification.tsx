@@ -2,7 +2,7 @@ import * as React from "react";
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { sendVerificationCode } from "../../util/email";
-import verification from "../../util/verification";
+import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
 
@@ -38,7 +38,7 @@ export default function EmailVerification({
   }, [sec, navigate, setStep]);
 
   const resendOnClick = useCallback(() => {
-    const newCode = verification.getCode();
+    const newCode = getCode();
     sendVerificationCode(email, newCode)
       .then(() => {
         return;
