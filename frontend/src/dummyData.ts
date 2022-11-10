@@ -273,14 +273,18 @@ export const photos: Photo[] = [
 
 export const pitapats: Pitapat[] = [
   { from: 1, to: 2 },
+  { from: 1, to: 3 },
   { from: 1, to: 5 },
   { from: 2, to: 1 },
+  { from: 3, to: 1 },
   { from: 8, to: 1 },
   { from: 9, to: 1 },
 ];
 
 export const chats: Chat[] = [
-  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01") },
+  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01 16:00:00") },
+  { key: 2, from: 1, to: 2, content: "저도 반가워요~", regDt: new Date("2022-11-01 16:30:00") },
+  { key: 3, from: 1, to: 2, content: "혹시 언제 시간 되시나요?", regDt: new Date("2022-11-01 16:30:10") },
 ];
 
 export const users: User[] = [
@@ -303,8 +307,8 @@ export const users: User[] = [
     key: 2,
     email: "test@snu.ac.kr",
     username: "nana99",
-    gender: Gender.MALE,
-    targetGender: Gender.FEMALE,
+    gender: Gender.FEMALE,
+    targetGender: Gender.MALE,
     birthday: new Date("1999-05-02"),
     location: "서울",
     university: 1,
@@ -348,8 +352,8 @@ export const users: User[] = [
     key: 5,
     email: "test4@snu.ac.kr",
     username: "john doe",
-    gender: Gender.MALE,
-    targetGender: Gender.FEMALE,
+    gender: Gender.FEMALE,
+    targetGender: Gender.MALE,
     birthday: new Date("2001-04-12"),
     location: "목포",
     university: 1,
@@ -393,8 +397,8 @@ export const users: User[] = [
     key: 8,
     email: "test7@snu.ac.kr",
     username: "LeCorbusier",
-    gender: Gender.MALE,
-    targetGender: Gender.FEMALE,
+    gender: Gender.FEMALE,
+    targetGender: Gender.MALE,
     birthday: new Date("1997-12-29"),
     location: "서울",
     university: 1,
@@ -408,8 +412,8 @@ export const users: User[] = [
     key: 9,
     email: "test8@snu.ac.kr",
     username: "AlvaAlto",
-    gender: Gender.MALE,
-    targetGender: Gender.FEMALE,
+    gender: Gender.FEMALE,
+    targetGender: Gender.ALL,
     birthday: new Date("2002-6-29"),
     location: "서울",
     university: 1,
