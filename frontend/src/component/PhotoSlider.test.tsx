@@ -6,7 +6,6 @@ import PhotoSlider from "./PhotoSlider";
 
 jest.mock("react-slick", () => () => <div></div>);
 
-
 describe("PhotoSlider", () => {
   beforeEach(() => {
     jest.clearAllMocks();

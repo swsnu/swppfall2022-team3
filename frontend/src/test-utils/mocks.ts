@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { PreloadedState } from "redux";
+import { chats, colleges, majors, photos, pitapats, tags, universities, users } from "../dummyData";
 import { RootState } from "../store";
 import chatReducer from "../store/slices/chat";
 import collegeReducer from "../store/slices/college";
@@ -9,7 +10,6 @@ import pitapatReducer from "../store/slices/pitapat";
 import tagReducer from "../store/slices/tag";
 import universityReducer from "../store/slices/university";
 import userReducer from "../store/slices/user";
-import { chats, colleges, majors, photos, pitapats, tags, universities, users } from "../dummyData";
 
 
 export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
@@ -31,7 +31,7 @@ export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
   });
 };
 
-export const getDefaultMockStore = (shouldLogin: boolean = true) => getMockStore({
+export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },
   major: { majors: majors },
@@ -40,4 +40,4 @@ export const getDefaultMockStore = (shouldLogin: boolean = true) => getMockStore
   tag: { tags: tags },
   pitapat: { pitapats: pitapats },
   chat: { chats: chats },
-})
+});

@@ -3,8 +3,8 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { render, screen } from "@testing-library/react";
-import { chats, colleges, majors, photos, pitapats, tags, universities, users } from "../dummyData";
-import { getMockStore } from "../test-utils/mocks";
+import { tags, users } from "../dummyData";
+import { getDefaultMockStore } from "../test-utils/mocks";
 import ProfileDetail from "./ProfileDetail";
 
 
@@ -18,19 +18,9 @@ jest.mock("../component/AppBar", () => () => <div></div>);
 jest.mock("../component/PhotoSlider", () => () => <div></div>);
 jest.mock("../component/PitapatButton", () => () => <div></div>);
 
-const mockState = {
-  university: { universities: universities },
-  college: { colleges: colleges },
-  major: { majors: majors },
-  user: { users: users, loginUser: users[0] },
-  photo: { photos: photos },
-  tag: { tags: tags },
-  pitapat: { pitapats: pitapats },
-  chat: { chats: chats },
-};
-const mockStore = getMockStore(mockState);
-
 describe("ProfileDetail", () => {
+  const mockStore = getDefaultMockStore(true);
+
   function getElement(store: ToolkitStore) {
     return (
       <Provider store={store}>
@@ -53,11 +43,7 @@ describe("ProfileDetail", () => {
   });
 
   it("redirects to SignIn page when not logged in", () => {
-    const logoutState = {
-      ...mockState,
-      user: { users: users, loginUser: null },
-    };
-    const mockLogoutStore = getMockStore(logoutState);
+    const mockLogoutStore = getDefaultMockStore(false);
     render(getElement(mockLogoutStore));
     expect(mockNavigate).toBeCalled();
   });
