@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import * as React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
@@ -17,24 +18,23 @@ const mockStore = getMockStore({
   chat: { chats: chats },
 });
 
-// eslint-disable-next-line react/display-name
-const mockElement = () => () => <div></div>;
+jest.mock("./page/SignIn", () => () => <div></div>);
+jest.mock("./page/SignUp", () => () => <div></div>);
+jest.mock("./page/Search", () => () => <div></div>);
+jest.mock("./page/ProfileDetail", () => () => <div></div>);
+jest.mock("./page/ChatList", () => () => <div></div>);
+jest.mock("./page/ChatDetail", () => () => <div></div>);
+jest.mock("./page/PitapatList", () => () => <div></div>);
+jest.mock("./page/Setting", () => () => <div></div>);
+jest.mock("./page/ProfileUpdate", () => () => <div></div>);
 
-jest.mock("./page/SignIn", mockElement);
-jest.mock("./page/SignUp", mockElement);
-jest.mock("./page/Search", mockElement);
-jest.mock("./page/ProfileDetail", mockElement);
-jest.mock("./page/ChatList", mockElement);
-jest.mock("./page/ChatDetail", mockElement);
-jest.mock("./page/PitapatList", mockElement);
-jest.mock("./page/Setting", mockElement);
-jest.mock("./page/ProfileUpdate", mockElement);
-
-test("renders App", () => {
-  const { container } = render(
-    <Provider store={mockStore}>
-      <App/>
-    </Provider>
-  );
-  expect(container).toBeTruthy();
+describe("App", () => {
+  test("renders App", () => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App/>
+      </Provider>
+    );
+    expect(container).toBeTruthy();
+  });
 });
