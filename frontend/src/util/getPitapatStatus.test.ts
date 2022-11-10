@@ -10,14 +10,14 @@ const mockPitapats: Pitapat[] = [
 
 describe("getPitapatStatus", () => {
   it("returns MATCHED when both sent and received", () => {
-    expect(getPitapatStatus(1, 2, mockPitapats)).toEqual(PitapatStatus.MATCHED);
+    expect(getPitapatStatus(1, 2, mockPitapats)).toBe(PitapatStatus.MATCHED);
   });
 
   it("returns SENT when only sent", () => {
-    expect(getPitapatStatus(1, 3, mockPitapats)).toEqual(PitapatStatus.SENT);
+    expect(getPitapatStatus(1, 3, mockPitapats)).toBe(PitapatStatus.SENT);
   });
 
   it("returns RECEIVED when only received", () => {
-    expect(getPitapatStatus(3, 1, mockPitapats)).toEqual(PitapatStatus.RECEIVED);
+    expect(getPitapatStatus(3, 1, mockPitapats)).toBe(PitapatStatus.RECEIVED);
   });
 });
