@@ -9,6 +9,7 @@ import pitapatReducer from "../store/slices/pitapat";
 import tagReducer from "../store/slices/tag";
 import universityReducer from "../store/slices/university";
 import userReducer from "../store/slices/user";
+import { chats, colleges, majors, photos, pitapats, tags, universities, users } from "../dummyData";
 
 
 export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
@@ -29,3 +30,14 @@ export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
     preloadedState,
   });
 };
+
+export const getDefaultMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: { users: users, loginUser: users[0] },
+  photo: { photos: photos },
+  tag: { tags: tags },
+  pitapat: { pitapats: pitapats },
+  chat: { chats: chats },
+})
