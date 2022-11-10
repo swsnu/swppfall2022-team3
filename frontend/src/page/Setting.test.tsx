@@ -34,12 +34,16 @@ const mockStore = getMockStore(mockState);
 jest.mock("../component/AppBar", () => () => <div></div>);
 
 describe("Setting", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("renders Setting", () => {
     const { container } = render(
       <Provider store={mockStore}>
         <MemoryRouter>
           <Routes>
-            <Route path='/' element={<Setting/>}/>
+            <Route path="/" element={<Setting/>}/>
           </Routes>
         </MemoryRouter>
       </Provider>
@@ -57,7 +61,7 @@ describe("Setting", () => {
       <Provider store={mockLogoutStore}>
         <MemoryRouter>
           <Routes>
-            <Route path='/' element={<Setting/>}/>
+            <Route path="/" element={<Setting/>}/>
           </Routes>
         </MemoryRouter>
       </Provider>
@@ -70,7 +74,7 @@ describe("Setting", () => {
       <Provider store={mockStore}>
         <MemoryRouter>
           <Routes>
-            <Route path='/' element={<Setting/>}/>
+            <Route path="/" element={<Setting/>}/>
           </Routes>
         </MemoryRouter>
       </Provider>
@@ -85,7 +89,7 @@ describe("Setting", () => {
       <Provider store={mockStore}>
         <MemoryRouter>
           <Routes>
-            <Route path='/' element={<Setting/>}/>
+            <Route path="/" element={<Setting/>}/>
           </Routes>
         </MemoryRouter>
       </Provider>
