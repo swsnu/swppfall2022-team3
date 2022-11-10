@@ -21,6 +21,16 @@ jest.mock("@heroicons/react/20/solid", () => ({
 }));
 
 describe("AppBar", () => {
+  function getElement(title?: string) {
+    return (
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={<AppBar title={title}/>}/>
+        </Routes>
+      </MemoryRouter>
+    );
+  }
+
   beforeEach(() => {
     jest.clearAllMocks();
     global.window = Object.create(window);
@@ -31,13 +41,7 @@ describe("AppBar", () => {
   });
 
   it("renders AppBar", () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={<AppBar/>}/>
-        </Routes>
-      </MemoryRouter>
-    );
+    const { container } = render(getElement());
     expect(container).toBeTruthy();
   });
 
@@ -46,13 +50,7 @@ describe("AppBar", () => {
       value: { pathname: "/setting" },
       writable: true,
     });
-    render(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={<AppBar/>}/>
-        </Routes>
-      </MemoryRouter>
-    );
+    render(getElement());
     const backButton = screen.getByText("back");
     fireEvent.click(backButton);
     expect(mockNavigate).toBeCalled();
@@ -63,26 +61,14 @@ describe("AppBar", () => {
       value: { pathname: "/search" },
       writable: true,
     });
-    render(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={<AppBar/>}/>
-        </Routes>
-      </MemoryRouter>
-    );
+    render(getElement());
     const backButton = screen.getByText("setting");
     fireEvent.click(backButton);
     expect(mockNavigate).toBeCalled();
   });
 
   it("prints pink title text when default title", () => {
-    render(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={<AppBar title="test"/>}/>
-        </Routes>
-      </MemoryRouter>
-    );
+    render(getElement("test"));
     const title = screen.getByText("test");
     expect(title).toHaveStyle("color: rgb(0 0 0)");
   });
