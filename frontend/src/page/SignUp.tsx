@@ -24,7 +24,7 @@ export default function SignUp() {
   const [university, setUniversity] = useState<University | null>(null);
   const [email, setEmail] = useState<string>("");
   const [verificationCode, setVerificationCode] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [college, setCollege] = useState<College | null>(null);
@@ -64,8 +64,9 @@ export default function SignUp() {
         {
           key: users.length + 1,
           email,
-          username: nickname,
+          username: username,
           gender,
+          targetGender,
           birthday,
           location: "관악구",
           university: university.key,
@@ -78,83 +79,110 @@ export default function SignUp() {
       ));
       navigate("/signin");
     }
-  }, [dispatch, navigate, users, birthday, college, email, gender, introduction, major, nickname, tags, university]);
+  }, [
+    dispatch,
+    navigate,
+    users,
+    university,
+    email,
+    username,
+    birthday,
+    college,
+    major,
+    gender,
+    targetGender,
+    tags,
+    introduction,
+  ]);
 
-  return (
-    step === 0 ?
-      <UniversityCheck
+  const getPage = useCallback((step: number): JSX.Element => {
+    switch (step) {
+    case 0:
+      return <UniversityCheck
         university={university}
         setUniversity={setUniversity}
         email={email}
         setEmail={setEmail}
         setVerificationCode={setVerificationCode}
         setStep={setStep}
-      /> :
-      step === 1 ?
-        <EmailVerification
-          email={email}
-          verificationCode={verificationCode}
-          setVerificationCode={setVerificationCode}
-          setStep={setStep}
-        /> :
-        step === 2 ?
-          <PersonalInformation
-            nickname={nickname}
-            setNickname={setNickname}
-            password={password}
-            setPassword={setPassword}
-            birthday={birthday}
-            setBirthday={setBirthday}
-            college={college}
-            setCollege={setCollege}
-            major={major}
-            setMajor={setMajor}
-            gender={gender}
-            setGender={setGender}
-            targetGender={targetGender}
-            setTargetGender={setTargetGender}
-            setStep={setStep}
-          /> :
-          step === 3 ?
-            <CreateTag
-              tags={tags}
-              setTags={setTags}
-              setStep={setStep}
-            /> :
-            step === 4 ?
-              <Introduction
-                introduction={introduction}
-                setIntroduction={setIntroduction}
-                setStep={setStep}
-              /> :
-              step === 5 ?
-                <ImageUpload
-                  uploadedPhotos={uploadedPhotos}
-                  setUploadedPhotos={setUploadedPhotos}
-                  setStep={setStep}
-                /> :
-                step === 6 ?
-                  <section className="w-full flex flex-col mt-64 mb-16">
-                    <Completed
-                    />
-                    <div className={"text-center"}>
-                      <button
-                        className={"bg-pink-500 text-center text-white mt-16 w-36 h-12 rounded-md"}
-                        onClick={confirmOnClick}
-                      >
-                        완료
-                      </button>
-                    </div>
-                  </section>
-                  :
-                  // default component.. but shouldn't be reached here.
-                  <UniversityCheck
-                    university={university}
-                    setUniversity={setUniversity}
-                    email={email}
-                    setEmail={setEmail}
-                    setVerificationCode={setVerificationCode}
-                    setStep={setStep}
-                  />
-  );
+      />;
+    case 1:
+      return <EmailVerification
+        email={email}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        setStep={setStep}
+      />;
+    case 2:
+      return <PersonalInformation
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+        birthday={birthday}
+        setBirthday={setBirthday}
+        college={college}
+        setCollege={setCollege}
+        major={major}
+        setMajor={setMajor}
+        gender={gender}
+        setGender={setGender}
+        targetGender={targetGender}
+        setTargetGender={setTargetGender}
+        setStep={setStep}
+      />;
+    case 3:
+      return <CreateTag
+        tags={tags}
+        setTags={setTags}
+        setStep={setStep}
+      />;
+    case 4:
+      return <Introduction
+        introduction={introduction}
+        setIntroduction={setIntroduction}
+        setStep={setStep}
+      />;
+    case 5:
+      return <ImageUpload
+        uploadedPhotos={uploadedPhotos}
+        setUploadedPhotos={setUploadedPhotos}
+        setStep={setStep}
+      />;
+    case 6:
+      return (
+        <section className="w-full flex flex-col mt-64 mb-16">
+          <Completed
+          />
+          <div className={"text-center"}>
+            <button
+              className={"bg-pink-500 text-center text-white mt-16 w-36 h-12 rounded-md"}
+              onClick={confirmOnClick}
+            >
+              완료
+            </button>
+          </div>
+        </section>
+      );
+    default:
+      return <section></section>;
+    }
+  }, [
+    university,
+    verificationCode,
+    email,
+    username,
+    password,
+    birthday,
+    college,
+    major,
+    gender,
+    targetGender,
+    tags,
+    introduction,
+    uploadedPhotos,
+    confirmOnClick,
+  ]);
+
+  return getPage(step);
 }
