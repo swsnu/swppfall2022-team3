@@ -1,4 +1,4 @@
-const getCode = (): string => {
+function getCode() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   let result = "";
   const charactersLength = characters.length;
@@ -7,10 +7,8 @@ const getCode = (): string => {
     result += characters.charAt(Math.floor(random));
   }
   return result;
-};
+}
 
-const verificationModule = {
+export {
   getCode,
 };
-
-export default verificationModule;

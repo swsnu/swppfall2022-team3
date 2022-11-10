@@ -6,7 +6,7 @@ import { selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
 import { sendVerificationCode } from "../../util/email";
-import verification from "../../util/verification";
+import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
 
@@ -38,7 +38,7 @@ export default function UniversityCheck({
       alert("이미 존재하는 이메일입니다.");
     }
     else {
-      const code = verification.getCode();
+      const code = getCode();
       await sendVerificationCode(email, code);
       setVerificationCode(code);
       setStep(1);
