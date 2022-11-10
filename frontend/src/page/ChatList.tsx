@@ -60,13 +60,16 @@ export default function ChatList() {
     <section className={"w-full flex-1 flex flex-col mt-12 mb-[56px]"}>
       <AppBar/>
       <section className={"flex-1 flex flex-col"}>{
-        chatRoomInfos.map(({ user, lastChat }) => (
-          <ChatListElement
-            user={user}
-            lastChat={lastChat}
-            key={user.key}
-          />
-        ))
+        loginUser ?
+          chatRoomInfos.map(({ user, lastChat }) => (
+            <ChatListElement
+              myUser={loginUser}
+              otherUser={user}
+              lastChat={lastChat}
+              key={user.key}
+            />
+          )) :
+          null
       }</section>
       <NavigationBar/>
     </section>
