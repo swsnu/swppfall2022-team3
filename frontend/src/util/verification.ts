@@ -1,4 +1,4 @@
-function getCode() {
+export function getCode() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   let result = "";
   const charactersLength = characters.length;
@@ -8,7 +8,3 @@ function getCode() {
   }
   return result;
 }
-
-export {
-  getCode,
-};
