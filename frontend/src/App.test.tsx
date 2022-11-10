@@ -17,59 +17,18 @@ const mockStore = getMockStore({
   chat: { chats: chats },
 });
 
-jest.mock(
-  "./page/SignIn",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
+// eslint-disable-next-line react/display-name
+const mockElement = () => () => <div></div>;
 
-jest.mock(
-  "./page/SignUp",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/Search",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ProfileDetail",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ChatList",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ChatDetail",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/PitapatList",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/Setting",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ProfileUpdate",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
+jest.mock("./page/SignIn", mockElement);
+jest.mock("./page/SignUp", mockElement);
+jest.mock("./page/Search", mockElement);
+jest.mock("./page/ProfileDetail", mockElement);
+jest.mock("./page/ChatList", mockElement);
+jest.mock("./page/ChatDetail", mockElement);
+jest.mock("./page/PitapatList", mockElement);
+jest.mock("./page/Setting", mockElement);
+jest.mock("./page/ProfileUpdate", mockElement);
 
 test("renders App", () => {
   const { container } = render(
