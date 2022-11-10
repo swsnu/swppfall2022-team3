@@ -54,7 +54,7 @@ export default function AppBar({ title = defaultTitle }: IProps) {
       }
       <section className={"flex-auto flex justify-center"}>
         <div
-          className={`flex-none text-center m-auto text-lg font-bold ${title === defaultTitle ? "text-pink-500" : ""}`}>{title}</div>
+          className={`flex-none text-center m-auto text-lg font-bold ${title === defaultTitle ? "text-pink-500" : "text-black"}`}>{title}</div>
       </section>
       {
         isUserVisible ?
