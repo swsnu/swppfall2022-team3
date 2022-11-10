@@ -282,7 +282,9 @@ export const pitapats: Pitapat[] = [
 ];
 
 export const chats: Chat[] = [
-  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01") },
+  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01 16:00:00") },
+  { key: 2, from: 1, to: 2, content: "저도 반가워요~", regDt: new Date("2022-11-01 16:30:00") },
+  { key: 3, from: 1, to: 2, content: "혹시 언제 시간 되시나요?", regDt: new Date("2022-11-01 16:30:10") },
 ];
 
 export const users: User[] = [
