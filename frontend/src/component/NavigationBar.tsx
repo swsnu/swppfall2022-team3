@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatBubbleOutlinedIcon from "@mui/icons-material/ChatBubbleOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
@@ -10,27 +10,11 @@ import path from "../constant/path";
 
 type TabIndex = 0 | 1 | 2;
 
-const getTabIndex = (pathName: string): TabIndex => {
-  let newSelectedTab: TabIndex = 0;
-  if (pathName.startsWith(path.search)) {
-    newSelectedTab = 0;
-  }
-  else if (pathName.startsWith(path.pitapat)) {
-    newSelectedTab = 1;
-  }
-  else if (pathName.startsWith(path.chat)) {
-    newSelectedTab = 2;
-  }
-  return newSelectedTab;
-};
-
 export default function NavigationBar(){
   const navigate = useNavigate();
   const pathName = window.location.pathname;
-  const [selectedTab, setSelectedTab] = useState<TabIndex>(getTabIndex(pathName));
-  const [currentTab, setCurrentTab] = useState<TabIndex>(getTabIndex(pathName));
 
-  useEffect(() => {
+  const getTabIndex = useCallback((pathName: string): TabIndex => {
     let newSelectedTab: TabIndex = 0;
     if (pathName.startsWith(path.search)) {
       newSelectedTab = 0;
@@ -41,8 +25,15 @@ export default function NavigationBar(){
     else if (pathName.startsWith(path.chat)) {
       newSelectedTab = 2;
     }
-    setSelectedTab(newSelectedTab);
-  }, [pathName]);
+    return newSelectedTab;
+  }, []);
+
+  const [selectedTab, setSelectedTab] = useState<TabIndex>(getTabIndex(pathName));
+  const [currentTab, setCurrentTab] = useState<TabIndex>(getTabIndex(pathName));
+
+  useEffect(() => {
+    setSelectedTab(getTabIndex(pathName));
+  }, [pathName, getTabIndex]);
 
   useEffect(() => {
     let targetPath = "";
