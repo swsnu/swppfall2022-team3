@@ -31,11 +31,11 @@ export const getMockStore = (preloadedState?: PreloadedState<RootState>) => {
   });
 };
 
-export const getDefaultMockStore = () => getMockStore({
+export const getDefaultMockStore = (shouldLogin: boolean = true) => getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },
   major: { majors: majors },
-  user: { users: users, loginUser: users[0] },
+  user: { users: users, loginUser: shouldLogin ? users[0] : null },
   photo: { photos: photos },
   tag: { tags: tags },
   pitapat: { pitapats: pitapats },
