@@ -100,4 +100,10 @@ describe("PitapatButton", () => {
     const button = screen.getByText("두근");
     expect(button).toHaveStyle("flex: flex-none");
   });
+
+  it("have pink border in when isAccept", () => {
+    render(getElement(mockStore, PitapatStatus.NONE, true, false));
+    const button = screen.getByText("두근");
+    expect(button).toHaveStyle("border-color: rgb(219 39 119)");
+  });
 });
