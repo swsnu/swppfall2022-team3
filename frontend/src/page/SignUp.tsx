@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import CreateTag from "../component/signup/CreateTag";

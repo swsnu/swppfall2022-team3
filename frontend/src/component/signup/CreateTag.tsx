@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";

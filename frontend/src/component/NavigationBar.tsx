@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatBubbleOutlinedIcon from "@mui/icons-material/ChatBubbleOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";

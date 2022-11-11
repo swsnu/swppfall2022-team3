@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { sendVerificationCode } from "../../util/email";
 import { getCode } from "../../util/verification";

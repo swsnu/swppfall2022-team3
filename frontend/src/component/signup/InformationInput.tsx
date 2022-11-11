@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, HTMLInputTypeAttribute, SetStateAction } from "react";
+import React, { Dispatch, HTMLInputTypeAttribute, SetStateAction } from "react";
 import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";

@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
 import ImageUploadIcon from "./ImageUploadIcon";
 
 

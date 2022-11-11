@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { render } from "@testing-library/react";
 import { photos, users } from "../dummyData";
 import PhotoSlider from "./PhotoSlider";
 
 
-jest.mock("react-slick", () => () => <div></div>);
+jest.mock("react-slick", () => () => <div/>);
 
 describe("PhotoSlider", () => {
   beforeEach(() => {

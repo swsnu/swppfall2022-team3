@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { TextField } from "@mui/material";
 import { selectUniversity } from "../../store/slices/university";

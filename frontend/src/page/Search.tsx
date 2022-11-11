@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
@@ -42,7 +41,7 @@ export default function Search() {
           koreanAge={getKoreanAge(user.birthday)}
           photo={photo ? photo.path : ""}
           showRejectButton={false}
-          isLastElement={(index === showUsers.length - 1) ? true : false}
+          isLastElement={(index === showUsers.length - 1)}
           status={getPitapatStatus(loginUser.key, user.key, pitapats)}
         />
       );
@@ -57,6 +56,6 @@ export default function Search() {
           {getNoneStatusProfiles(loginUser)}
         </section>
         <NavigationBar/>
-      </section> : <section></section>
+      </section> : <section/>
   );
 }

@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { selectPhoto } from "../../store/slices/photo";
 import { selectUser } from "../../store/slices/user";

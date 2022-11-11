@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";

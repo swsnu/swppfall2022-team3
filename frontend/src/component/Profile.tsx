@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectPitapat } from "../store/slices/pitapat";
