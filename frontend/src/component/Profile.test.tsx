@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter, Route, Routes } from "react-router";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import { PitapatStatus } from "../types";
 import Profile, { IProps } from "./Profile";
@@ -49,9 +48,11 @@ describe("<Profile />", () => {
   it("should render without error(no reject button & not last element) and should navigate", () => {
     const { container } = render(getElement(mockIProps));
     expect(container).toBeTruthy();
-    const profilePicture = document.getElementsByClassName("w-full z-0");
-    fireEvent.click(profilePicture[0]);
-    expect(mockNavigate).toHaveBeenCalledTimes(1);
+    const profilePictures = screen.getAllByRole("img");
+    profilePictures.forEach((picture) => {
+      fireEvent.click(picture);
+    });
+    expect(mockNavigate).toHaveBeenCalledTimes(profilePictures.length);
   });
 
   it("should render without error(reject button & last element)", () => {
