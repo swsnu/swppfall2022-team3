@@ -1,6 +1,5 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { getDefaultMockStore } from "../test-utils/mocks";
@@ -27,11 +26,7 @@ describe("Setting", () => {
   function getElement(store: ToolkitStore) {
     return (
       <Provider store={store}>
-        <MemoryRouter>
-          <Routes>
-            <Route path="/" element={<Setting/>}/>
-          </Routes>
-        </MemoryRouter>
+        <Setting/>
       </Provider>
     );
   }

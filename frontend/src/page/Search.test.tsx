@@ -1,6 +1,5 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { render, screen } from "@testing-library/react";
 import { getDefaultMockStore, getNoPhotoMockStore } from "../test-utils/mocks";
@@ -32,11 +31,7 @@ describe("Search", () => {
   function getElement(store: ToolkitStore) {
     return (
       <Provider store={store}>
-        <MemoryRouter>
-          <Routes>
-            <Route path="/" element={<Search/>}/>
-          </Routes>
-        </MemoryRouter>
+        <Search/>
       </Provider>
     );
   }

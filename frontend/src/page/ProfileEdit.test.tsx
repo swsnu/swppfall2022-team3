@@ -1,6 +1,5 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { render, screen } from "@testing-library/react";
 import { tags, users } from "../dummyData";
@@ -23,11 +22,7 @@ describe("ProfileEdit", () => {
   function getElement(store: ToolkitStore) {
     return (
       <Provider store={store}>
-        <MemoryRouter initialEntries={["/profile/1"]}>
-          <Routes>
-            <Route path="/profile/:id" element={<ProfileEdit/>}/>
-          </Routes>
-        </MemoryRouter>
+        <ProfileEdit/>
       </Provider>
     );
   }
