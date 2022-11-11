@@ -19,7 +19,7 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.spyOn(window, 'alert').mockImplementation(() => { });
+window.alert = jest.fn();
 
 describe("Signin", () => {
   const mockStore = getDefaultMockStore(false);
@@ -60,25 +60,25 @@ describe("Signin", () => {
 
   it("should handle on loginOnClick when using an email that has completed signup", () => {
     render(signin(mockStore));
-    const email = document.getElementById(":r6:");
-    const password = document.getElementById(":r7:");
+    const emailField = screen.getByPlaceholderText("이메일");
+    const passwordField = screen.getByPlaceholderText("비밀번호");
     const signInButton = screen.getByText("로그인");
-    fireEvent.change(email!, { target: { value: "user@snu.ac.kr" } });
-    fireEvent.change(password!, { target: { value: "qwe123" } });
+    fireEvent.change(emailField, { target: { value: "user@snu.ac.kr" } });
+    fireEvent.change(passwordField, { target: { value: "qwe123" } });
     fireEvent.click(signInButton);
     expect(mockNavigate).toBeCalled();
     expect(mockDispatch).toBeCalled();
-  })
+  });
 
   it("should handle on loginOnClick when using an email that has not completed signup", () => {
     render(signin(mockStore));
-    const email = document.getElementById(":r8:");
-    const password = document.getElementById(":r9:");
+    const emailField = screen.getByPlaceholderText("이메일");
+    const passwordField = screen.getByPlaceholderText("비밀번호");
     const signInButton = screen.getByText("로그인");
-    fireEvent.change(email!, { target: { value: "userrrrr@snu.ac.kr" } });
-    fireEvent.change(password!, { target: { value: "qwe123" } });
+    fireEvent.change(emailField, { target: { value: "userrrrr@snu.ac.kr" } });
+    fireEvent.change(passwordField, { target: { value: "qwe123" } });
     fireEvent.click(signInButton);
     expect(window.alert).toBeCalled();
-  })
+  });
 });
 

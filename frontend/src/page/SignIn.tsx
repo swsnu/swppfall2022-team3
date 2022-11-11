@@ -9,9 +9,9 @@ import { selectUser, userActions } from "../store/slices/user";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
-  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -49,7 +49,7 @@ export default function SignIn() {
               minWidth: 200,
             }}
             size={"small"}
-            label={""}
+            placeholder={"이메일"}
             variant={"outlined"}
             value={email}
             onChange={(e) => {
@@ -68,7 +68,7 @@ export default function SignIn() {
               minWidth: 200,
             }}
             size={"small"}
-            label={""}
+            placeholder={"비밀번호"}
             type={"password"}
             variant={"outlined"}
             value={password}
