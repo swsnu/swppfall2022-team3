@@ -22,16 +22,18 @@ A Line between two tables shows their relationship. Its relationship type is den
 
 #### Entity Description
 
-| Model            | Description                                                  |
-| ---------------- | ------------------------------------------------------------ |
-| **University**   | A closed community that only users in the same university can see each other. |
-| **College**      | Each university has a number of colleges.                    |
-| **Major**        | Each college in a university has a number of majors. Used as a user's tag. |
+| Model            | Description                                                                                                                                   |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| **University**   | A closed community that only users in the same university can see each other.                                                                 |
+| **College**      | Each university has a number of colleges.                                                                                                     |
+| **Major**        | Each college in a university has a number of majors. Used as a user's tag.                                                                    |
 | **User**         | The user that belongs to a university. Has its own introduction, photos, and tags. Can see profiles of other users and send pitapats to them. |
-| **Introduction** | Self-introduce text written by a user.                       |
-| **Photo**        | Photos showing a user's appearance.                          |
-| **Tag**          | Additional keywords that a user adds to appeal itself.       |
-| **Pitapat**      | A request for matching from a user to another user.          |
+| **Introduction** | Self-introduce text written by a user.                                                                                                        |
+| **Photo**        | Photos showing a user's appearance.                                                                                                           |
+| **Tag**          | Additional keywords that a user adds to appeal itself.                                                                                        |
+| **Pitapat**      | A request for matching from a user to another user.                                                                                           |
+| **Blocked**      | A request for blocking a pair of users                                                                                                        |
+
 
 ### View
 
@@ -69,6 +71,7 @@ The functionality and the requirement for each page are described below.
 
 - Information about the user is shown.
 - A user can click a ‘pitapat’ button to send a ‘pitapat’.
+- A user can block a specific person by clicking a 'block' button.
 - If navigated from the ‘pitapats received list’, there is a ‘Nah’ button for refusing.
 - If navigated from the ‘pitapats sent list’, a ‘pitapat’ button is already toggled and it can be canceled.
 
@@ -117,7 +120,7 @@ The functionality and the requirement for each page are described below.
 #### API
 
 | Model                   | API                             | GET                                | POST                                   | PUT                        | DELETE                   |
-| ----------------------- | ------------------------------- | ---------------------------------- | -------------------------------------- | -------------------------- | ------------------------ |
+|-------------------------| ------------------------------- | ---------------------------------- | -------------------------------------- | -------------------------- | ------------------------ |
 | -                       | `/auth/`                        | X                                  | check email authentication code        | X                          | X                        |
 | **User / Introduction** | `/user/`                        | get user list                      | create new user                        | X                          | X                        |
 |                         | `/user/login/`                  | X                                  | log in                                 | X                          | X                        |
