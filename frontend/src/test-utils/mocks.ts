@@ -42,11 +42,11 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   chat: { chats: chats },
 });
 
-export const getNoPhotoMockStore = (shouldLogin = true) => getMockStore({
+export const getNoPhotoMockStore = () => getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },
   major: { majors: majors },
-  user: { users: users, loginUser: shouldLogin ? users[0] : null },
+  user: { users: users, loginUser: users[0] },
   photo: { photos: [{
     key: 1,
     index: 1,

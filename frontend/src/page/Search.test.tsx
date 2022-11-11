@@ -26,7 +26,7 @@ jest.mock("../component/NavigationBar", () => () => <div></div>);
 
 describe("Search", () => {
   const mockStore = getDefaultMockStore(true);
-  const noPhotoMockStore = getNoPhotoMockStore(true);
+  const noPhotoMockStore = getNoPhotoMockStore();
 
   function getElement(store: ToolkitStore) {
     return (
