@@ -1,11 +1,11 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { chats, users } from "../dummyData";
-import { Provider } from "react-redux";
-import { getDefaultMockStore } from "../test-utils/mocks";
-import ChatDetail from "./ChatDetail";
 import * as React from "react";
+import { Provider } from "react-redux";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { chats, users } from "../dummyData";
+import { getDefaultMockStore } from "../test-utils/mocks";
 import urlParamEncryptor from "../util/urlParamEncryptor";
+import ChatDetail from "./ChatDetail";
 
 
 const mockStore = getDefaultMockStore();

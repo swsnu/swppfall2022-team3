@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
-import ChatList from "./ChatList";
-import { getDefaultMockStore } from "../test-utils/mocks";
 import { Provider } from "react-redux";
+import { render, screen } from "@testing-library/react";
 import { users } from "../dummyData";
+import { getDefaultMockStore } from "../test-utils/mocks";
+import ChatList from "./ChatList";
 
 
 const mockStore = getDefaultMockStore();
