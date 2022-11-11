@@ -2,13 +2,9 @@
 
 ## Revised Documentations
 
-### Requirements and Specification
-
-
-
 ### Design and Planning
 
-ER diagram and controller diagram are changed due to the omission of `interested_gender` field and newly added 'blocking user' feature.
+ER diagram and controller diagram are changed due to the omission of `interested_gender` field and newly added 'blocking user' feature. HTTP data format for blocking are added, and implementation plan is modified since we developed frontend first for mid-presentation.
 
 ## Implementations
 
@@ -59,7 +55,7 @@ Pages, components, and redux stores below are implemented:
 
 ### Frontend
 
-[screenshot]
+![coverage](sprint3-coverage.png)
 
 ## Current Progress
 
