@@ -824,7 +824,7 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    to: 1
+    "to": 1
 }
 ```
 
@@ -858,7 +858,7 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    to: 1
+    "to": 1
 }
 ```
 
