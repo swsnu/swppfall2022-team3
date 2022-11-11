@@ -32,6 +32,7 @@ export default function ImageUploadIcon({
       <input
         ref={uploadRef}
         className={"hidden"}
+        placeholder={"photo"}
         type="file"
         accept="image/*"
         onChange={imageOnChange}

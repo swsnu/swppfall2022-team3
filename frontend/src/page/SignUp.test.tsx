@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Provider } from "react-redux";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { universities, colleges, majors } from "../dummyData";
+import { universities, colleges, majors, tags } from "../dummyData";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import { College, Gender, Major, Tag, University } from "../types";
 import SignUp from "./SignUp";
@@ -11,6 +11,7 @@ import SignUp from "./SignUp";
 const mockUniversity = universities[0];
 const mockCollege = colleges[0];
 const mockMajor = majors[0];
+const mockTag = [tags[0]];
 
 interface CProps {
   tags: Tag[];
@@ -78,7 +79,10 @@ jest.mock("react-redux", () => ({
 
 jest.mock("../component/signup/CreateTag", () => (props: CProps) => (
   <div data-testid="spyCreateTag">
-    <button onClick={() => (props.setStep(4))}>
+    <button onClick={() => {
+      props.setStep(4);
+      props.setTags(mockTag);
+    }}>
       next
     </button>
   </div>
