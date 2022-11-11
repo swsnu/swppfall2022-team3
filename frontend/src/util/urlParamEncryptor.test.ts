@@ -11,4 +11,4 @@ describe("urlParamEncryptor", () => {
     const decryptedData = urlParamEncryptor.decrypt(encryptedData);
     expect(decryptedData).toEqual(data);
   });
-})
+});

@@ -23,11 +23,11 @@ const encrypt = <T>(data: T): string => {
  */
 const decrypt = <T>(encrypted: string): T => {
   const jsonString = AES.decrypt(encrypted, cryptoKey).toString(enc.Utf8);
-  return JSON.parse(jsonString) as T
+  return JSON.parse(jsonString) as T;
 };
 
 const functions = {
   encrypt,
   decrypt,
-}
+};
 export default functions;

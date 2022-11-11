@@ -1,10 +1,11 @@
+import * as React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ChatBox from "./ChatBox";
 
 
 const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom') as any,
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
 }));
 
@@ -18,7 +19,7 @@ describe("ChatBox", () => {
         isMine={true}
         photoPath={""}
       />
-    )
+    );
 
     const chatBox = screen.getByText(chatContent);
 
@@ -34,7 +35,7 @@ describe("ChatBox", () => {
         isMine={false}
         photoPath={""}
       />
-    )
+    );
 
     const image = screen.getByRole("img");
 
@@ -50,7 +51,7 @@ describe("ChatBox", () => {
         isMine={false}
         photoPath={""}
       />
-    )
+    );
 
     const image = screen.getByRole("img");
 
@@ -58,4 +59,4 @@ describe("ChatBox", () => {
 
     expect(mockNavigate).toBeCalled();
   });
-})
+});
