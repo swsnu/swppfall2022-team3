@@ -4,4 +4,19 @@
 
 # Pitapat Campus
 
-this is Pitapat Campus frontend & backend
+## Frontend
+
+### Run
+
+```shell
+cd frontend
+yarn start
+```
+
+### Test
+
+```shell
+cd frontend
+yarn test --coverage --watchAll=false
+```
+
