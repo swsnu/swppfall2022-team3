@@ -1,6 +1,6 @@
 import React from "react";
 import { MemoryRouter, Route, Routes } from "react-router";
-import { render, screen } from "@testing-library/react";
+import {fireEvent, render, screen} from "@testing-library/react";
 import NavigationBar from "./NavigationBar";
 
 
@@ -54,5 +54,36 @@ describe("NavigationBar", () => {
     render(getElement());
     const group = screen.getByText("group");
     expect(group).toBeInTheDocument();
+  });
+
+  it("activates pitapat tab", () => {
+    Object.defineProperty(window, "location", {
+      value: { pathname: "/pitapat" },
+      writable: true,
+    });
+    render(getElement());
+    const favorite = screen.getByText("favorite");
+    expect(favorite).toBeInTheDocument();
+  });
+
+  it("activates chat tab", () => {
+    Object.defineProperty(window, "location", {
+      value: { pathname: "/chat" },
+      writable: true,
+    });
+    render(getElement());
+    const chat = screen.getByText("chat");
+    expect(chat).toBeInTheDocument();
+  });
+
+  it("should move to other page", () => {
+    Object.defineProperty(window, "location", {
+      value: { pathname: "/search" },
+      writable: true,
+    });
+    render(getElement());
+    const pitapatButton = screen.getByText("두근");
+    fireEvent.click(pitapatButton);
+    expect(mockNavigate).toHaveBeenCalledTimes(1);
   });
 });

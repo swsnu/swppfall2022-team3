@@ -43,7 +43,7 @@ export default function NavigationBar(){
     else if (currentTab === 1) {
       targetPath = "/pitapat";
     }
-    else if (currentTab === 2) {
+    else {
       targetPath = "/chat";
     }
 
