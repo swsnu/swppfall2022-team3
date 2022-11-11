@@ -7,7 +7,7 @@ import { getPitapatStatus } from "../util/getPitapatStatus";
 import PitapatButton from "./PitapatButton";
 
 
-interface IProps {
+export interface IProps {
   myKey: number;
   userKey: number;
   username: string;

@@ -4,19 +4,8 @@ import {MemoryRouter, Route, Routes} from "react-router";
 import {fireEvent, render, screen} from "@testing-library/react";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import { PitapatStatus } from "../types";
-import Profile from "./Profile";
+import Profile, {IProps} from "./Profile";
 
-
-interface IProps {
-  myKey: number;
-  userKey: number;
-  username: string;
-  koreanAge: number;
-  photo: string;
-  showRejectButton: boolean;
-  isLastElement: boolean;
-  status: PitapatStatus;
-}
 
 const mockIProps: IProps = {
   myKey: 1,
@@ -30,14 +19,9 @@ const mockIProps: IProps = {
 };
 
 const mockIPropsLastAndReject: IProps = {
-  myKey: 1,
-  userKey: 2,
-  username: "test_name",
-  koreanAge: 20,
-  photo: "/photo1.jpeg",
+  ...mockIProps,
   showRejectButton: true,
   isLastElement: true,
-  status: PitapatStatus.MATCHED
 };
 
 const mockStore = getDefaultMockStore();
