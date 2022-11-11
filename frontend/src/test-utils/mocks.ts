@@ -41,3 +41,18 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   pitapat: { pitapats: pitapats },
   chat: { chats: chats },
 });
+
+export const getNoPhotoMockStore = (shouldLogin = true) => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: { users: users, loginUser: shouldLogin ? users[0] : null },
+  photo: { photos: [{
+    key: 1,
+    index: 1,
+    path: "/photo1.jpeg",
+  }] },
+  tag: { tags: tags },
+  pitapat: { pitapats: pitapats },
+  chat: { chats: chats },
+});
