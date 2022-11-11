@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 
 
 interface IProps {

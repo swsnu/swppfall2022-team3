@@ -66,6 +66,7 @@ export interface User {
   email: string;
   username: string;
   gender: Gender;
+  targetGender: Gender;
   birthday: Date;
   location: string;
   university: number;
@@ -74,8 +75,4 @@ export interface User {
   introduction: string;
   tags: number[];
   photos: number[];
-}
-
-export function getKoreanAge(birthday: Date): number {
-  return (new Date().getFullYear() - new Date(birthday).getFullYear() + 1);
 }

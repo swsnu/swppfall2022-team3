@@ -1,9 +1,6 @@
-import * as React from "react";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useNavigate, useLocation } from "react-router-dom";
-import { AES, enc } from "crypto-ts";
+import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
@@ -11,10 +8,16 @@ import { AppDispatch } from "../store";
 import { chatAction, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
 import { Chat } from "../types";
+import urlParamEncryptor from "../util/urlParamEncryptor";
 
+
+interface IDecrypted {
+  from: number;
+  to: number;
+  photoPath: string;
+}
 
 export default function ChatDetail() {
-  const { state } = useLocation();
   const loginUser = useSelector(selectUser).loginUser;
   const params = useParams();
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ export default function ChatDetail() {
   const dispatch = useDispatch<AppDispatch>();
   const [from, setFrom] = useState<number>(0);
   const [to, setTo] = useState<number>(0);
+  const [otherUserPhotoPath, setOtherUserPhotoPath] = useState<string>("");
 
   const [appBarTitle, setAppBarTitle] = useState<string>("");
   const [chatInput, setChatInput] = useState<string>("");
@@ -34,7 +38,7 @@ export default function ChatDetail() {
         {
           from,
           to,
-          key: chats.map((c) => c.key).reduce((acc, k) => acc < k ? k : acc, 0) + 1,
+          key: Math.max(...chats.map((c) => c.key)) + 1,
           regDt: new Date(),
           content: chatInput,
         }
@@ -51,14 +55,15 @@ export default function ChatDetail() {
       }
       else {
         try {
-          const decrypted: { from: number; to: number } = JSON.parse(AES.decrypt(encrypted, "test").toString(enc.Utf8));
-          if (decrypted?.from && decrypted?.to) {
+          const decrypted = urlParamEncryptor.decrypt<IDecrypted>(encrypted);
+          if ((decrypted?.from) && (decrypted?.to) && (decrypted?.photoPath)) {
             if (decrypted.from !== loginUser.key) {
               navigate(paths.chat);
             }
             else {
               setFrom(decrypted.from);
               setTo(decrypted.to);
+              setOtherUserPhotoPath(decrypted.photoPath);
               setMyChats(
                 chats.filter(
                   (c) =>
@@ -87,14 +92,14 @@ export default function ChatDetail() {
   return (
     <section className={"flex-1 flex flex-col mt-12 mb-16"}>
       <AppBar title={appBarTitle}/>
-      <section className={"flex-1 flex flex-col w-full h-full"}>{
+      <section className={"flex-1 flex flex-col overflow-scroll"}>{
         myChats.map((chat) => (
           <ChatBox
             key={chat.content + chat.regDt.getTime()}
             content={chat.content}
             sender={chat.from}
             isMine={chat.from === from}
-            photoPath={state.photoPath}
+            photoPath={otherUserPhotoPath}
           />
         ))
       }</section>

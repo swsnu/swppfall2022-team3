@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
@@ -10,9 +9,9 @@ import { selectUser, userActions } from "../store/slices/user";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
-  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -34,7 +33,7 @@ export default function SignIn() {
   }, [users, email, dispatch, navigate]);
 
   return (
-    <section className={"w-full mt-12 mb-16"}>
+    <section className={"w-full flex-1 flex flex-col justify-center"}>
       <section className={"w-full h-[32rem] flex flex-col"}>
         <h1 className={"text-center text-5xl text-pink-500 font-bold mt-24 my-16"}>
           두근두근<br />
@@ -50,7 +49,7 @@ export default function SignIn() {
               minWidth: 200,
             }}
             size={"small"}
-            label={""}
+            placeholder={"이메일"}
             variant={"outlined"}
             value={email}
             onChange={(e) => {
@@ -69,7 +68,7 @@ export default function SignIn() {
               minWidth: 200,
             }}
             size={"small"}
-            label={""}
+            placeholder={"비밀번호"}
             type={"password"}
             variant={"outlined"}
             value={password}

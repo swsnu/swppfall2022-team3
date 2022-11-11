@@ -1,13 +1,12 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { sendVerificationCode } from "../../util/email";
-import verification from "../../util/verification";
+import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
 
 interface IProps {
   email: string;
+  limitSec: number;
   verificationCode: string;
   setVerificationCode: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<number>>;
@@ -15,12 +14,12 @@ interface IProps {
 
 export default function EmailVerification({
   email,
+  limitSec,
   verificationCode,
   setVerificationCode,
   setStep,
 }: IProps) {
-  const navigate = useNavigate();
-  const [sec, setSec] = useState<number>(180);
+  const [sec, setSec] = useState<number>(limitSec);
   const [code, setCode] = useState<string>("");
 
   useEffect(() => {
@@ -35,14 +34,11 @@ export default function EmailVerification({
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [sec, navigate, setStep]);
+  }, [sec, setSec, setStep]);
 
-  const resendOnClick = useCallback(() => {
-    const newCode = verification.getCode();
-    sendVerificationCode(email, newCode)
-      .then(() => {
-        return;
-      });
+  const resendOnClick = useCallback(async () => {
+    const newCode = getCode();
+    await sendVerificationCode(email, newCode);
     setVerificationCode(newCode);
     setSec(180);
   }, [email, setSec, setVerificationCode]);

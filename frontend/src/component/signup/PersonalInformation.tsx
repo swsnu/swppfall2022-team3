@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";
@@ -8,8 +7,8 @@ import InformationInput from "./InformationInput";
 
 
 interface IProps {
-  nickname: string;
-  setNickname: Dispatch<SetStateAction<string>>;
+  username: string;
+  setUsername: Dispatch<SetStateAction<string>>;
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
   birthday: Date;
@@ -26,8 +25,8 @@ interface IProps {
 }
 
 export default function PersonalInformation({
-  nickname,
-  setNickname,
+  username,
+  setUsername,
   password,
   setPassword,
   birthday,
@@ -50,7 +49,7 @@ export default function PersonalInformation({
 
   const confirmOnClick = useCallback(() => {
     if (
-      nickname &&
+      username &&
       birthday &&
       ((college?.key ?? 0) > 0) &&
       ((major?.key ?? 0) > 0) &&
@@ -62,7 +61,7 @@ export default function PersonalInformation({
     else {
       // do something later
     }
-  }, [setStep, nickname, birthday, college, major, gender, targetGender]);
+  }, [setStep, username, birthday, college, major, gender, targetGender]);
 
   useEffect(() => {
     const targetCollege = colleges.find((c) => (c.key === selectedCollegeKey));
@@ -93,8 +92,8 @@ export default function PersonalInformation({
       <section className={"flex-1 flex flex-col items-center justify-start space-y-4 mt-8"}>
         <InformationInput
           label={"닉네임"}
-          value={nickname}
-          setValue={setNickname}
+          value={username}
+          setValue={setUsername}
           type={"text"}
         />
         <InformationInput

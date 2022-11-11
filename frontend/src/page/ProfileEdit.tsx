@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";
@@ -8,10 +7,10 @@ import paths from "../constant/path";
 import { selectPhoto } from "../store/slices/photo";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge } from "../types";
+import { getKoreanAge } from "../util/getKoreanAge";
 
 
-export default function ProfileUpdate() {
+export default function ProfileEdit() {
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
   const photos = useSelector(selectPhoto).photos;

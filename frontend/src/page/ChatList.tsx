@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
@@ -60,13 +59,16 @@ export default function ChatList() {
     <section className={"w-full flex-1 flex flex-col mt-12 mb-[56px]"}>
       <AppBar/>
       <section className={"flex-1 flex flex-col"}>{
-        chatRoomInfos.map(({ user, lastChat }) => (
-          <ChatListElement
-            user={user}
-            lastChat={lastChat}
-            key={user.key}
-          />
-        ))
+        loginUser ?
+          chatRoomInfos.map(({ user, lastChat }) => (
+            <ChatListElement
+              myUser={loginUser}
+              otherUser={user}
+              lastChat={lastChat}
+              key={user.key}
+            />
+          )) :
+          null
       }</section>
       <NavigationBar/>
     </section>

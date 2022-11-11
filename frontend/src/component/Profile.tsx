@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectPitapat } from "../store/slices/pitapat";
@@ -7,7 +7,7 @@ import { getPitapatStatus } from "../util/getPitapatStatus";
 import PitapatButton from "./PitapatButton";
 
 
-interface IProps {
+export interface IProps {
   myKey: number;
   userKey: number;
   username: string;

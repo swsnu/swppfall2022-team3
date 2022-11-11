@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import App from "./App";
@@ -10,72 +10,30 @@ const mockStore = getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },
   major: { majors: majors },
-  user: { users: users, loginUser: users[0] },
+  user: { users: users, loginUser: null },
   photo: { photos: photos },
   tag: { tags: tags },
   pitapat: { pitapats: pitapats },
   chat: { chats: chats },
 });
 
-jest.mock(
-  "./page/SignIn",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
+jest.mock("./page/SignIn", () => () => <div></div>);
+jest.mock("./page/SignUp", () => () => <div></div>);
+jest.mock("./page/Search", () => () => <div></div>);
+jest.mock("./page/ProfileDetail", () => () => <div></div>);
+jest.mock("./page/ChatList", () => () => <div></div>);
+jest.mock("./page/ChatDetail", () => () => <div></div>);
+jest.mock("./page/PitapatList", () => () => <div></div>);
+jest.mock("./page/Setting", () => () => <div></div>);
+jest.mock("./page/ProfileEdit", () => () => <div></div>);
 
-jest.mock(
-  "./page/SignUp",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/Search",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ProfileDetail",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ChatList",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ChatDetail",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/PitapatList",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/Setting",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-jest.mock(
-  "./page/ProfileUpdate",
-  // eslint-disable-next-line react/display-name
-  () => () => <div></div>,
-);
-
-test("renders App", () => {
-  const { container } = render(
-    <Provider store={mockStore}>
-      <App/>
-    </Provider>
-  );
-  expect(container).toBeTruthy();
+describe("App", () => {
+  it("renders App", () => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App/>
+      </Provider>
+    );
+    expect(container).toBeTruthy();
+  });
 });
