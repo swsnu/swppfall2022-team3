@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Provider } from "react-redux";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { getDefaultMockStore } from "../test-utils/mocks";
-import SignUp from "./SignUp";
 import { universities, colleges, majors } from "../dummyData";
+import { getDefaultMockStore } from "../test-utils/mocks";
 import { College, Gender, Major, Tag, University } from "../types";
+import SignUp from "./SignUp";
 
 
 const mockUniversity = universities[0];
@@ -107,9 +107,9 @@ jest.mock("../component/signup/Introduction", () => (props: IntProps) => (
 jest.mock("../component/signup/PersonalInformation", () => (props: PProps) => (
   <div data-testid="spyPersonalInformation">
     <button onClick={() => {
-      props.setStep(3)
-      props.setCollege(mockCollege)
-      props.setMajor(mockMajor)
+      props.setStep(3);
+      props.setCollege(mockCollege);
+      props.setMajor(mockMajor);
     }}>
       next
     </button>
@@ -118,8 +118,8 @@ jest.mock("../component/signup/PersonalInformation", () => (props: PProps) => (
 jest.mock("../component/signup/UniversityCheck", () => (props: UProps) => (
   <div data-testid="spyUniversityCheck">
     <button onClick={() => {
-      props.setStep(1)
-      props.setUniversity(mockUniversity)
+      props.setStep(1);
+      props.setUniversity(mockUniversity);
     }}>
       next
     </button>
@@ -162,54 +162,54 @@ describe("SignUp", () => {
     render(getElement(mockStore));
     screen.getByTestId("spyUniversityCheck");
     let nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     screen.getByTestId("spyEmailVerification");
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     screen.getByTestId("spyPersonalInformation");
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     screen.getByTestId("spyCreateTag");
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     screen.getByTestId("spyIntroduction");
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     screen.getByTestId("spyImageUpload");
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
   });
 
   it("render empty component for the default step", () => {
     render(getElement(mockStore));
-    let defaultButton = screen.getByText("default");
-    fireEvent.click(defaultButton!);
-  })
+    const defaultButton = screen.getByText("default");
+    fireEvent.click(defaultButton);
+  });
   it("shouldn't redirect to SignIn page when clicks confirm button with unproper input", () => {
     render(getElement(mockStore));
     const lastButton = screen.getByText("last");
-    fireEvent.click(lastButton!);
+    fireEvent.click(lastButton);
     const confirmButton = screen.getByText("완료");
-    fireEvent.click(confirmButton!);
+    fireEvent.click(confirmButton);
     expect(mockNavigate).not.toBeCalled();
     expect(mockDispatch).not.toBeCalled();
   });
   it("should redirect to SignIn page when clicks confirm button with proper input", () => {
     render(getElement(mockStore));
     let nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     nextButton = screen.getByText("next");
-    fireEvent.click(nextButton!);
+    fireEvent.click(nextButton);
     const confirmButton = screen.getByText("완료");
-    fireEvent.click(confirmButton!);
+    fireEvent.click(confirmButton);
     expect(mockNavigate).toBeCalled();
     expect(mockDispatch).toBeCalled();
   });
