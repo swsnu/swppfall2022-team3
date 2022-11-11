@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
 import { users } from "../dummyData";
@@ -30,7 +31,7 @@ describe("ChatList", () => {
 
     expect(user2NameArticle).toBeInTheDocument();
     expect(user3NameArticle).toBeInTheDocument();
-  })
+  });
 
   it("should not render chat rooms if there is no login user and redirect to other page", () => {
     render(
@@ -40,6 +41,6 @@ describe("ChatList", () => {
     );
 
     expect(mockNavigate).toBeCalled();
-    expect(() => { screen.getByRole("img")}).toThrowError();
-  })
-})
+    expect(() => { screen.getByRole("img");}).toThrowError();
+  });
+});
