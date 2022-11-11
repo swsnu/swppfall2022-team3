@@ -21,11 +21,11 @@ jest.mock("react-redux", () => ({
 
 jest.mock("../component/AppBar", () => () => <div></div>);
 jest.mock("../component/Profile", () => () => <div></div>);
-
+jest.mock("../component/NavigationBar", () => () => <div></div>);
 
 describe("Search", () => {
   const mockStore = getDefaultMockStore(true);
-  const mockStore2 = getNoPhotoMockStore(true);
+  const noPhotoMockStore = getNoPhotoMockStore(true);
 
   function getElement(store: ToolkitStore) {
     return (
@@ -55,7 +55,7 @@ describe("Search", () => {
   });
 
   it("when there is no photo of the user", () => {
-    const { container } = render(getElement(mockStore2));
+    const { container } = render(getElement(noPhotoMockStore));
     expect(container).toBeTruthy();
   });
 });

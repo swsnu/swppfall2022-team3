@@ -2,8 +2,8 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import {fireEvent, screen, render} from "@testing-library/react";
-import { getDefaultMockStore, getNoPhotoMockStore } from "../test-utils/mocks";
+import { render } from "@testing-library/react";
+import { getDefaultMockStore } from "../test-utils/mocks";
 import PitapatList from "./PitapatList";
 
 
@@ -19,13 +19,22 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
+jest.mock("@mui/material", () => ({
+  ...jest.requireActual("@mui/material"),
+  ThemeProvider: () => <div></div>,
+  Tabs: () => <div></div>,
+  Tab: () => <div></div>,
+}));
+
 jest.mock("../component/AppBar", () => () => <div></div>);
 jest.mock("../component/Profile", () => () => <div></div>);
+jest.mock("../component/NavigationBar", () => () => <div></div>);
+jest.mock("../component/pitapat/PitapatReceived", () => () => <div></div>);
+jest.mock("../component/pitapat/PitapatSent", () => () => <div></div>);
 
 
 describe("PitapatList", () => {
   const mockStore = getDefaultMockStore(true);
-  const mockStore2 = getNoPhotoMockStore(true);
 
   function getElement(store: ToolkitStore) {
     return (
@@ -45,9 +54,6 @@ describe("PitapatList", () => {
 
   it("renders PitapatList", () => {
     const { container } = render(getElement(mockStore));
-    expect(container).toBeTruthy();
-    const sentPitapat = screen.getByText("보낸 두근");
-    fireEvent.click(sentPitapat);
     expect(container).toBeTruthy();
   });
 

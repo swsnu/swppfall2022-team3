@@ -60,21 +60,19 @@ export default function PitapatList() {
             (
               <PitapatReceived
                 pitapats={
-                  pitapats
-                    .filter((p) =>
-                      (p.to === loginUser?.key) &&
-                    (getPitapatStatus(loginUser?.key, p.from, pitapats) !== PitapatStatus.MATCHED)
-                    )
+                  pitapats.filter((p) =>
+                    (p.to === loginUser?.key) &&
+                      (getPitapatStatus(loginUser?.key, p.from, pitapats) !== PitapatStatus.MATCHED)
+                  )
                 }
               />
             ) :
             <PitapatSent
               pitapats={
-                pitapats
-                  .filter((p) =>
-                    (p.from === loginUser?.key) &&
-                        (getPitapatStatus(loginUser?.key, p.to, pitapats) !== PitapatStatus.MATCHED)
-                  )
+                pitapats.filter((p) =>
+                  (p.from === loginUser?.key) &&
+                    (getPitapatStatus(loginUser?.key, p.to, pitapats) !== PitapatStatus.MATCHED)
+                )
               }
             />
         }
