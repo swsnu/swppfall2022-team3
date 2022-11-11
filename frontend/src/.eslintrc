@@ -37,6 +37,7 @@
     "no-unused-expressions": "warn",
     "curly": "warn",
     "react/display-name": "off",
+    "import/default": "off",
     "import/no-unresolved": [2, {"commonjs": true, "amd": true}],
     "import/newline-after-import": ["error", { "count": 2 }],
     "import/order": [
