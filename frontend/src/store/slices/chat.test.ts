@@ -1,7 +1,7 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
-import chatReducer, { chatAction } from "./chat";
-import { Chat } from "../../types";
 import { chats } from "../../dummyData";
+import { Chat } from "../../types";
+import chatReducer, { chatAction } from "./chat";
 
 
 describe("chat reducer", () => {
@@ -31,4 +31,4 @@ describe("chat reducer", () => {
 
     expect(store.getState().chat.chats).toEqual([...chats, newChat]);
   });
-})
+});

@@ -1,7 +1,7 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
+import { colleges } from "../../dummyData";
 import { College } from "../../types";
 import collegeReducer from "./college";
-import { colleges } from "../../dummyData";
 
 
 describe("college reducer", () => {
@@ -18,4 +18,4 @@ describe("college reducer", () => {
   it("should have initial state", () => {
     expect(store.getState().college.colleges).toEqual(colleges);
   });
-})
+});

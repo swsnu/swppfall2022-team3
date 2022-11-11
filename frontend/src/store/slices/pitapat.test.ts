@@ -1,7 +1,7 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
+import { pitapats } from "../../dummyData";
 import { Pitapat } from "../../types";
 import pitapatReducer, { pitapatAction } from "./pitapat";
-import { pitapats } from "../../dummyData";
 
 
 describe("pitapat reducer", () => {
@@ -29,7 +29,7 @@ describe("pitapat reducer", () => {
     expect(store.getState().pitapat.pitapats).toEqual([...pitapats, newPitapat]);
   });
 
-  it("should add a pitapat properly", () => {
+  it("should delete a pitapat properly", () => {
     store.dispatch(pitapatAction.delete(pitapats[0]));
     expect(store.getState().pitapat.pitapats.indexOf(pitapats[0])).toEqual(-1);
   });
@@ -45,4 +45,4 @@ describe("pitapat reducer", () => {
     store.dispatch(pitapatAction.toggle(newPitapat));
     expect(store.getState().pitapat.pitapats.indexOf(newPitapat)).toEqual(-1);
   });
-})
+});

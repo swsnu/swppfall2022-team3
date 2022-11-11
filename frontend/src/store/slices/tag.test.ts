@@ -1,7 +1,7 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
+import { tags } from "../../dummyData";
 import { Tag } from "../../types";
 import tagReducer from "./tag";
-import { tags } from "../../dummyData";
 
 
 describe("tag reducer", () => {
@@ -13,9 +13,9 @@ describe("tag reducer", () => {
 
   beforeEach(() => {
     store = configureStore({ reducer: { tag: tagReducer } });
-  })
+  });
 
   it("should have initial state", () => {
     expect(store.getState().tag.tags).toEqual(tags);
   });
-})
+});
