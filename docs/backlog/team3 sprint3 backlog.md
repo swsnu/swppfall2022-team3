@@ -8,7 +8,7 @@
 
 ### Design and Planning
 
-
+ER diagram and controller diagram are changed due to the omission of `interested_gender` field and newly added 'blocking user' feature.
 
 ## Implementations
 
@@ -60,10 +60,6 @@ Pages, components, and redux stores below are implemented:
 ### Frontend
 
 [screenshot]
-
-There are several files with low coverages:
-
-- 
 
 ## Current Progress
 

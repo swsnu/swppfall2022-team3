@@ -28,12 +28,11 @@ A Line between two tables shows their relationship. Its relationship type is den
 | **College**      | Each university has a number of colleges.                                                                                                     |
 | **Major**        | Each college in a university has a number of majors. Used as a user's tag.                                                                    |
 | **User**         | The user that belongs to a university. Has its own introduction, photos, and tags. Can see profiles of other users and send pitapats to them. |
-| **Introduction** | Self-introduce text written by a user.                                                                                                        |
-| **Photo**        | Photos showing a user's appearance.                                                                                                           |
-| **Tag**          | Additional keywords that a user adds to appeal itself.                                                                                        |
-| **Pitapat**      | A request for matching from a user to another user.                                                                                           |
-| **Blocked**      | A request for blocking a pair of users                                                                                                        |
-
+| **Introduction** | Self-introduce text written by a user.                       |
+| **Photo**        | Photos showing a user's appearance.                          |
+| **Tag**          | Additional keywords that a user adds to appeal itself.       |
+| **Pitapat**      | A request for matching from a user to another user.          |
+| **Blocked**      | A request for blocking from a user to another user.          |
 
 ### View
 
@@ -134,6 +133,7 @@ The functionality and the requirement for each page are described below.
 | **Pitapat**             | `/pitapat/from/<userid:int>`    | X                                  | create new pitapat from specified user | X                          | X                        |
 |                         | `/pitapat/to/<userid:int>/`     | get pitapat list to specified user | X                                      | X                          | X                        |
 |                         | `/pitapat/<from:int>/<to:int>/` | X                                  | accept specified pitapat               | X                          | delete specified pitapat |
+| **Block**               | `/block/<userid:int>`           | get block list from specified user | create new block from specified user   | X                          | X                        |
 | **Chat**                | `/chat/<userid:int>/`           | get chat list of specified user    |                                        |                            |                          |
 
 #### HTTP Data Format
@@ -797,26 +797,136 @@ The functionality and the requirement for each page are described below.
 {}
 ```
 
+##### `/block/<userid:int> ` [GET]
+
+###### Request
+
+```json
+{}
+```
+
+###### Response
+
+- status: `200`
+
+```json
+[
+    1,
+    2,
+    3
+]
+```
+
+##### `/block/<userid:int>` [POST]
+
+###### Request
+
+```json
+{
+    to: 1
+}
+```
+
+###### Response: Success
+
+- status: `201`
+
+```json
+{}
+```
+
+###### Response: Failed (Duplicated Block)
+
+- status: `409`
+
+```json
+{}
+```
+
+###### Response: Failed (Invalid ID Parameter)
+
+- status: `404`
+
+```json
+{}
+```
+
+##### `/block/<userid:int>` [POST]
+
+###### Request
+
+```json
+{
+    to: 1
+}
+```
+
+###### Response: Success
+
+- status: `201`
+
+```json
+{}
+```
+
+###### Response: Failed (Non-existing Block)
+
+- status: `409`
+
+```json
+{}
+```
+
+###### Response: Failed (Invalid ID Parameter)
+
+- status: `404`
+
+```json
+{}
+```
+
 ## Implementation Plan
 
 Features will be implemented based on the user story written in Requirements and Specification documentation. Works will be divided so that members can take charge of each page and perform the features required for that page. The division is based on difficulties and time taken for the feature to be implemented. We aim to implement the task until the corresponding sprint session.
 
-Key features are prioritized before the mid-presentation so that they can be completed faster than others. User List, User Detail, and Pitapat List pages, the essential elements of the service, should be completed up to Sprint 3. Login and Sign Up pages have the next priority, which contain the main differenciation of our service: university email authentication. Chatting is one of the most important features, but its priority is set relatively low due to its implementation difficulties. Setting pages, which are necessary but are less important than the other features mentioned above, will be developed gradually after the implementation of core features.
+Frontend development is prioritized before the mid-presentation for demo. Backend and additional features (blocking, payment, etc.) will be developed gradually after the implementation of core features.
 
-|      | Page         | Feature                                        | Dependency | Difficulties | Time | Sprints | Manager | Challenges                                                   |
-| ---- | ------------ | ---------------------------------------------- | ---------- | ------------ | ---- | ------- | ------- | ------------------------------------------------------------ |
-| 1    | Login        | Sign in                                        |            | 1            | 2    | 3       |         |                                                              |
-| 2    | Sign Up      | Authenticate register by university email      |            | 2            | 3    | 3       |         |                                                              |
-| 3    | Sign Up      | Create a profile                               |            | 4            | 4    | 4       |         | Upload photo and make user-tag relationship                  |
-| 4    | User List    | Show the list of users' profiles               |            | 3            | 4    | 2,3     |         | Filter profiles by tags                                      |
-| 5    | User Detail  | Show user's profile in detail                  |            | 2            | 3    | 2,3     |         |                                                              |
-| 6    | Pitapat List | Show the list of pitapats from others          |            | 2            | 3    | 2,3     |         |                                                              |
-| 7    | Pitapat List | Accept or reject received pitapat request      | 6          | 3            | 4    | 2,3     |         | Delete processed users from pitapat list<br />Activate accepted users in Chat List page |
-| 8    | Chat List    | Show the list of chat rooms with matched users |            | 3            | 3    | 4       |         |                                                              |
-| 9    | Chat         | 1:1 chat with matched user                     |            | 5            | 5    | 4       |         |                                                              |
-| 10   | Profile Edit | Edit own profile                               |            | 3            | 4    | 5       |         | Upload or delete photo                                       |
-| 11   | Setting      | Sign out                                       | 1          | 2            | 3    | 5       |         |                                                              |
-| 12   | Setting      | Withdraw                                       |            | 1            | 2    | 5       |         |                                                              |
+### Frontend
+
+|      | Page         | Feature                                        | Dependency | Difficulties | Time | Sprints | Challenges                                                   |
+| ---- | ------------ | ---------------------------------------------- | ---------- | ------------ | ---- | ------- | ------------------------------------------------------------ |
+| 1    | Login        | Sign in                                        |            | 1            | 2    | 3       |                                                              |
+| 2    | Sign Up      | Authenticate register by university email      |            | 2            | 3    | 3       |                                                              |
+| 3    | Sign Up      | Create a profile                               |            | 4            | 4    | 3       | Upload photo and make user-tag relationship                  |
+| 4    | User List    | Show the list of users' profiles               |            | 3            | 4    | 2,3     | Filter profiles by tags                                      |
+| 5    | User Detail  | Show user's profile in detail                  |            | 2            | 3    | 2,3     |                                                              |
+| 6    | Pitapat List | Show the list of pitapats from others          |            | 2            | 3    | 2,3     |                                                              |
+| 7    | Pitapat List | Accept or reject received pitapat request      | 6          | 3            | 4    | 2,3     | Delete processed users from pitapat list<br />Activate accepted users in Chat List page |
+| 8    | Chat List    | Show the list of chat rooms with matched users |            | 3            | 3    | 3       |                                                              |
+| 9    | Chat         | 1:1 chat with matched user                     |            | 5            | 5    | 3       |                                                              |
+| 10   | Profile Edit | Edit own profile                               |            | 3            | 4    | 4       | Upload or delete photo                                       |
+| 11   | Setting      | Sign out                                       | 1          | 2            | 3    | 3       |                                                              |
+| 12   | Setting      | Withdraw                                       |            | 1            | 2    | 5       |                                                              |
+
+### Backend
+
+|      | API                             | Feature                                   | Dependency | Difficulties | Time | Sprints | Challenges                             |
+| ---- | ------------------------------- | ----------------------------------------- | ---------- | ------------ | ---- | ------- | -------------------------------------- |
+| 1    | `/auth/`                        | Authenticate register by university email |            | 3            |      | 4       |                                        |
+| 2    | `/user/`                        | Get user list and create a user           |            | 5            | 5    | 4       | Filter users according to request body |
+| 3    | `/user/login/`                  | Log in                                    |            | 1            | 1    | 4       |                                        |
+| 4    | `/user/logout/`                 | Log out                                   | 3          | 1            | 1    | 4       |                                        |
+| 5    | `/user/<id:int>/`               | Get, edit, and delete a user              |            |              |      | 4       |                                        |
+| 6    | `/univ/`                        | Get univeresity list                      |            |              |      | 4       |                                        |
+| 7    | `/univ/<id:int>/`               | Get a university                          |            |              |      |         |                                        |
+| 8    | `/photo/`                       | Create a photo                            |            |              |      |         |                                        |
+| 9    | `/photo/<id:int>/`              | Get and delete a photo                    |            |              |      |         |                                        |
+| 10   | `/tag/`                         | Get and create a tag                      |            |              |      |         |                                        |
+| 11   | `/pitapat/from/<userid:int>/`   |                                           |            |              |      |         |                                        |
+| 12   | `/pitapat/to/<userid:int>/`     |                                           |            |              |      |         |                                        |
+| 13   | `/pitapat/<from:int>/<to:int>/` |                                           |            |              |      |         |                                        |
+| 14   | `/block/<userid:int>/`          | Get block list and create, delete a block |            |              |      |         |                                        |
+| 15   | `/chat/<userid:int>/`           | Get chat list of a user                   |            |              |      |         |                                        |
 
 ## Testing Plan
 
@@ -835,3 +945,4 @@ For the acceptance test, cucumber will be used to automatically map user stories
 ## Document Revision History
 
 - Rev. 1.0, 10/28/2022 - initial version
+- Rev. 1.1, 11/11/2022 - updated model, controller, HTTP data format, and plans
