@@ -27,6 +27,7 @@ describe("EmailVerification", () => {
     render(
       <EmailVerification
         email={""}
+        limitSec={3 * 60}
         verificationCode={"abcdef"}
         setVerificationCode={mockSetVerificationCode}
         setStep={mockSetStep}
@@ -40,6 +41,7 @@ describe("EmailVerification", () => {
     render(
       <EmailVerification
         email={""}
+        limitSec={3 * 60}
         verificationCode={"abcdef"}
         setVerificationCode={mockSetVerificationCode}
         setStep={mockSetStep}
@@ -57,6 +59,7 @@ describe("EmailVerification", () => {
     render(
       <EmailVerification
         email={""}
+        limitSec={3 * 60}
         verificationCode={"ABCDEF"}
         setVerificationCode={mockSetVerificationCode}
         setStep={mockSetStep}
@@ -75,27 +78,19 @@ describe("EmailVerification", () => {
     await waitFor(() => expect(mockSetStep).toHaveBeenCalled());
   });
 
-  /*
   it("should set proper time interval", async () => {
-    const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
     jest.useFakeTimers();
 
     render(
       <EmailVerification
         email={""}
+        limitSec={30}
         verificationCode={"ABCDEF"}
         setVerificationCode={mockSetVerificationCode}
         setStep={mockSetStep}
       />
     );
 
-    act(() => {
-      jest.advanceTimersByTime(3 * 60 * 1000 + 1);
-    });
-
-
-
-    await waitFor(() => expect(spyAlert).toHaveBeenCalled());
+    jest.advanceTimersByTime(30 * 1000 + 1);
   });
-   */
 });

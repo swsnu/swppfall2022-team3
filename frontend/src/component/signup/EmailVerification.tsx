@@ -6,6 +6,7 @@ import InformationInput from "./InformationInput";
 
 interface IProps {
   email: string;
+  limitSec: number;
   verificationCode: string;
   setVerificationCode: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<number>>;
@@ -13,11 +14,12 @@ interface IProps {
 
 export default function EmailVerification({
   email,
+  limitSec,
   verificationCode,
   setVerificationCode,
   setStep,
 }: IProps) {
-  const [sec, setSec] = useState<number>(180);
+  const [sec, setSec] = useState<number>(limitSec);
   const [code, setCode] = useState<string>("");
 
   useEffect(() => {

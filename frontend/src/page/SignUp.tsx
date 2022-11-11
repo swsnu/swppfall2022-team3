@@ -107,6 +107,7 @@ export default function SignUp() {
     case 1:
       return <EmailVerification
         email={email}
+        limitSec={3 * 60}
         verificationCode={verificationCode}
         setVerificationCode={setVerificationCode}
         setStep={setStep}
@@ -166,7 +167,7 @@ export default function SignUp() {
         </section>
       );
     default:
-      return <section></section>;
+      return <section/>;
     }
   }, [
     university,
