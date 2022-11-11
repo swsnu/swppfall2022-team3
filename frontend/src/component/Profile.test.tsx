@@ -35,13 +35,9 @@ describe("<Profile />", () => {
   function getElement(props: IProps) {
     return (
       <Provider store={mockStore}>
-        <MemoryRouter>
-          <Routes>
-            <Route path="/" element={<Profile
-              {...props}
-            />}/>
-          </Routes>
-        </MemoryRouter>
+        <Profile
+          {...props}
+        />
       </Provider>
     );
   }
