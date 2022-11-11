@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import PitapatList from "./PitapatList";
 
@@ -26,7 +26,7 @@ jest.mock("@mui/material", () => ({
   Tab: () => <div></div>,
 }));
 
-jest.mock("../component/AppBar", () => () => <div></div>);
+jest.mock("../component/AppBar", () => () => <div>appbar</div>);
 jest.mock("../component/Profile", () => () => <div></div>);
 jest.mock("../component/NavigationBar", () => () => <div></div>);
 jest.mock("../component/pitapat/PitapatReceived", () => () => <div></div>);
@@ -52,12 +52,13 @@ describe("PitapatList", () => {
     jest.clearAllMocks();
   });
 
-  it("renders PitapatList", () => {
-    const { container } = render(getElement(mockStore));
-    expect(container).toBeTruthy();
+  it("should be rendered", () => {
+    render(getElement(mockStore));
+    const appBar = screen.getByText("appbar");
+    expect(appBar).toBeInTheDocument();
   });
 
-  it("redirects to SignIn page when not logged in", () => {
+  it("should redirect to SignIn page when not logged in", () => {
     const mockLogoutStore = getDefaultMockStore(false);
     render(getElement(mockLogoutStore));
     expect(mockNavigate).toBeCalled();

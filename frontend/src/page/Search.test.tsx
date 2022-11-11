@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { getDefaultMockStore, getNoPhotoMockStore } from "../test-utils/mocks";
 import Search from "./Search";
 
@@ -19,8 +19,10 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../component/AppBar", () => () => <div></div>);
-jest.mock("../component/Profile", () => () => <div></div>);
+jest.mock("../component/AppBar", () => () => <div>appbar</div>);
+jest.mock("../component/Profile", () =>
+  ({photo}: {photo: string}) => <div data-testid="profile">{photo}</div>
+);
 jest.mock("../component/NavigationBar", () => () => <div></div>);
 
 describe("Search", () => {
@@ -43,19 +45,23 @@ describe("Search", () => {
     jest.clearAllMocks();
   });
 
-  it("renders Search", () => {
-    const { container } = render(getElement(mockStore));
-    expect(container).toBeTruthy();
+  it("should be rendered", () => {
+    render(getElement(mockStore));
+    const appBar = screen.getByText("appbar");
+    expect(appBar).toBeInTheDocument();
   });
 
-  it("redirects to SignIn page when not logged in", () => {
+  it("should redirect to SignIn page when not logged in", () => {
     const mockLogoutStore = getDefaultMockStore(false);
     render(getElement(mockLogoutStore));
     expect(mockNavigate).toBeCalled();
   });
 
-  it("when there is no photo of the user", () => {
-    const { container } = render(getElement(noPhotoMockStore));
-    expect(container).toBeTruthy();
+  it("should deliver empty string to Profile when no photo", () => {
+    render(getElement(noPhotoMockStore));
+    const profiles = screen.getAllByTestId("profile");
+    profiles.forEach((profile) => {
+      expect(profile).toContainHTML("");
+    });
   });
 });

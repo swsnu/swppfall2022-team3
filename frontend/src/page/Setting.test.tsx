@@ -40,25 +40,26 @@ describe("Setting", () => {
     jest.clearAllMocks();
   });
 
-  it("renders Setting", () => {
-    const { container } = render(getElement(mockStore));
-    expect(container).toBeTruthy();
+  it("should be rendered", () => {
+    render(getElement(mockStore));
+    const editButton = screen.getByText("프로필 수정");
+    expect(editButton).toBeInTheDocument();
   });
 
-  it("redirects to SignIn page when not logged in", () => {
+  it("should redirect to SignIn page when not logged in", () => {
     const mockLogoutStore = getDefaultMockStore(false);
     render(getElement(mockLogoutStore));
     expect(mockNavigate).toBeCalled();
   });
 
-  it("redirects to ProfileEdit page when clicks edit button", () => {
+  it("should redirect to ProfileEdit page when clicks edit button", () => {
     render(getElement(mockStore));
     const editButton = screen.getByText("프로필 수정");
     fireEvent.click(editButton);
     expect(mockNavigate).toBeCalled();
   });
 
-  it("signs out when clicks logout button", () => {
+  it("should be signed out when clicks logout button", () => {
     render(getElement(mockStore));
     const logoutButton = screen.getByText("로그아웃");
     fireEvent.click(logoutButton);

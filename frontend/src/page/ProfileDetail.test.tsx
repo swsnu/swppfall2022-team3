@@ -14,7 +14,7 @@ jest.mock("react-router", () => ({
   useNavigate: () => mockNavigate,
 }));
 
-jest.mock("../component/AppBar", () => () => <div></div>);
+jest.mock("../component/AppBar", () => () => <div>appbar</div>);
 jest.mock("../component/PhotoSlider", () => () => <div></div>);
 jest.mock("../component/PitapatButton", () => () => <div></div>);
 
@@ -37,18 +37,19 @@ describe("ProfileDetail", () => {
     jest.clearAllMocks();
   });
 
-  it("renders ProfileDetail", () => {
-    const { container } = render(getElement(mockStore));
-    expect(container).toBeTruthy();
+  it("should be rendered", () => {
+    render(getElement(mockStore));
+    const appBar = screen.getByText("appbar");
+    expect(appBar).toBeInTheDocument();
   });
 
-  it("redirects to SignIn page when not logged in", () => {
+  it("should redirect to SignIn page when not logged in", () => {
     const mockLogoutStore = getDefaultMockStore(false);
     render(getElement(mockLogoutStore));
     expect(mockNavigate).toBeCalled();
   });
 
-  it("shows tags", () => {
+  it("should show tags", () => {
     render(getElement(mockStore));
     users[0].tags.forEach((t) => {
       let element: HTMLElement = document.createElement("div");
