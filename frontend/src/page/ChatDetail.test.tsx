@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { chats, users } from "../dummyData";
+import { users } from "../dummyData";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import urlParamEncryptor from "../util/urlParamEncryptor";
 import ChatDetail from "./ChatDetail";
@@ -33,6 +34,8 @@ jest.mock("@heroicons/react/20/solid", () => ({
   ),
 }));
 
+jest.mock("../component/AppBar", () => () => <div>appbar</div>);
+jest.mock("../component/ChatBox", () => () => <div></div>);
 
 describe("ChatDetail", () => {
   const user1 = users[0];
@@ -44,79 +47,30 @@ describe("ChatDetail", () => {
   };
   const encrypted = urlParamEncryptor.encrypt(parameterData);
 
+  function getElement(store: ToolkitStore) {
+    return (
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[`/chat/${encrypted}`]}>
+          <Routes>
+            <Route path="/chat/:encrypted" element={<ChatDetail/>}/>
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    );
+  }
+
   it("should be rendered", () => {
-    render(
-      <Provider store={mockStore}>
-        <MemoryRouter initialEntries={[`/chat/${encrypted}`]}>
-          <Routes>
-            <Route path={"/chat/:encrypted"} element={<ChatDetail/>}/>
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    chats
-      .filter((chat) => (
-        ((chat.to === user1.key) && (chat.from === user2.key)) ||
-        ((chat.to === user2.key) && (chat.from === user1.key))
-      ))
-      .forEach((chat) => {
-        const chatContentArticle = screen.getByText(chat.content);
-
-        expect(chatContentArticle).toBeInTheDocument();
-      });
+    render(getElement(mockStore));
+    expect(screen.getByText("전송")).toBeInTheDocument();
   });
 
-  it("should not render chat boxes if there is no login user and redirect to other page", () => {
-    render(
-      <Provider store={mockStoreNoLoginUser}>
-        <MemoryRouter initialEntries={[`/chat/${encrypted}`]}>
-          <Routes>
-            <Route path={"/chat/:encrypted"} element={<ChatDetail/>}/>
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(mockNavigate).toBeCalled();
-    chats
-      .filter((chat) => (
-        ((chat.to === user1.key) && (chat.from === user2.key)) ||
-        ((chat.to === user2.key) && (chat.from === user1.key))
-      ))
-      .forEach((chat) => {
-        expect(() => screen.getByText(chat.content)).toThrowError();
-      });
-  });
-
-  it("should redirect to user detail page when other user's photo is clicked", () => {
-    render(
-      <Provider store={mockStore}>
-        <MemoryRouter initialEntries={[`/chat/${encrypted}`]}>
-          <Routes>
-            <Route path={"/chat/:encrypted"} element={<ChatDetail/>}/>
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const userImage = screen.getByRole("img");
-
-    fireEvent.click(userImage);
-
+  it("should redirect to other page when not logged in", () => {
+    render(getElement(mockStoreNoLoginUser));
     expect(mockNavigate).toBeCalled();
   });
 
   it("should send a chat only if user gives proper input", () => {
-    render(
-      <Provider store={mockStore}>
-        <MemoryRouter initialEntries={[`/chat/${encrypted}`]}>
-          <Routes>
-            <Route path={"/chat/:encrypted"} element={<ChatDetail/>}/>
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
+    render(getElement(mockStore));
 
     const userInput = screen.getByPlaceholderText("메세지를 입력하세요") as HTMLInputElement;
     const sendButton = screen.getByText("전송");
