@@ -424,3 +424,6 @@ frontend/public/psa.jpeg
 
 # yarn.lock
 yarn.lock
+
+# coverage
+coverage.json
