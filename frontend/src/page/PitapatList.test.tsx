@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import PitapatList from "./PitapatList";
 
@@ -17,13 +17,6 @@ const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
-}));
-
-jest.mock("@mui/material", () => ({
-  ...jest.requireActual("@mui/material"),
-  ThemeProvider: () => <div></div>,
-  Tabs: () => <div></div>,
-  Tab: () => <div></div>,
 }));
 
 jest.mock("../component/AppBar", () => () => <div>appbar</div>);
@@ -62,5 +55,12 @@ describe("PitapatList", () => {
     const mockLogoutStore = getDefaultMockStore(false);
     render(getElement(mockLogoutStore));
     expect(mockNavigate).toBeCalled();
+  });
+
+  it("should change tab when clicks tab button", () => {
+    render(getElement(mockStore));
+    const sended = screen.getByText("보낸 두근");
+    fireEvent.click(sended);
+    expect(sended).toHaveAttribute("aria-selected", "true");
   });
 });
