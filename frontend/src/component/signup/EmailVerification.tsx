@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { sendVerificationCode } from "../../util/email";
 import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
@@ -18,7 +17,6 @@ export default function EmailVerification({
   setVerificationCode,
   setStep,
 }: IProps) {
-  const navigate = useNavigate();
   const [sec, setSec] = useState<number>(180);
   const [code, setCode] = useState<string>("");
 
@@ -34,14 +32,11 @@ export default function EmailVerification({
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [sec, navigate, setStep]);
+  }, [sec, setSec, setStep]);
 
-  const resendOnClick = useCallback(() => {
+  const resendOnClick = useCallback(async () => {
     const newCode = getCode();
-    sendVerificationCode(email, newCode)
-      .then(() => {
-        return;
-      });
+    await sendVerificationCode(email, newCode);
     setVerificationCode(newCode);
     setSec(180);
   }, [email, setSec, setVerificationCode]);
