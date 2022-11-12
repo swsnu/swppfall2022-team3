@@ -5,6 +5,7 @@ import AppBar from "../component/AppBar";
 import ChatListElement from "../component/ChatListElement";
 import NavigationBar from "../component/NavigationBar";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { selectChat } from "../store/slices/chat";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
@@ -56,9 +57,9 @@ export default function ChatList() {
   }, [loginUser, users, pitapats, chats, navigate]);
 
   return (
-    <section className={"w-full flex-1 flex flex-col mt-12 mb-[56px]"}>
+    <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
       <AppBar/>
-      <section className={"flex-1 flex flex-col"}>{
+      <section className={style.page.body}>{
         loginUser ?
           chatRoomInfos.map(({ user, lastChat }) => (
             <ChatListElement

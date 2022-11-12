@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback } from "react";
+import style from "../../constant/style";
 import ImageUploadIcon from "./ImageUploadIcon";
 
 
@@ -18,12 +19,12 @@ export default function ImageUpload({
   }, [setStep]);
 
   return (
-    <section className={"flex flex-col items-center w-full"}>
-      <p className="mt-16 mb-8 text-center text-pink-500/100">
+    <section className={style.page.base}>
+      <p className={style.component.signIn.notification}>
         나를 대표할 수 있는<br />
         사진을 올려주세요!
       </p>
-      <section className={"flex-1 flex flex-col justify-start"}>
+      <section className={"flex-1 flex flex-col"}>
         <section className={"grid grid-cols-2 gap-2 px-12"}>
           {uploadedPhotos.map((photo, index) => {
             const examples = ["photo13.jpeg", "photo14.jpeg"];
@@ -51,12 +52,12 @@ export default function ImageUpload({
           />
         </section>
       </section>
-      <article className="text-center text-pink-500/100 mt-6">
+      <article className={`text-center text-${style.color.main} mt-6`}>
         ※ 본인의 사진이어야 합니다.
       </article>
-      <section>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
         >
           완료

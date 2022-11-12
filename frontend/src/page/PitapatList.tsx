@@ -7,6 +7,7 @@ import NavigationBar from "../component/NavigationBar";
 import PitapatReceived from "../component/pitapat/PitapatReceived";
 import PitapatSent from "../component/pitapat/PitapatSent";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
 import { PitapatStatus } from "../types";
@@ -36,8 +37,8 @@ export default function PitapatList() {
   }, [navigate, loginUser]);
 
   return (
-    <section className={"w-full flex flex-col mt-24"}>
-      <AppBar title={"두근두근 캠퍼스"}/>
+    <section className={`${style.page.base} ${style.page.margin.topWithTab} ${style.page.margin.bottom}`}>
+      <AppBar/>
       <ThemeProvider theme={theme}>
         <Tabs
           className={"top-12 w-full flex flex-row h-12 z-10 fixed"}
@@ -53,7 +54,7 @@ export default function PitapatList() {
           <Tab label={"보낸 두근"}/>
         </Tabs>
       </ThemeProvider>
-      <section className="pb-[56px]">
+      <section className={style.page.body}>
         {
           selectedTabIndex === 0 ?
             (

@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { TextField } from "@mui/material";
+import style from "../../constant/style";
 import { selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
@@ -58,9 +59,9 @@ export default function UniversityCheck({
   }, [university, emailInput, setEmail]);
 
   return (
-    <section className={"h-full w-full flex flex-col items-center"}>
+    <section className={style.page.base}>
       <section className={"flex-1"}>
-        <p className={"mt-16 h-fit text-center text-pink-500/100"}>
+        <p className={style.component.signIn.notification}>
           소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
@@ -97,9 +98,9 @@ export default function UniversityCheck({
           </article>
         </section>
       </section>
-      <section>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
         >
           확인

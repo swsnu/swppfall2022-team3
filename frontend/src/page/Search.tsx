@@ -5,6 +5,7 @@ import AppBar from "../component/AppBar";
 import NavigationBar from "../component/NavigationBar";
 import Profile from "../component/Profile";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { selectPhoto } from "../store/slices/photo";
 import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
@@ -50,7 +51,7 @@ export default function Search() {
 
   return (
     loginUser ?
-      <section className={"mt-12 w-full"}>
+      <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
         <section className="h-fit pb-[56px]">
           {getNoneStatusProfiles(loginUser)}

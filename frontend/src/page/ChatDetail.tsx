@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { chatAction, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
@@ -90,9 +91,9 @@ export default function ChatDetail() {
   }, [params, navigate, chats, users, loginUser, to]);
 
   return (
-    <section className={"flex-1 flex flex-col mt-12 mb-16"}>
+    <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
       <AppBar title={appBarTitle}/>
-      <section className={"flex-1 flex flex-col overflow-scroll"}>{
+      <section className={style.page.body}>{
         myChats.map((chat) => (
           <ChatBox
             key={chat.content + chat.regDt.getTime()}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { selectUser, userActions } from "../store/slices/user";
 
@@ -33,20 +34,21 @@ export default function SignIn() {
   }, [users, email, dispatch, navigate]);
 
   return (
-    <section className={"w-full flex-1 flex flex-col justify-center"}>
-      <section className={"w-full h-[32rem] flex flex-col"}>
-        <h1 className={"text-center text-5xl text-pink-500 font-bold mt-24 my-16"}>
-          두근두근<br />
-          캠퍼스
-        </h1>
-        <div className={"flex flex-row place-content-center mr-6"}>
-          <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
+    <section className={style.page.base}>
+      <h1 className={"text-center text-5xl text-pink-500 font-bold mt-24 my-16"}>
+        두근두근<br />
+        캠퍼스
+      </h1>
+      <div className={"flex-1 flex flex-col w-4/5 justify-center items-center"}>
+        <div className={"flex flex-row w-full justify-center"}>
+          <article className={`w-24 text-${style.color.main} font-bold text-center leading-10`}>
             이메일
           </article>
           <TextField
             sx={{
-              maxWidth: 320,
+              maxWidth: 240,
               minWidth: 200,
+              width: "75%",
             }}
             size={"small"}
             placeholder={"이메일"}
@@ -58,14 +60,15 @@ export default function SignIn() {
             required
           />
         </div>
-        <div className={"flex flex-row place-content-center mt-6 mr-6 mb-24"}>
-          <article className={"flex-initial w-24 text-pink-500 font-bold text-center leading-10"}>
+        <div className={"flex flex-row w-full justify-center mt-2 mb-24"}>
+          <article className={`w-24 text-${style.color.main} font-bold text-center leading-10`}>
             비밀번호
           </article>
           <TextField
             sx={{
-              maxWidth: 320,
+              maxWidth: 240,
               minWidth: 200,
+              width: "75%",
             }}
             size={"small"}
             placeholder={"비밀번호"}
@@ -78,25 +81,21 @@ export default function SignIn() {
             required
           />
         </div>
-      </section>
-      <section className={"text-center"}>
-        <div>
-          <button
-            className={"bg-pink-500 text-center text-white w-36 h-12 rounded-md"}
-            disabled={!email || !password}
-            onClick={loginOnClick}
-          >
-            로그인
-          </button>
-        </div>
-        <div>
-          <button
-            className={"bg-white-500 text-center text-pink-400 border-solid border-b-4 border-l-2 border-r-2 mt-2 w-36 h-12 rounded-md"}
-            onClick={() => navigate(paths.signUp)}
-          >
-            회원가입
-          </button>
-        </div>
+      </div>
+      <section className={"flex flex-col items-center my-12"}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.main} mb-2`}
+          disabled={!email || !password}
+          onClick={loginOnClick}
+        >
+          로그인
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary}`}
+          onClick={() => navigate(paths.signUp)}
+        >
+          회원가입
+        </button>
       </section>
     </section>
   );

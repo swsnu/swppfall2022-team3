@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import style from "../../constant/style";
 import { sendVerificationCode } from "../../util/email";
 import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
@@ -53,13 +54,13 @@ export default function EmailVerification({
   }, [code, verificationCode, setStep]);
 
   return (
-    <section className={"h-full w-full flex flex-col items-center"}>
-      <section className={"flex-1"}>
-        <p className={"text-center text-pink-500/100 mt-16"}>
+    <section className={style.page.base}>
+      <section className={"flex-1 w-full"}>
+        <p className={style.component.signIn.notification}>
           인증 코드가 발송되었습니다!<br />
           이메일을 확인해주세요.
         </p>
-        <div className={"flex flex-row place-content-center mt-8"}>
+        <div className={"flex flex-row justify-center"}>
           <InformationInput
             label={"인증코드"}
             value={code}
@@ -71,15 +72,15 @@ export default function EmailVerification({
           </div>
         </div>
       </section>
-      <section className={"flex flex-col"}>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main} mb-2`}
           onClick={confirmOnClick}
         >
           확인
         </button>
         <button
-          className={"w-36 min-h-12 h-12 mt-4 mb-12 bg-white-500 text-pink-400 text-center border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.secondary}`}
           onClick={resendOnClick}
         >
           재전송

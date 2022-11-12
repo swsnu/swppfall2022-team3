@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import style from "../../constant/style";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";
 import { College, Gender, Major } from "../../types";
@@ -84,12 +85,12 @@ export default function PersonalInformation({
   }, [college, majors]);
 
   return (
-    <section className="h-full flex flex-col items-center w-full">
-      <p className="mt-16 h-fit text-center text-pink-500/100">
+    <section className={style.page.base}>
+      <p className={style.component.signIn.notification}>
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!
       </p>
-      <section className={"flex-1 flex flex-col items-center justify-start space-y-4 mt-8"}>
+      <section className={"flex-1 flex flex-col space-y-4"}>
         <InformationInput
           label={"닉네임"}
           value={username}
@@ -153,9 +154,9 @@ export default function PersonalInformation({
           ]}
         />
       </section>
-      <section>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
         >
           다음

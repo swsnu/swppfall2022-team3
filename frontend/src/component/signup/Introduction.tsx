@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
+import style from "../../constant/style";
 
 
 interface IProps {
@@ -24,8 +25,8 @@ export default function Introduction({
   }, [setStep, introduction]);
 
   return (
-    <section className={"flex flex-col items-center w-full h-full"}>
-      <p className="mt-16 mb-8 text-center text-pink-500/100">
+    <section className={style.page.base}>
+      <p className={style.component.signIn.notification}>
         자신의 매력을 어필할 수 있는<br/>
         소개글을 작성해보세요!
       </p>
@@ -40,9 +41,9 @@ export default function Introduction({
           {(hasSubmit) ? "필수 작성 항목입니다." : " "}
         </article>
       </section>
-      <section>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
         >
           다음

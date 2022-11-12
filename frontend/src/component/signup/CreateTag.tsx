@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { pink } from "@mui/material/colors";
+import style from "../../constant/style";
 import { selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
 
@@ -45,8 +46,8 @@ export default function CreateTag({
   }, [setStep, tags]);
 
   return (
-    <section className={"flex flex-col items-center w-full"}>
-      <p className="mt-16 text-center text-pink-500/100">
+    <section className={style.page.base}>
+      <p className={style.component.signIn.notification}>
         나를 표현하는 태그를 입력해보세요!<br />
         ex) 취미 (등산, 그림, ...)
       </p>
@@ -87,22 +88,22 @@ export default function CreateTag({
           >
             <AddCircleIcon
               style={{ color: pink[500] }}
-              fontSize="large"
+              fontSize={"large"}
             />
           </button>
         </div>
         <article className={"ml-2 text-red-500 mb-4 text-sm"}>{(submittedWithNoTag) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
-        <article className={"w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold text-pink-500 justify-start"}>
+        <article className={`w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold text-${style.color.main} justify-start`}>
           {tags.map((t) =>
-            <div key={t.key} className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
+            <div key={t.key} className={`flex-none px-2.5 py-0.5 m-1 rounded-2xl border-2 border-${style.color.main}`}>
               {t.name}
             </div>
           )}
         </article>
       </section>
-      <section>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
         >
           다음

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { selectPhoto } from "../store/slices/photo";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
@@ -25,7 +26,7 @@ export default function ProfileEdit() {
   return (loginUser) ? (
     // add bottom margin if navigation bar is added
     // <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
-    <section className={"flex-1 w-full mt-12 flex flex-col"}>
+    <section className={`${style.page.base} ${style.page.margin.top}`}>
       <AppBar title={`${loginUser.username}/${getKoreanAge(loginUser.birthday)}`}/>
       <section className={"w-full flex-1 z-0 flex flex-col"}>
         <section className={"relative"}>
