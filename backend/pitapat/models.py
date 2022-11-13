@@ -5,8 +5,8 @@ from django.contrib.auth.hashers import make_password
 
 
 class University(models.Model):
-    university_key = models.BigAutoField(primary_key=True)
-    university_name = models.CharField(max_length=20)
+    key = models.BigAutoField(primary_key=True, db_column='university_key')
+    name = models.CharField(max_length=20, db_column='university_name')
     location = models.CharField(max_length=20)
     email_domain = models.CharField(max_length=20)
     reg_dt = models.DateTimeField(auto_now_add=True)
@@ -21,8 +21,8 @@ class University(models.Model):
 
 
 class College(models.Model):
-    college_key = models.BigAutoField(primary_key=True)
-    college_name = models.CharField(max_length=20)
+    key = models.BigAutoField(primary_key=True, db_column='college_key')
+    name = models.CharField(max_length=20, db_column='college_name')
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
@@ -34,8 +34,8 @@ class College(models.Model):
 
 
 class Major(models.Model):
-    major_key = models.BigAutoField(primary_key=True)
-    major_name = models.CharField(max_length=20)
+    key = models.BigAutoField(primary_key=True, db_column='major_key')
+    name = models.CharField(max_length=20, db_column='major_name')
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
@@ -82,10 +82,10 @@ class MyUserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    user_key = models.BigAutoField(primary_key=True)
-    university_key = models.ForeignKey(University, models.DO_NOTHING, db_column='university_key')
-    college_key = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
-    major_key = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
+    key = models.BigAutoField(primary_key=True)
+    university = models.ForeignKey(University, models.DO_NOTHING, db_column='university_key')
+    college = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
+    major = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
     username = models.CharField(unique=True, max_length=30, db_column='user_name')
     email = models.CharField(unique=True, max_length=50)
     phone = models.CharField(unique=True, max_length=20)
@@ -110,8 +110,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Introduction(models.Model):
-    introduction_key = models.BigAutoField(primary_key=True)
-    user_key = models.ForeignKey(User, models.DO_NOTHING, db_column='user_key')
+    key = models.BigAutoField(primary_key=True, db_column='introduction_key')
+    user = models.ForeignKey(User, models.DO_NOTHING, db_column='user_key')
     field = models.TextField()
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
@@ -124,9 +124,9 @@ class Introduction(models.Model):
 
 
 class Photo(models.Model):
-    photo_key = models.BigAutoField(primary_key=True)
-    user_key = models.ForeignKey(User, models.DO_NOTHING, db_column='user_key')
-    photo_name = models.CharField(max_length=50)
+    key = models.BigAutoField(primary_key=True, db_column='photo_key')
+    user = models.ForeignKey(User, models.DO_NOTHING, related_name='photos', db_column='user_key')
+    name = models.CharField(max_length=50, db_column='photo_name')
     path = models.CharField(max_length=256)
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
@@ -139,9 +139,9 @@ class Photo(models.Model):
 
 
 class Tag(models.Model):
-    tag_key = models.BigAutoField(primary_key=True)
-    tag_name = models.CharField(max_length=20)
-    tag_type = models.CharField(max_length=20)
+    key = models.BigAutoField(primary_key=True, db_column='tag_key')
+    name = models.CharField(max_length=20, db_column='tag_name')
+    type = models.CharField(max_length=20, db_column='tag_type')
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
@@ -153,13 +153,13 @@ class Tag(models.Model):
 
 
 class CollegeMajor(models.Model):
-    college_key = models.OneToOneField(College, models.DO_NOTHING, db_column='college_key', primary_key=True)
-    major_key = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
+    college = models.OneToOneField(College, models.DO_NOTHING, db_column='college_key', primary_key=True)
+    major = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
 
     class Meta:
         db_table = 'R_CollegeMajor'
         verbose_name='College-Major Relationship'
-        unique_together = (('college_key', 'major_key'),)
+        unique_together = (('college', 'major'),)
 
 
 class Pitapat(models.Model):
@@ -172,20 +172,20 @@ class Pitapat(models.Model):
 
 
 class UniversityCollege(models.Model):
-    university_key = models.OneToOneField(University, models.DO_NOTHING, db_column='university_key', primary_key=True)
-    college_key = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
+    university = models.OneToOneField(University, models.DO_NOTHING, db_column='university_key', primary_key=True)
+    college = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
 
     class Meta:
         db_table = 'R_UniversityCollege'
         verbose_name='University-College Relationship'
-        unique_together = (('university_key', 'college_key'),)
+        unique_together = (('university', 'college'),)
 
 
 class UserTag(models.Model):
-    user_key = models.OneToOneField(User, models.DO_NOTHING, db_column='user_key', primary_key=True)
-    tag_key = models.ForeignKey(Tag, models.DO_NOTHING, db_column='tag_key')
+    user = models.OneToOneField(User, models.DO_NOTHING, db_column='user_key', primary_key=True)
+    tag = models.ForeignKey(Tag, models.DO_NOTHING, db_column='tag_key')
 
     class Meta:
         db_table = 'R_UserTag'
         verbose_name='User-Tag Relationship'
-        unique_together = (('user_key', 'tag_key'),)
+        unique_together = (('user', 'tag'),)
