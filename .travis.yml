@@ -1,7 +1,7 @@
 branches:
   only:
-    - main
-    - integration
+  - main
+  - integration
 dist: bionic
 jobs:
   include:
@@ -22,7 +22,7 @@ jobs:
     - pip install coveralls
     script:
     - cd ../frontend
-    - ./node_modules/.bin/eslint src/**/*.{ts,tsx}
+    - "./node_modules/.bin/eslint src/**/*.{ts,tsx}"
     - yarn test --coverage --watchAll=false
     - coveralls-lcov -v -n coverage/lcov.info > coverage.json
     - cd ../backend
