@@ -11,9 +11,9 @@ from django.db import models
 class ECollege(models.Model):
     college_key = models.BigAutoField(primary_key=True)
     college_name = models.CharField(max_length=20)
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
@@ -25,9 +25,9 @@ class EIntroduction(models.Model):
     introduction_key = models.BigAutoField(primary_key=True)
     user_key = models.ForeignKey('EUser', models.DO_NOTHING, db_column='user_key')
     field = models.TextField(db_column='Field')  # Field name made lowercase.
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
@@ -38,9 +38,9 @@ class EIntroduction(models.Model):
 class EMajor(models.Model):
     major_key = models.BigAutoField(primary_key=True)
     major_name = models.CharField(max_length=20)
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
@@ -53,9 +53,9 @@ class EPhoto(models.Model):
     user_key = models.ForeignKey('EUser', models.DO_NOTHING, db_column='user_key')
     photo_name = models.CharField(max_length=50)
     path = models.CharField(max_length=256)
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
@@ -67,9 +67,9 @@ class ETag(models.Model):
     tag_key = models.BigAutoField(primary_key=True)
     tag_name = models.CharField(max_length=20)
     tag_type = models.CharField(max_length=20)
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
@@ -82,9 +82,9 @@ class EUniversity(models.Model):
     university_name = models.CharField(max_length=20)
     location = models.CharField(max_length=20)
     email_domain = models.CharField(max_length=20)
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
@@ -102,9 +102,9 @@ class EUser(models.Model):
     interested_gender = models.CharField(max_length=1)
     birthday = models.DateTimeField()
     email = models.CharField(max_length=50)
-    reg_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
-    upd_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
     class Meta:
