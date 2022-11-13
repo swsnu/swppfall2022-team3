@@ -94,14 +94,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 pymysql.install_as_MySQLdb()
 
+db = get_external_value(BASE_DIR / 'backend/.secrets/db.json', 'default')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'pitapat-campus.cyq6skukgohn.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '3306',
-        'USER': 'pitapat',
-        'PASSWORD': 'pitapita1!',
-        'NAME': 'test',
+        'ENGINE': db['ENGINE'],
+        'HOST': db['HOST'],
+        'PORT': db['PORT'],
+        'USER': db['USER'],
+        'PASSWORD': db['PASSWORD'],
+        'NAME': db['NAME'],
     }
 }
 
