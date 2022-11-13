@@ -16,8 +16,8 @@ class University(models.Model):
 
     class Meta:
         db_table = 'E_University'
-        verbose_name='University'
-        verbose_name_plural='Universities'
+        verbose_name = 'University'
+        verbose_name_plural = 'Universities'
 
 
 class College(models.Model):
@@ -30,7 +30,7 @@ class College(models.Model):
 
     class Meta:
         db_table = 'E_College'
-        verbose_name='College'
+        verbose_name = 'College'
 
 
 class Major(models.Model):
@@ -43,7 +43,7 @@ class Major(models.Model):
 
     class Meta:
         db_table = 'E_Major'
-        verbose_name='Major'
+        verbose_name = 'Major'
 
 
 class MyUserManager(UserManager):
@@ -106,7 +106,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 'E_User'
-        verbose_name='User'
+        verbose_name = 'User'
 
 
 class Introduction(models.Model):
@@ -120,7 +120,7 @@ class Introduction(models.Model):
 
     class Meta:
         db_table = 'E_Introduction'
-        verbose_name='Introduction'
+        verbose_name = 'Introduction'
 
 
 class Photo(models.Model):
@@ -135,7 +135,7 @@ class Photo(models.Model):
 
     class Meta:
         db_table = 'E_Photo'
-        verbose_name='Photo'
+        verbose_name = 'Photo'
 
 
 class Tag(models.Model):
@@ -149,7 +149,7 @@ class Tag(models.Model):
 
     class Meta:
         db_table = 'E_Tag'
-        verbose_name='Tag'
+        verbose_name = 'Tag'
 
 
 class CollegeMajor(models.Model):
@@ -158,17 +158,19 @@ class CollegeMajor(models.Model):
 
     class Meta:
         db_table = 'R_CollegeMajor'
-        verbose_name='College-Major Relationship'
-        unique_together = (('college', 'major'),)
+        verbose_name = 'College-Major Relationship'
+        unique_together = (('college_key', 'major_key'),)
 
 
 class Pitapat(models.Model):
-    from_field = models.ForeignKey(User, models.DO_NOTHING, db_column='from', blank=True, null=True, related_name="from_field")  # Field renamed because it was a Python reserved word.
+    from_field = models.ForeignKey(
+        User, models.DO_NOTHING, db_column='from', blank=True, null=True, related_name="from_field"
+    )  # Field renamed because it was a Python reserved word.
     to = models.ForeignKey(User, models.DO_NOTHING, db_column='to', blank=True, null=True, related_name="to")
 
     class Meta:
         db_table = 'R_Pitapat'
-        verbose_name='pitapat'
+        verbose_name = 'pitapat'
 
 
 class UniversityCollege(models.Model):
@@ -177,8 +179,8 @@ class UniversityCollege(models.Model):
 
     class Meta:
         db_table = 'R_UniversityCollege'
-        verbose_name='University-College Relationship'
-        unique_together = (('university', 'college'),)
+        verbose_name = 'University-College Relationship'
+        unique_together = (('university_key', 'college_key'),)
 
 
 class UserTag(models.Model):
@@ -187,5 +189,5 @@ class UserTag(models.Model):
 
     class Meta:
         db_table = 'R_UserTag'
-        verbose_name='User-Tag Relationship'
-        unique_together = (('user', 'tag'),)
+        verbose_name = 'User-Tag Relationship'
+        unique_together = (('user_key', 'tag_key'),)
