@@ -159,7 +159,7 @@ class CollegeMajor(models.Model):
     class Meta:
         db_table = 'R_CollegeMajor'
         verbose_name = 'College-Major Relationship'
-        unique_together = (('college_key', 'major_key'),)
+        unique_together = (('college', 'major'),)
 
 
 class Pitapat(models.Model):
@@ -180,7 +180,7 @@ class UniversityCollege(models.Model):
     class Meta:
         db_table = 'R_UniversityCollege'
         verbose_name = 'University-College Relationship'
-        unique_together = (('university_key', 'college_key'),)
+        unique_together = (('university', 'college'),)
 
 
 class UserTag(models.Model):
@@ -190,4 +190,4 @@ class UserTag(models.Model):
     class Meta:
         db_table = 'R_UserTag'
         verbose_name = 'User-Tag Relationship'
-        unique_together = (('user_key', 'tag_key'),)
+        unique_together = (('user', 'tag'),)
