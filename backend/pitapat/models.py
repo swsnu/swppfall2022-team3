@@ -13,6 +13,7 @@ class ECollege(models.Model):
 
     class Meta:
         db_table = 'E_College'
+        verbose_name='College'
 
 
 class EIntroduction(models.Model):
@@ -26,6 +27,7 @@ class EIntroduction(models.Model):
 
     class Meta:
         db_table = 'E_Introduction'
+        verbose_name='Introduction'
 
 
 class EMajor(models.Model):
@@ -38,6 +40,7 @@ class EMajor(models.Model):
 
     class Meta:
         db_table = 'E_Major'
+        verbose_name='Major'
 
 
 class EPhoto(models.Model):
@@ -52,6 +55,7 @@ class EPhoto(models.Model):
 
     class Meta:
         db_table = 'E_Photo'
+        verbose_name='Photo'
 
 
 class ETag(models.Model):
@@ -65,6 +69,7 @@ class ETag(models.Model):
 
     class Meta:
         db_table = 'E_Tag'
+        verbose_name='Tag'
 
 
 class EUniversity(models.Model):
@@ -79,6 +84,8 @@ class EUniversity(models.Model):
 
     class Meta:
         db_table = 'E_University'
+        verbose_name='University'
+        verbose_name_plural='Universities'
 
 
 class EUserManager(UserManager):
@@ -141,6 +148,7 @@ class EUser(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 'E_User'
+        verbose_name='User'
 
 
 class RCollegemajor(models.Model):
@@ -149,6 +157,7 @@ class RCollegemajor(models.Model):
 
     class Meta:
         db_table = 'R_CollegeMajor'
+        verbose_name='College-Major Relationship'
         unique_together = (('college_key', 'major_key'),)
 
 
@@ -158,6 +167,7 @@ class RPitapat(models.Model):
 
     class Meta:
         db_table = 'R_Pitapat'
+        verbose_name='pitapat'
 
 
 class RUniversitycollege(models.Model):
@@ -166,6 +176,7 @@ class RUniversitycollege(models.Model):
 
     class Meta:
         db_table = 'R_UniversityCollege'
+        verbose_name='University-College Relationship'
         unique_together = (('university_key', 'college_key'),)
 
 
@@ -175,4 +186,5 @@ class RUsertag(models.Model):
 
     class Meta:
         db_table = 'R_UserTag'
+        verbose_name='User-Tag Relationship'
         unique_together = (('user_key', 'tag_key'),)
