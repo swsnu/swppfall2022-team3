@@ -101,11 +101,22 @@ class EUser(models.Model):
     gender = models.CharField(max_length=1)
     interested_gender = models.CharField(max_length=1)
     birthday = models.DateTimeField()
-    email = models.CharField(max_length=50)
+    email = models.CharField(unique=True, max_length=50)
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['user_name']
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    @property
+    def is_authenticated(self):
+        return True
 
     class Meta:
         managed = False
