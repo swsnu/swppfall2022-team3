@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import json
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
+import pymysql
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,7 +48,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'pitapat.apps.PitapatConfig',
 ]
 
 MIDDLEWARE = [
@@ -91,18 +92,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'pitapat-campus.cyq6skukgohn.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
+        'USER': 'pitapat',
+        'PASSWORD': 'pitapita1!',
+        'NAME': 'test',
     }
 }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
-AUTH_USER_MODEL = 'user.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
