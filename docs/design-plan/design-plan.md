@@ -121,7 +121,7 @@ The functionality and the requirement for each page are described below.
 | Model                   | API                             | GET                                | POST                                    | PUT                        | DELETE                   |
 | ----------------------- | ------------------------------- | ---------------------------------- | --------------------------------------- | -------------------------- | ------------------------ |
 | **User / Introduction** | `/auth/email/`                  | X                                  | receive email to send verification code | X                          | X                        |
-|                         | `/auth/verifh/`                 | X                                  | check email authentication code         | X                          | X                        |
+|                         | `/auth/verify/`                 | X                                  | check email authentication code         | X                          | X                        |
 |                         | `/user/`                        | get user list                      | create new user                         | X                          | X                        |
 |                         | `/user/login/`                  | X                                  | log in                                  | X                          | X                        |
 |                         | `/user/logout/`                 | X                                  | log out                                 | X                          | X                        |
@@ -257,12 +257,17 @@ The functionality and the requirement for each page are described below.
     "password": "password",
     "username": "닉네임3",
     "gender": "M",
-    "age": 24,
+    "interested_gender": "F",
+    "birthday": "1999-02-24",
     "university": "서울대학교",
     "college": "공과대학",
     "major": "컴퓨터공학부",
     "location": "서울",
     "introduction": "안녕하세요, 홍길동입니다.",
+    "photos": [
+        "PATH1",
+        "PATH2",
+    ],
     "tags": [
         "헬스",
         "음악",
