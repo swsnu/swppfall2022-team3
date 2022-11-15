@@ -5,7 +5,7 @@ from rest_framework import serializers
 from .models import *
 
 
-class UserListGetSerializer(serializers.ModelSerializer):
+class UserListReadSerializer(serializers.ModelSerializer):
     major = serializers.SlugRelatedField(
         read_only=True,
         slug_field='name',
@@ -21,3 +21,20 @@ class UserListGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['key', 'username', 'gender', 'age', 'major', 'repr_photo']
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'phone', 'username', 'gender', 'interested_gender', 'birthday', 'university', 'college', 'major']
+
+
+class IntroductionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Introduction
+        fields = ['user', 'field']
+
+
+class PhotoCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = ['user', 'name', 'path']
