@@ -156,6 +156,20 @@ class Tag(models.Model):
         verbose_name = 'Tag'
 
 
+class Chat(models.Model):
+    key = models.BigAutoField(primary_key=True, db_column='chat_key')
+    from_field = models.ForeignKey('User', models.CASCADE, db_column='from', related_name='chat_from')
+    to = models.ForeignKey('User', models.CASCADE, db_column='to', related_name='chat_to')
+    valid = models.CharField(max_length=1)
+    content = models.TextField()
+    reg_dt = models.DateTimeField()
+    upd_dt = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'E_Chat'
+
+
 class UniversityCollege(models.Model):
     university = models.OneToOneField(University, models.CASCADE, db_column='university_key', primary_key=True)
     college = models.ForeignKey(College, models.CASCADE, db_column='college_key')
@@ -177,10 +191,8 @@ class CollegeMajor(models.Model):
 
 
 class Pitapat(models.Model):
-    from_field = models.ForeignKey(
-        User, models.CASCADE, db_column='from', blank=True, null=True, related_name="from_field"
-    )
-    to = models.ForeignKey(User, models.CASCADE, db_column='to', blank=True, null=True, related_name="to")
+    from_field = models.ForeignKey(User, models.CASCADE, db_column='from', related_name='pitapat_from')
+    to = models.ForeignKey(User, models.CASCADE, db_column='to', related_name='pitapat_to')
 
     class Meta:
         db_table = 'R_Pitapat'
