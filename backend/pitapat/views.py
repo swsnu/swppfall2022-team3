@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, JSONParser, FileUploadParser
 from rest_framework.response import Response
 
-from .models import User
+from .models import User, University, College, Major
 from .serializers import *
 
 
@@ -61,3 +61,12 @@ def user(request):
         photo_serializer.save()
 
         return Response({}, status=201)
+
+
+@api_view(['GET'])
+@parser_classes([MultiPartParser, JSONParser, FileUploadParser])
+def university(request):
+    if request.method == 'GET':
+        universities = University.objects.all()
+        serializer = UniversityListReadSerializer(universities, many=True)
+        return Response(serializer.data)

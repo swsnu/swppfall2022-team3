@@ -38,3 +38,9 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = ['user', 'name', 'path']
+
+
+class UniversityListReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = University
+        fields = ['key', 'name']
