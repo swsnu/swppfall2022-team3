@@ -75,9 +75,9 @@ class MyUserManager(UserManager):
         return self._create_user(
             email,
             password,
-            university_key=University.objects.get(university_name="admin"),
-            college_key=College.objects.get(college_name="admin"),
-            major_key=Major.objects.get(major_name="admin"),
+            university=University.objects.get(name="admin"),
+            college=College.objects.get(name="admin"),
+            major=Major.objects.get(name="admin"),
             birthday=datetime.now(),
             **extra_fields,
         )
