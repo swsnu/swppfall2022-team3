@@ -9,6 +9,7 @@ class University(models.Model):
     name = models.CharField(max_length=20, db_column='university_name')
     location = models.CharField(max_length=20)
     email_domain = models.CharField(max_length=20)
+    colleges = models.ManyToManyField('College', through='UniversityCollege', through_fields=('university', 'college'))
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
@@ -23,6 +24,7 @@ class University(models.Model):
 class College(models.Model):
     key = models.BigAutoField(primary_key=True, db_column='college_key')
     name = models.CharField(max_length=20, db_column='college_name')
+    majors = models.ManyToManyField('Major', through='CollegeMajor', through_fields=('college', 'major'))
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
@@ -83,7 +85,7 @@ class MyUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     key = models.BigAutoField(primary_key=True)
-    university = models.ForeignKey(University, models.DO_NOTHING, db_column='university_key')
+    university = models.ForeignKey(University, models.CASCADE, db_column='university_key')
     college = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
     major = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
     username = models.CharField(unique=True, max_length=30, db_column='user_name')
@@ -93,6 +95,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=1)
     interested_gender = models.CharField(max_length=1)
     birthday = models.DateTimeField()
+    tags = models.ManyToManyField('Tag', through='UserTag', through_fields=('user', 'tag'))
+    pitapat = models.ManyToManyField('User', through='Pitapat', through_fields=('from_field', 'to'))
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
@@ -111,7 +115,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Introduction(models.Model):
     key = models.BigAutoField(primary_key=True, db_column='introduction_key')
-    user = models.ForeignKey(User, models.DO_NOTHING, db_column='user_key')
+    user = models.ForeignKey(User, models.CASCADE, db_column='user_key')
     field = models.TextField()
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
@@ -125,7 +129,7 @@ class Introduction(models.Model):
 
 class Photo(models.Model):
     key = models.BigAutoField(primary_key=True, db_column='photo_key')
-    user = models.ForeignKey(User, models.DO_NOTHING, related_name='photos', db_column='user_key')
+    user = models.ForeignKey(User, models.CASCADE, related_name='photos', db_column='user_key')
     name = models.CharField(max_length=50, db_column='photo_name')
     path = models.CharField(max_length=256)
     reg_dt = models.DateTimeField(auto_now_add=True)
@@ -152,9 +156,19 @@ class Tag(models.Model):
         verbose_name = 'Tag'
 
 
+class UniversityCollege(models.Model):
+    university = models.OneToOneField(University, models.CASCADE, db_column='university_key', primary_key=True)
+    college = models.ForeignKey(College, models.CASCADE, db_column='college_key')
+
+    class Meta:
+        db_table = 'R_UniversityCollege'
+        verbose_name = 'University-College Relationship'
+        unique_together = (('university', 'college'),)
+
+
 class CollegeMajor(models.Model):
-    college = models.OneToOneField(College, models.DO_NOTHING, db_column='college_key', primary_key=True)
-    major = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
+    college = models.OneToOneField(College, models.CASCADE, db_column='college_key', primary_key=True)
+    major = models.ForeignKey(Major, models.CASCADE, db_column='major_key')
 
     class Meta:
         db_table = 'R_CollegeMajor'
@@ -164,28 +178,18 @@ class CollegeMajor(models.Model):
 
 class Pitapat(models.Model):
     from_field = models.ForeignKey(
-        User, models.DO_NOTHING, db_column='from', blank=True, null=True, related_name="from_field"
-    )  # Field renamed because it was a Python reserved word.
-    to = models.ForeignKey(User, models.DO_NOTHING, db_column='to', blank=True, null=True, related_name="to")
+        User, models.CASCADE, db_column='from', blank=True, null=True, related_name="from_field"
+    )
+    to = models.ForeignKey(User, models.CASCADE, db_column='to', blank=True, null=True, related_name="to")
 
     class Meta:
         db_table = 'R_Pitapat'
         verbose_name = 'pitapat'
 
 
-class UniversityCollege(models.Model):
-    university = models.OneToOneField(University, models.DO_NOTHING, db_column='university_key', primary_key=True)
-    college = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
-
-    class Meta:
-        db_table = 'R_UniversityCollege'
-        verbose_name = 'University-College Relationship'
-        unique_together = (('university', 'college'),)
-
-
 class UserTag(models.Model):
-    user = models.OneToOneField(User, models.DO_NOTHING, db_column='user_key', primary_key=True)
-    tag = models.ForeignKey(Tag, models.DO_NOTHING, db_column='tag_key')
+    user = models.OneToOneField(User, models.CASCADE, db_column='user_key', primary_key=True)
+    tag = models.ForeignKey(Tag, models.CASCADE, db_column='tag_key')
 
     class Meta:
         db_table = 'R_UserTag'
