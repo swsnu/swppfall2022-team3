@@ -85,9 +85,9 @@ class MyUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     key = models.BigAutoField(primary_key=True, db_column='user_key')
-    university = models.ForeignKey(University, models.CASCADE, db_column='university_key')
-    college = models.ForeignKey(College, models.DO_NOTHING, db_column='college_key')
-    major = models.ForeignKey(Major, models.DO_NOTHING, db_column='major_key')
+    university = models.ForeignKey(University, models.RESTRICT, db_column='university_key')
+    college = models.ForeignKey(College, models.RESTRICT, db_column='college_key')
+    major = models.ForeignKey(Major, models.RESTRICT, db_column='major_key')
     username = models.CharField(unique=True, max_length=30, db_column='user_name')
     email = models.CharField(unique=True, max_length=50)
     phone = models.CharField(unique=True, max_length=20)
