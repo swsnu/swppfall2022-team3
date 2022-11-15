@@ -158,8 +158,8 @@ class Tag(models.Model):
 
 class Chat(models.Model):
     key = models.BigAutoField(primary_key=True, db_column='chat_key')
-    from_field = models.ForeignKey('User', models.SET_NULL, db_column='from', related_name='chat_from')
-    to = models.ForeignKey('User', models.SET_NULL, db_column='to', related_name='chat_to')
+    from_field = models.ForeignKey('User', models.SET_NULL, db_column='from', related_name='chat_from', null=True)
+    to = models.ForeignKey('User', models.SET_NULL, db_column='to', related_name='chat_to', null=True)
     valid = models.CharField(max_length=1)
     content = models.TextField()
     reg_dt = models.DateTimeField()
