@@ -158,8 +158,8 @@ class Tag(models.Model):
 
 class Chat(models.Model):
     key = models.BigAutoField(primary_key=True, db_column='chat_key')
-    from_field = models.ForeignKey('User', models.CASCADE, db_column='from', related_name='chat_from')
-    to = models.ForeignKey('User', models.CASCADE, db_column='to', related_name='chat_to')
+    from_field = models.ForeignKey('User', models.SET_NULL, db_column='from', related_name='chat_from')
+    to = models.ForeignKey('User', models.SET_NULL, db_column='to', related_name='chat_to')
     valid = models.CharField(max_length=1)
     content = models.TextField()
     reg_dt = models.DateTimeField()
@@ -171,8 +171,8 @@ class Chat(models.Model):
 
 
 class UniversityCollege(models.Model):
-    university = models.OneToOneField(University, models.CASCADE, db_column='university_key', primary_key=True)
-    college = models.ForeignKey(College, models.CASCADE, db_column='college_key')
+    university = models.OneToOneField(University, models.RESTRICT, db_column='university_key', primary_key=True)
+    college = models.ForeignKey(College, models.RESTRICT, db_column='college_key')
 
     class Meta:
         db_table = 'R_UniversityCollege'
@@ -181,8 +181,8 @@ class UniversityCollege(models.Model):
 
 
 class CollegeMajor(models.Model):
-    college = models.OneToOneField(College, models.CASCADE, db_column='college_key', primary_key=True)
-    major = models.ForeignKey(Major, models.CASCADE, db_column='major_key')
+    college = models.OneToOneField(College, models.RESTRICT, db_column='college_key', primary_key=True)
+    major = models.ForeignKey(Major, models.RESTRICT, db_column='major_key')
 
     class Meta:
         db_table = 'R_CollegeMajor'
@@ -200,8 +200,8 @@ class Pitapat(models.Model):
 
 
 class UserTag(models.Model):
-    user = models.OneToOneField(User, models.CASCADE, db_column='user_key', primary_key=True)
-    tag = models.ForeignKey(Tag, models.CASCADE, db_column='tag_key')
+    user = models.OneToOneField(User, models.RESTRICT, db_column='user_key', primary_key=True)
+    tag = models.ForeignKey(Tag, models.RESTRICT, db_column='tag_key')
 
     class Meta:
         db_table = 'R_UserTag'
