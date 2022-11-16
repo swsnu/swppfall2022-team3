@@ -2,7 +2,7 @@ from datetime import date
 
 from rest_framework import serializers
 
-from .models import College, Introduction, Major, Photo, Tag, University, User
+from .models import Introduction, Photo, Tag, University, User
 
 
 class IntroductionCreateSerializer(serializers.ModelSerializer):

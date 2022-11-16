@@ -26,7 +26,7 @@ jobs:
     - yarn test --coverage --watchAll=false
     - coveralls-lcov -v -n coverage/lcov.info > coverage.json
     - cd ../backend
-    # - pylint **/*.py
+    - pylint **/*.py
     - coverage run --source='.' manage.py test
     - coverage xml
     - coveralls --merge=../frontend/coverage.json
