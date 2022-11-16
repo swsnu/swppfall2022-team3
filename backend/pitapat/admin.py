@@ -1,6 +1,9 @@
 from django.contrib import admin
 
-from .models import *
+from .models import (Chat, Chatroom, College, CollegeMajor, Introduction,
+                     Major, Photo, Pitapat, Tag, University, UniversityCollege,
+                     User, UserChatroom, UserTag)
+
 
 admin.site.register(University)
 admin.site.register(College)
