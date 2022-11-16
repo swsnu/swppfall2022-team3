@@ -4,8 +4,16 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 from django.contrib.auth.hashers import make_password
 
 
+class UnsignedAutoField(models.BigAutoField):
+    def db_type(self, connection):
+        return 'bigint UNSIGNED AUTO_INCREMENT'
+
+    def rel_db_type(self, connection):
+        return 'bigint UNSIGNED'
+
+
 class University(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='university_key')
+    key = UnsignedAutoField(primary_key=True, db_column='university_key')
     name = models.CharField(max_length=20, db_column='university_name')
     location = models.CharField(max_length=20)
     email_domain = models.CharField(max_length=20)
@@ -23,7 +31,7 @@ class University(models.Model):
 
 
 class College(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='college_key')
+    key = UnsignedAutoField(primary_key=True, db_column='college_key')
     name = models.CharField(max_length=20, db_column='college_name')
     majors = models.ManyToManyField('Major', through='CollegeMajor', through_fields=('college', 'major'))
     reg_dt = models.DateTimeField(auto_now_add=True)
@@ -38,7 +46,7 @@ class College(models.Model):
 
 
 class Major(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='major_key')
+    key = UnsignedAutoField(primary_key=True, db_column='major_key')
     name = models.CharField(max_length=20, db_column='major_name')
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
@@ -87,7 +95,7 @@ class MyUserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    key = models.BigAutoField(primary_key=True, db_column='user_key')
+    key = UnsignedAutoField(primary_key=True, db_column='user_key')
     university = models.ForeignKey(University, models.RESTRICT, db_column='university_key')
     college = models.ForeignKey(College, models.RESTRICT, db_column='college_key')
     major = models.ForeignKey(Major, models.RESTRICT, db_column='major_key')
@@ -118,7 +126,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Introduction(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='introduction_key')
+    key = UnsignedAutoField(primary_key=True, db_column='introduction_key')
     user = models.ForeignKey(User, models.CASCADE, db_column='user_key')
     field = models.TextField()
     reg_dt = models.DateTimeField(auto_now_add=True)
@@ -133,7 +141,7 @@ class Introduction(models.Model):
 
 
 class Photo(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='photo_key')
+    key = UnsignedAutoField(primary_key=True, db_column='photo_key')
     user = models.ForeignKey(User, models.CASCADE, related_name='photos', db_column='user_key')
     name = models.CharField(max_length=50, db_column='photo_name')
     path = models.CharField(max_length=256)
@@ -149,7 +157,7 @@ class Photo(models.Model):
 
 
 class Tag(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='tag_key')
+    key = UnsignedAutoField(primary_key=True, db_column='tag_key')
     name = models.CharField(max_length=20, db_column='tag_name')
     type = models.CharField(max_length=20, db_column='tag_type')
     reg_dt = models.DateTimeField(auto_now_add=True)
@@ -164,7 +172,7 @@ class Tag(models.Model):
 
 
 class Chatroom(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='chatroom_key')
+    key = UnsignedAutoField(primary_key=True, db_column='chatroom_key')
     user_count = models.IntegerField(db_column='user_count', null=False)
     reg_dt = models.DateTimeField(auto_now_add=True, null=False)
 
@@ -174,7 +182,7 @@ class Chatroom(models.Model):
 
 
 class Chat(models.Model):
-    key = models.BigAutoField(primary_key=True, db_column='chat_key')
+    key = UnsignedAutoField(primary_key=True, db_column='chat_key')
     chatroom = models.ForeignKey(Chatroom, models.CASCADE, related_name='chats', db_column='chatroom_key')
     from_field = models.ForeignKey('User', models.SET_NULL, db_column='from', related_name='chat_from', null=True)
     valid = models.CharField(max_length=1)
