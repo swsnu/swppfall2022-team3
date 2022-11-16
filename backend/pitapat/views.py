@@ -1,32 +1,43 @@
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import MultiPartParser, JSONParser, FileUploadParser
+from rest_framework.parsers import (FileUploadParser, JSONParser,
+                                    MultiPartParser)
 from rest_framework.response import Response
 
-from .models import User, University, College, Major
-from .serializers import *
+from .models import College, Introduction, Major, University, User
+from .serializers import (IntroductionCreateSerializer, PhotoCreateSerializer,
+                          UniversityListReadSerializer, UserCreateSerializer,
+                          UserListReadSerializer)
+
+
+class BadRequestError(Exception):
+    def __init__(self, errors):
+        self.errors = errors
 
 
 @api_view(['GET', 'POST'])
 @parser_classes([MultiPartParser, JSONParser, FileUploadParser])
-def user(request):
+def user_view(request):
     if request.method == 'GET':
         users = User.objects.all()
         serializer = UserListReadSerializer(users, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         data = request.data
 
-        if 'university' not in data:
-            return Response({'university': 'field does not exist'}, status=400)
-        if 'college' not in data:
-            return Response({'college': 'field does not exist'}, status=400)
-        if 'major' not in data:
-            return Response({'major': 'field does not exist'}, status=400)
-        if 'introduction' not in data:
-            return Response({'introduction': 'field does not exist'}, status=400)
-        if 'photos' not in data:
-            return Response({'photos': 'field does not exist'}, status=400)
+        try:
+            if 'university' not in data:
+                raise BadRequestError({'university': 'field does not exist'})
+            if 'college' not in data:
+                raise BadRequestError({'college': 'field does not exist'})
+            if 'major' not in data:
+                raise BadRequestError({'major': 'field does not exist'},)
+            if 'introduction' not in data:
+                raise BadRequestError({'introduction': 'field does not exist'})
+            if 'photos' not in data:
+                raise BadRequestError({'photos': 'field does not exist'})
+        except BadRequestError as error:
+            return Response(error.errors, status=400)
 
         university = University.objects.get(name=data['university'])
         college = College.objects.get(name=data['college'])
@@ -35,38 +46,45 @@ def user(request):
         data['college'] = college.key
         data['major'] = major.key
 
-        user_serializer = UserCreateSerializer(data=data)
-        if not user_serializer.is_valid():
-            return Response(user_serializer.errors, status=400)
-        user: User = user_serializer.save()
+        try:
+            user_serializer = UserCreateSerializer(data=data)
+            if not user_serializer.is_valid():
+                raise BadRequestError(user_serializer.errors)
+            user: User = user_serializer.save()
 
-        intro_serializer = IntroductionCreateSerializer(data={
-            'user': user.key,
-            'field': data['introduction'],
-        })
-        if not intro_serializer.is_valid():
-            user.delete()
-            return Response(intro_serializer.errors, status=400)
-        intro: Introduction = intro_serializer.save()
+            intro_serializer = IntroductionCreateSerializer(data={
+                'user': user.key,
+                'field': data['introduction'],
+            })
+            if not intro_serializer.is_valid():
+                user.delete()
+                raise BadRequestError(intro_serializer.errors)
+            intro: Introduction = intro_serializer.save()
 
-        photo_serializer = PhotoCreateSerializer(data=[{
-            'user': user.key,
-            'name': 'photo',    # TODO: save filename
-            'path': photo,
-        } for photo in data['photos']], many=True)
-        if not photo_serializer.is_valid():
-            intro.delete()
-            user.delete()
-            return Response(photo_serializer.errors, status=400)
-        photo_serializer.save()
+            photo_serializer = PhotoCreateSerializer(data=[{
+                'user': user.key,
+                'name': 'photo',    # TODO: save filename
+                'path': photo,
+            } for photo in data['photos']], many=True)
+            if not photo_serializer.is_valid():
+                intro.delete()
+                user.delete()
+                raise BadRequestError(photo_serializer.errors)
+            photo_serializer.save()
+        except BadRequestError as error:
+            return Response(error.errors, status=400)
 
         return Response({}, status=201)
+
+    return Response({"error": "HTTP method not allowed"}, status=405)
 
 
 @api_view(['GET'])
 @parser_classes([MultiPartParser, JSONParser, FileUploadParser])
-def university(request):
+def university_view(request):
     if request.method == 'GET':
         universities = University.objects.all()
         serializer = UniversityListReadSerializer(universities, many=True)
         return Response(serializer.data)
+
+    return Response({"error": "HTTP method not allowed"}, status=405)
