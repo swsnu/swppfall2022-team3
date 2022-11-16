@@ -2,7 +2,7 @@ from datetime import date
 
 from rest_framework import serializers
 
-from .models import Introduction, Photo, Tag, University, User, UserTag
+from .models import User, University, College, Major, Introduction, Tag, UserTag
 
 
 class UniversityListReadSerializer(serializers.ModelSerializer):
@@ -31,6 +31,9 @@ class UserListReadSerializer(serializers.ModelSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    university = serializers.CharField()
+    college = serializers.CharField()
+    major = serializers.CharField()
     introduction = serializers.CharField()
     tags = serializers.SlugRelatedField(
         queryset=Tag.objects.all(),
@@ -40,8 +43,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
     # photos = serializers.
 
     def create(self, validated_data):
+        validated_data['university'] = University.objects.get(name=validated_data['university'])
+        validated_data['college'] = College.objects.get(name=validated_data['college'])
+        validated_data['major'] = Major.objects.get(name=validated_data['major'])
         tag_names = validated_data.pop('tags')
         intro = validated_data.pop('introduction')
+
         # photo_paths = validated_data.pop('photos')
         user: User = User.objects.create(**validated_data)
         Introduction.objects.create(user=user, field=intro)

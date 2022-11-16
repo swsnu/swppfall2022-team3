@@ -3,9 +3,8 @@ from rest_framework.parsers import (FileUploadParser, JSONParser,
                                     MultiPartParser)
 from rest_framework.response import Response
 
-from .models import College, Introduction, Major, University, User
-from .serializers import (IntroductionCreateSerializer, PhotoCreateSerializer,
-                          UniversityListReadSerializer, UserCreateSerializer,
+from .models import University, User
+from .serializers import (UniversityListReadSerializer, UserCreateSerializer,
                           UserListReadSerializer)
 
 
@@ -23,19 +22,10 @@ def user_view(request):
         return Response(serializer.data)
 
     if request.method == 'POST':
-        data = request.data
-        university = University.objects.get(name=data['university'])
-        college = College.objects.get(name=data['college'])
-        major = Major.objects.get(name=data['major'])
-        data['university'] = university.key
-        data['college'] = college.key
-        data['major'] = major.key
-        try:
-            user_serializer = UserCreateSerializer(data=data)
-            if not user_serializer.is_valid():
-                raise BadRequestError(user_serializer.errors)
-        except BadRequestError as error:
-            return Response(error.errors, status=400)
+        serializer = UserCreateSerializer(data=request.data)
+        if not serializer.is_valid():
+            raise BadRequestError(serializer.errors)
+        serializer.save()
         return Response({}, status=201)
 
     return Response({"error": "HTTP method not allowed"}, status=405)
