@@ -12,6 +12,30 @@ class UniversityListReadSerializer(serializers.ModelSerializer):
         fields = ['key', 'name']
 
 
+class TagListReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['name', 'type']
+
+
+class TagCreateSerializer(serializers.ModelSerializer):
+    name = serializers.CharField()
+    type = serializers.CharField()
+    
+    def create(self, new_tag):
+        try:
+            tag = Tag.objects.get(name=new_tag['name'])
+        except Tag.DoesNotExist:
+            tag = None
+        if tag:
+            raise serializers.ValidationError("Tag is already exist")
+        return Tag.objects.create(name=new_tag['name'], type=new_tag['type'])
+
+    class Meta:
+        model = Tag
+        fields = ['name', 'type']
+  
+  
 class UserListReadSerializer(serializers.ModelSerializer):
     major = serializers.SlugRelatedField(
         read_only=True,
