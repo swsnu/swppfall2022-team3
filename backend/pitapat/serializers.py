@@ -50,7 +50,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         intro = validated_data.pop('introduction')
 
         # photo_paths = validated_data.pop('photos')
-        user: User = User.objects.create(**validated_data)
+        user: User = User.objects.create_user(**validated_data)
         Introduction.objects.create(user=user, field=intro)
         # for path in photo_paths:
         #     Photo.objects.create(user=user, name='photo', path=path)
