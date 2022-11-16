@@ -255,7 +255,8 @@ The functionality and the requirement for each page are described below.
 {
     "email": "email@snu.ac.kr",
     "password": "password",
-    "username": "닉네임3",
+    "phone": "01012345678",
+    "nickname": "닉네임",
     "gender": "M",
     "interested_gender": "F",
     "birthday": "1999-02-24",
