@@ -152,3 +152,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AWS S3
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_SECURE_URLS = False
+AWS_QUERYSTRING_AUTH = False
+
+AWS_S3_ACCESS_KEY_ID = get_external_value(BASE_DIR / 'backend/.secrets/s3.json', 'access_key_id')
+AWS_S3_SECRET_ACCESS_KEY = get_external_value(BASE_DIR / 'backend/.secrets/s3.json', 'secret_access_key')
+AWS_STORAGE_BUCKET_NAME = 'pitapatcampus'
