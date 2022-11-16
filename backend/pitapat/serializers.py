@@ -5,28 +5,10 @@ from rest_framework import serializers
 from .models import Introduction, Photo, Tag, University, User, UserTag
 
 
-class IntroductionCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Introduction
-        fields = ['user', 'field']
-
-
-class PhotoCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Photo
-        fields = ['user', 'name', 'path']
-
-
 class UniversityListReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ['key', 'name']
-
-
-class TagReadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        Fields = ['name', 'type']
 
 
 class UserListReadSerializer(serializers.ModelSerializer):
@@ -49,23 +31,22 @@ class UserListReadSerializer(serializers.ModelSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    def get_introduction(self, obj: User):
-        return IntroductionCreateSerializer(user=obj.key)
-    introduction = serializers.SerializerMethodField()
-
-    def get_photos(self, obj: User):
-        return PhotoCreateSerializer(user=obj.key, many=True)
-    photos = serializers.SerializerMethodField()
-
+    introduction = serializers.CharField()
     tags = serializers.SlugRelatedField(
         queryset=Tag.objects.all(),
-        many=True,
         slug_field='name',
+        many=True,
     )
+    # photos = serializers.
 
     def create(self, validated_data):
         tag_names = validated_data.pop('tags')
+        intro = validated_data.pop('introduction')
+        # photo_paths = validated_data.pop('photos')
         user: User = User.objects.create(**validated_data)
+        Introduction.objects.create(user=user, field=intro)
+        # for path in photo_paths:
+        #     Photo.objects.create(user=user, name='photo', path=path)
         for name in tag_names:
             UserTag.objects.create(user=user, tag=Tag.objects.get(name=name))
         return user
@@ -84,6 +65,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
             'college',
             'major',
             'introduction',
-            'photos',
+            # 'photos',
             'tags',
         ]
