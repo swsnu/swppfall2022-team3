@@ -1,13 +1,29 @@
 from django.db import models
 from pitapat.models import User
+from pitapat.models.custom_field.UnsignedAutoField import UnsignedAutoField
 
 
 class Pitapat(models.Model):
-    from_field = models.OneToOneField(User, models.CASCADE, db_column='from', related_name='pitapat_from', primary_key=True)
-    to = models.ForeignKey(User, models.CASCADE, db_column='to', related_name='pitapat_to')
+    key = UnsignedAutoField(
+        db_column='pitapat_key',
+        primary_key=True,
+    )
+    is_from = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.SET_NULL,
+        db_column='from',
+        related_name='pitapat_sent',
+    )
+    to = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.SET_NULL,
+        db_column='to',
+        related_name='pitapat_received',
+    )
 
     class Meta:
         managed = False
         db_table = 'R_Pitapat'
         verbose_name = 'pitapat'
-        unique_together = (('from_field', 'to'),)

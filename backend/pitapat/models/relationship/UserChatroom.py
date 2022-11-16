@@ -1,9 +1,11 @@
 from django.db import models
 from pitapat.models import Chatroom, User
+from pitapat.models.custom_field.UnsignedAutoField import UnsignedAutoField
 
 
 class UserChatroom(models.Model):
-    user = models.OneToOneField(User, models.CASCADE, db_column='user_key', primary_key=True)
+    key = UnsignedAutoField(primary_key=True, db_column='user_chatroom_key')
+    user = models.OneToOneField(User, models.CASCADE, db_column='user_key')
     chatroom = models.ForeignKey(Chatroom, models.RESTRICT, db_column='chatroom_key')
 
     class Meta:
