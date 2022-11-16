@@ -19,6 +19,8 @@ class UserListReadSerializer(serializers.ModelSerializer):
     )
 
     def get_repr_photo(self, obj: User):
+        if not obj.photos.all():
+            return ''
         return obj.photos.all()[0].path
     repr_photo = serializers.SerializerMethodField(method_name='get_repr_photo')
 
