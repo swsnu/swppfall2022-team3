@@ -2,7 +2,7 @@ from datetime import date
 
 from rest_framework import serializers
 
-from .models import Introduction, Photo, Tag, University, User
+from .models import Introduction, Photo, Tag, University, User, UserTag
 
 
 class IntroductionCreateSerializer(serializers.ModelSerializer):
@@ -57,9 +57,18 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return PhotoCreateSerializer(user=obj.key, many=True)
     photos = serializers.SerializerMethodField()
 
-    def get_tags(self, _obj: User):
-        return Tag.objects.all()
-    tags = serializers.SerializerMethodField()
+    tags = serializers.SlugRelatedField(
+        queryset=Tag.objects.all(),
+        many=True,
+        slug_field='name',
+    )
+
+    def create(self, validated_data):
+        tag_names = validated_data.pop('tags')
+        user: User = User.objects.create(**validated_data)
+        for name in tag_names:
+            UserTag.objects.create(user=user, tag=Tag.objects.get(name=name))
+        return user
 
     class Meta:
         model = User
