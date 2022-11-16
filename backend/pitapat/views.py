@@ -8,11 +8,6 @@ from .serializers import (UniversityListReadSerializer, UserCreateSerializer,
                           UserListReadSerializer)
 
 
-class BadRequestError(Exception):
-    def __init__(self, errors):
-        self.errors = errors
-
-
 @api_view(['GET', 'POST'])
 @parser_classes([MultiPartParser, JSONParser, FileUploadParser])
 def user_view(request):
@@ -23,10 +18,10 @@ def user_view(request):
 
     if request.method == 'POST':
         serializer = UserCreateSerializer(data=request.data)
-        if not serializer.is_valid():
-            raise BadRequestError(serializer.errors)
-        serializer.save()
-        return Response({}, status=201)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({}, status=201)
+        return Response(serializer.errors, status=400)
 
     return Response({"error": "HTTP method not allowed"}, status=405)
 
