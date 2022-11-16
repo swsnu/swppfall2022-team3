@@ -10,7 +10,8 @@ from .serializers import (IntroductionCreateSerializer, PhotoCreateSerializer,
 
 
 class BadRequestError(Exception):
-    pass
+    def __init__(self, errors):
+        self.errors = errors
 
 
 @api_view(['GET', 'POST'])
@@ -36,7 +37,7 @@ def user_view(request):
             if 'photos' not in data:
                 raise BadRequestError({'photos': 'field does not exist'})
         except BadRequestError as error:
-            return Response(error, status=400)
+            return Response(error.errors, status=400)
 
         university = University.objects.get(name=data['university'])
         college = College.objects.get(name=data['college'])
@@ -71,7 +72,7 @@ def user_view(request):
                 raise BadRequestError(photo_serializer.errors)
             photo_serializer.save()
         except BadRequestError as error:
-            return Response(error, status=400)
+            return Response(error.errors, status=400)
 
         return Response({}, status=201)
 

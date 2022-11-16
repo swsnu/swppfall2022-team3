@@ -45,7 +45,7 @@ class UserListReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['key', 'username', 'gender', 'age', 'major', 'repr_photo']
+        fields = ['key', 'nickname', 'gender', 'age', 'major', 'repr_photo']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -61,25 +61,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return Tag.objects.all()
     tags = serializers.SerializerMethodField()
 
-    def get_university(self, obj: User):
-        return University.objects.get(name=obj.university)
-    university = serializers.SerializerMethodField()
-
-    def get_college(self, obj: User):
-        return College.objects.get(name=obj.college)
-    college = serializers.SerializerMethodField()
-
-    def get_major(self, obj: User):
-        return Major.objects.get(name=obj.major)
-    major = serializers.SerializerMethodField()
-
     class Meta:
         model = User
         fields = [
             'email',
             'password',
             'phone',
-            'username',
+            'nickname',
             'gender',
             'interested_gender',
             'birthday',
