@@ -43,7 +43,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         slug_field='name',
         many=True,
     )
-    photos = serializers.ListField(child=serializers.CharField())
 
     def create(self, validated_data):
         validated_data['university'] = University.objects.get(name=validated_data['university'])
@@ -52,11 +51,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
         tag_names = validated_data.pop('tags')
         intro = validated_data.pop('introduction')
 
-        photo_paths = validated_data.pop('photos')
         user: User = User.objects.create_user(**validated_data)
         Introduction.objects.create(user=user, field=intro)
-        for path in photo_paths:
-            Photo.objects.create(user=user, name='photo', path=path)
         for name in tag_names:
             UserTag.objects.create(user=user, tag=Tag.objects.get(name=name))
         return user
@@ -75,6 +71,17 @@ class UserCreateSerializer(serializers.ModelSerializer):
             'college',
             'major',
             'introduction',
-            'photos',
+            # 'photos',
             'tags',
         ]
+
+
+class PhotoSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='key',
+    )
+
+    class Meta:
+        model = Photo
+        fields = ['user', 'name']
