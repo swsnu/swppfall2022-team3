@@ -9,6 +9,7 @@ class Chat(models.Model):
     author = models.ForeignKey(
         User,
         null=True,
+        db_column='from',
         related_name='sent_chats',
         on_delete=models.SET_NULL
     )
@@ -16,6 +17,9 @@ class Chat(models.Model):
     content = models.TextField()
     reg_dt = models.DateTimeField()
     upd_dt = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.author.nickname}: {self.content}'
 
     class Meta:
         managed = False

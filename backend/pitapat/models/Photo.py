@@ -13,6 +13,9 @@ class Photo(models.Model):
     upd_dt = models.DateTimeField(auto_now=True)
     upd_id = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f'{self.path}/{self.name}'
+
     class Meta:
         managed = False
         db_table = 'E_Photo'
