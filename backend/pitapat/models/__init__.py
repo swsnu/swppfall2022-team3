@@ -5,9 +5,7 @@ from .introduction import Introduction
 from .major import Major
 from .photo import Photo
 from .pitapat_user_manager import PitapatUserManager
-from .relationship.college_major import CollegeMajor
 from .relationship.pitapat import Pitapat
-from .relationship.university_college import UniversityCollege
 from .relationship.user_chatroom import UserChatroom
 from .relationship.user_tag import UserTag
 from .tag import Tag

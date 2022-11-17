@@ -8,7 +8,6 @@ class University(models.Model):
     name = models.CharField(max_length=20, db_column='university_name')
     location = models.CharField(max_length=20)
     email_domain = models.CharField(max_length=20)
-    colleges = models.ManyToManyField('College', through='UniversityCollege', through_fields=('university', 'college'))
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)
