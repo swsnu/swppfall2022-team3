@@ -1,17 +1,10 @@
 from datetime import date
 
+from pitapat.models import Introduction, Tag, User, UserTag
 from rest_framework import serializers
 
-from .models import University, User, UserTag, Introduction, Photo, Tag
 
-
-class UniversitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = University
-        fields = ['key', 'name']
-
-
-class UserListReadSerializer(serializers.ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer):
     major = serializers.SlugRelatedField(
         read_only=True,
         slug_field='name',
@@ -73,13 +66,3 @@ class PhotoSerializer(serializers.ModelSerializer):
         queryset=User.objects.all(),
         slug_field='key',
     )
-
-    class Meta:
-        model = Photo
-        fields = ['user', 'name']
-
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = ['name', 'type']
