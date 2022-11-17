@@ -20,7 +20,7 @@ class ChatConsumer(WebsocketConsumer):
         )
         await self.accept()
 
-    def disconnect(self, close_code):
+    async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -28,7 +28,7 @@ class ChatConsumer(WebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    def receive(self, text_data=None, byte_data=None):
+    async def receive(self, text_data=None, byte_data=None):
         text_data_json: dict = json.loads(text_data)
         '''
         text data example
