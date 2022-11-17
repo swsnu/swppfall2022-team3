@@ -1,10 +1,14 @@
 from datetime import datetime
-from django.contrib.auth.models import UserManager
+
 from django.contrib.auth.hashers import make_password
-from pitapat.models import University, College, Major
+from django.contrib.auth.models import UserManager
+
+from .college import College
+from .major import Major
+from .university import University
 
 
-class MyUserManager(UserManager):
+class PitapatUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("The given email must be set")

@@ -1,7 +1,11 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from pitapat.models.custom_field.UnsignedAutoField import UnsignedAutoField
-from pitapat.models import University, College, Major, PitapatUserManager
+from django.db import models
+
+from .college import College
+from .custom_field.unsigned_auto_field import UnsignedAutoField
+from .major import Major
+from .pitapat_user_manager import PitapatUserManager
+from .university import University
 
 
 class User(AbstractBaseUser, PermissionsMixin):

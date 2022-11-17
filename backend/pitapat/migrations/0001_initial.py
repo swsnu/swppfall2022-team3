@@ -3,8 +3,8 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import pitapat.models.MyUserManager
-import pitapat.models.custom_field.UnsignedAutoField
+import pitapat.models.pitapat_user_manager
+import pitapat.models.custom_field.unsigned_auto_field
 
 
 class Migration(migrations.Migration):
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="user_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -55,14 +55,14 @@ class Migration(migrations.Migration):
                 ("is_staff", models.BooleanField(default=False)),
             ],
             options={"verbose_name": "User", "db_table": "E_User", "managed": False,},
-            managers=[("objects", pitapat.models.MyUserManager.MyUserManager()),],
+            managers=[("objects", pitapat.models.pitapat_user_manager.PitapatUserManager()),],
         ),
         migrations.CreateModel(
             name="Chat",
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="chat_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="chatroom_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="college_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -113,7 +113,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="introduction_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -134,7 +134,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="major_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -151,7 +151,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="photo_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -169,7 +169,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="tag_key", primary_key=True, serialize=False
                     ),
                 ),
@@ -187,7 +187,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "key",
-                    pitapat.models.custom_field.UnsignedAutoField.UnsignedAutoField(
+                    pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField(
                         db_column="university_key", primary_key=True, serialize=False
                     ),
                 ),

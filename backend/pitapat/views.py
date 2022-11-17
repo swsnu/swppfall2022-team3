@@ -1,7 +1,8 @@
-from .models import University, User, Tag, Photo
-from .serializers import (UniversitySerializer, UserCreateSerializer,
-                          UserListReadSerializer, TagSerializer, PhotoSerializer)
 from rest_framework.viewsets import ModelViewSet
+
+from .models import Photo, Tag, University, User
+from .serializers import (PhotoSerializer, TagSerializer, UniversitySerializer,
+                          UserCreateSerializer, UserListReadSerializer)
 
 
 class UniversityViewSet(ModelViewSet):

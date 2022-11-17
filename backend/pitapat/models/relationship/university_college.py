@@ -1,6 +1,8 @@
 from django.db import models
-from pitapat.models import University, College
-from pitapat.models.custom_field.UnsignedAutoField import UnsignedAutoField
+
+from ..college import College
+from ..custom_field.unsigned_auto_field import UnsignedAutoField
+from ..university import University
 
 
 class UniversityCollege(models.Model):

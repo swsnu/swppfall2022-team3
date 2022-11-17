@@ -1,6 +1,8 @@
 from django.db import models
-from pitapat.models.custom_field.UnsignedAutoField import UnsignedAutoField
-from pitapat.models import Chatroom, User
+
+from .chatroom import Chatroom
+from .custom_field.unsigned_auto_field import UnsignedAutoField
+from .user import User
 
 
 class Chat(models.Model):
