@@ -15,7 +15,7 @@ class College(models.Model):
     )
     university = models.ForeignKey(
         University,
-        on_delete=models.CASCADE,
+        on_delete=models.RESTRICT,
         related_name='colleges',
         db_column='university_key',
     )
