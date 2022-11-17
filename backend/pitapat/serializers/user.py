@@ -1,7 +1,15 @@
 from datetime import date
 
-from pitapat.models import Introduction, Tag, User, UserTag
+from pitapat.models import Introduction, Photo, Tag, User, UserTag
 from rest_framework import serializers
+
+
+S3_URL = 'https://pitapatcampus.s3.ap-northeast-2.amazonaws.com/'
+
+
+class ImageUrlField(serializers.RelatedField):
+    def to_representation(self, obj):
+        return f'{S3_URL}{obj.name}'
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -13,7 +21,7 @@ class UserListSerializer(serializers.ModelSerializer):
     def get_repr_photo(self, obj: User):
         if not obj.photos.all():
             return ''
-        return obj.photos.all()[0].path
+        return f'{S3_URL}{obj.photos.all()[0].path}'
     repr_photo = serializers.SerializerMethodField(method_name='get_repr_photo')
 
     def get_age(self, obj: User):
@@ -62,6 +70,35 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    def get_age(self, obj: User):
+        return date.today().year - obj.birthday.year + 1
+    age = serializers.SerializerMethodField(method_name='get_age')
+
+    introduction = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='field',
+    )
+
+    tags = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='name',
+        many=True,
+    )
+
+    photos = ImageUrlField(read_only=True, many=True)
+
     class Meta:
         model = User
-        fields = ['email']
+        fields = [
+            'key',
+            'email',
+            'phone',
+            'nickname',
+            'gender',
+            'age',
+            'college',
+            'major',
+            'introduction',
+            'tags',
+            'photos',
+        ]
