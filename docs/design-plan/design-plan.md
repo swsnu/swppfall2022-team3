@@ -118,24 +118,25 @@ The functionality and the requirement for each page are described below.
 
 #### API
 
-| Model                   | API                             | GET                                | POST                                    | PUT                        | DELETE                   |
-| ----------------------- | ------------------------------- | ---------------------------------- | --------------------------------------- | -------------------------- | ------------------------ |
-| **User / Introduction** | `/auth/email/`                  | X                                  | receive email to send verification code | X                          | X                        |
-|                         | `/auth/verify/`                 | X                                  | check email authentication code         | X                          | X                        |
-|                         | `/user/`                        | get user list                      | create new user                         | X                          | X                        |
-|                         | `/user/login/`                  | X                                  | log in                                  | X                          | X                        |
-|                         | `/user/logout/`                 | X                                  | log out                                 | X                          | X                        |
-|                         | `/user/<id:int>/`               | get specified user                 | X                                       | edit specified user's info | delete specified user    |
-| **University**          | `/univ/`                        | get university list                | X                                       | X                          | X                        |
-|                         | `/univ/<id:int>`                | get specified university           | X                                       | X                          | X                        |
-| **Photo**               | `/photo/`                       | X                                  | create new photo                        | X                          | X                        |
-|                         | `/photo/<id:int>/`              | get specified photo                | X                                       | X                          | delete specified photo   |
-| **Tag**                 | `/tag/`                         | get tag list                       | create new tag                          | X                          | X                        |
-| **Pitapat**             | `/pitapat/from/<userid:int>`    | X                                  | create new pitapat from specified user  | X                          | X                        |
-|                         | `/pitapat/to/<userid:int>/`     | get pitapat list to specified user | X                                       | X                          | X                        |
-|                         | `/pitapat/<from:int>/<to:int>/` | X                                  | accept specified pitapat                | X                          | delete specified pitapat |
-| **Block**               | `/block/<userid:int>`           | get block list from specified user | create new block from specified user    | X                          | X                        |
-| **Chat**                | `/chat/<userid:int>/`           | get chat list of specified user    |                                         |                            |                          |
+| Model                   | API                             | GET                                 | POST                                    | PUT                        | DELETE                    |
+| ----------------------- | ------------------------------- | ----------------------------------- | --------------------------------------- | -------------------------- | ------------------------- |
+| **User / Introduction** | `/auth/email/`                  | X                                   | receive email to send verification code | X                          | X                         |
+|                         | `/auth/verify/`                 | X                                   | check email authentication code         | X                          | X                         |
+|                         | `/login/`                       | X                                   | log in                                  | X                          | X                         |
+|                         | `/logout/`                      | X                                   | log out                                 | X                          | X                         |
+|                         | `/user/`                        | get user list                       | create new user                         | X                          | X                         |
+|                         | `/user/<id:int>/`               | get specified user                  | X                                       | edit specified user's info | delete specified user     |
+| **University**          | `/univ/`                        | get university list                 | X                                       | X                          | X                         |
+|                         | `/univ/<id:int>`                | get specified university            | X                                       | X                          | X                         |
+| **Photo**               | `/photo/`                       | X                                   | create new photo                        | X                          | X                         |
+|                         | `/photo/<id:int>/`              | get specified photo                 | X                                       | X                          | delete specified photo    |
+| **Tag**                 | `/tag/`                         | get tag list                        | create new tag                          | X                          | X                         |
+| **Pitapat**             | `/pitapat/from/<userid:int>`    | X                                   | create new pitapat from specified user  | X                          | X                         |
+|                         | `/pitapat/to/<userid:int>/`     | get pitapat list to specified user  | X                                       | X                          | X                         |
+|                         | `/pitapat/<from:int>/<to:int>/` | X                                   | accept specified pitapat                | X                          | delete specified pitapat  |
+| **Block**               | `/block/<userid:int>`           | get block list from specified user  | create new block from specified user    | X                          | delete block              |
+| **Chat**                | `/chat/<userid:int>/`           | get chatroom list of specified user | create new chatroom of specified user   | X                          | X                         |
+|                         | `/chatroom/<id:int>/`           | get chat list of specified chatroom | create new chat in specified chatroom   | X                          | delete specified chatroom |
 
 #### HTTP Data Format
 
@@ -259,16 +260,11 @@ The functionality and the requirement for each page are described below.
     "nickname": "닉네임",
     "gender": "M",
     "interested_gender": "F",
-    "birthday": "1999-02-24",
-    "university": "서울대학교",
-    "college": "공과대학",
-    "major": "컴퓨터공학부",
-    "location": "서울",
+    "birthday": "1999-02-24T00:00:00Z",
+    "university": 1,
+    "college": 1,
+    "major": 1,
     "introduction": "안녕하세요, 홍길동입니다.",
-    "photos": [
-        "PATH1",
-        "PATH2",
-    ],
     "tags": [
         "헬스",
         "음악",
@@ -282,7 +278,24 @@ The functionality and the requirement for each page are described below.
 - status: `201`
 
 ```json
-{}
+{
+    "email": "email@snu.ac.kr",
+    "password": "encrypted password",
+    "phone": "01012345678",
+    "nickname": "닉네임",
+    "gender": "M",
+    "interested_gender": "F",
+    "birthday": "1999-02-24T00:00:00Z",
+    "university": 1,
+    "college": 1,
+    "major": 1,
+    "introduction": "안녕하세요, 홍길동입니다.",
+    "tags": [
+        "헬스",
+        "음악",
+        "여행"
+    ]
+}
 ```
 
 ##### `/user/login/` [POST]
@@ -540,14 +553,12 @@ The functionality and the requirement for each page are described below.
 ```json
 [
     {
-        "user_id": 1,
-        "index": 1,
-        "image": "FILE1"
+        "user": 1,
+        "name": "test1.jpg"
     },
     {
-        "user_id": 1,
-        "index": 2,
-        "image": "FILE2"
+        "user": 1,
+        "name": "test2.jpg"
     },
 ]
 ```
@@ -560,15 +571,13 @@ The functionality and the requirement for each page are described below.
 [
     {
         "id": 10,
-        "user_id": 1,
-        "index": 1,
-        "path": "PATH1"
+        "user": 1,
+        "name": "test1.jpg"
     },
     {
         "id": 11,
-        "user_id": 1,
-        "index": 2,
-        "path": "PATH2"
+        "user": 1,
+        "name": "test2.jpg"
     }
 ]
 ```
@@ -640,10 +649,22 @@ The functionality and the requirement for each page are described below.
 
 ```json
 [
-    "영화",
-    "음악",
-    "헬스",
-    "여행"
+    {
+        "name": "영화",
+        "type": "HOBBY"
+    },
+    {
+        "name": "음악",
+        "type": "HOBBY"
+    },
+    {
+        "name": "코딩",
+        "type": "SELF_DEV"
+    },
+    {
+        "name": "헬스",
+        "type": "SPORT"
+    }
 ]
 ```
 
@@ -653,7 +674,8 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "name": "맛집탐방"
+    "name": "맛집탐방",
+    "type": "HOBBY"
 }
 ```
 
@@ -662,15 +684,10 @@ The functionality and the requirement for each page are described below.
 - status: `201`
 
 ```json
-{}
-```
-
-###### Response: Failed (Duplicated Tag Name)
-
-- status: `409`
-
-```json
-{}
+{
+    "name": "맛집탐방",
+    "type": "HOBBY"
+}
 ```
 
 ##### `/pitapat/from/<userid:int>/` [POST]

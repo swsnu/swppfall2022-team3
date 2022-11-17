@@ -1,10 +1,14 @@
-from django.urls import path
+from django.urls import include, path
 
 from . import views
 
+
 urlpatterns = [
+    path('photo/', views.PhotoViewSet.as_view({'post': 'create'}), name='photo'),
+    path('tag/', views.TagViewSet.as_view({'get': 'list', 'post': 'create'}), name='tag'),
+    path('univ/', views.UniversityViewSet.as_view({'get': 'list'}), name='university'),
+    path('univ/<int:univ_key>/', views.UniversityDetailViewSet, name='university_detail'),
     path('user/', views.UserViewSet.as_view({'get': 'list', 'post': 'create'}), name='user'),
-    path('univ/', views.university_view, name='university'),
-    path('tag/', views.tag_view, name='tag'),
-    path('photo/', views.PhotoCreateViewSet.as_view({'post': 'create'}), name='photo')
+    path('user/<int:key>/', views.UserDetailViewSet.as_view({'get': 'retrieve'}, name='user_detail')),
+    path('', include('dj_rest_auth.urls')),
 ]
