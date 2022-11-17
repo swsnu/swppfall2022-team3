@@ -259,16 +259,11 @@ The functionality and the requirement for each page are described below.
     "nickname": "닉네임",
     "gender": "M",
     "interested_gender": "F",
-    "birthday": "1999-02-24",
-    "university": "서울대학교",
-    "college": "공과대학",
-    "major": "컴퓨터공학부",
-    "location": "서울",
+    "birthday": "1999-02-24T00:00:00Z",
+    "university": 1,
+    "college": 1,
+    "major": 1,
     "introduction": "안녕하세요, 홍길동입니다.",
-    "photos": [
-        "PATH1",
-        "PATH2",
-    ],
     "tags": [
         "헬스",
         "음악",
@@ -282,7 +277,24 @@ The functionality and the requirement for each page are described below.
 - status: `201`
 
 ```json
-{}
+{
+    "email": "email@snu.ac.kr",
+    "password": "encrypted password",
+    "phone": "01012345678",
+    "nickname": "닉네임",
+    "gender": "M",
+    "interested_gender": "F",
+    "birthday": "1999-02-24T00:00:00Z",
+    "university": 1,
+    "college": 1,
+    "major": 1,
+    "introduction": "안녕하세요, 홍길동입니다.",
+    "tags": [
+        "헬스",
+        "음악",
+        "여행"
+    ]
+}
 ```
 
 ##### `/user/login/` [POST]
@@ -540,14 +552,12 @@ The functionality and the requirement for each page are described below.
 ```json
 [
     {
-        "user_id": 1,
-        "index": 1,
-        "image": "FILE1"
+        "user": 1,
+        "name": "test1.jpg"
     },
     {
-        "user_id": 1,
-        "index": 2,
-        "image": "FILE2"
+        "user": 1,
+        "name": "test2.jpg"
     },
 ]
 ```
@@ -560,15 +570,13 @@ The functionality and the requirement for each page are described below.
 [
     {
         "id": 10,
-        "user_id": 1,
-        "index": 1,
-        "path": "PATH1"
+        "user": 1,
+        "name": "test1.jpg"
     },
     {
         "id": 11,
-        "user_id": 1,
-        "index": 2,
-        "path": "PATH2"
+        "user": 1,
+        "name": "test2.jpg"
     }
 ]
 ```
@@ -640,10 +648,22 @@ The functionality and the requirement for each page are described below.
 
 ```json
 [
-    "영화",
-    "음악",
-    "헬스",
-    "여행"
+    {
+        "name": "영화",
+        "type": "HOBBY"
+    },
+    {
+        "name": "음악",
+        "type": "HOBBY"
+    },
+    {
+        "name": "코딩",
+        "type": "SELF_DEV"
+    },
+    {
+        "name": "헬스",
+        "type": "SPORT"
+    }
 ]
 ```
 
@@ -653,7 +673,8 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "name": "맛집탐방"
+    "name": "맛집탐방",
+    "type": "HOBBY"
 }
 ```
 
@@ -662,15 +683,10 @@ The functionality and the requirement for each page are described below.
 - status: `201`
 
 ```json
-{}
-```
-
-###### Response: Failed (Duplicated Tag Name)
-
-- status: `409`
-
-```json
-{}
+{
+    "name": "맛집탐방",
+    "type": "HOBBY"
+}
 ```
 
 ##### `/pitapat/from/<userid:int>/` [POST]
