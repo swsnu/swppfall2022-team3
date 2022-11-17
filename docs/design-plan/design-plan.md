@@ -360,7 +360,6 @@ The functionality and the requirement for each page are described below.
     "username": "닉네임3",
     "gender": "M",
     "age": 24,
-    "university": "서울대학교",
     "college": "공과대학",
     "major": "컴퓨터공학부",
     "location": "서울",
