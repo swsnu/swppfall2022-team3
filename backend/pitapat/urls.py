@@ -11,6 +11,8 @@ urlpatterns = [
     path('user/', views.UserViewSet.as_view({'get': 'list', 'post': 'create'}), name='user'),
     path('user/<int:key>/', views.UserDetailViewSet.as_view({
         'get': 'retrieve',
+        'put': 'partial_update',
+        'delete': 'destroy',
     }), name='user_detail'),
     path('tag/user/<int:user_id>/', views.UserTagViewSet.as_view({
         'get': 'retrieve',
