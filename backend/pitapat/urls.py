@@ -19,5 +19,8 @@ urlpatterns = [
         'post': 'create',
         'delete': 'destroy',
     }), name='usertag'),
+    path('pitapat/', views.PitaPatCreateViewSet.as_view({'post': 'create'}), name='pitapat_create'),
+    path('pitapat/<int:key>/', views.PitapatDeleteViewSet.as_view({'delete': 'destroy'}), name='pitapat_delete'),
+    path('pitapat/to/<int:user_id>/', views.PitapatToViewSet.as_view({'get': 'retrieve'}), name='pitapat_to'),
     path('auth/', include('dj_rest_auth.urls')),
 ]
