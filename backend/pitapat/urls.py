@@ -9,5 +9,6 @@ urlpatterns = [
     path('univ/', views.UniversityViewSet.as_view({'get': 'list'}), name='university'),
     path('univ/<int:univ_key>/', views.UniversityDetailViewSet, name='university_detail'),
     path('user/', views.UserViewSet.as_view({'get': 'list', 'post': 'create'}), name='user'),
+    path('user/<int:key>/', views.UserDetailViewSet.as_view({'get': 'retrieve'}, name='user_detail')),
     path('', include('dj_rest_auth.urls')),
 ]

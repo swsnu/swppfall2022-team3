@@ -1,6 +1,7 @@
 from pitapat.models import User
-from pitapat.serializers import UserCreateSerializer, UserListSerializer
+from pitapat.serializers import UserCreateSerializer, UserListSerializer, UserDetailSerializer
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -13,3 +14,10 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return UserCreateSerializer
         raise Exception()
+
+
+class UserDetailViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    queryset = User.objects.all()
+    serializer_class = UserDetailSerializer
+    lookup_field = 'key'

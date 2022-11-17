@@ -61,8 +61,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         ]
 
 
-class PhotoSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        slug_field='key',
-    )
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email']
