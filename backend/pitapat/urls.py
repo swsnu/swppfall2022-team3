@@ -4,7 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    path('', include('dj_rest_auth.urls')),
     path('photo/', views.PhotoViewSet.as_view({'post': 'create'}), name='photo'),
     path('tag/', views.TagViewSet.as_view({'get': 'list', 'post': 'create'}), name='tag'),
     path('univ/', views.UniversityViewSet.as_view({'get': 'list'}), name='univ'),
@@ -18,4 +17,5 @@ urlpatterns = [
         'post': 'create',
         'delete': 'destroy',
     }), name='usertag'),
+    path('', include('dj_rest_auth.urls')),
 ]
