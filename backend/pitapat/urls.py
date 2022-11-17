@@ -19,5 +19,5 @@ urlpatterns = [
         'post': 'create',
         'delete': 'destroy',
     }), name='usertag'),
-    path('', include('dj_rest_auth.urls')),
+    path('auth/', include('dj_rest_auth.urls')),
 ]
