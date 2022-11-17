@@ -34,6 +34,7 @@ def get_external_value(filename: str, key: str):
     except KeyError as error:
         raise ImproperlyConfigured(f'key \'{key}\' does not exist') from error
 
+
 SECRET_KEY = get_external_value(BASE_DIR / 'backend/.secrets/secret_key.json', 'secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -89,6 +90,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = "mysite.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Database
