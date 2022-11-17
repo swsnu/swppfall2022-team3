@@ -122,9 +122,9 @@ The functionality and the requirement for each page are described below.
 | ----------------------- | ------------------------------- | ----------------------------------- | --------------------------------------- | -------------------------- | ------------------------- |
 | **User / Introduction** | `/auth/email/`                  | X                                   | receive email to send verification code | X                          | X                         |
 |                         | `/auth/verify/`                 | X                                   | check email authentication code         | X                          | X                         |
+|                         | `/login/`                       | X                                   | log in                                  | X                          | X                         |
+|                         | `/logout/`                      | X                                   | log out                                 | X                          | X                         |
 |                         | `/user/`                        | get user list                       | create new user                         | X                          | X                         |
-|                         | `/user/login/`                  | X                                   | log in                                  | X                          | X                         |
-|                         | `/user/logout/`                 | X                                   | log out                                 | X                          | X                         |
 |                         | `/user/<id:int>/`               | get specified user                  | X                                       | edit specified user's info | delete specified user     |
 | **University**          | `/univ/`                        | get university list                 | X                                       | X                          | X                         |
 |                         | `/univ/<id:int>`                | get specified university            | X                                       | X                          | X                         |
