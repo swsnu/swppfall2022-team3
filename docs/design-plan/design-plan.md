@@ -118,24 +118,25 @@ The functionality and the requirement for each page are described below.
 
 #### API
 
-| Model                   | API                             | GET                                | POST                                    | PUT                        | DELETE                   |
-| ----------------------- | ------------------------------- | ---------------------------------- | --------------------------------------- | -------------------------- | ------------------------ |
-| **User / Introduction** | `/auth/email/`                  | X                                  | receive email to send verification code | X                          | X                        |
-|                         | `/auth/verify/`                 | X                                  | check email authentication code         | X                          | X                        |
-|                         | `/user/`                        | get user list                      | create new user                         | X                          | X                        |
-|                         | `/user/login/`                  | X                                  | log in                                  | X                          | X                        |
-|                         | `/user/logout/`                 | X                                  | log out                                 | X                          | X                        |
-|                         | `/user/<id:int>/`               | get specified user                 | X                                       | edit specified user's info | delete specified user    |
-| **University**          | `/univ/`                        | get university list                | X                                       | X                          | X                        |
-|                         | `/univ/<id:int>`                | get specified university           | X                                       | X                          | X                        |
-| **Photo**               | `/photo/`                       | X                                  | create new photo                        | X                          | X                        |
-|                         | `/photo/<id:int>/`              | get specified photo                | X                                       | X                          | delete specified photo   |
-| **Tag**                 | `/tag/`                         | get tag list                       | create new tag                          | X                          | X                        |
-| **Pitapat**             | `/pitapat/from/<userid:int>`    | X                                  | create new pitapat from specified user  | X                          | X                        |
-|                         | `/pitapat/to/<userid:int>/`     | get pitapat list to specified user | X                                       | X                          | X                        |
-|                         | `/pitapat/<from:int>/<to:int>/` | X                                  | accept specified pitapat                | X                          | delete specified pitapat |
-| **Block**               | `/block/<userid:int>`           | get block list from specified user | create new block from specified user    | X                          | X                        |
-| **Chat**                | `/chat/<userid:int>/`           | get chat list of specified user    |                                         |                            |                          |
+| Model                   | API                             | GET                                 | POST                                    | PUT                        | DELETE                    |
+| ----------------------- | ------------------------------- | ----------------------------------- | --------------------------------------- | -------------------------- | ------------------------- |
+| **User / Introduction** | `/auth/email/`                  | X                                   | receive email to send verification code | X                          | X                         |
+|                         | `/auth/verify/`                 | X                                   | check email authentication code         | X                          | X                         |
+|                         | `/user/`                        | get user list                       | create new user                         | X                          | X                         |
+|                         | `/user/login/`                  | X                                   | log in                                  | X                          | X                         |
+|                         | `/user/logout/`                 | X                                   | log out                                 | X                          | X                         |
+|                         | `/user/<id:int>/`               | get specified user                  | X                                       | edit specified user's info | delete specified user     |
+| **University**          | `/univ/`                        | get university list                 | X                                       | X                          | X                         |
+|                         | `/univ/<id:int>`                | get specified university            | X                                       | X                          | X                         |
+| **Photo**               | `/photo/`                       | X                                   | create new photo                        | X                          | X                         |
+|                         | `/photo/<id:int>/`              | get specified photo                 | X                                       | X                          | delete specified photo    |
+| **Tag**                 | `/tag/`                         | get tag list                        | create new tag                          | X                          | X                         |
+| **Pitapat**             | `/pitapat/from/<userid:int>`    | X                                   | create new pitapat from specified user  | X                          | X                         |
+|                         | `/pitapat/to/<userid:int>/`     | get pitapat list to specified user  | X                                       | X                          | X                         |
+|                         | `/pitapat/<from:int>/<to:int>/` | X                                   | accept specified pitapat                | X                          | delete specified pitapat  |
+| **Block**               | `/block/<userid:int>`           | get block list from specified user  | create new block from specified user    | X                          | delete block              |
+| **Chat**                | `/chat/<userid:int>/`           | get chatroom list of specified user | create new chatroom of specified user   | X                          | X                         |
+|                         | `/chatroom/<id:int>/`           | get chat list of specified chatroom | create new chat in specified chatroom   | X                          | delete specified chatroom |
 
 #### HTTP Data Format
 
