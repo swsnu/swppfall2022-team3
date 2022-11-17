@@ -1,6 +1,7 @@
+from rest_framework import viewsets
+
 from pitapat.models import User
 from pitapat.serializers import UserCreateSerializer, UserListSerializer, UserDetailSerializer
-from rest_framework import viewsets
 
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,6 @@
-from pitapat.models import Photo, User
 from rest_framework import serializers
+
+from pitapat.models import Photo, User
 
 
 class PhotoSerializer(serializers.ModelSerializer):

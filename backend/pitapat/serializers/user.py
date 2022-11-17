@@ -1,15 +1,16 @@
 from datetime import date
 
-from pitapat.models import Introduction, Photo, Tag, User, UserTag
 from rest_framework import serializers
+
+from pitapat.models import Introduction, Tag, User, UserTag
 
 
 S3_URL = 'https://pitapatcampus.s3.ap-northeast-2.amazonaws.com/'
 
 
 class ImageUrlField(serializers.RelatedField):
-    def to_representation(self, obj):
-        return f'{S3_URL}{obj.name}'
+    def to_representation(self, value):
+        return f'{S3_URL}{value.name}'
 
 
 class UserListSerializer(serializers.ModelSerializer):

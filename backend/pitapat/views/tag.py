@@ -1,6 +1,7 @@
+from rest_framework import viewsets
+
 from pitapat.models import Tag
 from pitapat.serializers import TagSerializer
-from rest_framework import viewsets
 
 
 class TagViewSet(viewsets.ModelViewSet):

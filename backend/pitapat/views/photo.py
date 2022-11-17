@@ -1,6 +1,7 @@
+from rest_framework import viewsets
+
 from pitapat.models import Photo
 from pitapat.serializers import PhotoSerializer
-from rest_framework import viewsets
 
 
 class PhotoViewSet(viewsets.ModelViewSet):

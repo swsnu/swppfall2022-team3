@@ -7,13 +7,18 @@ from .user import User
 
 class Chat(models.Model):
     key = UnsignedAutoField(primary_key=True, db_column='chat_key')
-    chatroom = models.ForeignKey(Chatroom, models.CASCADE, related_name='chats', db_column='chatroom_key')
+    chatroom = models.ForeignKey(
+        Chatroom,
+        on_delete=models.CASCADE,
+        related_name='chats',
+        db_column='chatroom_key',
+    )
     author = models.ForeignKey(
         User,
         null=True,
-        db_column='from',
+        on_delete=models.SET_NULL,
         related_name='sent_chats',
-        on_delete=models.SET_NULL
+        db_column='from',
     )
     valid = models.CharField(max_length=1)
     content = models.TextField()

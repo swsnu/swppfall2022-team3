@@ -1,8 +1,8 @@
-from pitapat.models import Tag, User, UserTag
-from pitapat.serializers import UserTagRetrieveSerializer
-from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.response import Response
+
+from pitapat.models import Tag, User, UserTag
+from pitapat.serializers import UserTagRetrieveSerializer
 
 
 class UserTagViewSet(viewsets.ModelViewSet):

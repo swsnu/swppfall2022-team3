@@ -1,11 +1,9 @@
-from pitapat.models import University
-from pitapat.serializers import UniversitySerializer, UniversityDetailSerializer
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import (FileUploadParser, JSONParser,
-                                    MultiPartParser)
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from pitapat.models import University
+from pitapat.serializers import UniversitySerializer, UniversityDetailSerializer
 
 
 class UniversityViewSet(viewsets.ModelViewSet):

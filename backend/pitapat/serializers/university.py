@@ -1,5 +1,6 @@
-from pitapat.models import University, Major, College
 from rest_framework import serializers
+
+from pitapat.models import University, Major, College
 
 
 class UniversitySerializer(serializers.ModelSerializer):
