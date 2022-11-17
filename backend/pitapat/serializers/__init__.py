@@ -4,4 +4,4 @@ from .university import UniversitySerializer
 from .user import UserCreateSerializer, UserListSerializer, UserDetailSerializer
 from .university import UniversityDetailSerializer
 from .usertag import UserTagRetrieveSerializer
-from .pitapat import PitaPatSerializer
+from .pitapat import PitapatSerializer

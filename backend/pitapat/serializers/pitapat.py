@@ -1,8 +1,9 @@
-from pitapat.models import Pitapat
 from rest_framework import serializers
 
+from pitapat.models import Pitapat
 
-class PitaPatSerializer(serializers.ModelSerializer):
+
+class PitapatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pitapat
         fields = ['is_from', 'to']
