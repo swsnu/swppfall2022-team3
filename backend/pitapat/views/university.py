@@ -14,10 +14,11 @@ class UniversityViewSet(viewsets.ModelViewSet):
     serializer_class = UniversitySerializer
 
 
+
 @api_view(['GET'])
-def UniversityDetailViewSet(request, univ_key):
+def university_detail_view_set(request, univ_id):
     if request.method == 'GET':
-        university = University.objects.get(key=univ_key)
+        university = University.objects.get(key=univ_id)
         serializer = UniversityDetailSerializer(university, many=False)
         return Response(serializer.data)
 
