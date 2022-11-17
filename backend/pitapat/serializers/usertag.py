@@ -1,5 +1,6 @@
-from pitapat.models import UserTag
 from rest_framework import serializers
+
+from pitapat.models import UserTag
 
 
 class UserTagRetrieveSerializer(serializers.ModelSerializer):
