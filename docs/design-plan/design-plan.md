@@ -355,18 +355,18 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "id": 1,
+    "key": 1,
     "email": "email@snu.ac.kr",
-    "username": "닉네임3",
+    "phone": "01000000000",
+    "nickname": "닉네임4",
     "gender": "M",
     "age": 24,
-    "college": "공과대학",
-    "major": "컴퓨터공학부",
-    "location": "서울",
-    "introduction": "안녕하세요, 홍길동입니다.",
+    "college": "경영대학",
+    "major": "경영학부",
+    "introduction": "안녕하세요 홍길동입니다",
     "tags": [
         "헬스",
-        "음악",
+        "맛집탐방",
         "여행"
     ],
     "photos": [
@@ -390,17 +390,9 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "password": "password2",
-    "username": "닉네임4",
+    "nickname": "닉네임4",
     "college": "경영대학",
-    "major": "경영학부",
-    "location": "수원",
-    "introduction": "안녕하세요 홍길동입니다",
-    "tags": [
-        "헬스",
-        "맛집탐방",
-        "여행"
-    ]
+    "major": "경영학부"
 }
 ```
 
@@ -410,15 +402,14 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "id": 1,
+    "key": 1,
     "email": "email@snu.ac.kr",
-    "username": "닉네임4",
+    "phone": "01000000000",
+    "nickname": "닉네임4",
     "gender": "M",
     "age": 24,
-    "university": "서울대학교",
     "college": "경영대학",
     "major": "경영학부",
-    "location": "수원",
     "introduction": "안녕하세요 홍길동입니다",
     "tags": [
         "헬스",
