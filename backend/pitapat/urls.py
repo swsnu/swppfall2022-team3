@@ -10,6 +10,6 @@ urlpatterns = [
     path('univ/<int:univ_key>/', views.UniversityDetailViewSet, name='university_detail'),
     path('user/', views.UserViewSet.as_view({'get': 'list', 'post': 'create'}), name='user'),
     path('user/<int:key>/', views.UserDetailViewSet.as_view({'get': 'retrieve'}), name='user_detail'),
-    path('usertag/<int:user_id>/', views.UserTagViewSet.as_view({'get': 'retrieve', 'post': 'create', 'delete': 'destroy'}), name='usertag'),
+    path('tag/user/<int:user_id>/', views.UserTagViewSet.as_view({'get': 'retrieve', 'post': 'create', 'delete': 'destroy'}), name='usertag'),
     path('', include('dj_rest_auth.urls')),
 ]
