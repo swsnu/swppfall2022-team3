@@ -63,7 +63,9 @@ urlpatterns = [
     path('pitapat/<int:key>/', views.PitapatDeleteViewSet.as_view({
         'delete': 'destroy',
     }), name='pitapat_delete'),
-    # path('pitapat/from/<int:user_key>'),
+    path('pitapat/from/<int:user_key>', views.PitapatFromViewSet.as_view({
+        'get': 'retrieve',
+    }), name='pitapat_from'),
     path('pitapat/to/<int:user_key>/', views.PitapatToViewSet.as_view({
         'get': 'retrieve',
     }), name='pitapat_to'),
