@@ -14,6 +14,7 @@ class UniversityViewSet(viewsets.ModelViewSet):
 class CollegeViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = College.objects.all()
+    serializer_class = CollegeSerializer
 
     def retrieve(self, request, university_key):
         try:
@@ -28,6 +29,7 @@ class CollegeViewSet(viewsets.ModelViewSet):
 class MajorViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Major.objects.all()
+    serializer_class = MajorSerializer
 
     def retrieve(self, request, college_key):
         try:
