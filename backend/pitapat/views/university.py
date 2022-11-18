@@ -19,6 +19,8 @@ class CollegeViewSet(viewsets.ModelViewSet):
     lookup_field = 'univ_id'
 
     def retrieve(self, request, univ_id):
+        if not University.objects.get(key=univ_id):
+            return HttpResponse(status=404)
         col = College.objects.filter(university=univ_id)
         serializer = CollegeSerializer(col, many=True)
         return Response(serializer.data)
@@ -30,6 +32,8 @@ class MajorViewSet(viewsets.ModelViewSet):
     lookup_field = 'col_id'
 
     def retrieve(self, request, col_id):
+        if not College.objects.get(key=col_id):
+            return HttpResponse(status=404)
         major = Major.objects.filter(college=col_id)
         serializer = MajorSerializer(major, many=True)
         return Response(serializer.data)

@@ -34,15 +34,15 @@ urlpatterns = [
         'get': 'list',
         'post': 'create',
     }), name='tag'),
-    path('univ/', views.UniversityViewSet.as_view({
+    path('universities/', views.UniversityViewSet.as_view({
         'get': 'list',
-    }), name='univ'),
-    path('col/<int:univ_id>/', views.CollegeViewSet.as_view({
+    }), name='universities'),
+    path('colleges/univ/<int:univ_id>/', views.CollegeViewSet.as_view({
         'get': 'retrieve',
-    }), name='col'),
-    path('major/<int:col_id>/', views.MajorViewSet.as_view({
+    }), name='collegesuniv'),
+    path('majors/college/<int:col_id>/', views.MajorViewSet.as_view({
         'get': 'retrieve',
-    }), name='major'),
+    }), name='majorscollege'),
     path('user/', views.UserViewSet.as_view({
         'get': 'list',
         'post': 'create',
