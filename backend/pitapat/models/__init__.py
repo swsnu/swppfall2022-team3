@@ -1,8 +1,6 @@
 from .chat import Chat
 from .chatroom import Chatroom
-from .college import College
 from .introduction import Introduction
-from .major import Major
 from .photo import Photo
 from .pitapat_user_manager import PitapatUserManager
 from .relationship.pitapat import Pitapat
@@ -10,4 +8,6 @@ from .relationship.user_chatroom import UserChatroom
 from .relationship.user_tag import UserTag
 from .tag import Tag
 from .university import University
+from .college import College
+from .major import Major
 from .user import User
