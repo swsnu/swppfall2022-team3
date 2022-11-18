@@ -27,15 +27,15 @@ class UserListSerializer(serializers.ModelSerializer):
 
 
 class UserListQuerySerializer(serializers.Serializer):
-    gender = serializers.ChoiceField(choices=('M', 'F'))
-    # age_min = serializers.IntegerField()
-    # age_max = serializers.IntegerField()
-    colleges_included = serializers.ListField(child=serializers.IntegerField())
-    colleges_excluded = serializers.ListField(child=serializers.IntegerField())
-    majors_included = serializers.ListField(child=serializers.IntegerField())
-    majors_excluded = serializers.ListField(child=serializers.IntegerField())
-    # tags_included = serializers.ListField(child=serializers.IntegerField())
-    # tags_excluded = serializers.ListField(child=serializers.IntegerField())
+    gender = serializers.ChoiceField(choices=('M', 'F'), required=False)
+    # age_min = serializers.IntegerField(required=False)
+    # age_max = serializers.IntegerField(required=False)
+    colleges_included = serializers.ListField(child=serializers.IntegerField(), required=False)
+    colleges_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
+    majors_included = serializers.ListField(child=serializers.IntegerField(), required=False)
+    majors_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
+    # tags_included = serializers.ListField(child=serializers.IntegerField(), required=False)
+    # tags_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
 
 class UserCreateSerializer(serializers.ModelSerializer):
     introduction = serializers.CharField()
