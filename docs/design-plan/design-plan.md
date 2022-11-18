@@ -118,25 +118,29 @@ The functionality and the requirement for each page are described below.
 
 #### API
 
-| Model                   | API                             | GET                                 | POST                                    | PUT                        | DELETE                    |
-| ----------------------- | ------------------------------- | ----------------------------------- | --------------------------------------- | -------------------------- | ------------------------- |
-| **User / Introduction** | `/auth/email/`                  | X                                   | receive email to send verification code | X                          | X                         |
-|                         | `/auth/verify/`                 | X                                   | check email authentication code         | X                          | X                         |
-|                         | `/login/`                       | X                                   | log in                                  | X                          | X                         |
-|                         | `/logout/`                      | X                                   | log out                                 | X                          | X                         |
-|                         | `/user/`                        | get user list                       | create new user                         | X                          | X                         |
-|                         | `/user/<id:int>/`               | get specified user                  | X                                       | edit specified user's info | delete specified user     |
-| **University**          | `/univ/`                        | get university list                 | X                                       | X                          | X                         |
-|                         | `/univ/<id:int>`                | get specified university            | X                                       | X                          | X                         |
-| **Photo**               | `/photo/`                       | X                                   | create new photo                        | X                          | X                         |
-|                         | `/photo/<id:int>/`              | get specified photo                 | X                                       | X                          | delete specified photo    |
-| **Tag**                 | `/tag/`                         | get tag list                        | create new tag                          | X                          | X                         |
-| **Pitapat**             | `/pitapat/from/<userid:int>`    | X                                   | create new pitapat from specified user  | X                          | X                         |
-|                         | `/pitapat/to/<userid:int>/`     | get pitapat list to specified user  | X                                       | X                          | X                         |
-|                         | `/pitapat/<from:int>/<to:int>/` | X                                   | accept specified pitapat                | X                          | delete specified pitapat  |
-| **Block**               | `/block/<userid:int>`           | get block list from specified user  | create new block from specified user    | X                          | delete block              |
-| **Chat**                | `/chat/<userid:int>/`           | get chatroom list of specified user | create new chatroom of specified user   | X                          | X                         |
-|                         | `/chatroom/<id:int>/`           | get chat list of specified chatroom | create new chat in specified chatroom   | X                          | delete specified chatroom |
+| Model                   | API                                         | GET                          | POST                                    | PUT                        | DELETE            |
+| ----------------------- | ------------------------------------------- | ---------------------------- | --------------------------------------- | -------------------------- | ----------------- |
+| **User / Introduction** | `/auth/email/`                              | X                            | receive email to send verification code | X                          | X                 |
+|                         | `/auth/verify/`                             | X                            | check email authentication code         | X                          | X                 |
+|                         | `/auth/login/`                              | X                            | log in                                  | X                          | X                 |
+|                         | `/auth/logout/`                             | X                            | log out                                 | X                          | X                 |
+|                         | `/user/`                                    | get users                    | create new user                         | X                          | X                 |
+|                         | `/user/<int:key>/`                          | get a user                   | X                                       | edit a user's info         | delete a user     |
+| **University**          | `/universities/`                            | get universities             | X                                       | X                          | X                 |
+| **College**             | `/colleges/university/<int:university_key>` | get colleges of a university | X                                       | X                          | X                 |
+| **Major**               | `/majors/college/<int:college_key>`         | get majors of a college      | X                                       | X                          | X                 |
+| **Photo**               | `/photo/`                                   | X                            | create new photo                        | X                          | X                 |
+|                         | `/photo/<int:key>/`                         | get a photo                  | X                                       | X                          | delete a photo    |
+| **Tag**                 | `/tag/`                                     | get tags                     | create new tag                          | X                          | X                 |
+|                         | `/tags/user/<int:key>`                      | get tags of a user           | X                                       | edit user-tag relationship | X                 |
+| **Pitapat**             | `/pitapat/from/<int:user_key>`              | X                            | create new pitapat from a user          | X                          | X                 |
+|                         | `/pitapat/to/<int:user_key>/`               | get pitapats to a user       | X                                       | X                          | X                 |
+|                         | `/pitapat/<int:key>/`                       | X                            | accept a pitapat                        | X                          | delete a pitapat  |
+| **Block**               | `/block/user/<int:user_key>`                | get blocks from a user       | create new block from a user            | X                          | X                 |
+|                         | `/block/<int:key>`                          | X                            | X                                       | X                          | delete a block    |
+| **Chat**                | `/chatroom/user/<int:user_key>/`            | get chatrooms of a user      | create new chatroom of a user           | X                          | X                 |
+|                         | `/chatroom/<int:key>/`                      | X                            | X                                       | X                          | delete a chatroom |
+|                         | `/chat/chatroom/<int:chatroom_key>/`        | get chats of a chatroom      | create new chat in a chatroom           | X                          | X                 |
 
 #### HTTP Data Format
 
