@@ -5,7 +5,7 @@ import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { users } from "../dummyData";
 import { getDefaultMockStore } from "../test-utils/mocks";
-import urlParamEncryptor from "../util/urlParamEncryptor";
+import encryptor from "../util/encryptor";
 import ChatDetail from "./ChatDetail";
 
 
@@ -45,7 +45,7 @@ describe("ChatDetail", () => {
     to: user2.key,
     photoPath: "photo",
   };
-  const encrypted = urlParamEncryptor.encrypt(parameterData);
+  const encrypted = encryptor.encrypt(parameterData);
 
   function getElement(store: ToolkitStore) {
     return (
@@ -107,7 +107,7 @@ describe("ChatDetail", () => {
       to: undefined,
       photoPath: null,
     };
-    const encryptedInvalidData = urlParamEncryptor.encrypt(invalidParameterData);
+    const encryptedInvalidData = encryptor.encrypt(invalidParameterData);
 
     render(
       <Provider store={mockStore}>
@@ -128,7 +128,7 @@ describe("ChatDetail", () => {
       to: 1,
       photoPath: "photo",
     };
-    const encryptedData = urlParamEncryptor.encrypt(differentLoginUserData);
+    const encryptedData = encryptor.encrypt(differentLoginUserData);
 
     render(
       <Provider store={mockStore}>

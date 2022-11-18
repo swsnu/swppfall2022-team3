@@ -1,25 +1,45 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { colleges } from "../../dummyData";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { College } from "../../types";
 import { RootState } from "../index";
 
 
-const storeKey = "college";
+const collegeUrl = "/colleges/";
 
-const getInitialState = (): College[] => {
-  let savedValue = localStorage.getItem(storeKey);
-  if (savedValue === null) {
-    const dummy = JSON.stringify(colleges);
-    localStorage.setItem(storeKey, dummy);
-    savedValue = dummy;
-  }
-  return JSON.parse(savedValue) as College[];
+export interface CollegeState {
+  colleges: College[];
+}
+
+const initialState: CollegeState = {
+  colleges: [],
 };
+
+export const getColleges = createAsyncThunk(
+  "college/get-all-by-university",
+  async (universityKey: number): Promise<College[] | null> => {
+    const response = await axios.get(`${collegeUrl}university/${universityKey}/`);
+    if (response.status === 200) {
+      return response.data as College[];
+    }
+    return null;
+  }
+);
+
 
 const collegeSlice = createSlice({
   name: "college",
-  initialState: { colleges: getInitialState() },
+  initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      getColleges.fulfilled,
+      (state,action) => {
+        if (action.payload) {
+          state.colleges = action.payload;
+        }
+      }
+    );
+  }
 });
 
 export const selectCollege = (state: RootState) => state.college;

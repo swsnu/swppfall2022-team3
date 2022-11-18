@@ -33,7 +33,7 @@ describe("InformationInput", () => {
         setValue={mockSetValue}
         type={"select"}
         options={
-          ([{ key: 0, name: "", majors: [] }] as College[])
+          ([{ key: 0, name: "" }] as College[])
             .concat(colleges)
             .map((col) => ({ name: col.name, value: col.key }))
         }

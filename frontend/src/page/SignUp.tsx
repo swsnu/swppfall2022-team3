@@ -11,7 +11,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 // import { selectPhoto } from "../store/slices/photo";
-import { selectUser, userActions } from "../store/slices/user";
+import { selectUser } from "../store/slices/user";
 import { College, Gender, Major, Tag, University } from "../types";
 
 
@@ -57,7 +57,7 @@ export default function SignUp() {
     //   // TODO: save image in server
     // });
 
-    const tagKeys = tags.map((tag) => tag.key);
+    // const tagKeys = tags.map((tag) => tag.key);
     if (university && college && major && birthday) {
       navigate("/signin");
     }
@@ -98,12 +98,13 @@ export default function SignUp() {
       />;
     case 2:
       return <PersonalInformation
-        username={username}
+        nickname={username}
         setUsername={setUsername}
         password={password}
         setPassword={setPassword}
         birthday={birthday}
         setBirthday={setBirthday}
+        university={university}
         college={college}
         setCollege={setCollege}
         major={major}

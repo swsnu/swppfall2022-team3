@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectPhoto } from "../store/slices/photo";
 import { User } from "../types";
-import urlParamEncryptor from "../util/urlParamEncryptor";
+import encryptor from "../util/encryptor";
 
 
 interface IProps {
@@ -25,7 +25,7 @@ export default function ChatListElement({
   const photoPath = userPhotos[0].path;
 
   const elementOnClick = useCallback(() => {
-    const encrypted = urlParamEncryptor.encrypt(
+    const encrypted = encryptor.encrypt(
       {
         from: myUser.key,
         to: otherUser.key,

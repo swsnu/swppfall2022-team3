@@ -6,13 +6,11 @@ export const universities: University[] = [
     key: 1,
     name: "서울대학교",
     domain: "snu.ac.kr",
-    colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
   {
     key: 2,
     name: "낙성대학교",
     domain: "nak.ac.kr",
-    colleges: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   },
 ];
 
@@ -20,77 +18,62 @@ export const colleges: College[] = [
   {
     key: 1,
     name: "인문대학",
-    majors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   },
   {
     key: 2,
     name: "사회과학대학",
-    majors: [17, 18, 19, 20, 21, 22, 23, 24],
   },
   {
     key: 3,
     name: "자연과학대학",
-    majors: [25, 26, 27, 28, 29, 30],
   },
   {
     key: 4,
     name: "공과대학",
-    majors: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
   },
   {
     key: 5,
     name: "경영대학",
-    majors: [32],
   },
   {
     key: 6,
     name: "간호대학",
-    majors: [31],
   },
   {
     key: 7,
     name: "농업생명과학대학",
-    majors: [45, 46, 47, 48, 49, 50, 51],
   },
   {
     key: 8,
     name: "미술대학",
-    majors: [52, 53, 54, 55, 56],
   },
   {
     key: 9,
     name: "사범대학",
-    majors: [57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
   },
   {
     key: 10,
     name: "생활과학대학",
-    majors: [72, 73, 74],
   },
   {
     key: 11,
     name: "수의과대학",
-    majors: [75, 76],
   },
   {
     key: 12,
     name: "약학대학",
-    majors: [77, 78],
   },
   {
     key: 13,
     name: "음악대학",
-    majors: [79, 80, 81, 82],
   },
   {
     key: 14,
     name: "의과대학",
-    majors: [83, 84],
   },
   {
     key: 15,
     name: "자유전공학부",
-    majors: [85],
   },
 ];
 

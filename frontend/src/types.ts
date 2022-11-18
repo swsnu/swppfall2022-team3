@@ -15,14 +15,12 @@ export interface Major {
 export interface College {
   key: number;
   name: string;
-  majors: number[];
 }
 
 export interface University {
   key: number;
   name: string;
   domain: string;
-  colleges: number[];
 }
 
 export interface Tag {

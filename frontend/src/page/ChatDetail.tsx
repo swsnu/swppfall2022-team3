@@ -9,7 +9,7 @@ import { AppDispatch } from "../store";
 import { chatAction, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
 import { Chat } from "../types";
-import urlParamEncryptor from "../util/urlParamEncryptor";
+import encryptor from "../util/encryptor";
 
 
 interface IDecrypted {
@@ -56,7 +56,7 @@ export default function ChatDetail() {
       }
       else {
         try {
-          const decrypted = urlParamEncryptor.decrypt<IDecrypted>(encrypted);
+          const decrypted = encryptor.decrypt<IDecrypted>(encrypted);
           if ((decrypted?.from) && (decrypted?.to) && (decrypted?.photoPath)) {
             if (decrypted.from !== loginUser.key) {
               navigate(paths.chat);

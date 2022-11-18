@@ -1,25 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { majors } from "../../dummyData";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { Major } from "../../types";
 import { RootState } from "../index";
 
 
-const storeKey = "major";
+const majorUrl = "/majors/";
 
-const getInitialState = (): Major[] => {
-  let savedValue = localStorage.getItem(storeKey);
-  if (savedValue === null) {
-    const dummy = JSON.stringify(majors);
-    localStorage.setItem(storeKey, dummy);
-    savedValue = dummy;
-  }
-  return JSON.parse(savedValue) as Major[];
+export interface MajorState {
+  majors: Major[];
+}
+
+const initialState: MajorState = {
+  majors: [],
 };
+
+export const getMajors = createAsyncThunk(
+  "major/get-all-by-college",
+  async (collegeKey: number): Promise<Major[] | null> => {
+    const response = await axios.get(`${majorUrl}college/${collegeKey}/`);
+    if (response.status === 200) {
+      return response.data as Major[];
+    }
+    return null;
+  }
+);
 
 const majorSlice = createSlice({
   name: "major",
-  initialState: { majors: getInitialState() },
+  initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      getMajors.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.majors = action.payload;
+        }
+      }
+    );
+  }
 });
 
 export const selectMajor = (state: RootState) => state.major;

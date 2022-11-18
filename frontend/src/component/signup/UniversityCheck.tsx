@@ -1,11 +1,12 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@mui/material";
 import style from "../../constant/style";
-import { selectUniversity } from "../../store/slices/university";
+import { AppDispatch } from "../../store";
+import { getUniversities, selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
-import { sendVerificationCode } from "../../util/email";
+// import { sendVerificationCode } from "../../util/email";
 import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
@@ -29,6 +30,7 @@ export default function UniversityCheck({
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
   const users = useSelector(selectUser).users;
+  const dispatch = useDispatch<AppDispatch>();
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [emailInput, setEmailInput] = useState<string>("");
 
@@ -39,11 +41,15 @@ export default function UniversityCheck({
     }
     else {
       const code = getCode();
-      await sendVerificationCode(email, code);
+      // await sendVerificationCode(email, code);
       setVerificationCode(code);
-      setStep(1);
+      setStep(2);
     }
   }, [users, email, setStep, setVerificationCode]);
+
+  useEffect(() => {
+    dispatch(getUniversities());
+  }, [dispatch]);
 
   useEffect(() => {
     setUniversity(universities.find((u) => u.key === selectedUniversityKey) ?? null);
