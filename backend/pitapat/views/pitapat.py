@@ -11,8 +11,8 @@ class PitapatCreateViewSet(viewsets.ModelViewSet):
     serializer_class = PitapatSerializer
 
     def create(self, request, *args, **kwargs):
-        from_user = User.objects.get(key=request.data['is_from'])
-        to_user = User.objects.get(key=request.data['to'])
+        from_user = User.objects.get(key=request.data.get('is_from'))
+        to_user = User.objects.get(key=request.data.get('to'))
         pitapat = Pitapat.objects.create(is_from=from_user, to=to_user)
         serializer = PitapatSerializer(pitapat)
         return Response(serializer.data)
