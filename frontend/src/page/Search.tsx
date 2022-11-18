@@ -38,7 +38,7 @@ export default function Search() {
           key={user.key}
           myKey={loginUser.key}
           userKey={user.key}
-          username={user.username}
+          nickname={user.nickname}
           koreanAge={getKoreanAge(user.birthday)}
           photo={photo ? photo.path : ""}
           showRejectButton={false}

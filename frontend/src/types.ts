@@ -64,11 +64,10 @@ export enum PitapatStatus {
 export interface User {
   key: number;
   email: string;
-  username: string;
+  nickname: string;
   gender: Gender;
-  targetGender: Gender;
+  interestedGender: Gender;
   birthday: Date;
-  location: string;
   university: number;
   college: number;
   major: number;

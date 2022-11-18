@@ -52,7 +52,7 @@ export default function ChatListElement({
         className={"flex-1 flex flex-col h-full pl-2 w-0"}
         onClick={elementOnClick}
       >
-        <article className={"basis-1/4 pt-2 font-bold text-lg"}>{otherUser.username}</article>
+        <article className={"basis-1/4 pt-2 font-bold text-lg"}>{otherUser.nickname}</article>
         <article className={"basis-3/4 items-center text-gray-600 truncate"}>{lastChat ?? "대화를 시작해보세요!!"}</article>
       </article>
     </article>

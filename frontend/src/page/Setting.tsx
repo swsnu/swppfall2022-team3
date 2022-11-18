@@ -6,7 +6,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { selectPhoto } from "../store/slices/photo";
-import { selectUser, userActions } from "../store/slices/user";
+import { fetchSignout, selectUser } from "../store/slices/user";
 
 
 export default function Setting() {
@@ -38,7 +38,7 @@ export default function Setting() {
           />
           <div className={"flex-auto flex flex-col"}>
             <div className={"w-fit mb-0.5 text-xl font-bold"}>
-              {loginUser?.username}
+              {loginUser?.nickname}
             </div>
             <button
               className={"flex-none w-fit text-left text-base"}
@@ -51,7 +51,7 @@ export default function Setting() {
         <article
           className={"w-full flex items-center h-12 border-b ml-4 text-left text-lg"}
           role={"presentation"}
-          onClick={() => dispatch(userActions.logout())}
+          onClick={() => dispatch(fetchSignout())}
         >
           로그아웃
         </article>

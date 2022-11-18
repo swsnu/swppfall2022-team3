@@ -59,23 +59,6 @@ export default function SignUp() {
 
     const tagKeys = tags.map((tag) => tag.key);
     if (university && college && major && birthday) {
-      dispatch(userActions.add(
-        {
-          key: users.length + 1,
-          email,
-          username: username,
-          gender,
-          targetGender,
-          birthday,
-          location: "관악구",
-          university: university.key,
-          college: college.key,
-          major: major.key,
-          introduction,
-          tags: tagKeys,
-          photos: [13, 14]
-        }
-      ));
       navigate("/signin");
     }
   }, [

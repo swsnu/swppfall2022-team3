@@ -29,11 +29,11 @@ export default function PitapatReceived({
             key={index}
             myKey={loginUser?.key ?? -1}
             userKey={from.key}
-            username={from.username}
+            nickname={from.nickname}
             koreanAge={getKoreanAge(from.birthday)}
             photo={photo ? photo.path : ""}
             showRejectButton={true}
-            isLastElement={(index === pitapats.length - 1) ? true : false}
+            isLastElement={(index === pitapats.length - 1)}
             status={getPitapatStatus(loginUser?.key ?? -1, from.key, pitapats)}
           />
         );

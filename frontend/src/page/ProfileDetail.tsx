@@ -39,7 +39,7 @@ export default function ProfileDetail() {
     // add bottom margin if navigation bar is added
     // <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
     <section className={`${style.page.base} ${style.page.margin.top}`}>
-      <AppBar title={`${user.username}/${getKoreanAge(user.birthday)}`}/>
+      <AppBar title={`${user.nickname}/${getKoreanAge(user.birthday)}`}/>
       <section className={"w-full flex-1 z-0 flex flex-col"}>
         <section className={"relative"}>
           <PhotoSlider

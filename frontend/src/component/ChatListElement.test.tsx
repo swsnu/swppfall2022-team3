@@ -97,7 +97,7 @@ describe("ChatListElement", () => {
       </Provider>
     );
 
-    const userNameArticle = screen.getByText(user2.username);
+    const userNameArticle = screen.getByText(user2.nickname);
 
     fireEvent.click(userNameArticle);
 

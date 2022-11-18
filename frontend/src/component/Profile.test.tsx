@@ -9,7 +9,7 @@ import Profile, { IProps } from "./Profile";
 const mockIProps: IProps = {
   myKey: 1,
   userKey: 2,
-  username: "test_name",
+  nickname: "test_name",
   koreanAge: 20,
   photo: "/photo1.jpeg",
   showRejectButton: false,

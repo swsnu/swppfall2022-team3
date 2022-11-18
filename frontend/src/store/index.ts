@@ -9,8 +9,6 @@ import universityReducer from "./slices/university";
 import userReducer from "./slices/user";
 
 
-export const backendUrl = "/";
-
 export const store = configureStore({
   reducer: {
     university: universityReducer,

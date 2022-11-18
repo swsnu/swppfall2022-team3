@@ -10,7 +10,7 @@ import PitapatButton from "./PitapatButton";
 export interface IProps {
   myKey: number;
   userKey: number;
-  username: string;
+  nickname: string;
   koreanAge: number;
   photo: string;
   showRejectButton: boolean;
@@ -21,7 +21,7 @@ export interface IProps {
 export default function Profile({
   myKey,
   userKey,
-  username,
+  nickname,
   koreanAge,
   photo,
   showRejectButton,
@@ -57,7 +57,7 @@ export default function Profile({
             /> : ""}
           </div>
           <div className={"flex-auto truncate flex flex-col text-center text-white text-lg font-bold"}>
-            <div className={"flex-none mx-2 truncate"}>{username}/{koreanAge}</div>
+            <div className={"flex-none mx-2 truncate"}>{nickname}/{koreanAge}</div>
           </div>
           <div className={"flex-none w-16"}>
             <PitapatButton
