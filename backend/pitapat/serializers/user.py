@@ -23,13 +23,9 @@ class UserListSerializer(serializers.ModelSerializer):
         return f'{S3_URL}{obj.photos.all()[0].path}'
     repr_photo = serializers.SerializerMethodField(method_name='get_repr_photo')
 
-    def get_age(self, obj: User):
-        return date.today().year - obj.birthday.year + 1
-    age = serializers.SerializerMethodField(method_name='get_age')
-
     class Meta:
         model = User
-        fields = ['key', 'nickname', 'gender', 'age', 'major', 'repr_photo']
+        fields = ['key', 'nickname', 'gender', 'birthday', 'major', 'repr_photo']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -69,10 +65,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
-    def get_age(self, obj: User):
-        return date.today().year - obj.birthday.year + 1
-    age = serializers.SerializerMethodField(method_name='get_age')
-
     introduction = serializers.SlugRelatedField(
         read_only=True,
         slug_field='field',
@@ -80,7 +72,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     tags = serializers.SlugRelatedField(
         read_only=True,
-        slug_field='name',
+        slug_field='key',
         many=True,
     )
 
@@ -94,7 +86,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
             'phone',
             'nickname',
             'gender',
-            'age',
+            'birthday',
             'college',
             'major',
             'introduction',
