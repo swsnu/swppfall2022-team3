@@ -49,15 +49,14 @@ urlpatterns = [
         'get': 'retrieve',
         'delete': 'destroy',
     }), name='photo_detail'),
-    path('tag/', views.TagViewSet.as_view({
+    path('tags/', views.TagViewSet.as_view({
         'get': 'list',
-        'post': 'create',
     }), name='tag'),
-    path('tag/user/<int:user_key>/', views.UserTagViewSet.as_view({
+    path('tags/user/<int:user_key>/', views.UserTagViewSet.as_view({
         'get': 'retrieve',
         'post': 'create',
         'delete': 'destroy',
-    }), name='usertag'),
+    }), name='user_tag'),
     path('pitapat/', views.PitapatCreateViewSet.as_view({
         'post': 'create',
     }), name='pitapat_create'),
