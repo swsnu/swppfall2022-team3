@@ -1,92 +1,110 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import axios from "axios";
-import { users } from "../../dummyData";
-import { User } from "../../types";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { Gender, User } from "../../types";
 import { RootState } from "../index";
 
 
-const storeKey = "user";
-const loginStoreKey = "loginUser";
+const signinUrl = "/auth/login/";
+const signoutUrl = "/auth/logout/";
+const authUserUrl = "/auth/user/";
+const userUrl = "/user/";
+
+type RawUser = {
+  key: number;
+  email: string;
+  nickname: string;
+  gender: string;
+  interested_gender: string;
+  birthday: string;
+  university: number;
+  college: number;
+  major: number;
+  introduction: string;
+  tags: number[];
+  photos: number[];
+}
+
+const getGender = (genderStr: string): Gender => {
+  if (genderStr === "M") {
+    return Gender.MALE;
+  }
+  else if (genderStr === "F") {
+    return Gender.FEMALE;
+  }
+  return Gender.ALL;
+};
+
+const convertRawData = (rawUser: RawUser): User => (
+  {
+    key: rawUser.key,
+    email: rawUser.email,
+    nickname: rawUser.nickname,
+    gender: getGender(rawUser.gender),
+    interestedGender: getGender(rawUser.interested_gender),
+    birthday: new Date(rawUser.birthday),
+    university: rawUser.university,
+    college: rawUser.college,
+    major: rawUser.major,
+    introduction: rawUser.introduction,
+    tags: rawUser.tags,
+    photos: rawUser.photos,
+  }
+);
 
 export interface UserState {
   users: User[];
   loginUser: User | null;
 }
 
-const getInitialUsers = (): User[] => {
-  let savedValue = localStorage.getItem(storeKey);
-  if (savedValue === null) {
-    const dummy = JSON.stringify(users);
-    localStorage.setItem(storeKey, dummy);
-    savedValue = dummy;
-  }
-  return (JSON.parse(savedValue) as User[]).map((user) =>
-    ({ ...user, birthday: new Date(user.birthday) })
-  );
-};
-
-const getLoginUser = (): User | null => {
-  const savedValue = localStorage.getItem(loginStoreKey);
-  if (savedValue === null) {
-    return null;
-  }
-  return JSON.parse(savedValue) as User;
-};
-
 const initialState: UserState = {
-  users: getInitialUsers(),
-  loginUser: getLoginUser(),
+  users: [],
+  loginUser: null,
 };
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-// const login = createAsyncThunk(
-//   "user/",
-//   async (user: { email: string, password: string }, { dispatch }) => {
-//     const response = await axios.post("/user/login/", user);
-//     if (response.status === 204) {
-//       dispatch(userActions.login(user));
-//       return true;
-//     }
-//     else {
-//       return false;
-//     }
-//   }
-// );
+
+export const fetchSignin = createAsyncThunk(
+  "user/signin",
+  async (user: { username: string; password: string }): Promise<User | null> => {
+    try {
+      // get session token
+      await axios.post(signinUrl, user);
+      // get user key
+      const authResponse = await axios.get(authUserUrl);
+      const userKey = authResponse.data.pk as number;
+      // get user data
+      const userResponse = await axios.get(`${userUrl}/${userKey}`);
+      return convertRawData(userResponse.data as RawUser);
+    }
+    catch (_) {
+      return null;
+    }
+  }
+);
+
+export const fetchSignout = createAsyncThunk(
+  "user/signout",
+  async (): Promise<void> => {
+    await axios.post(signoutUrl);
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    add: (state, action: PayloadAction<User>) => {
-      const newUsers = [...state.users, action.payload];
-      localStorage.setItem(storeKey, JSON.stringify(newUsers));
-      state.users = newUsers;
-    },
-    update: (state, action: PayloadAction<User>) => {
-      const newUsers: User[] = [];
-      state.users.forEach((user) => {
-        if (user.key === action.payload.key) {
-          newUsers.push(action.payload);
-        }
-        else {
-          newUsers.push(user);
-        }
-      });
-      localStorage.setItem(storeKey, JSON.stringify(newUsers));
-      state.users = newUsers;
-    },
-    login: (state, action: PayloadAction<{ email: string }>) => {
-      const users: User[] = state.users;
-      const user = users.filter((u) => u.email === action.payload.email);
-      if (user.length > 0) {
-        state.loginUser = user[0];
-        localStorage.setItem(loginStoreKey, JSON.stringify(user[0]));
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      fetchSignin.fulfilled,
+      (state, action) => {
+        state.loginUser = action.payload;
       }
-    },
-    logout: (state, _action: PayloadAction<void>) => {
-      state.loginUser = null;
-      localStorage.removeItem(loginStoreKey);
-    },
+    );
+    builder.addCase(
+      fetchSignout.fulfilled,
+      (state) => {
+        state.loginUser = null;
+      }
+    );
   },
 });
 

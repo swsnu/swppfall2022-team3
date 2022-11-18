@@ -27,7 +27,7 @@ export default function ProfileEdit() {
     // add bottom margin if navigation bar is added
     // <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
     <section className={`${style.page.base} ${style.page.margin.top}`}>
-      <AppBar title={`${loginUser.username}/${getKoreanAge(loginUser.birthday)}`}/>
+      <AppBar title={`${loginUser.nickname}/${getKoreanAge(loginUser.birthday)}`}/>
       <section className={"w-full flex-1 z-0 flex flex-col"}>
         <section className={"relative"}>
           <PhotoSlider

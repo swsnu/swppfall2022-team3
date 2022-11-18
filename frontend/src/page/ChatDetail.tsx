@@ -74,7 +74,7 @@ export default function ChatDetail() {
               );
 
               const userTo = users.find((u) => u.key === to);
-              setAppBarTitle(userTo?.username ?? "");
+              setAppBarTitle(userTo?.nickname ?? "");
             }
           }
           else {

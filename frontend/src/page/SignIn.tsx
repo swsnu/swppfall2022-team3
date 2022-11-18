@@ -5,33 +5,38 @@ import { TextField } from "@mui/material";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { selectUser, userActions } from "../store/slices/user";
+import { fetchSignin, selectUser } from "../store/slices/user";
 
 
 export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [signinTried, setSigninTried] = useState<boolean>(false);
 
   useEffect(() => {
     if (loginUser) {
       navigate(paths.search);
     }
-  }, [navigate, loginUser]);
+    else {
+      if (signinTried) {
+        alert("로그인에 실패했습니다. 이메일이나 비밀번호를 확인해주세요");
+        setSigninTried(false);
+      }
+    }
+  }, [navigate, loginUser, signinTried, setSigninTried]);
 
   const loginOnClick = useCallback(() => {
-    const verifiedUser = users.find((user) => (user.email === email));
-    if (verifiedUser) {
-      dispatch(userActions.login(verifiedUser));
-      navigate(paths.search);
-    }
-    else {
-      alert("이메일이 틀렸습니다.");
-    }
-  }, [users, email, dispatch, navigate]);
+    const loginData = {
+      username: email,
+      password,
+    };
+    dispatch(fetchSignin(loginData)).then(() => {
+      setSigninTried(true);
+    });
+  }, [email, dispatch, password, setSigninTried]);
 
   return (
     <section className={style.page.base}>
