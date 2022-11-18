@@ -37,7 +37,12 @@ urlpatterns = [
     path('univ/', views.UniversityViewSet.as_view({
         'get': 'list',
     }), name='univ'),
-    path('univ/<int:univ_id>/', views.university_detail_view_set, name='univ_detail'),
+    path('col/<int:univ_id>/', views.CollegeViewSet.as_view({
+        'get': 'retrieve',
+    }), name='col'),
+    path('major/<int:col_id>/', views.MajorViewSet.as_view({
+        'get': 'retrieve',
+    }), name='major'),
     path('user/', views.UserViewSet.as_view({
         'get': 'list',
         'post': 'create',

@@ -10,18 +10,12 @@ class UniversitySerializer(serializers.ModelSerializer):
 
 
 class CollegeSerializer(serializers.ModelSerializer):
-    majors = serializers.SlugRelatedField(
-        queryset=Major.objects.all(),
-        slug_field='name',
-        many=True,
-    )
     class Meta:
         model = College
-        fields = ['name', 'majors']
+        fields = ['key', 'name']
 
 
-class UniversityDetailSerializer(serializers.ModelSerializer):
-    colleges = CollegeSerializer(many=True, allow_null=True)
+class MajorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = University
-        fields = ['key', 'colleges']
+        model = Major
+        fields = ['key', 'name']
