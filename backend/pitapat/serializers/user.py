@@ -20,7 +20,7 @@ class UserListSerializer(serializers.ModelSerializer):
     def get_repr_photo(self, obj: User):
         if not obj.photos.all():
             return ''
-        return f'{S3_URL}{obj.photos.all()[0].path}'
+        return f'{S3_URL}{obj.photos.all()[0].name}'
     repr_photo = serializers.SerializerMethodField(method_name='get_repr_photo')
 
     class Meta:
