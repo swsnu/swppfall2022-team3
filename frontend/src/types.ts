@@ -67,7 +67,7 @@ export interface User {
   nickname: string;
   gender: Gender;
   interestedGender: Gender;
-  birthday: Date;
+  birthday: string;
   university: number;
   college: number;
   major: number;

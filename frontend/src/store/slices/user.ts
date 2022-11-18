@@ -4,10 +4,10 @@ import { Gender, User } from "../../types";
 import { RootState } from "../index";
 
 
-const signinUrl = "/auth/login/";
-const signoutUrl = "/auth/logout/";
-const authUserUrl = "/auth/user/";
-const userUrl = "/user/";
+export const signinUrl = "/auth/login/";
+export const signoutUrl = "/auth/logout/";
+export const authUserUrl = "/auth/user/";
+export const userUrl = "/user/";
 
 type RawUser = {
   key: number;
@@ -34,20 +34,36 @@ const getGender = (genderStr: string): Gender => {
   return Gender.ALL;
 };
 
-const convertRawData = (rawUser: RawUser): User => (
+const rawDataToUser = (rawUser: RawUser): User => (
   {
     key: rawUser.key,
     email: rawUser.email,
     nickname: rawUser.nickname,
     gender: getGender(rawUser.gender),
     interestedGender: getGender(rawUser.interested_gender),
-    birthday: new Date(rawUser.birthday),
+    birthday: rawUser.birthday,
     university: rawUser.university,
     college: rawUser.college,
     major: rawUser.major,
     introduction: rawUser.introduction,
     tags: rawUser.tags,
     photos: rawUser.photos,
+  }
+);
+export const userToRawData = (user: User): RawUser => (
+  {
+    key: user.key,
+    email: user.email,
+    nickname: user.nickname,
+    gender: user.gender,
+    interested_gender: user.interestedGender,
+    birthday: user.birthday,
+    university: user.university,
+    college: user.college,
+    major: user.major,
+    introduction: user.introduction,
+    tags: user.tags,
+    photos: user.photos,
   }
 );
 
@@ -73,7 +89,7 @@ export const fetchSignin = createAsyncThunk(
       const userKey = authResponse.data.pk as number;
       // get user data
       const userResponse = await axios.get(`${userUrl}/${userKey}`);
-      return convertRawData(userResponse.data as RawUser);
+      return rawDataToUser(userResponse.data as RawUser);
     }
     catch (_) {
       return null;
@@ -85,6 +101,22 @@ export const fetchSignout = createAsyncThunk(
   "user/signout",
   async (): Promise<void> => {
     await axios.post(signoutUrl);
+  }
+);
+
+export const fetchSignup = createAsyncThunk(
+  "user/signup",
+  async (user: User): Promise<User | null> => {
+    const response = await axios.post(
+      userUrl,
+      userToRawData(user),
+    );
+    if (response.status === 200) {
+      return rawDataToUser(response.data as RawUser);
+    }
+    else {
+      return null;
+    }
   }
 );
 
