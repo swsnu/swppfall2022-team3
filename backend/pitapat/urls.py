@@ -37,10 +37,10 @@ urlpatterns = [
     path('universities/', views.UniversityViewSet.as_view({
         'get': 'list',
     }), name='universities'),
-    path('colleges/univ/<int:univ_id>/', views.CollegeViewSet.as_view({
+    path('colleges/university/<int:university_key>/', views.CollegeViewSet.as_view({
         'get': 'retrieve',
     }), name='collegesuniv'),
-    path('majors/college/<int:col_id>/', views.MajorViewSet.as_view({
+    path('majors/college/<int:college_key>/', views.MajorViewSet.as_view({
         'get': 'retrieve',
     }), name='majorscollege'),
     path('user/', views.UserViewSet.as_view({
