@@ -93,7 +93,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-ASGI_APPLICATION = "mysite.asgi.application"
+ASGI_APPLICATION = 'backend.asgi.application'
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -189,3 +189,10 @@ AWS_S3_SECRET_ACCESS_KEY = get_external_value(
     'secret_access_key',
 )
 AWS_STORAGE_BUCKET_NAME = 'pitapatcampus'
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',  # react port
+)
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000'
+]
