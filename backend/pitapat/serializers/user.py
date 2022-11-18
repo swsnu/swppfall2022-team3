@@ -14,7 +14,7 @@ class ImageUrlField(serializers.RelatedField):
 class UserListSerializer(serializers.ModelSerializer):
     major = serializers.SlugRelatedField(
         read_only=True,
-        slug_field='name',
+        slug_field='key',
     )
 
     def get_repr_photo(self, obj: User):
