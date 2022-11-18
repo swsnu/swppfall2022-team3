@@ -19,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     status = models.CharField(max_length=1)
     gender = models.CharField(max_length=1)
     interested_gender = models.CharField(max_length=1)
-    birthday = models.DateTimeField()
+    birthday = models.DateField()
     tags = models.ManyToManyField('Tag', through='UserTag', through_fields=('user', 'tag'))
     # pitapat_sent = models.ManyToManyField('self', through='Pitapat', through_fields=('is_from', 'to'))
     # pitapat_received = models.ManyToManyField('self', through='Pitapat', through_fields=('to', 'is_from'))
