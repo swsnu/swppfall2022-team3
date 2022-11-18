@@ -8,3 +8,10 @@ class PhotoViewSet(viewsets.ModelViewSet):
     http_method_names = ['post']
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+
+
+class PhotoDetailViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'delete']
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+    lookup_field = 'key'

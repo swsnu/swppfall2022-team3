@@ -45,7 +45,10 @@ urlpatterns = [
     path('photo/', views.PhotoViewSet.as_view({
         'post': 'create',
     }), name='photo'),
-    # path('photo/<int:key>/'),
+    path('photo/<int:key>/', views.PhotoDetailViewSet.as_view({
+        'get': 'retrieve',
+        'delete': 'destroy',
+    }), name='photo_detail'),
     path('tag/', views.TagViewSet.as_view({
         'get': 'list',
         'post': 'create',

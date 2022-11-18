@@ -31,4 +31,4 @@ class UserDetailViewSet(viewsets.ModelViewSet):
         for photo in Photo.objects.filter(user=key):
             photo.delete()
         User.objects.get(key=key).delete()
-        return Response({}, status=204)
+        return Response(status=204)
