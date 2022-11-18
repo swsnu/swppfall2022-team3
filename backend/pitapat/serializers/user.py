@@ -32,18 +32,19 @@ class UserCreateSerializer(serializers.ModelSerializer):
     introduction = serializers.CharField()
     tags = serializers.SlugRelatedField(
         queryset=Tag.objects.all(),
-        slug_field='name',
+        slug_field='key',
         many=True,
     )
 
     def create(self, validated_data):
-        tag_names = validated_data.pop('tags')
+        tags = validated_data.pop('tags')
         intro = validated_data.pop('introduction')
 
         user: User = User.objects.create_user(**validated_data)
         Introduction.objects.create(user=user, field=intro)
-        for name in tag_names:
-            UserTag.objects.create(user=user, tag=Tag.objects.get(name=name))
+        for tag_key in tags:
+            tag = Tag.objects.get(key=tag_key)
+            UserTag.objects.create(user=user, tag=tag)
         return user
 
     class Meta:
