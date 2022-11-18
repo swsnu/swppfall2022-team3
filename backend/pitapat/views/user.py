@@ -1,9 +1,10 @@
 from django.db.models import Q
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import Introduction, Photo, User, UserTag
-from pitapat.serializers import UserCreateSerializer, UserListSerializer, UserDetailSerializer
+from pitapat.serializers import UserListSerializer, UserListQuerySerializer, UserCreateSerializer, UserDetailSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,16 +17,17 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return UserCreateSerializer
 
+    @swagger_auto_schema(query_serializer=UserListQuerySerializer)
     def list(self, request, *args, **kwargs):
         gender = request.GET.get('gender')
-        # age_min = request.GET.get('age-min')
-        # age_max = request.GET.get('age-max')
-        colleges_included = [int(c) for c in request.GET.getlist('college-included')]
-        colleges_excluded = [int(c) for c in request.GET.getlist('college-excluded')]
-        majors_included = [int(m) for m in request.GET.getlist('major-included')]
-        majors_excluded = [int(m) for m in request.GET.getlist('major-excluded')]
-        # tags_included = [int(t) for t in request.GET.getlist('tag-included')]
-        # tags_excluded = [int(t) for t in request.GET.getlist('tag-excluded')]
+        # age_min = request.GET.get('age_min')
+        # age_max = request.GET.get('age_max')
+        colleges_included = [int(c) for c in request.GET.getlist('colleges_included')]
+        colleges_excluded = [int(c) for c in request.GET.getlist('colleges_excluded')]
+        majors_included = [int(m) for m in request.GET.getlist('majors_included')]
+        majors_excluded = [int(m) for m in request.GET.getlist('majors_excluded')]
+        # tags_included = [int(t) for t in request.GET.getlist('tags_included')]
+        # tags_excluded = [int(t) for t in request.GET.getlist('tags_excluded')]
 
         filters = Q()
         if gender:
