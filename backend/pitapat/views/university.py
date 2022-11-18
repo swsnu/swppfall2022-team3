@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -17,10 +18,7 @@ class CollegeViewSet(viewsets.ModelViewSet):
     serializer_class = CollegeSerializer
 
     def retrieve(self, request, university_key):
-        try:
-            University.objects.get(key=university_key)
-        except University.DoesNotExist:
-            return Response([], status=404)
+        get_object_or_404(University.objects.all(), key=university_key)
         colleges = College.objects.filter(university=university_key)
         serializer = CollegeSerializer(colleges, many=True)
         return Response(serializer.data)
@@ -32,10 +30,7 @@ class MajorViewSet(viewsets.ModelViewSet):
     serializer_class = MajorSerializer
 
     def retrieve(self, request, college_key):
-        try:
-            College.objects.get(key=college_key)
-        except College.DoesNotExist:
-            return Response([], status=404)
+        get_object_or_404(College.objects.all(), key=college_key)
         majors = Major.objects.filter(college=college_key)
         serializer = MajorSerializer(majors, many=True)
         return Response(serializer.data)
