@@ -1,5 +1,3 @@
-from datetime import date
-
 from rest_framework import serializers
 
 from pitapat.constants import S3_URL
@@ -25,7 +23,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['key', 'nickname', 'gender', 'birthday', 'major', 'repr_photo']
+        fields = ['key', 'nickname', 'gender', 'birthday', 'college', 'major', 'repr_photo']
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
