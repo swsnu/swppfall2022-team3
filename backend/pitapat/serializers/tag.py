@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from pitapat.models import Tag, User, UserTag
+from pitapat.models import Tag, UserTag
 
 
-class TagSerializer(serializers.ModelSerializer):
+class TagListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['key', 'name', 'type']
 
 
-class UserTagRetrieveSerializer(serializers.ModelSerializer):
+class UserTagListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['key']

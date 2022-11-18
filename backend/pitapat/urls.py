@@ -53,7 +53,7 @@ urlpatterns = [
         'get': 'list',
     }), name='tag'),
     path('tags/user/<int:user_key>/', views.UserTagViewSet.as_view({
-        'get': 'retrieve',
+        'get': 'list',
         'post': 'create',
         'delete': 'destroy',
     }), name='user_tag'),
