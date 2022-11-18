@@ -28,9 +28,11 @@ class PitapatDeleteViewSet(viewsets.ModelViewSet):
 class PitapatToViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Pitapat.objects.all()
+    serializer_class = UserListSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        pitapats = Pitapat.objects.filter(to=User.objects.get(key=kwargs['user_key']))
+        user = User.objects.get(key=kwargs['user_key'])
+        pitapats = Pitapat.objects.filter(to=user)
         users = [User.objects.get(key=pitapat.is_from.key) for pitapat in pitapats if pitapat.is_from]
         serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)

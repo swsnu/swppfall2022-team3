@@ -5,7 +5,6 @@ from pitapat.models import Tag, User, UserTag
 from pitapat.serializers import TagSerializer, UserTagRetrieveSerializer, UserTagCreateSerializer
 
 
-
 class TagViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Tag.objects.all()
