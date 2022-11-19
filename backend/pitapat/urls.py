@@ -57,6 +57,15 @@ urlpatterns = [
         name='user_detail',
     ),
     path(
+        'user/<int:user_key>/tags/',
+        views.UserTagViewSet.as_view({
+            'get': 'list',
+            'post': 'create',
+            'delete': 'destroy',
+        }),
+        name='user_tag',
+    ),
+    path(
         'universities/',
         views.UniversityViewSet.as_view({
             'get': 'list',
@@ -98,15 +107,6 @@ urlpatterns = [
             'get': 'list',
         }),
         name='tag',
-    ),
-    path(
-        'user/tags/<int:user_key>/',
-        views.UserTagViewSet.as_view({
-            'get': 'list',
-            'post': 'create',
-            'delete': 'destroy',
-        }),
-        name='user_tag',
     ),
     path(
         'pitapat/',
