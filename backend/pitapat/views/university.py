@@ -17,7 +17,7 @@ class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
     serializer_class = CollegeSerializer
 
-    def retrieve(self, request, university_key):
+    def list(self, request, university_key):
         get_object_or_404(University.objects.all(), key=university_key)
         colleges = College.objects.filter(university=university_key)
         serializer = CollegeSerializer(colleges, many=True)
@@ -29,7 +29,7 @@ class MajorViewSet(viewsets.ModelViewSet):
     queryset = Major.objects.all()
     serializer_class = MajorSerializer
 
-    def retrieve(self, request, college_key):
+    def list(self, request, college_key):
         get_object_or_404(College.objects.all(), key=college_key)
         majors = Major.objects.filter(college=college_key)
         serializer = MajorSerializer(majors, many=True)

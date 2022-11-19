@@ -6,12 +6,12 @@ from pitapat.models import Pitapat, User
 from pitapat.serializers import UserListSerializer
 
 
-class UserPitapatReceivedViewSet(viewsets.ModelViewSet):
+class UserPitapatSentViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Pitapat.objects.all()
     serializer_class = UserListSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         pitapats = Pitapat.objects.filter(to=user)
         users = [User.objects.get(key=pitapat.is_from.key) for pitapat in pitapats if pitapat.is_from]
@@ -19,12 +19,12 @@ class UserPitapatReceivedViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class UserPitapatSentViewSet(viewsets.ModelViewSet):
+class UserPitapatReceivedViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Pitapat.objects.all()
     serializer_class = UserListSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         pitapats = Pitapat.objects.filter(is_from=user)
         users = [User.objects.get(key=pitapat.to.key) for pitapat in pitapats if pitapat.to]

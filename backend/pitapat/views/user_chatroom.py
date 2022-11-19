@@ -11,7 +11,7 @@ class UserChatroomViewSet(viewsets.ModelViewSet):
     queryset = UserChatroom.objects.all()
     serializer_class = UserChatroomSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         userchatrooms = UserChatroom.objects.filter(user=user)
         chatrooms = [Chatroom.objects.get(key=userchatroom.chatroom.key) for userchatroom in userchatrooms if userchatroom.chatroom]

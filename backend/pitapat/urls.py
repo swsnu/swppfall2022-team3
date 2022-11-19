@@ -84,21 +84,21 @@ urlpatterns = [
     path(
         'user/<int:user_key>/pitapat/sent/',
         views.UserPitapatSentViewSet.as_view({
-            'get': 'retrieve',
+            'get': 'list',
         }),
         name='user_pitapat_sent',
     ),
     path(
         'user/<int:user_key>/pitapat/received/',
         views.UserPitapatReceivedViewSet.as_view({
-            'get': 'retrieve',
+            'get': 'list',
         }),
         name='user_pitapat_received',
     ),
     path(
         'user/<int:user_key>/chatroom/',
         views.UserChatroomViewSet.as_view({
-            'get': 'retrieve',
+            'get': 'list',
         }),
         name='user_chatroom'
     ),
@@ -112,14 +112,14 @@ urlpatterns = [
     path(
         'college/university/<int:university_key>/',
         views.CollegeViewSet.as_view({
-            'get': 'retrieve',
+            'get': 'list',
         }),
         name='college_university',
     ),
     path(
         'major/college/<int:college_key>/',
         views.MajorViewSet.as_view({
-            'get': 'retrieve',
+            'get': 'list',
         }),
         name='major_college',
     ),
