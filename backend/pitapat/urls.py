@@ -1,4 +1,4 @@
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -35,20 +35,20 @@ urlpatterns = [
         schema_view.with_ui('redoc', cache_timeout=0),
         name='schema-redoc',
     ),
-    re_path(
-        '^auth/?',
+    path(
+        'auth/',
         include('dj_rest_auth.urls'),
     ),
-    re_path(
-        '^user/?',
+    path(
+        'user/',
         views.UserViewSet.as_view({
             'get': 'list',
             'post': 'create',
         }),
         name='user',
     ),
-    re_path(
-        '^user/<int:key>/?',
+    path(
+        'user/<int:key>/',
         views.UserDetailViewSet.as_view({
             'get': 'retrieve',
             'put': 'partial_update',
@@ -56,51 +56,51 @@ urlpatterns = [
         }),
         name='user_detail',
     ),
-    re_path(
-        '^universities/?',
+    path(
+        'universities/',
         views.UniversityViewSet.as_view({
             'get': 'list',
         }),
         name='universities',
     ),
-    re_path(
-        '^colleges/university/<int:university_key>/?',
+    path(
+        'colleges/university/<int:university_key>/',
         views.CollegeViewSet.as_view({
             'get': 'retrieve',
         }),
         name='collegesuniv',
     ),
-    re_path(
-        '^majors/college/<int:college_key>/?',
+    path(
+        'majors/college/<int:college_key>/',
         views.MajorViewSet.as_view({
             'get': 'retrieve',
         }),
         name='majorscollege',
     ),
-    re_path(
-        '^photo/?',
+    path(
+        'photo/',
         views.PhotoViewSet.as_view({
             'post': 'create',
         }),
         name='photo',
     ),
-    re_path(
-        '^photo/<int:key>/?',
+    path(
+        'photo/<int:key>/',
         views.PhotoDetailViewSet.as_view({
             'get': 'retrieve',
             'delete': 'destroy',
         }),
         name='photo_detail',
     ),
-    re_path(
-        '^tags/?',
+    path(
+        'tags/',
         views.TagViewSet.as_view({
             'get': 'list',
         }),
         name='tag',
     ),
-    re_path(
-        '^user/tags/<int:user_key>/?',
+    path(
+        'user/tags/<int:user_key>/',
         views.UserTagViewSet.as_view({
             'get': 'list',
             'post': 'create',
@@ -108,30 +108,30 @@ urlpatterns = [
         }),
         name='user_tag',
     ),
-    re_path(
-        '^pitapat/?',
+    path(
+        'pitapat/',
         views.PitapatCreateViewSet.as_view({
             'post': 'create',
         }),
         name='pitapat_create',
     ),
-    re_path(
-        '^pitapat/<int:key>',
+    path(
+        'pitapat/<int:key>/',
         views.PitapatViewSet.as_view({
             'post': 'create',
             'delete': 'destroy',
         }),
         name='pitapat_delete',
     ),
-    re_path(
-        '^pitapat/from/<int:user_key>/?',
+    path(
+        'pitapat/from/<int:user_key>/',
         views.PitapatFromViewSet.as_view({
             'get': 'retrieve',
         }),
         name='pitapat_from',
     ),
-    re_path(
-        '^pitapat/to/<int:user_key>/?',
+    path(
+        'pitapat/to/<int:user_key>/',
         views.PitapatToViewSet.as_view({
             'get': 'retrieve',
         }),
