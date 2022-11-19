@@ -26,7 +26,7 @@ class UserListSerializer(serializers.ModelSerializer):
         fields = ['key', 'nickname', 'gender', 'birthday', 'college', 'major', 'repr_photo']
 
 
-class UserListQuerySerializer(serializers.Serializer):
+class UserListFilterSerializer(serializers.Serializer):
     gender = serializers.ChoiceField(choices=('M', 'F'), required=False)
     age_min = serializers.IntegerField(required=False)
     age_max = serializers.IntegerField(required=False)
@@ -34,8 +34,8 @@ class UserListQuerySerializer(serializers.Serializer):
     colleges_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
     majors_included = serializers.ListField(child=serializers.IntegerField(), required=False)
     majors_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
-    # tags_included = serializers.ListField(child=serializers.IntegerField(), required=False)
-    # tags_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
+    tags_included = serializers.ListField(child=serializers.IntegerField(), required=False)
+    tags_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

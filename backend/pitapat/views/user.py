@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import Introduction, Photo, User, UserTag
-from pitapat.serializers import UserListSerializer, UserListQuerySerializer, UserCreateSerializer, UserDetailSerializer
+from pitapat.serializers import UserListSerializer, UserListFilterSerializer, UserCreateSerializer, UserDetailSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,17 +19,26 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return UserCreateSerializer
 
-    @swagger_auto_schema(query_serializer=UserListQuerySerializer)
+    @swagger_auto_schema(query_serializer=UserListFilterSerializer)
     def list(self, request, *args, **kwargs):
         gender = request.GET.get('gender')
-        age_min = int(request.GET.get('age_min')) if request.GET.get('age_min') else None
-        age_max = int(request.GET.get('age_max')) if request.GET.get('age_max') else None
-        colleges_included = [int(c) for c in request.GET.getlist('colleges_included')]
-        colleges_excluded = [int(c) for c in request.GET.getlist('colleges_excluded')]
-        majors_included = [int(m) for m in request.GET.getlist('majors_included')]
-        majors_excluded = [int(m) for m in request.GET.getlist('majors_excluded')]
-        # tags_included = [int(t) for t in request.GET.getlist('tags_included')]
-        # tags_excluded = [int(t) for t in request.GET.getlist('tags_excluded')]
+        age_min = request.GET.get('age_min')
+        age_max = request.GET.get('age_max')
+        colleges_included = request.GET.get('colleges_included')
+        colleges_excluded = request.GET.get('colleges_excluded')
+        majors_included = request.GET.get('majors_included')
+        majors_excluded = request.GET.get('majors_excluded')
+        tags_included = request.GET.get('tags_included')
+        tags_excluded = request.GET.get('tags_excluded')
+
+        age_min = int(age_min) if age_min else None
+        age_max = int(age_max) if age_max else None
+        colleges_included = [int(c) for c in (colleges_included.split(',') if colleges_included else [])]
+        colleges_excluded = [int(c) for c in (colleges_excluded.split(',') if colleges_excluded else [])]
+        majors_included = [int(c) for c in (majors_included.split(',') if majors_included else [])]
+        majors_excluded = [int(c) for c in (majors_excluded.split(',') if majors_excluded else [])]
+        tags_included = [int(c) for c in (tags_included.split(',') if tags_included else [])]
+        tags_excluded = [int(c) for c in (tags_excluded.split(',') if tags_excluded else [])]
 
         now_year = datetime.now().year
         filters = Q()
@@ -47,6 +56,7 @@ class UserViewSet(viewsets.ModelViewSet):
             filters &= Q(major__in=majors_included)
         # if tags_included:
         #     filters &= Q(tags__in=tags_included)
+        #     print(UserTag.objects.filter(tag__in=tags_included))
         if colleges_excluded:
             filters &= ~Q(college__in=colleges_excluded)
         if majors_excluded:
