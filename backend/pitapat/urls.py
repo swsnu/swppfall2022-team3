@@ -143,5 +143,12 @@ urlpatterns = [
             'get': 'retrieve',
         }),
         name='user_chatrooms'
-    )
+    ),
+    path(
+        'auth/email',
+        views.AuthViewSet.as_view({
+            'post': 'create',
+        }),
+        name='auth_email'
+    ),
 ]

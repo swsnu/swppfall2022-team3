@@ -4,3 +4,4 @@ from .tag import TagViewSet, UserTagViewSet
 from .university import UniversityViewSet, CollegeViewSet, MajorViewSet
 from .user import UserViewSet, UserDetailViewSet
 from .userchatroom import UserChatroomViewSet
+from .auth import AuthViewSet
