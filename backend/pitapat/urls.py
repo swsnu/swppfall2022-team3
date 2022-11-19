@@ -138,7 +138,7 @@ urlpatterns = [
         name='pitapat_to',
     ),
     path(
-        'users/<int:user_key>/chatrooms',
+        'users/<int:user_key>/chatrooms/',
         views.UserChatroomViewSet.as_view({
             'get': 'retrieve',
         }),
