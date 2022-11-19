@@ -63,16 +63,21 @@ class UserViewSet(viewsets.ModelViewSet):
             filters &= ~Q(major__in=majors_excluded)
 
         if tags_included:
-            users_with_tags = UserTag.objects.filter(tag__in=tags_included) \
-                                    .values('user') \
-                                    .annotate(cnt=Count('*')) \
-                                    .values('user', 'cnt') \
-                                    .filter(cnt=2) \
-                                    .values('user')
-            filters &= Q(key__in=users_with_tags)
+            users_with_all_required_tags = UserTag.objects.filter(tag__in=tags_included) \
+                                                          .values('user') \
+                                                          .annotate(cnt=Count('*')) \
+                                                          .values('user', 'cnt') \
+                                                          .filter(cnt=2) \
+                                                          .distinct() \
+                                                          .values('user')
+            filters &= Q(key__in=users_with_all_required_tags)
 
         if tags_excluded:
-            pass
+            users_with_banned_tag = UserTag.objects.filter(tag__in=tags_excluded) \
+                                                   .values('user') \
+                                                   .distinct() \
+                                                   .values('user')
+            filters &= ~Q(key__in=users_with_banned_tag)
 
         users = User.objects.filter(filters)
 
