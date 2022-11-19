@@ -117,7 +117,8 @@ urlpatterns = [
     ),
     path(
         'pitapat/<int:key>',
-        views.PitapatDeleteViewSet.as_view({
+        views.PitapatViewSet.as_view({
+            'post': 'create',
             'delete': 'destroy',
         }),
         name='pitapat_delete',
