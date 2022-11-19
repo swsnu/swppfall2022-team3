@@ -26,7 +26,8 @@ class UserTagViewSet(viewsets.ModelViewSet):
         user_key = kwargs['user_key']
         tags = Tag.objects.filter(user=user_key)
         serializer = UserTagListSerializer(tags, many=True)
-        return Response(serializer.data)
+        tag_keys = list(map(lambda x: x['key'], serializer.data))
+        return Response(tag_keys)
 
     def create(self, request, *args, **kwargs):
         user = User.objects.get(key=kwargs['user_key'])
