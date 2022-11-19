@@ -21,6 +21,9 @@ class UserTag(models.Model):
         db_column='tag_key',
     )
 
+    def __str__(self):
+        return f'user {self.user.key} - tag {self.tag.key}'
+
     class Meta:
         managed = False
         db_table = 'R_UserTag'

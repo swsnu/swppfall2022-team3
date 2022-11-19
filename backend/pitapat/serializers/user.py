@@ -23,7 +23,16 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['key', 'nickname', 'gender', 'birthday', 'college', 'major', 'repr_photo']
+        fields = [
+            'key',
+            'nickname',
+            'gender',
+            'birthday',
+            'college',
+            'major',
+            'repr_photo',
+            'tags',
+        ]
 
 
 class UserListFilterSerializer(serializers.Serializer):

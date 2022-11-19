@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Count, Q
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -42,6 +42,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         now_year = datetime.now().year
         filters = Q()
+
         if gender:
             filters &= Q(gender=gender)
         if age_min:
@@ -50,19 +51,29 @@ class UserViewSet(viewsets.ModelViewSet):
         if age_max:
             birth_year_min = now_year - age_max + 2
             filters &= Q(birthday__year__gte=birth_year_min)
+
         if colleges_included:
             filters &= Q(college__in=colleges_included)
-        if majors_included:
-            filters &= Q(major__in=majors_included)
-        # if tags_included:
-        #     filters &= Q(tags__in=tags_included)
-        #     print(UserTag.objects.filter(tag__in=tags_included))
         if colleges_excluded:
             filters &= ~Q(college__in=colleges_excluded)
+
+        if majors_included:
+            filters &= Q(major__in=majors_included)
         if majors_excluded:
             filters &= ~Q(major__in=majors_excluded)
-        # if tags_excluded:
-        #     filters &= ~Q(tags__in=tags_excluded)
+
+        if tags_included:
+            users_with_tags = UserTag.objects.filter(tag__in=tags_included) \
+                                    .values('user') \
+                                    .annotate(cnt=Count('*')) \
+                                    .values('user', 'cnt') \
+                                    .filter(cnt=2) \
+                                    .values('user')
+            filters &= Q(key__in=users_with_tags)
+
+        if tags_excluded:
+            pass
+
         users = User.objects.filter(filters)
 
         serializer = UserListSerializer(users, many=True)
