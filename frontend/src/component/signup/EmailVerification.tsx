@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import style from "../../constant/style";
-import { sendVerificationCode } from "../../util/email";
 import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
@@ -39,7 +38,7 @@ export default function EmailVerification({
 
   const resendOnClick = useCallback(async () => {
     const newCode = getCode();
-    await sendVerificationCode(email, newCode);
+    // await sendVerificationCode(email, newCode);
     setVerificationCode(newCode);
     setSec(180);
   }, [email, setSec, setVerificationCode]);
