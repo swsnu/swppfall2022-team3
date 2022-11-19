@@ -40,7 +40,7 @@ urlpatterns = [
         include('dj_rest_auth.urls'),
     ),
     path(
-        'user/',
+        'user',
         views.UserViewSet.as_view({
             'get': 'list',
             'post': 'create',
