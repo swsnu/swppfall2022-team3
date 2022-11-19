@@ -1,7 +1,9 @@
-from .pitapat import PitapatCreateViewSet, PitapatViewSet, PitapatToViewSet, PitapatFromViewSet
+from .pitapat import PitapatDetailViewSet, PitapatCreateViewSet
 from .photo import PhotoViewSet, PhotoDetailViewSet
 from .tag import TagViewSet
 from .university import UniversityViewSet, CollegeViewSet, MajorViewSet
-from .user import UserViewSet, UserDetailViewSet, UserTagViewSet, UserIntroductionViewSet
-from .userchatroom import UserChatroomViewSet
+from .user import UserViewSet, UserDetailViewSet, UserIntroductionViewSet
+from .user_chatroom import UserChatroomViewSet
+from .user_pitapat import UserPitapatSentViewSet, UserPitapatReceivedViewSet
+from .user_tag import UserTagViewSet
 from .auth import AuthViewSet

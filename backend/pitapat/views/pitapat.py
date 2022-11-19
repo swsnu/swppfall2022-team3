@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import Pitapat, User, Chatroom, UserChatroom
-from pitapat.serializers import PitapatSerializer, UserListSerializer
+from pitapat.serializers import PitapatSerializer
 
 
 class PitapatCreateViewSet(viewsets.ModelViewSet):
@@ -19,7 +19,7 @@ class PitapatCreateViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class PitapatViewSet(viewsets.ModelViewSet):
+class PitapatDetailViewSet(viewsets.ModelViewSet):
     http_method_names = ['post', 'delete']
     queryset = Pitapat.objects.all()
     serializer_class = PitapatSerializer
@@ -33,29 +33,3 @@ class PitapatViewSet(viewsets.ModelViewSet):
         UserChatroom.objects.create(user=from_user, chatroom=chatroom)
         UserChatroom.objects.create(user=to_user, chatroom=chatroom)
         return self.destroy(request)
-
-
-class PitapatToViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get']
-    queryset = Pitapat.objects.all()
-    serializer_class = UserListSerializer
-
-    def retrieve(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        pitapats = Pitapat.objects.filter(to=user)
-        users = [User.objects.get(key=pitapat.is_from.key) for pitapat in pitapats if pitapat.is_from]
-        serializer = UserListSerializer(users, many=True)
-        return Response(serializer.data)
-
-
-class PitapatFromViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get']
-    queryset = Pitapat.objects.all()
-    serializer_class = UserListSerializer
-
-    def retrieve(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        pitapats = Pitapat.objects.filter(is_from=user)
-        users = [User.objects.get(key=pitapat.to.key) for pitapat in pitapats if pitapat.to]
-        serializer = UserListSerializer(users, many=True)
-        return Response(serializer.data)

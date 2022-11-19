@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from pitapat.models import Introduction, Photo, User, UserTag, Tag
 from pitapat.serializers import UserListSerializer, UserListFilterSerializer, UserCreateSerializer, \
-    UserDetailSerializer, UserTagCreateSerializer, UserTagListSerializer, UserIntroductionSerializer
+    UserDetailSerializer, UserIntroductionSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -87,7 +87,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
         users = User.objects.filter(filters)
 
-        serializer = UserListSerializer(users, many=True)
+        # page = self.paginate_queryset(users)
+        # if page is not None:
+        #     serializer = self.get_serializer(users, many=True)
+        #     return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
 
 
@@ -105,41 +110,6 @@ class UserDetailViewSet(viewsets.ModelViewSet):
         for photo in Photo.objects.filter(user=key):
             photo.delete()
         User.objects.get(key=key).delete()
-        return Response(status=204)
-
-
-class UserTagViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get', 'post', 'delete']
-    queryset = Tag.objects.all()
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return UserTagListSerializer
-        if self.action == 'create' or self.action == 'delete':
-            return UserTagCreateSerializer
-
-    def list(self, request, *args, **kwargs):
-        user_key = kwargs['user_key']
-        tags = Tag.objects.filter(user=user_key)
-        serializer = UserTagListSerializer(tags, many=True)
-        tag_keys = list(map(lambda x: x['key'], serializer.data))
-        return Response(tag_keys)
-
-    def create(self, request, *args, **kwargs):
-        user = User.objects.get(key=kwargs['user_key'])
-        tags = request.data.getlist('tags')
-        for tag_key in tags:
-            tag = Tag.objects.get(key=tag_key)
-            UserTag.objects.create(user=user, tag=tag)
-        return Response(status=201)
-
-    @swagger_auto_schema(request_body=UserTagCreateSerializer)
-    def destroy(self, request, *args, **kwargs):
-        user = User.objects.get(key=kwargs['user_key'])
-        tag_keys = request.data['tags']
-        for tag_key in tag_keys:
-            user_tag = UserTag.objects.get(user=user, tag=tag_key)
-            user_tag.delete()
         return Response(status=204)
 
 

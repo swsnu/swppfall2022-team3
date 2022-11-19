@@ -40,6 +40,13 @@ urlpatterns = [
         include('dj_rest_auth.urls'),
     ),
     path(
+        'auth/email',
+        views.AuthViewSet.as_view({
+            'post': 'create',
+        }),
+        name='auth_email'
+    ),
+    path(
         'user/',
         views.UserViewSet.as_view({
             'get': 'list',
@@ -57,7 +64,16 @@ urlpatterns = [
         name='user_detail',
     ),
     path(
-        'user/<int:user_key>/tags/',
+        'user/<int:user_key>/introduction/',
+        views.UserIntroductionViewSet.as_view({
+            'get': 'retrieve',
+            'post': 'create',
+            'put': 'update',
+        }),
+        name='user_introduction',
+    ),
+    path(
+        'user/<int:user_key>/tag/',
         views.UserTagViewSet.as_view({
             'get': 'list',
             'post': 'create',
@@ -66,41 +82,46 @@ urlpatterns = [
         name='user_tag',
     ),
     path(
-        'user/<int:user_key>/introduction/',
-        views.UserIntroductionViewSet.as_view({
+        'user/<int:user_key>/pitapat/sent/',
+        views.UserPitapatSentViewSet.as_view({
             'get': 'retrieve',
-            'post': 'create',
-            'put': 'update',
         }),
-        name='user_tag',
+        name='user_pitapat_sent',
     ),
     path(
-        'user/<int:user_key>/chatrooms/',
+        'user/<int:user_key>/pitapat/received/',
+        views.UserPitapatReceivedViewSet.as_view({
+            'get': 'retrieve',
+        }),
+        name='user_pitapat_received',
+    ),
+    path(
+        'user/<int:user_key>/chatroom/',
         views.UserChatroomViewSet.as_view({
             'get': 'retrieve',
         }),
-        name='user_chatrooms'
+        name='user_chatroom'
     ),
     path(
-        'universities/',
+        'university/',
         views.UniversityViewSet.as_view({
             'get': 'list',
         }),
-        name='universities',
+        name='university',
     ),
     path(
-        'colleges/university/<int:university_key>/',
+        'college/university/<int:university_key>/',
         views.CollegeViewSet.as_view({
             'get': 'retrieve',
         }),
-        name='collegesuniv',
+        name='college_university',
     ),
     path(
-        'majors/college/<int:college_key>/',
+        'major/college/<int:college_key>/',
         views.MajorViewSet.as_view({
             'get': 'retrieve',
         }),
-        name='majorscollege',
+        name='major_college',
     ),
     path(
         'photo/',
@@ -118,7 +139,7 @@ urlpatterns = [
         name='photo_detail',
     ),
     path(
-        'tags/',
+        'tag/',
         views.TagViewSet.as_view({
             'get': 'list',
         }),
@@ -129,35 +150,14 @@ urlpatterns = [
         views.PitapatCreateViewSet.as_view({
             'post': 'create',
         }),
-        name='pitapat_create',
+        name='pitapat',
     ),
     path(
         'pitapat/<int:key>/',
-        views.PitapatViewSet.as_view({
+        views.PitapatDetailViewSet.as_view({
             'post': 'create',
             'delete': 'destroy',
         }),
-        name='pitapat_delete',
-    ),
-    path(
-        'pitapat/from/<int:user_key>/',
-        views.PitapatFromViewSet.as_view({
-            'get': 'retrieve',
-        }),
-        name='pitapat_from',
-    ),
-    path(
-        'pitapat/to/<int:user_key>/',
-        views.PitapatToViewSet.as_view({
-            'get': 'retrieve',
-        }),
-        name='pitapat_to',
-    ),
-    path(
-        'auth/email',
-        views.AuthViewSet.as_view({
-            'post': 'create',
-        }),
-        name='auth_email'
+        name='pitapat_detail',
     ),
 ]
