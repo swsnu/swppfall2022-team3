@@ -31,38 +31,40 @@ class UserViewSet(viewsets.ModelViewSet):
         tags_included = request.GET.get('tags_included')
         tags_excluded = request.GET.get('tags_excluded')
 
-        age_min = int(age_min) if age_min else None
-        age_max = int(age_max) if age_max else None
-        colleges_included = [int(c) for c in (colleges_included.split(',') if colleges_included else [])]
-        colleges_excluded = [int(c) for c in (colleges_excluded.split(',') if colleges_excluded else [])]
-        majors_included = [int(c) for c in (majors_included.split(',') if majors_included else [])]
-        majors_excluded = [int(c) for c in (majors_excluded.split(',') if majors_excluded else [])]
-        tags_included = [int(c) for c in (tags_included.split(',') if tags_included else [])]
-        tags_excluded = [int(c) for c in (tags_excluded.split(',') if tags_excluded else [])]
-
         now_year = datetime.now().year
         filters = Q()
 
         if gender:
             filters &= Q(gender=gender)
+
         if age_min:
+            age_min = int(age_min)
             birth_year_max = now_year - age_min + 1
             filters &= Q(birthday__year__lte=birth_year_max)
+
         if age_max:
+            age_max = int(age_max)
             birth_year_min = now_year - age_max + 2
             filters &= Q(birthday__year__gte=birth_year_min)
 
         if colleges_included:
+            colleges_included = [int(c) for c in colleges_included.split(',')]
             filters &= Q(college__in=colleges_included)
+
         if colleges_excluded:
+            colleges_excluded = [int(c) for c in colleges_excluded.split(',')]
             filters &= ~Q(college__in=colleges_excluded)
 
         if majors_included:
+            majors_included = [int(c) for c in majors_included.split(',')]
             filters &= Q(major__in=majors_included)
+
         if majors_excluded:
+            majors_excluded = [int(c) for c in majors_excluded.split(',')]
             filters &= ~Q(major__in=majors_excluded)
 
         if tags_included:
+            tags_included = [int(c) for c in tags_included.split(',')]
             users_with_all_required_tags = UserTag.objects.filter(tag__in=tags_included) \
                                                           .values('user') \
                                                           .annotate(cnt=Count('*')) \
@@ -73,6 +75,7 @@ class UserViewSet(viewsets.ModelViewSet):
             filters &= Q(key__in=users_with_all_required_tags)
 
         if tags_excluded:
+            tags_excluded = [int(c) for c in tags_excluded.split(',')]
             users_with_banned_tag = UserTag.objects.filter(tag__in=tags_excluded) \
                                                    .values('user') \
                                                    .distinct() \
