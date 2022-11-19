@@ -12,6 +12,6 @@ class UserChatroom(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'R_UserChatRoom'
+        db_table = 'R_UserChatroom'
         verbose_name = 'User-Chatroom Relationship'
         unique_together = (('user', 'chatroom'),)
