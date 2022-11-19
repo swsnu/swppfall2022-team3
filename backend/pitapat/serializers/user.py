@@ -87,7 +87,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     introduction = serializers.SlugRelatedField(
         read_only=True,
-        slug_field='field',
+        slug_field='content',
     )
 
     tags = serializers.SlugRelatedField(
