@@ -71,5 +71,5 @@ export interface User {
   major: number;
   introduction: string;
   tags: number[];
-  photos: number[];
+  photos: string[];
 }

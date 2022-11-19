@@ -1,59 +1,55 @@
 import React, { useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import NavigationBar from "../component/NavigationBar";
 import Profile from "../component/Profile";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { selectPhoto } from "../store/slices/photo";
-import { selectPitapat } from "../store/slices/pitapat";
-import { selectUser } from "../store/slices/user";
-import { PitapatStatus, User } from "../types";
+import { AppDispatch } from "../store";
+import { getUsers, selectUser } from "../store/slices/user";
+import { User } from "../types";
 import { getKoreanAge } from "../util/getKoreanAge";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
 export default function Search() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
-  const pitapats = useSelector(selectPitapat).pitapats;
-  const photos = useSelector(selectPhoto).photos;
 
   useEffect(() => {
     if (!loginUser) {
       navigate(paths.signIn);
     }
-  }, [navigate, loginUser]);
+    else {
+      dispatch(getUsers());
+    }
+
+  }, [navigate, loginUser, dispatch]);
 
   const getNoneStatusProfiles = useCallback((loginUser: User) => {
-    const showUsers = users.filter((user) =>
-      (user.key !== loginUser.key) && (getPitapatStatus(loginUser.key, user.key, pitapats) === PitapatStatus.NONE)
-    );
-    return showUsers.map((user, index) => {
-      const photo = photos.find((p) => p.key === user.photos[0]);
+    return users.map((user, index) => {
       return (
         <Profile
           key={user.key}
-          myKey={loginUser.key}
-          userKey={user.key}
+          user={user}
           nickname={user.nickname}
           koreanAge={getKoreanAge(user.birthday)}
-          photo={photo ? photo.path : ""}
           showRejectButton={false}
-          isLastElement={(index === showUsers.length - 1)}
-          status={getPitapatStatus(loginUser.key, user.key, pitapats)}
+          isLastElement={(index === users.length - 1)}
+          status={getPitapatStatus(loginUser.key, user.key, [])}
         />
       );
     });
-  }, [users, photos, pitapats]);
+  }, [users]);
 
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
-        <section className="h-fit pb-[56px]">
+        <section className="h-fit pb-[56px] overflow-y-scroll">
           {getNoneStatusProfiles(loginUser)}
         </section>
         <NavigationBar/>

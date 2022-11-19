@@ -4,14 +4,13 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import { PitapatStatus } from "../types";
 import Profile, { IProps } from "./Profile";
+import { users } from "../dummyData";
 
 
 const mockIProps: IProps = {
-  myKey: 1,
-  userKey: 2,
+  user: users[2],
   nickname: "test_name",
   koreanAge: 20,
-  photo: "/photo1.jpeg",
   showRejectButton: false,
   isLastElement: false,
   status: PitapatStatus.MATCHED

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Gender, User } from "../../types";
 import { RootState } from "../index";
@@ -7,7 +7,7 @@ import { RootState } from "../index";
 export const signinUrl = "/auth/login/";
 export const signoutUrl = "/auth/logout/";
 export const authUserUrl = "/auth/user/";
-export const userUrl = "/user/";
+export const userUrl = "/user";
 
 type RawUser = {
   key: number;
@@ -21,7 +21,17 @@ type RawUser = {
   major: number;
   introduction: string;
   tags: number[];
-  photos: number[];
+  photos: string[];
+}
+
+type SimplifiedRawUser = {
+  key: number;
+  nickname: string;
+  gender: string;
+  birthday: string;
+  college: number;
+  major: number;
+  repr_photo: string;
 }
 
 const getGender = (genderStr: string): Gender => {
@@ -50,6 +60,20 @@ const rawDataToUser = (rawUser: RawUser): User => (
     photos: rawUser.photos,
   }
 );
+const simplifiedRawDataToUser = (simplifiedRawUser: SimplifiedRawUser): User => ({
+  key: simplifiedRawUser.key,
+  email: "",
+  nickname: simplifiedRawUser.nickname,
+  gender: getGender(simplifiedRawUser.gender),
+  interestedGender: Gender.ALL,
+  birthday: simplifiedRawUser.birthday,
+  university: 0,
+  college: simplifiedRawUser.college,
+  major: simplifiedRawUser.major,
+  introduction: "",
+  tags: [],
+  photos: [simplifiedRawUser.repr_photo],
+});
 export const userToRawData = (user: User): RawUser => (
   {
     key: user.key,
@@ -70,11 +94,13 @@ export const userToRawData = (user: User): RawUser => (
 export interface UserState {
   users: User[];
   loginUser: User | null;
+  interestingUser: User | null;
 }
 
 const initialState: UserState = {
   users: [],
   loginUser: null,
+  interestingUser: null,
 };
 
 
@@ -120,10 +146,41 @@ export const fetchSignup = createAsyncThunk(
   }
 );
 
+export const getUsers = createAsyncThunk(
+  "user/get-all",
+  async (): Promise<User[] | null> => {
+    const response = await axios.get(userUrl);
+    if (response.status === 200) {
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+/**
+ * should be called after state.interestedUser is set
+ */
+export const getUserTags = createAsyncThunk(
+  "user/tags",
+  async (userKey: number): Promise<number[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/tags`);
+    if (response.status === 200) {
+      return response.data as number[];
+    }
+    return null;
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setInterestedUser: (state, action: PayloadAction<User>) => {
+      state.interestingUser = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchSignin.fulfilled,
@@ -135,6 +192,27 @@ const userSlice = createSlice({
       fetchSignout.fulfilled,
       (state) => {
         state.loginUser = null;
+      }
+    );
+    builder.addCase(
+      getUsers.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.users = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getUserTags.fulfilled,
+      (state, action) => {
+        if (action.payload && state.interestingUser) {
+          const newInterestedUser: User = {
+            ...state.interestingUser,
+            tags: action.payload,
+          };
+          state.interestingUser = newInterestedUser;
+          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
+        }
       }
     );
   },

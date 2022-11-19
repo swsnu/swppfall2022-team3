@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectPhoto } from "../store/slices/photo";
 import { User } from "../types";
 import encryptor from "../util/encryptor";
 
@@ -18,11 +16,7 @@ export default function ChatListElement({
   lastChat,
 }: IProps) {
   const navigate = useNavigate();
-  const userPhotos =
-    useSelector(selectPhoto).photos
-      .filter((photo) => otherUser.photos.indexOf(photo.key) !== -1)
-      .sort((a, b) => a.index - b.index);
-  const photoPath = userPhotos[0].path;
+  const photoPath = otherUser.photos[0];
 
   const elementOnClick = useCallback(() => {
     const encrypted = encryptor.encrypt(

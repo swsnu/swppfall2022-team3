@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
-import { pitapatAction, selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
 import { PitapatStatus } from "../types";
 
@@ -23,14 +22,13 @@ export default function PitapatButton({
 }: IProps) {
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-  const pitapats = useSelector(selectPitapat).pitapats;
 
   const isPitapatAlreadysent = useCallback(() => {
     if (!loginUser) {
       return false;
     }
-    return pitapats.filter((p) => p.from === loginUser.key).filter((p) => p.to === to).length !== 0;
-  }, [loginUser, pitapats, to]);
+    return false;
+  }, [loginUser, to]);
 
   const getIconText = useCallback(() => {
     if (!isAccept) {
@@ -56,12 +54,12 @@ export default function PitapatButton({
   }, [isAccept, pitapatStatus]);
 
   const pitapatOnClick = useCallback(() => {
+    /*
     if (isAccept) {
-      dispatch(pitapatAction.toggle({ from: from, to: to }));
     }
     else {
-      dispatch(pitapatAction.delete({ from: to, to: from }));
     }
+    */
   }, [dispatch, isAccept, from, to]);
 
   return (

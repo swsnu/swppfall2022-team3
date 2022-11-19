@@ -8,10 +8,7 @@ import PitapatReceived from "../component/pitapat/PitapatReceived";
 import PitapatSent from "../component/pitapat/PitapatSent";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
-import { PitapatStatus } from "../types";
-import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
 type TabIndex = 0 | 1;
@@ -27,7 +24,6 @@ const theme = createTheme({
 export default function PitapatList() {
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
-  const pitapats = useSelector(selectPitapat).pitapats;
   const [selectedTabIndex, setSelectedTabIndex] = useState<TabIndex>(0);
 
   useEffect(() => {
@@ -60,19 +56,13 @@ export default function PitapatList() {
             (
               <PitapatReceived
                 pitapats={
-                  pitapats.filter((p) =>
-                    (p.to === loginUser?.key) &&
-                      (getPitapatStatus(loginUser?.key, p.from, pitapats) !== PitapatStatus.MATCHED)
-                  )
+                  []
                 }
               />
             ) :
             <PitapatSent
               pitapats={
-                pitapats.filter((p) =>
-                  (p.from === loginUser?.key) &&
-                    (getPitapatStatus(loginUser?.key, p.to, pitapats) !== PitapatStatus.MATCHED)
-                )
+                []
               }
             />
         }

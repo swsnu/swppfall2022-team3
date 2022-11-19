@@ -13,7 +13,7 @@ describe("PhotoSlider", () => {
 
   it("renders PhotoSlider", () => {
     const { container } = render(
-      <PhotoSlider user={users[0]} photos={photos}/>
+      <PhotoSlider user={users[0]}/>
     );
     expect(container).toBeTruthy();
   });

@@ -7,7 +7,6 @@ import NavigationBar from "../component/NavigationBar";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { selectChat } from "../store/slices/chat";
-import { selectPitapat } from "../store/slices/pitapat";
 import { selectUser } from "../store/slices/user";
 import { User } from "../types";
 
@@ -20,21 +19,14 @@ type ChatRoomInfo = {
 export default function ChatList() {
   const loginUser = useSelector(selectUser).loginUser;
   const users = useSelector(selectUser).users;
-  const pitapats = useSelector(selectPitapat).pitapats;
   const chats = useSelector(selectChat).chats;
   const navigate = useNavigate();
   const [chatRoomInfos, setChatRoomInfos] = useState<ChatRoomInfo[]>([]);
 
   useEffect(() => {
     if (loginUser) {
-      const sentPitapatKeys =
-        pitapats
-          .filter((p) => p.from === loginUser.key)
-          .map((p) => p.to);
-      const receivedPitapatKeys =
-        pitapats
-          .filter((p) => p.to === loginUser.key)
-          .map((p) => p.from);
+      const sentPitapatKeys: number[] = [];
+      const receivedPitapatKeys: number[] = [];
       const myChats =
         chats
           .filter((c) => (c.to === loginUser.key) || (c.from === loginUser.key))
@@ -54,7 +46,7 @@ export default function ChatList() {
     else {
       navigate(paths.signIn);
     }
-  }, [loginUser, users, pitapats, chats, navigate]);
+  }, [loginUser, users, chats, navigate]);
 
   return (
     <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>

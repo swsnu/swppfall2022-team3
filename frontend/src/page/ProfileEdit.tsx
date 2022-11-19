@@ -5,7 +5,6 @@ import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { selectPhoto } from "../store/slices/photo";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/getKoreanAge";
@@ -14,7 +13,6 @@ import { getKoreanAge } from "../util/getKoreanAge";
 export default function ProfileEdit() {
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
-  const photos = useSelector(selectPhoto).photos;
   const tags = useSelector(selectTag).tags;
 
   useEffect(() => {
@@ -32,7 +30,6 @@ export default function ProfileEdit() {
         <section className={"relative"}>
           <PhotoSlider
             user={loginUser}
-            photos={photos}
           />
         </section>
         <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
@@ -45,5 +42,5 @@ export default function ProfileEdit() {
         <article className={"mx-3 mb-6 text-base"}>{loginUser.introduction}</article>
       </section>
     </section>
-  ) : <section></section>;
+  ) : <section/>;
 }

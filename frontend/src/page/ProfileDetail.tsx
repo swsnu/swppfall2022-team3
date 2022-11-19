@@ -1,70 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { Navigate } from "react-router";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import PitapatButton from "../component/PitapatButton";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { selectPhoto } from "../store/slices/photo";
-import { selectPitapat } from "../store/slices/pitapat";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { User } from "../types";
 import { getKoreanAge } from "../util/getKoreanAge";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
 export default function ProfileDetail() {
-  const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
-  const users = useSelector(selectUser).users;
-  const photos = useSelector(selectPhoto).photos;
-  const pitapats = useSelector(selectPitapat).pitapats;
+  const interestingUser = useSelector(selectUser).interestingUser;
   const tags = useSelector(selectTag).tags;
-  const { id } = useParams();
-  const [user, setUser] = useState<User>();
 
-  useEffect(() => {
-    if (!loginUser) {
-      navigate(paths.signIn);
-    }
-  }, [navigate, loginUser]);
-
-  useEffect(() => {
-    setUser(users.find((user) => user.key === Number(id)));
-  }, [id, users]);
-
-  return (loginUser && user) ? (
-    // add bottom margin if navigation bar is added
-    // <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
+  return (loginUser && interestingUser) ? (
     <section className={`${style.page.base} ${style.page.margin.top}`}>
-      <AppBar title={`${user.nickname}/${getKoreanAge(user.birthday)}`}/>
+      <AppBar title={`${interestingUser.nickname}/${getKoreanAge(interestingUser.birthday)}`}/>
       <section className={"w-full flex-1 z-0 flex flex-col"}>
         <section className={"relative"}>
           <PhotoSlider
-            user={user}
-            photos={photos}
+            user={interestingUser}
           />
           <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>
             <PitapatButton
               from={loginUser.key}
-              to={user.key}
-              pitapatStatus={getPitapatStatus(loginUser.key, user.key, pitapats)}
+              to={interestingUser.key}
+              pitapatStatus={getPitapatStatus(loginUser.key, interestingUser.key, [])}
               isAccept={true}
               isListView={false}
             />
           </div>
         </section>
         <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
-          {user.tags.map((t, index) =>
+          {interestingUser.tags.map((t, index) =>
             <div key={index} className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
               {tags.find((tag) => tag.key === t)?.name}
             </div>
           )}
         </article>
-        <article className={"mx-3 mb-6 text-base"}>{user.introduction}</article>
+        <article className={"mx-3 mb-6 text-base"}>{interestingUser.introduction}</article>
       </section>
     </section>
-  ) : <section></section>;
+  ) :
+    (!loginUser)?
+      <Navigate replace to={paths.signIn}/> :
+      <Navigate replace to={paths.search}/>;
 }

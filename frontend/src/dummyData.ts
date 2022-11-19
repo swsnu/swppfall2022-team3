@@ -283,7 +283,7 @@ export const users: User[] = [
     major: 38,
     introduction: "안녕하세요",
     tags: [1, 2, 3, 4],
-    photos: [1, 2],
+    photos: ["/photo1.jpeg", "/photo2.jpeg"],
   },
   {
     key: 2,
@@ -297,7 +297,7 @@ export const users: User[] = [
     major: 9,
     introduction: "안녕하세요 ㅎㅎ 반갑습니다 저는 인문대 다니고 있는 99년생 학생이에요!",
     tags: [1, 2, 5, 6, 7, 11],
-    photos: [3, 4, 6],
+    photos: ["/photo3.jpeg", "/photo4.jpeg", "/photo6.jpeg"],
   },
   {
     key: 3,
@@ -311,7 +311,7 @@ export const users: User[] = [
     major: 21,
     introduction: "처음이라 떨리네요 ㅎㅎ 사회대 다니고있는 23살 여자입니다 잘부탁드려요!!",
     tags: [1, 3, 7],
-    photos: [5],
+    photos: ["/photo5.jpeg"],
   },
   {
     key: 4,
@@ -325,7 +325,7 @@ export const users: User[] = [
     major: 25,
     introduction: "반갑습니다",
     tags: [2, 4, 7],
-    photos: [7],
+    photos: ["/photo7.jpeg"],
   },
   {
     key: 5,
@@ -339,7 +339,7 @@ export const users: User[] = [
     major: 32,
     introduction: "주로 방에 누워있는 걸 좋아해요. 집에만 있습니다.",
     tags: [2],
-    photos: [8],
+    photos: ["/photo8.jpeg"],
   },
   {
     key: 6,
@@ -353,7 +353,7 @@ export const users: User[] = [
     major: 1,
     introduction: "고독한 미식가",
     tags: [2, 3],
-    photos: [9],
+    photos: ["/photo9.jpeg"],
   },
   {
     key: 7,
@@ -367,7 +367,7 @@ export const users: User[] = [
     major: 52,
     introduction: "im good guy",
     tags: [2, 3, 5, 7],
-    photos: [10],
+    photos: ["/photo10.jpeg"],
   },
   {
     key: 8,
@@ -381,7 +381,7 @@ export const users: User[] = [
     major: 60,
     introduction: "건축을 사랑해요.",
     tags: [2, 3, 4, 7],
-    photos: [11],
+    photos: ["/photo11.jpeg"],
   },
   {
     key: 9,
@@ -395,7 +395,7 @@ export const users: User[] = [
     major: 52,
     introduction: "목공을 좋아합니다.",
     tags: [2, 3, 5, 7],
-    photos: [12],
+    photos: ["/photo12.jpeg"],
   },
 ];
 

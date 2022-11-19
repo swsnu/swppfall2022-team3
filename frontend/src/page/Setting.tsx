@@ -5,7 +5,6 @@ import AppBar from "../component/AppBar";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { selectPhoto } from "../store/slices/photo";
 import { fetchSignout, selectUser } from "../store/slices/user";
 
 
@@ -13,7 +12,6 @@ export default function Setting() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-  const photos = useSelector(selectPhoto).photos;
 
   useEffect(() => {
     if (!loginUser) {
@@ -22,9 +20,9 @@ export default function Setting() {
   }, [navigate, loginUser]);
 
   const getReprPhotoPath = useCallback(() => {
-    const photo = photos.find((p) => p.key === loginUser?.photos[0]);
-    return photo ? photo.path : "";
-  }, [loginUser, photos]);
+    const photoPath = loginUser?.photos[0];
+    return photoPath ?? "";
+  }, [loginUser]);
 
   return (
     <section className={`${style.page.base} ${style.page.margin.top} mb-16`}>
