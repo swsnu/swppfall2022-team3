@@ -140,9 +140,8 @@ The functionality and the requirement for each page are described below.
 |                  | `/pitapat/<int:key>/`                       | X                            | accept a pitapat                        | X                              | delete a pitapat                                             |
 | **Block**        | `/block/user/<int:user_key>`                | get blocks from a user       | create new block from a user            | X                              | X                                                            |
 |                  | `/block/<int:key>`                          | X                            | X                                       | X                              | delete a block                                               |
-| **Chat**         | `/chatroom/user/<int:user_key>/`            | get chatrooms of a user      | create new chatroom of a user           | X                              | X                                                            |
+| **Chat**         | `/chatroom/user/<int:user_key>/`            | get chatrooms of a user      | X                                       | X                              | X                                                            |
 |                  | `/chatroom/<int:key>/`                      | X                            | X                                       | X                              | delete a chatroom                                            |
-|                  | `/chat/chatroom/<int:chatroom_key>/`        | get chats of a chatroom      | create new chat in a chatroom           | X                              | X                                                            |
 
 #### HTTP Data Format
 

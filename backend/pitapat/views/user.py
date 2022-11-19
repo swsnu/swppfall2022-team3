@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db.models import Q
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
@@ -20,8 +22,8 @@ class UserViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(query_serializer=UserListQuerySerializer)
     def list(self, request, *args, **kwargs):
         gender = request.GET.get('gender')
-        # age_min = request.GET.get('age_min')
-        # age_max = request.GET.get('age_max')
+        age_min = int(request.GET.get('age_min')) if request.GET.get('age_min') else None
+        age_max = int(request.GET.get('age_max')) if request.GET.get('age_max') else None
         colleges_included = [int(c) for c in request.GET.getlist('colleges_included')]
         colleges_excluded = [int(c) for c in request.GET.getlist('colleges_excluded')]
         majors_included = [int(m) for m in request.GET.getlist('majors_included')]
@@ -29,9 +31,16 @@ class UserViewSet(viewsets.ModelViewSet):
         # tags_included = [int(t) for t in request.GET.getlist('tags_included')]
         # tags_excluded = [int(t) for t in request.GET.getlist('tags_excluded')]
 
+        now_year = datetime.now().year
         filters = Q()
         if gender:
             filters &= Q(gender=gender)
+        if age_min:
+            birth_year_max = now_year - age_min + 1
+            filters &= Q(birthday__year__lte=birth_year_max)
+        if age_max:
+            birth_year_min = now_year - age_max + 2
+            filters &= Q(birthday__year__gte=birth_year_min)
         if colleges_included:
             filters &= Q(college__in=colleges_included)
         if majors_included:
@@ -44,7 +53,7 @@ class UserViewSet(viewsets.ModelViewSet):
             filters &= ~Q(major__in=majors_excluded)
         # if tags_excluded:
         #     filters &= ~Q(tags__in=tags_excluded)
-        users = User.objects.filter(filters).distinct()
+        users = User.objects.filter(filters)
 
         serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)
