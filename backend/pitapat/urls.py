@@ -109,25 +109,29 @@ urlpatterns = [
         name='user_tag',
     ),
     path(
-        'pitapat/', views.PitapatCreateViewSet.as_view({
+        'pitapat/',
+        views.PitapatCreateViewSet.as_view({
             'post': 'create',
         }),
         name='pitapat_create',
     ),
     path(
-        'pitapat/<int:key>/', views.PitapatDeleteViewSet.as_view({
+        'pitapat/<int:key>/',
+        views.PitapatDeleteViewSet.as_view({
             'delete': 'destroy',
         }),
         name='pitapat_delete',
     ),
     path(
-        'pitapat/from/<int:user_key>', views.PitapatFromViewSet.as_view({
+        'pitapat/from/<int:user_key>',
+        views.PitapatFromViewSet.as_view({
             'get': 'retrieve',
         }),
         name='pitapat_from',
     ),
     path(
-        'pitapat/to/<int:user_key>/', views.PitapatToViewSet.as_view({
+        'pitapat/to/<int:user_key>/',
+        views.PitapatToViewSet.as_view({
             'get': 'retrieve',
         }),
         name='pitapat_to',
