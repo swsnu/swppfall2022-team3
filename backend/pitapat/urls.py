@@ -66,6 +66,22 @@ urlpatterns = [
         name='user_tag',
     ),
     path(
+        'user/<int:user_key>/introduction/',
+        views.UserIntroductionViewSet.as_view({
+            'get': 'retrieve',
+            'post': 'create',
+            'put': 'update',
+        }),
+        name='user_tag',
+    ),
+    path(
+        'user/<int:user_key>/chatrooms/',
+        views.UserChatroomViewSet.as_view({
+            'get': 'retrieve',
+        }),
+        name='user_chatrooms'
+    ),
+    path(
         'universities/',
         views.UniversityViewSet.as_view({
             'get': 'list',
@@ -136,13 +152,6 @@ urlpatterns = [
             'get': 'retrieve',
         }),
         name='pitapat_to',
-    ),
-    path(
-        'users/<int:user_key>/chatrooms/',
-        views.UserChatroomViewSet.as_view({
-            'get': 'retrieve',
-        }),
-        name='user_chatrooms'
     ),
     path(
         'auth/email',

@@ -1,13 +1,15 @@
 from datetime import datetime
 
 from django.db.models import Count, Q
+from django.http import HttpResponseBadRequest
+from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import Introduction, Photo, User, UserTag, Tag
 from pitapat.serializers import UserListSerializer, UserListFilterSerializer, UserCreateSerializer, \
-    UserDetailSerializer, UserTagCreateSerializer, UserTagListSerializer
+    UserDetailSerializer, UserTagCreateSerializer, UserTagListSerializer, UserIntroductionSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -144,3 +146,29 @@ class UserTagViewSet(viewsets.ModelViewSet):
 class UserIntroductionViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     queryset = Introduction.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
+        introduction = get_object_or_404(Introduction.objects.all(), user=user)
+        return Response(introduction.content)
+
+    @swagger_auto_schema(request_body=UserIntroductionSerializer)
+    def update(self, request, *args, **kwargs):
+        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
+        introduction = get_object_or_404(Introduction.objects.all(), user=user)
+        content = request.data['content']
+        if content is None:
+            return HttpResponseBadRequest()
+        introduction.content = content
+        introduction.save()
+        return Response(introduction.content)
+
+    @swagger_auto_schema(request_body=UserIntroductionSerializer)
+    def create(self, request, *args, **kwargs):
+        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
+        content = request.data['content']
+        if content is None or Introduction.objects.filter(user=user).count() != 0:
+            return HttpResponseBadRequest()
+        introduction = Introduction(user=user, content=content)
+        introduction.save()
+        return Response(introduction.content)
