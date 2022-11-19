@@ -176,6 +176,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AWS S3
 
+IMAGE_URL = get_external_value(
+    BASE_DIR / 'backend/.secrets/s3.json',
+    'url',
+)
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False

@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from pitapat.constants import S3_URL
+from backend.settings import IMAGE_URL
 from pitapat.models import Introduction, Tag, User, UserTag
 
 
 class ImageUrlField(serializers.RelatedField):
     def to_representation(self, value):
-        return f'{S3_URL}{value.name}'
+        return f'{IMAGE_URL}{value.name}'
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class UserListSerializer(serializers.ModelSerializer):
     def get_repr_photo(self, obj: User):
         if not obj.photos.all():
             return ''
-        return f'{S3_URL}{obj.photos.all()[0].name}'
+        return f'{IMAGE_URL}{obj.photos.all()[0].name}'
     repr_photo = serializers.SerializerMethodField(method_name='get_repr_photo')
 
     class Meta:
