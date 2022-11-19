@@ -8,12 +8,12 @@ from . import views
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="pitapat campus api",
-        default_version="v0",
-        description="두근두근 캠퍼스 백엔드 api입니다",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(name="email", email="pitapatcampus@gmail.com"),
-        license=openapi.License(name="Test License"),
+        title='pitapat campus api',
+        default_version='v0',
+        description='두근두근 캠퍼스 백엔드 api입니다',
+        terms_of_service='https://www.google.com/policies/terms/',
+        contact=openapi.Contact(name='email', email='pitapatcampus@gmail.com'),
+        license=openapi.License(name='Test License'),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
@@ -23,7 +23,7 @@ urlpatterns = [
     re_path(
         r'^swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=0),
-        name="schema-json",
+        name='schema-json',
     ),
     re_path(
         r'^swagger/$',
@@ -48,7 +48,7 @@ urlpatterns = [
         name='user',
     ),
     path(
-        'user/<int:key>/',
+        'user/<int:key>',
         views.UserDetailViewSet.as_view({
             'get': 'retrieve',
             'put': 'partial_update',
@@ -57,35 +57,35 @@ urlpatterns = [
         name='user_detail',
     ),
     path(
-        'universities/',
+        'universities',
         views.UniversityViewSet.as_view({
             'get': 'list',
         }),
         name='universities',
     ),
     path(
-        'colleges/university/<int:university_key>/',
+        'colleges/university/<int:university_key>',
         views.CollegeViewSet.as_view({
             'get': 'retrieve',
         }),
         name='collegesuniv',
     ),
     path(
-        'majors/college/<int:college_key>/',
+        'majors/college/<int:college_key>',
         views.MajorViewSet.as_view({
             'get': 'retrieve',
         }),
         name='majorscollege',
     ),
     path(
-        'photo/',
+        'photo',
         views.PhotoViewSet.as_view({
             'post': 'create',
         }),
         name='photo',
     ),
     path(
-        'photo/<int:key>/',
+        'photo/<int:key>',
         views.PhotoDetailViewSet.as_view({
             'get': 'retrieve',
             'delete': 'destroy',
@@ -93,14 +93,14 @@ urlpatterns = [
         name='photo_detail',
     ),
     path(
-        'tags/',
+        'tags',
         views.TagViewSet.as_view({
             'get': 'list',
         }),
         name='tag',
     ),
     path(
-        'tags/user/<int:user_key>/',
+        'user/tags/<int:user_key>',
         views.UserTagViewSet.as_view({
             'get': 'list',
             'post': 'create',
@@ -109,14 +109,14 @@ urlpatterns = [
         name='user_tag',
     ),
     path(
-        'pitapat/',
+        'pitapat',
         views.PitapatCreateViewSet.as_view({
             'post': 'create',
         }),
         name='pitapat_create',
     ),
     path(
-        'pitapat/<int:key>/',
+        'pitapat/<int:key>',
         views.PitapatDeleteViewSet.as_view({
             'delete': 'destroy',
         }),
@@ -130,7 +130,7 @@ urlpatterns = [
         name='pitapat_from',
     ),
     path(
-        'pitapat/to/<int:user_key>/',
+        'pitapat/to/<int:user_key>',
         views.PitapatToViewSet.as_view({
             'get': 'retrieve',
         }),
