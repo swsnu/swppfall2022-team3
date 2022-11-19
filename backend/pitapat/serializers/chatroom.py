@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from pitapat.models import Chatroom
+from pitapat.models import User
 
 
 class UserChatroomSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Chatroom
-        fields = ['key']
+        model = User
+        fields = ['chatrooms']

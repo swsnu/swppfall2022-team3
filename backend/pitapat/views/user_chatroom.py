@@ -13,8 +13,6 @@ class UserChatroomViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        userchatrooms = UserChatroom.objects.filter(user=user)
-        chatrooms = [Chatroom.objects.get(key=userchatroom.chatroom.key) for userchatroom in userchatrooms if userchatroom.chatroom]
-        serializer = UserChatroomSerializer(chatrooms, many=True)
-        return Response(serializer.data)
-
+        serializer = UserChatroomSerializer(user)
+        chatrooms = [chatroom for chatroom in serializer.data['chatrooms']]
+        return Response(chatrooms)
