@@ -9,7 +9,7 @@ export const signoutUrl = "/auth/logout/";
 export const authUserUrl = "/auth/user/";
 export const userUrl = "/user";
 
-type RawUser = {
+export type RawUser = {
   key: number;
   email: string;
   nickname: string;
@@ -24,7 +24,7 @@ type RawUser = {
   photos: string[];
 }
 
-type SimplifiedRawUser = {
+export type SimplifiedRawUser = {
   key: number;
   nickname: string;
   gender: string;
@@ -116,6 +116,8 @@ export const fetchSignin = createAsyncThunk(
       await axios.post(signinUrl, user);
       // get user key
       const authResponse = await axios.get(authUserUrl);
+      if (authResponse.status !== 200)
+        return null;
       const userKey = authResponse.data.pk as number;
       // get user data
       const userResponse = await axios.get(`${userUrl}/${userKey}`);
