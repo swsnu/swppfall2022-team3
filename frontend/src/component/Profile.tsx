@@ -4,27 +4,21 @@ import { Navigate, useNavigate } from "react-router";
 import paths from "../constant/path";
 import { AppDispatch } from "../store";
 import { getUserIntroduction, getUserTags, selectUser, userActions } from "../store/slices/user";
-import { PitapatStatus, User } from "../types";
-import { getPitapatStatus } from "../util/getPitapatStatus";
+import { User } from "../types";
+import { getKoreanAge } from "../util/getKoreanAge";
 import PitapatButton from "./PitapatButton";
 
 
 export interface IProps {
   user: User;
-  nickname: string;
-  koreanAge: number;
   showRejectButton: boolean;
   isLastElement: boolean;
-  status: PitapatStatus;
 }
 
 export default function Profile({
   user,
-  nickname,
-  koreanAge,
   showRejectButton,
   isLastElement,
-  status,
 }: IProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -63,11 +57,10 @@ export default function Profile({
           <div className={"flex flex-row items-center"}>
             <div className={"flex-none w-16"}>
               {
-                getPitapatStatus(loginUser.key, user.key, []) && showRejectButton ?
+                showRejectButton ?
                   <PitapatButton
                     from={loginUser.key}
                     to={user.key}
-                    pitapatStatus={status}
                     isAccept={false}
                     isListView={true}
                   /> :
@@ -75,13 +68,12 @@ export default function Profile({
               }
             </div>
             <div className={"flex-auto truncate flex flex-col text-center text-white text-lg font-bold"}>
-              <div className={"flex-none mx-2 truncate"}>{nickname}/{koreanAge}</div>
+              <div className={"flex-none mx-2 truncate"}>{user.nickname}/{getKoreanAge(user.birthday)}</div>
             </div>
             <div className={"flex-none w-16"}>
               <PitapatButton
                 from={loginUser.key}
                 to={user.key}
-                pitapatStatus={status}
                 isAccept={true}
                 isListView={true}
               />

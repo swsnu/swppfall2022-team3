@@ -1,4 +1,4 @@
-import { University, College, Major, User, Photo, Tag, Gender, Chat, Pitapat } from "./types";
+import { University, College, Major, User, Photo, Tag, Gender, Chat } from "./types";
 
 
 export const universities: University[] = [
@@ -254,16 +254,6 @@ export const photos: Photo[] = [
   },
 ];
 
-export const pitapats: Pitapat[] = [
-  { from: 1, to: 2 },
-  { from: 1, to: 3 },
-  { from: 1, to: 5 },
-  { from: 2, to: 1 },
-  { from: 3, to: 1 },
-  { from: 8, to: 1 },
-  { from: 9, to: 1 },
-];
-
 export const chats: Chat[] = [
   { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01 16:00:00") },
   { key: 2, from: 1, to: 2, content: "저도 반가워요~", regDt: new Date("2022-11-01 16:30:00") },
@@ -408,7 +398,6 @@ const dummyData = {
   users,
   photos,
   tags,
-  pitapats,
   chats,
 };
 

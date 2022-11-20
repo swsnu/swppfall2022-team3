@@ -95,12 +95,16 @@ export interface UserState {
   users: User[];
   loginUser: User | null;
   interestingUser: User | null;
+  pitapatSenders: User[];
+  pitapatReceivers: User[];
 }
 
 const initialState: UserState = {
   users: [],
   loginUser: null,
   interestingUser: null,
+  pitapatSenders: [],
+  pitapatReceivers: [],
 };
 
 
@@ -191,6 +195,32 @@ export const getUserIntroduction = createAsyncThunk(
   }
 );
 
+export const getPitapatSenders = createAsyncThunk(
+  "user/pitapat-senders-to-user",
+  async (userKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/pitapat/to/`);
+    if (response.status === 200) {
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getPitapatReceivers = createAsyncThunk(
+  "user/pitapat-receivers-to-user",
+  async (userKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/pitapat/from/`);
+    if (response.status === 200) {
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -243,6 +273,22 @@ const userSlice = createSlice({
           };
           state.interestingUser = newInterestedUser;
           state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
+        }
+      }
+    );
+    builder.addCase(
+      getPitapatSenders.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.pitapatSenders = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getPitapatReceivers.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.pitapatReceivers = action.payload;
         }
       }
     );

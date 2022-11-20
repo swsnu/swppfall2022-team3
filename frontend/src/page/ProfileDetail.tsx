@@ -10,7 +10,6 @@ import { AppDispatch } from "../store";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/getKoreanAge";
-import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
 export default function ProfileDetail() {
@@ -46,7 +45,6 @@ export default function ProfileDetail() {
             <PitapatButton
               from={loginUser.key}
               to={interestingUser.key}
-              pitapatStatus={getPitapatStatus(loginUser.key, interestingUser.key, [])}
               isAccept={true}
               isListView={false}
             />

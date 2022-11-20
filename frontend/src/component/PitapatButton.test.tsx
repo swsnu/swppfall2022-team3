@@ -27,7 +27,6 @@ describe("PitapatButton", () => {
         <PitapatButton
           from={1}
           to={2}
-          pitapatStatus={status}
           isAccept={isAccept}
           isListView={isListView}
         />
@@ -64,20 +63,14 @@ describe("PitapatButton", () => {
   });
 
   it("prints 수락 when status is RECEIVED", () => {
-    render(getElement(mockStore, PitapatStatus.RECEIVED, true, true));
+    render(getElement(mockStore, PitapatStatus.TO_ME, true, true));
     const text = screen.getByText("수락");
     expect(text).toBeInTheDocument();
   });
 
   it("prints 취소 when status is RECEIVED", () => {
-    render(getElement(mockStore, PitapatStatus.SENT, true, true));
+    render(getElement(mockStore, PitapatStatus.FROM_ME, true, true));
     const text = screen.getByText("취소");
-    expect(text).toBeInTheDocument();
-  });
-
-  it("prints 매칭 when status is RECEIVED", () => {
-    render(getElement(mockStore, PitapatStatus.MATCHED, true, true));
-    const text = screen.getByText("매칭");
     expect(text).toBeInTheDocument();
   });
 

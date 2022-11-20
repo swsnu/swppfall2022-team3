@@ -8,7 +8,6 @@ import { PitapatStatus } from "../types";
 interface IProps {
   from: number;
   to: number;
-  pitapatStatus: PitapatStatus;
   isAccept: boolean;
   isListView: boolean;
 }
@@ -16,42 +15,68 @@ interface IProps {
 export default function PitapatButton({
   from,
   to,
-  pitapatStatus,
   isAccept,
   isListView,
 }: IProps) {
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
+  const senders = useSelector(selectUser).pitapatSenders;
+  const receivers = useSelector(selectUser).pitapatReceivers;
 
-  const isPitapatAlreadysent = useCallback(() => {
-    if (!loginUser) {
-      return false;
+  const getPitapatStatus = useCallback((): PitapatStatus => {
+    if (
+      (!loginUser) ||
+      ((loginUser.key !== from) && (loginUser.key !== to))
+    ) {
+      return PitapatStatus.NONE;
     }
-    return false;
-  }, [loginUser, to]);
+    else if (loginUser.key === from) {
+      const receiverKeys: number[] = receivers.map((u) => u.key);
+      if (receiverKeys.indexOf(to) >= 0) {
+        return PitapatStatus.FROM_ME;
+      }
+      else {
+        return PitapatStatus.NONE;
+      }
+    }
+    else {
+      const senderKeys: number[] = senders.map((u) => u.key);
+      if (senderKeys.indexOf(from) >= 0) {
+        return PitapatStatus.TO_ME;
+      }
+      else {
+        return PitapatStatus.NONE;
+      }
+    }
+  }, [loginUser, senders, receivers, to, from]);
 
   const getIconText = useCallback(() => {
     if (!isAccept) {
       return "X";
     }
-    return isPitapatAlreadysent() ? "♥" : "♡";
-  }, [isAccept, isPitapatAlreadysent]);
+    else if (
+      (loginUser?.key === to)
+    ) {
+      return "♥";
+    }
+    else {
+      return "♡";
+    }
+  }, [isAccept, loginUser, to]);
 
   const getButtonText = useCallback(() => {
     if (!isAccept) {
       return "거절";
     }
-    switch (pitapatStatus) {
+    switch (getPitapatStatus()) {
     case PitapatStatus.NONE:
       return "두근";
-    case PitapatStatus.RECEIVED:
+    case PitapatStatus.TO_ME:
       return "수락";
-    case PitapatStatus.SENT:
+    case PitapatStatus.FROM_ME:
       return "취소";
-    case PitapatStatus.MATCHED:
-      return "매칭";
     }
-  }, [isAccept, pitapatStatus]);
+  }, [isAccept, getPitapatStatus]);
 
   const pitapatOnClick = useCallback(() => {
     /*
@@ -66,7 +91,6 @@ export default function PitapatButton({
     <button
       className={`${isListView ? "flex-none" : "absolute right-4"} w-16 h-8 z-10 bg-white rounded-lg border ${isAccept ? "border-pink-600" : "border-blue-600"} flex items-center justify-center`}
       onClick={pitapatOnClick}
-      disabled={pitapatStatus === PitapatStatus.MATCHED}
     >
       <div className={`flex-none mx-0.5 font-bold ${isAccept ? "text-pink-600" : "text-blue-600"}`}>
         {getIconText()}

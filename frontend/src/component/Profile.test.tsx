@@ -1,19 +1,15 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { getDefaultMockStore } from "../test-utils/mocks";
-import { PitapatStatus } from "../types";
-import Profile, { IProps } from "./Profile";
 import { users } from "../dummyData";
+import { getDefaultMockStore } from "../test-utils/mocks";
+import Profile, { IProps } from "./Profile";
 
 
 const mockIProps: IProps = {
   user: users[2],
-  nickname: "test_name",
-  koreanAge: 20,
   showRejectButton: false,
   isLastElement: false,
-  status: PitapatStatus.MATCHED
 };
 
 const mockIPropsLastAndReject: IProps = {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createTheme, Tab, Tabs, ThemeProvider } from "@mui/material";
 import AppBar from "../component/AppBar";
@@ -8,7 +8,8 @@ import PitapatReceived from "../component/pitapat/PitapatReceived";
 import PitapatSent from "../component/pitapat/PitapatSent";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { selectUser } from "../store/slices/user";
+import { AppDispatch } from "../store";
+import { getPitapatReceivers, getPitapatSenders, selectUser } from "../store/slices/user";
 
 
 type TabIndex = 0 | 1;
@@ -23,6 +24,7 @@ const theme = createTheme({
 
 export default function PitapatList() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const [selectedTabIndex, setSelectedTabIndex] = useState<TabIndex>(0);
 
@@ -30,7 +32,11 @@ export default function PitapatList() {
     if (!loginUser) {
       navigate(paths.signIn);
     }
-  }, [navigate, loginUser]);
+    else {
+      dispatch(getPitapatSenders(loginUser.key));
+      dispatch(getPitapatReceivers(loginUser.key));
+    }
+  }, [navigate, loginUser, dispatch]);
 
   return (
     <section className={`${style.page.base} ${style.page.margin.topWithTab} ${style.page.margin.bottom}`}>
@@ -53,18 +59,8 @@ export default function PitapatList() {
       <section className={style.page.body}>
         {
           selectedTabIndex === 0 ?
-            (
-              <PitapatReceived
-                pitapats={
-                  []
-                }
-              />
-            ) :
-            <PitapatSent
-              pitapats={
-                []
-              }
-            />
+            (<PitapatReceived/>) :
+            (<PitapatSent/>)
         }
       </section>
       <NavigationBar/>

@@ -43,20 +43,13 @@ export interface Chat {
   regDt: Date;
 }
 
-export interface Pitapat {
-  from: number;
-  to: number;
-}
-
 export enum PitapatStatus {
   // eslint-disable-next-line no-unused-vars
   NONE,
   // eslint-disable-next-line no-unused-vars
-  SENT,
+  FROM_ME,
   // eslint-disable-next-line no-unused-vars
-  RECEIVED,
-  // eslint-disable-next-line no-unused-vars
-  MATCHED,
+  TO_ME,
 }
 
 export interface User {
