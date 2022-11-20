@@ -82,18 +82,18 @@ urlpatterns = [
         name='user_tag',
     ),
     path(
-        'user/<int:user_key>/pitapat/sent/',
-        views.UserPitapatSentViewSet.as_view({
+        'user/<int:user_key>/pitapat/to/',
+        views.PitapatToUserViewSet.as_view({
             'get': 'list',
         }),
-        name='user_pitapat_sent',
+        name='pitapat_to_user',
     ),
     path(
-        'user/<int:user_key>/pitapat/received/',
-        views.UserPitapatReceivedViewSet.as_view({
+        'user/<int:user_key>/pitapat/from/',
+        views.PitapatFromUserViewSet.as_view({
             'get': 'list',
         }),
-        name='user_pitapat_received',
+        name='pitapat_from_user',
     ),
     path(
         'user/<int:user_key>/chatroom/',
