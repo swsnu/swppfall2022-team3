@@ -3,10 +3,11 @@ from datetime import datetime
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Introduction, Photo, User, UserTag, Tag
+from pitapat.models import Introduction, Photo, User, UserTag
+from pitapat.paginations import UserListPagination
 from pitapat.serializers import (UserListSerializer, UserListFilterSerializer, UserCreateSerializer,
                                  UserDetailSerializer, UserIntroductionSerializer)
 
@@ -14,6 +15,7 @@ from pitapat.serializers import (UserListSerializer, UserListFilterSerializer, U
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post']
     queryset = User.objects.all()
+    pagination_class = UserListPagination
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -84,14 +86,14 @@ class UserViewSet(viewsets.ModelViewSet):
                                                    .values('user')
             filters &= ~Q(key__in=users_with_banned_tag)
 
-        users = User.objects.filter(filters)
+        users = User.objects.filter(filters).order_by('key')
 
-        # page = self.paginate_queryset(users)
-        # if page is not None:
-        #     serializer = self.get_serializer(users, many=True)
-        #     return self.get_paginated_response(serializer.data)
+        page = self.paginate_queryset(users)
+        if page is not None:
+            serializer = UserListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(users, many=True)
+        serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)
 
 

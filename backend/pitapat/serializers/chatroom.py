@@ -25,5 +25,4 @@ class UserChatroomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserChatroom
-        # fields = ['chatroom', 'name']
         fields = ['chatroom', 'name', 'image_path']
