@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 
+from backend.settings import IMAGE_URL
 from pitapat.models import Chatroom, User, UserChatroom
 
 
@@ -19,9 +20,10 @@ class UserChatroomSerializer(serializers.ModelSerializer):
     def get_image_path(self, user_chatroom: UserChatroom):
         chatroom = user_chatroom.chatroom
         user = UserChatroom.objects.get(Q(chatroom=chatroom) & ~Q(user=user_chatroom.user)).user
-        return user.photos.all()[0].name if user.photos.all() else ''
+        return f'{IMAGE_URL}{user.photos.all()[0].name}' if user.photos.all() else ''
     image_path = serializers.SerializerMethodField()
 
     class Meta:
         model = UserChatroom
+        # fields = ['chatroom', 'name']
         fields = ['chatroom', 'name', 'image_path']
