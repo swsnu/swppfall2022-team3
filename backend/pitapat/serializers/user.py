@@ -19,7 +19,7 @@ class UserListSerializer(serializers.ModelSerializer):
         if not obj.photos.all():
             return ''
         return f'{IMAGE_URL}{obj.photos.all()[0].name}'
-    repr_photo = serializers.SerializerMethodField(method_name='get_repr_photo')
+    repr_photo = serializers.SerializerMethodField()
 
     class Meta:
         model = User
