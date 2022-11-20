@@ -4,6 +4,7 @@ from django.db.models import Count, Q
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import serializers
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -116,6 +117,7 @@ class UserDetailViewSet(viewsets.ModelViewSet):
 class UserIntroductionViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
     queryset = Introduction.objects.all()
+    serializer_class = str
 
     def retrieve(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
