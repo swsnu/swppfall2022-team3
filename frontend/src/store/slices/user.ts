@@ -34,7 +34,7 @@ export type SimplifiedRawUser = {
   repr_photo: string;
 }
 
-const getGender = (genderStr: string): Gender => {
+export const getGender = (genderStr: string): Gender => {
   if (genderStr === "M") {
     return Gender.MALE;
   }
