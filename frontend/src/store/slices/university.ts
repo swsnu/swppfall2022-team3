@@ -6,7 +6,7 @@ import { RootState } from "../index";
 
 const universityUrl = "/universities/";
 
-type RawUniversity = {
+export type RawUniversity = {
   key: number;
   name: string;
   email_domain: string;
