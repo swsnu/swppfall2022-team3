@@ -24,6 +24,7 @@ describe("university reducer", () => {
   beforeEach(() => {
     store = configureStore({ reducer: { university: universityReducer } });
   });
+
   it("should have initial state", () => {
     expect(store.getState().university.universities).toEqual([]);
   });
