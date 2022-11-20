@@ -1,36 +1,62 @@
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.response import Response
+from Crypto.Cipher import AES
+from pathlib import Path
+import binascii
 
-from pitapat.models import Pitapat, User, Chatroom, UserChatroom
-from pitapat.serializers import UserListSerializer
+from pitapat.models import User
 from django.core.mail import EmailMessage
-import string, random
+from backend.settings import get_external_value
 
 
-def email_auth_num():
-    LENGTH = 8
-    string_pool = string.ascii_letters + string.digits
-    auth_num = ""
-    for i in range(LENGTH):
-        auth_num += random.choice(string_pool)
-    return auth_num
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+key = get_external_value(BASE_DIR / 'backend/.secrets/aes.json', 'key')
+iv = get_external_value(BASE_DIR / 'backend/.secrets/aes.json', 'iv')
+
+def pad(data):
+    return data + b"\x00" * (16 - len(data) % 16)
+
+def aes_encrypt(data, key, iv):
+    key = key.encode('utf-8')
+    iv = iv.encode('utf-8')
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    encrypted = cipher.encrypt(data)
+    encrypted_hex = binascii.hexlify(encrypted)
+    return encrypted_hex
 
 class AuthViewSet(viewsets.ModelViewSet):
     http_method_names = ['post']
-    queryset = User.objects.all()
-    serializer_class = UserListSerializer
 
     def create(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=request.data.get('key'))
+        email = request.data.get('email')
+        user = User.objects.filter(email=email)
         if user:
-            email = 'tjd3507@snu.ac.kr'
-            code = email_auth_num()
-            email = EmailMessage(
-                '[두근두근 캠퍼스] 이메일 인증코드',
-                '인증코드는 \n\n {code}입니다.',
-                'pitapatcampus@gmail.com',
-                to=[email],
-            )
-            #email.send()
-            return Response(code)
+            return HttpResponse(status=409)
+        request_time = request.data.get('request_time')
+        data = bytes(email+request_time, 'utf-8')
+        data = pad(data)
+        code = aes_encrypt(data, key, iv)
+        code = (code[:3] + code[-3:]).decode('utf-8')
+        mail = EmailMessage(
+            '[두근두근 캠퍼스] 이메일 인증코드',
+            f'인증코드는 \n\n {code} 입니다.',
+            to=[email],
+        )
+        mail.send()
+        return HttpResponse(status=204)
+
+class AuthVerifyViewSet(viewsets.ModelViewSet):
+    http_method_names = ['post']
+
+    def create(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        request_time = request.data.get('request_time')
+        user_code = request.data.get('code')
+        data = bytes(email+request_time, 'utf-8')
+        data = pad(data)
+        code = aes_encrypt(data, key, iv)
+        code = (code[:3] + code[-3:]).decode('utf-8')
+        if user_code == code:
+            return HttpResponse(status=204)
+        return HttpResponse(status=401)

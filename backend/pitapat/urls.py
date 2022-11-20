@@ -47,6 +47,13 @@ urlpatterns = [
         name='auth_email'
     ),
     path(
+        'auth/verify',
+        views.AuthVerifyViewSet.as_view({
+            'post': 'create',
+        }),
+        name='auth_verify'
+    ),
+    path(
         'user/',
         views.UserViewSet.as_view({
             'get': 'list',
