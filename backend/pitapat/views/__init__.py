@@ -1,4 +1,4 @@
-from .pitapat import PitapatDetailViewSet, PitapatCreateViewSet
+from .pitapat import PitapatViewSet
 from .photo import PhotoViewSet, PhotoDetailViewSet
 from .tag import TagViewSet
 from .university import UniversityViewSet, CollegeViewSet, MajorViewSet

@@ -147,17 +147,10 @@ urlpatterns = [
     ),
     path(
         'pitapat/',
-        views.PitapatCreateViewSet.as_view({
-            'post': 'create',
-        }),
-        name='pitapat',
-    ),
-    path(
-        'pitapat/<int:key>/',
-        views.PitapatDetailViewSet.as_view({
+        views.PitapatViewSet.as_view({
             'post': 'create',
             'delete': 'destroy',
         }),
-        name='pitapat_detail',
+        name='pitapat',
     ),
 ]
