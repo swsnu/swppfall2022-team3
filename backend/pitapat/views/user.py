@@ -6,7 +6,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Introduction, Photo, User, UserTag
+from pitapat.models import Introduction, Photo, User, UserTag, UserChatroom
 from pitapat.paginations import UserListPagination
 from pitapat.serializers import (UserListSerializer, UserListFilterSerializer, UserCreateSerializer,
                                  UserDetailSerializer, UserIntroductionSerializer)
@@ -112,6 +112,19 @@ class UserDetailViewSet(viewsets.ModelViewSet):
             photo.delete()
         User.objects.get(key=key).delete()
         return Response(status=204)
+
+
+class UserChatroomParticipantViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    queryset = User.objects.all()
+    serializer_class = UserDetailSerializer
+    lookup_field = 'key'
+
+    def list(self, request, *args, **kwargs):
+        chatroom_key = kwargs['chatroom_key']
+        users = [user_chatroom.user for user_chatroom in UserChatroom.objects.filter(chatroom__key=chatroom_key)]
+        serializer = UserListSerializer(users, many=True)
+        return Response(serializer.data)
 
 
 class UserIntroductionViewSet(viewsets.ModelViewSet):
