@@ -6,4 +6,4 @@ from .user import UserViewSet, UserDetailViewSet, UserChatroomParticipantViewSet
 from .chatroom import UserChatroomViewSet
 from .user_pitapat import PitapatToUserViewSet, PitapatFromUserViewSet
 from .user_tag import UserTagViewSet
-from .auth import AuthViewSet, AuthVerifyViewSet
+from .auth import AuthEmailViewSet, AuthVerifyViewSet

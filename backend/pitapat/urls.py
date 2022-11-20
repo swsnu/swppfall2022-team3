@@ -41,7 +41,7 @@ urlpatterns = [
     ),
     path(
         'auth/email',
-        views.AuthViewSet.as_view({
+        views.AuthEmailViewSet.as_view({
             'post': 'create',
         }),
         name='auth_email'

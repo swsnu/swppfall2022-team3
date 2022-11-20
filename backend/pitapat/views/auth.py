@@ -1,12 +1,15 @@
-from django.http import HttpResponse
-from rest_framework import viewsets
-from Crypto.Cipher import AES
-from pathlib import Path
 import binascii
-
-from pitapat.models import User
+from Crypto.Cipher import AES
 from django.core.mail import EmailMessage
+from django.http import HttpResponse
+from drf_yasg.utils import swagger_auto_schema
+from pathlib import Path
+from rest_framework import viewsets
+
 from backend.settings import get_external_value
+from pitapat.models import User
+from pitapat.serializers import AuthEmailSerializer, AuthVerifySerializer
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 crypto_key = get_external_value(BASE_DIR / 'backend/.secrets/aes.json', 'key')
@@ -26,9 +29,11 @@ def aes_encrypt(data, key, iv):
     return encrypted_hex
 
 
-class AuthViewSet(viewsets.ModelViewSet):
+class AuthEmailViewSet(viewsets.ModelViewSet):
     http_method_names = ['post']
+    serializer_class = AuthEmailSerializer
 
+    @swagger_auto_schema(request_body=AuthEmailSerializer)
     def create(self, request, *args, **kwargs):
         email = request.data.get('email')
         user = User.objects.filter(email=email)
@@ -41,7 +46,7 @@ class AuthViewSet(viewsets.ModelViewSet):
         code = (code[:3] + code[-3:]).decode('utf-8')
         mail = EmailMessage(
             '[두근두근 캠퍼스] 이메일 인증코드',
-            f'인증코드는 \n\n {code} 입니다.',
+            f'인증코드는\n\n{code} 입니다.',
             to=[email],
         )
         mail.send()
@@ -50,6 +55,7 @@ class AuthViewSet(viewsets.ModelViewSet):
 
 class AuthVerifyViewSet(viewsets.ModelViewSet):
     http_method_names = ['post']
+    serializer_class = AuthVerifySerializer
 
     def create(self, request, *args, **kwargs):
         email = request.data.get('email')

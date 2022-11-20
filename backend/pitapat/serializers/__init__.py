@@ -1,3 +1,4 @@
+from .auth import AuthEmailSerializer, AuthVerifySerializer
 from .chatroom import UserChatroomSerializer
 from .pitapat import PitapatSerializer
 from .photo import PhotoSerializer
