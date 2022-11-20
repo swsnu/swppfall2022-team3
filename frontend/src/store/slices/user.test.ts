@@ -14,7 +14,6 @@ import userReducer, {
   SimplifiedRawUser,
   userToRawData,
   fetchSignout,
-  userActions,
   UserState
 } from "./user";
 
@@ -31,7 +30,6 @@ const userToSimplifiedRawData = (user: User): SimplifiedRawUser => ({
 
 describe("user reducer", () => {
   const testUser = users[0];
-  const testUser1 = users[1];
   const testRawUser = userToRawData(testUser);
   const testSimplifiedRawUser = userToSimplifiedRawData(testUser);
 
@@ -101,13 +99,13 @@ describe("user reducer", () => {
   it("should get users", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
 
-    await store.dispatch(getUsers());
+    await store.dispatch(getUsers(1));
   });
 
   it("should not get users", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
-    await store.dispatch(getUsers());
+    await store.dispatch(getUsers(1));
   });
 
   it("should get user tags", async () => {
