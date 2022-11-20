@@ -5,7 +5,7 @@ import Profile from "../Profile";
 
 
 export default function PitapatSent() {
-  const users = useSelector(selectUser).pitapatReceivers;
+  const users = useSelector(selectUser).pitapat.receivers;
 
   return (
     <section>

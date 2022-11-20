@@ -20,8 +20,8 @@ export default function PitapatButton({
 }: IProps) {
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-  const senders = useSelector(selectUser).pitapatSenders;
-  const receivers = useSelector(selectUser).pitapatReceivers;
+  const senders = useSelector(selectUser).pitapat.senders;
+  const receivers = useSelector(selectUser).pitapat.receivers;
 
   const getPitapatStatus = useCallback((): PitapatStatus => {
     if (

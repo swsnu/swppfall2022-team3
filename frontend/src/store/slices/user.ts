@@ -95,16 +95,20 @@ export interface UserState {
   users: User[];
   loginUser: User | null;
   interestingUser: User | null;
-  pitapatSenders: User[];
-  pitapatReceivers: User[];
+  pitapat: {
+    senders: User[];
+    receivers: User[];
+  };
 }
 
 const initialState: UserState = {
   users: [],
   loginUser: null,
   interestingUser: null,
-  pitapatSenders: [],
-  pitapatReceivers: [],
+  pitapat: {
+    senders: [],
+    receivers: [],
+  },
 };
 
 
@@ -117,7 +121,7 @@ export const fetchSignin = createAsyncThunk(
       // get user key
       const authResponse = await axios.get(authUserUrl);
       if (authResponse.status !== 200)
-        return null;
+      {return null;}
       const userKey = authResponse.data.pk as number;
       // get user data
       const userResponse = await axios.get(`${userUrl}/${userKey}`);
@@ -282,7 +286,7 @@ const userSlice = createSlice({
       getPitapatSenders.fulfilled,
       (state, action) => {
         if (action.payload) {
-          state.pitapatSenders = action.payload;
+          state.pitapat.senders = action.payload;
         }
       }
     );
@@ -290,7 +294,7 @@ const userSlice = createSlice({
       getPitapatReceivers.fulfilled,
       (state, action) => {
         if (action.payload) {
-          state.pitapatReceivers = action.payload;
+          state.pitapat.receivers = action.payload;
         }
       }
     );

@@ -14,8 +14,13 @@ const mockStore = getMockStore({
     users: users,
     loginUser: null,
     interestingUser: null,
-    pitapatSenders: [],
-    pitapatReceivers: [],
+    pitapat: {
+      senders: [],
+      receivers: [],
+    },
+    chat: {
+      participants: [],
+    }
   },
   tag: { tags: tags },
   chat: { chats: chats },

@@ -2,9 +2,10 @@ import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@redu
 import axios from "axios";
 import { users } from "../../dummyData";
 import { User } from "../../types";
-import userReducer, { fetchSignin, RawUser, SimplifiedRawUser, userToRawData, fetchSignout } from "./user";
+import userReducer, { fetchSignin, /*SimplifiedRawUser,*/ userToRawData, fetchSignout, UserState } from "./user";
 
 
+/*
 const userToSimplifiedRawData = (user: User): SimplifiedRawUser => ({
   key: user.key,
   nickname: user.nickname,
@@ -14,20 +15,15 @@ const userToSimplifiedRawData = (user: User): SimplifiedRawUser => ({
   major: user.major,
   repr_photo: user.photos[0],
 });
+*/
 
 describe("user reducer", () => {
   const testUser = users[0];
   const testRawUser = userToRawData(testUser);
-  const testSimplifiedRawUser = userToSimplifiedRawData(testUser);
+  // const testSimplifiedRawUser = userToSimplifiedRawData(testUser);
 
   let store: EnhancedStore<
-    { user: {
-        users: User[];
-        loginUser: User | null;
-        interestingUser: User | null;
-        pitapatSenders: User[];
-        pitapatReceivers: User[];
-    }; },
+    { user: UserState },
     AnyAction,
     [ThunkMiddleware<{ user: { users: User[] } }>]
     >;
@@ -40,8 +36,8 @@ describe("user reducer", () => {
     expect(store.getState().user.users).toEqual([]);
     expect(store.getState().user.loginUser).toBeNull();
     expect(store.getState().user.interestingUser).toBeNull();
-    expect(store.getState().user.pitapatSenders).toEqual([]);
-    expect(store.getState().user.pitapatReceivers).toEqual([]);
+    expect(store.getState().user.pitapat.senders).toEqual([]);
+    expect(store.getState().user.pitapat.receivers).toEqual([]);
   });
 
   it("should sign in with valid input", async () => {
