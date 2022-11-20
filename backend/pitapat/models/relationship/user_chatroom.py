@@ -10,6 +10,9 @@ class UserChatroom(models.Model):
     user = models.OneToOneField(User, models.CASCADE, db_column='user_key')
     chatroom = models.ForeignKey(Chatroom, models.RESTRICT, db_column='chatroom_key')
 
+    def __str__(self):
+        return f'user {self.user.key} - chatroom {self.chatroom.key}'
+
     class Meta:
         managed = False
         db_table = 'R_UserChatroom'
