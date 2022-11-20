@@ -117,7 +117,7 @@ export const fetchSignin = createAsyncThunk(
       // get user key
       const authResponse = await axios.get(authUserUrl);
       if (authResponse.status !== 200)
-        return null;
+        throw new Error("there's no certain user");
       const userKey = authResponse.data.pk as number;
       // get user data
       const userResponse = await axios.get(`${userUrl}/${userKey}`);
