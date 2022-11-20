@@ -158,8 +158,8 @@ export const fetchSignup = createAsyncThunk(
 
 export const getUsers = createAsyncThunk(
   "user/get-all",
-  async (): Promise<User[] | null> => {
-    const response = await axios.get(userUrl);
+  async (page: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/?page=${page}`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }

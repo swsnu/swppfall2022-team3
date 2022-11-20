@@ -21,7 +21,7 @@ export default function Search() {
       navigate(paths.signIn);
     }
     else {
-      dispatch(getUsers());
+      dispatch(getUsers(1));
     }
 
   }, [navigate, loginUser, dispatch]);
