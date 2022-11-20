@@ -40,7 +40,7 @@ urlpatterns = [
         include('dj_rest_auth.urls'),
     ),
     path(
-        'auth/email',
+        'auth/email/',
         views.AuthViewSet.as_view({
             'post': 'create',
         }),

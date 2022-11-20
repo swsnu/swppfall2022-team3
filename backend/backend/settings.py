@@ -201,3 +201,34 @@ CORS_ORIGIN_WHITELIST = (
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000'
 ]
+
+# Email
+
+EMAIL_BACKEND = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_BACKEND',
+)
+EMAIL_HOST = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_HOST',
+)
+EMAIL_PORT = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_PORT',
+)
+EMAIL_HOST_USER = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_HOST_USER',
+)
+EMAIL_HOST_PASSWORD = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_HOST_PASSWORD',
+)
+EMAIL_USE_TLS = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_USE_TLS',
+)
+DEFAUKT_FROM_EMAIL = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'DEFAULT_FROM_EMAIL',
+)
