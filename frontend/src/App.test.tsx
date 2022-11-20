@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import App from "./App";
-import { chats, colleges, majors, tags, universities, users } from "./dummyData";
+import { chatrooms, chats, colleges, majors, tags, universities, users } from "./dummyData";
 import { getMockStore } from "./test-utils/mocks";
 
 
@@ -23,7 +23,10 @@ const mockStore = getMockStore({
     }
   },
   tag: { tags: tags },
-  chat: { chats: chats },
+  chat: {
+    chatrooms: chatrooms,
+    chats: chats,
+  },
 });
 
 jest.mock("./page/SignIn", () => () => <div/>);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { users } from "../dummyData";
+import { chatrooms, users } from "../dummyData";
 import { getDefaultMockStore } from "../test-utils/mocks";
 import ChatListElement from "./ChatListElement";
 
@@ -16,16 +16,17 @@ jest.mock("react-router-dom", () => ({
 
 describe("ChatListElement", () => {
   const defaultLastChat = "대화를 시작해보세요!!";
-  const user1 = users[0];
   const user2 = users[1];
+  const chatroom = chatrooms[0];
 
   it("should be rendered", () => {
     render(
       <Provider store={mockStore}>
         <ChatListElement
-          myUser={user1}
-          otherUser={user2}
-          lastChat={null}
+          chatroomKey={chatroom.key}
+          chatroomName={chatroom.name}
+          imagePath={chatroom.imagePath}
+          lastChat={chatroom.lastChat}
         />
       </Provider>
     );
@@ -35,8 +36,9 @@ describe("ChatListElement", () => {
     render(
       <Provider store={mockStore}>
         <ChatListElement
-          myUser={user1}
-          otherUser={user2}
+          chatroomKey={chatroom.key}
+          chatroomName={chatroom.name}
+          imagePath={chatroom.imagePath}
           lastChat={null}
         />
       </Provider>
@@ -48,51 +50,14 @@ describe("ChatListElement", () => {
     expect(userImage).toBeInTheDocument();
   });
 
-  it("should be rendered with a lastChat", () => {
-    const lastChat = "this is last chat example";
-    render(
-      <Provider store={mockStore}>
-        <ChatListElement
-          myUser={user1}
-          otherUser={user2}
-          lastChat={lastChat}
-        />
-      </Provider>
-    );
-
-    const lastChatArticle = screen.getByText(lastChat);
-    const userImage = screen.getByRole("img");
-
-    expect(lastChatArticle).toBeInTheDocument();
-    expect(userImage).toBeInTheDocument();
-    expect(() => screen.getByText(defaultLastChat)).toThrowError();
-  });
-
-  it("should navigate to profile detail page when user image is clicked", () => {
-    render(
-      <Provider store={mockStore}>
-        <ChatListElement
-          myUser={user1}
-          otherUser={user2}
-          lastChat={null}
-        />
-      </Provider>
-    );
-
-    const userImage = screen.getByRole("img");
-
-    fireEvent.click(userImage);
-
-    expect(mockNavigate).toBeCalled();
-  });
-
   it("should navigate to chat room page when user name is clicked", () => {
     render(
       <Provider store={mockStore}>
         <ChatListElement
-          myUser={user1}
-          otherUser={user2}
-          lastChat={null}
+          chatroomKey={chatroom.key}
+          chatroomName={chatroom.name}
+          imagePath={chatroom.imagePath}
+          lastChat={chatroom.lastChat}
         />
       </Provider>
     );
@@ -108,9 +73,10 @@ describe("ChatListElement", () => {
     render(
       <Provider store={mockStore}>
         <ChatListElement
-          myUser={user1}
-          otherUser={user2}
-          lastChat={null}
+          chatroomKey={chatroom.key}
+          chatroomName={chatroom.name}
+          imagePath={chatroom.imagePath}
+          lastChat={chatroom.lastChat}
         />
       </Provider>
     );

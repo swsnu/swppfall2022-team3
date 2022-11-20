@@ -1,5 +1,8 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { users } from "../dummyData";
+import { getDefaultMockStore } from "../test-utils/mocks";
 import ChatBox from "./ChatBox";
 
 
@@ -9,16 +12,18 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
 }));
 
+const mockStore = getDefaultMockStore();
+
 describe("ChatBox", () => {
   it("should be rendered", () => {
     const chatContent = "test chat from me";
     render(
-      <ChatBox
-        content={chatContent}
-        sender={1}
-        isMine={true}
-        photoPath={""}
-      />
+      <Provider store={mockStore}>
+        <ChatBox
+          content={chatContent}
+          sender={users[0]}
+        />
+      </Provider>
     );
 
     const chatBox = screen.getByText(chatContent);
@@ -31,9 +36,7 @@ describe("ChatBox", () => {
     render(
       <ChatBox
         content={chatContent}
-        sender={2}
-        isMine={false}
-        photoPath={""}
+        sender={users[1]}
       />
     );
 
@@ -47,9 +50,7 @@ describe("ChatBox", () => {
     render(
       <ChatBox
         content={chatContent}
-        sender={2}
-        isMine={false}
-        photoPath={""}
+        sender={users[1]}
       />
     );
 

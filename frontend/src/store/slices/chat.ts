@@ -1,33 +1,79 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { chats } from "../../dummyData";
-import { Chat } from "../../types";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { Chat, Chatroom } from "../../types";
 import { RootState } from "../index";
 
 
-const storeKey = "chat";
+export const userUrl = "/user";
 
-const getInitialState = (): Chat[] => {
-  let savedValue = localStorage.getItem(storeKey);
-  if (savedValue === null) {
-    const dummy = JSON.stringify(chats);
-    localStorage.setItem(storeKey, dummy);
-    savedValue = dummy;
+type RawChatroom = {
+  chatroom: number;
+  name: string;
+  image_path: string;
+  last_chat?: string;
+}
+
+const rawChatToChatroom = (rawData: RawChatroom): Chatroom => (
+  {
+    key: rawData.chatroom,
+    name: rawData.name,
+    imagePath: rawData.image_path,
+    lastChat: rawData.last_chat ?? null,
   }
-  return (JSON.parse(savedValue) as Chat[]).map((chat) =>
-    ({ ...chat, regDt: new Date(chat.regDt) })
-  );
+);
+
+export interface ChatState {
+  chatrooms: Chatroom[];
+  chats: Chat[];
+}
+
+const initialState: ChatState = {
+  chatrooms: [],
+  chats: [],
 };
+
+export const getChatrooms = createAsyncThunk(
+  "chatroom/get-all-by-user",
+  async (userKey: number): Promise<Chatroom[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/chatroom/`);
+    if (response.status === 200) {
+      return (response.data as RawChatroom[]).map(rawChatToChatroom);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getChats = createAsyncThunk(
+  "chat/get-all-by-chatroom",
+  async (chatroomKey: number): Promise<Chat[] | null> => {
+    return null;
+  }
+);
 
 const chatSlice = createSlice({
   name: "chat",
-  initialState: { chats: getInitialState() },
-  reducers: {
-    add: (state, action: PayloadAction<Chat>) => {
-      const newChats = [...state.chats, action.payload];
-      localStorage.setItem(storeKey, JSON.stringify(newChats));
-      state.chats = newChats;
-    },
-  },
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      getChatrooms.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.chatrooms = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getChats.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.chats = action.payload;
+        }
+      }
+    );
+  }
 });
 
 export const selectChat = (state: RootState) => state.chat;

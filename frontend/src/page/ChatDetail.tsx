@@ -6,47 +6,32 @@ import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { chatAction, selectChat } from "../store/slices/chat";
+import { selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
-import { Chat } from "../types";
 import encryptor from "../util/encryptor";
 
 
 interface IDecrypted {
-  from: number;
-  to: number;
-  photoPath: string;
+  chatroomKey: number;
+  chatroomName: string;
 }
 
 export default function ChatDetail() {
-  const loginUser = useSelector(selectUser).loginUser;
   const params = useParams();
   const navigate = useNavigate();
+  const loginUser = useSelector(selectUser).loginUser;
+  const participants = useSelector(selectUser).chat.participants;
   const chats = useSelector(selectChat).chats;
-  const users = useSelector(selectUser).users;
   const dispatch = useDispatch<AppDispatch>();
-  const [from, setFrom] = useState<number>(0);
-  const [to, setTo] = useState<number>(0);
-  const [otherUserPhotoPath, setOtherUserPhotoPath] = useState<string>("");
 
   const [appBarTitle, setAppBarTitle] = useState<string>("");
   const [chatInput, setChatInput] = useState<string>("");
-  const [myChats, setMyChats] = useState<Chat[]>([]);
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
-      dispatch(chatAction.add(
-        {
-          from,
-          to,
-          key: Math.max(...chats.map((c) => c.key)) + 1,
-          regDt: new Date(),
-          content: chatInput,
-        }
-      ));
       setChatInput("");
     }
-  }, [dispatch, chatInput, from, to, chats]);
+  }, [dispatch, chatInput]);
 
   useEffect(() => {
     if (loginUser) {
@@ -57,25 +42,8 @@ export default function ChatDetail() {
       else {
         try {
           const decrypted = encryptor.decrypt<IDecrypted>(encrypted);
-          if ((decrypted?.from) && (decrypted?.to) && (decrypted?.photoPath)) {
-            if (decrypted.from !== loginUser.key) {
-              navigate(paths.chat);
-            }
-            else {
-              setFrom(decrypted.from);
-              setTo(decrypted.to);
-              setOtherUserPhotoPath(decrypted.photoPath);
-              setMyChats(
-                chats.filter(
-                  (c) =>
-                    ((c.from === decrypted.from) && (c.to === decrypted.to)) ||
-                    ((c.from === decrypted.to) && (c.to === decrypted.from))
-                )
-              );
-
-              const userTo = users.find((u) => u.key === to);
-              setAppBarTitle(userTo?.nickname ?? "");
-            }
+          if ((decrypted?.chatroomKey) && (decrypted?.chatroomName)) {
+            setAppBarTitle(decrypted.chatroomName);
           }
           else {
             navigate(paths.chat);
@@ -88,21 +56,22 @@ export default function ChatDetail() {
     else {
       navigate(paths.signIn);
     }
-  }, [params, navigate, chats, users, loginUser, to]);
+  }, [params, navigate, chats, loginUser]);
 
   return (
     <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
       <AppBar title={appBarTitle}/>
       <section className={style.page.body}>{
-        myChats.map((chat) => (
-          <ChatBox
-            key={chat.content + chat.regDt.getTime()}
-            content={chat.content}
-            sender={chat.from}
-            isMine={chat.from === from}
-            photoPath={otherUserPhotoPath}
-          />
-        ))
+        chats.map((chat) => {
+          const participant = participants.find((u) => u.key === chat.from);
+          return participant ?
+            (<ChatBox
+              key={chat.key}
+              content={chat.content}
+              sender={participant}
+            />) :
+            null;
+        })
       }</section>
       <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
         <input

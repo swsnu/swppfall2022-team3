@@ -35,12 +35,19 @@ export interface Photo {
   path: string;
 }
 
+export interface Chatroom {
+  key: number;
+  name: string;
+  imagePath: string;
+  lastChat: string | null;
+}
+
 export interface Chat {
   key: number;
+  chatroomKey: number;
   from: number;
-  to: number;
   content: string;
-  regDt: Date;
+  regDt: string;
 }
 
 export enum PitapatStatus {

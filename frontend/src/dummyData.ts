@@ -1,4 +1,4 @@
-import { University, College, Major, User, Photo, Tag, Gender, Chat } from "./types";
+import { University, College, Major, User, Photo, Tag, Gender, Chat, Chatroom } from "./types";
 
 
 export const universities: University[] = [
@@ -254,10 +254,15 @@ export const photos: Photo[] = [
   },
 ];
 
+export const chatrooms: Chatroom[] = [
+  { key: 1, name: "첫 번째 채팅방", imagePath: "/photo1.jpeg", lastChat: null },
+  { key: 2, name: "두 번째 채팅방", imagePath: "", lastChat: null }
+];
+
 export const chats: Chat[] = [
-  { key: 1, from: 2, to: 1, content: "안녕하세요 반가워요~", regDt: new Date("2022-11-01 16:00:00") },
-  { key: 2, from: 1, to: 2, content: "저도 반가워요~", regDt: new Date("2022-11-01 16:30:00") },
-  { key: 3, from: 1, to: 2, content: "혹시 언제 시간 되시나요?", regDt: new Date("2022-11-01 16:30:10") },
+  { key: 1, chatroomKey: 1, from: 2, content: "안녕하세요 반가워요~", regDt: "2022-11-01 16:00:00" },
+  { key: 2, chatroomKey: 1, from: 1, content: "저도 반가워요~", regDt: "2022-11-01 16:30:00" },
+  { key: 3, chatroomKey: 2, from: 1, content: "혹시 언제 시간 되시나요?", regDt: "2022-11-01 16:30:10" },
 ];
 
 export const users: User[] = [

@@ -99,6 +99,9 @@ export interface UserState {
     senders: User[];
     receivers: User[];
   };
+  chat: {
+    participants: User[];
+  };
 }
 
 const initialState: UserState = {
@@ -109,6 +112,9 @@ const initialState: UserState = {
     senders: [],
     receivers: [],
   },
+  chat: {
+    participants: [],
+  }
 };
 
 
@@ -161,7 +167,7 @@ export const getUsers = createAsyncThunk(
   async (page: number): Promise<User[] | null> => {
     const response = await axios.get(`${userUrl}/?page=${page}`);
     if (response.status === 200) {
-      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return null;
@@ -206,7 +212,7 @@ export const getPitapatSenders = createAsyncThunk(
   async (userKey: number): Promise<User[] | null> => {
     const response = await axios.get(`${userUrl}/${userKey}/pitapat/to/`);
     if (response.status === 200) {
-      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return null;
@@ -218,6 +224,19 @@ export const getPitapatReceivers = createAsyncThunk(
   "user/pitapat-receivers-to-user",
   async (userKey: number): Promise<User[] | null> => {
     const response = await axios.get(`${userUrl}/${userKey}/pitapat/from/`);
+    if (response.status === 200) {
+      return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getChatParticipants = createAsyncThunk(
+  "user/get-all-by-chatroom",
+  async (chatroomKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/chatroom/${chatroomKey}`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
@@ -295,6 +314,14 @@ const userSlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.pitapat.receivers = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getChatParticipants.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.chat.participants = action.payload;
         }
       }
     );
