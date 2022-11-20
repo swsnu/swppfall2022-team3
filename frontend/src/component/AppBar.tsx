@@ -26,7 +26,7 @@ export default function AppBar({ title = defaultTitle }: IProps) {
 
   useEffect(() => {
     const shouldBackVisible: boolean =
-      /^\/profile\/\d+$/.test(pathName) ||
+      /^\/profile$/.test(pathName) ||
       /^\/chat\/.+$/.test(pathName) ||
       /^\/setting\/?$/.test(pathName) ||
       /^\/profile\/edit\/?$/.test(pathName);

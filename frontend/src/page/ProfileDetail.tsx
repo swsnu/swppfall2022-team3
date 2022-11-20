@@ -1,21 +1,38 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import PitapatButton from "../component/PitapatButton";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { selectTag } from "../store/slices/tag";
+import { AppDispatch } from "../store";
+import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/getKoreanAge";
 import { getPitapatStatus } from "../util/getPitapatStatus";
 
 
 export default function ProfileDetail() {
+  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const interestingUser = useSelector(selectUser).interestingUser;
   const tags = useSelector(selectTag).tags;
+
+  useEffect(() => {
+    if (interestingUser) {
+      const tagKeys = tags.map((tag) => tag.key);
+      const shouldGetTags =
+        interestingUser.tags
+          .reduce(
+            (acc, tagKey) => (acc || (tagKeys.indexOf(tagKey) < 0)),
+            false,
+          );
+      if (shouldGetTags) {
+        dispatch(getTags());
+      }
+    }
+  }, [interestingUser, dispatch, tags]);
 
   return (loginUser && interestingUser) ? (
     <section className={`${style.page.base} ${style.page.margin.top}`}>

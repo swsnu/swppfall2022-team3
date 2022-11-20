@@ -4,7 +4,7 @@ import { Tag } from "../../types";
 import { RootState } from "../index";
 
 
-const tagUrl = "/tags";
+const tagUrl = "/tag";
 
 export interface TagState {
   tags: Tag[];

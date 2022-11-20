@@ -165,11 +165,29 @@ export const getUsers = createAsyncThunk(
 export const getUserTags = createAsyncThunk(
   "user/tags",
   async (userKey: number): Promise<number[] | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/tags`);
+    const response = await axios.get(`${userUrl}/${userKey}/tag/`);
     if (response.status === 200) {
       return response.data as number[];
     }
-    return null;
+    else {
+      return null;
+    }
+  }
+);
+
+/**
+ * should be called after state.interestedUser is set
+ */
+export const getUserIntroduction = createAsyncThunk(
+  "user/introduction",
+  async (userKey: number): Promise<string | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/introduction/`);
+    if (response.status === 200) {
+      return response.data as string;
+    }
+    else {
+      return null;
+    }
   }
 );
 
@@ -209,6 +227,19 @@ const userSlice = createSlice({
           const newInterestedUser: User = {
             ...state.interestingUser,
             tags: action.payload,
+          };
+          state.interestingUser = newInterestedUser;
+          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
+        }
+      }
+    );
+    builder.addCase(
+      getUserIntroduction.fulfilled,
+      (state, action) => {
+        if (action.payload && state.interestingUser) {
+          const newInterestedUser: User = {
+            ...state.interestingUser,
+            introduction: action.payload,
           };
           state.interestingUser = newInterestedUser;
           state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
