@@ -60,7 +60,7 @@ const rawDataToUser = (rawUser: RawUser): User => (
     photos: rawUser.photos,
   }
 );
-const simplifiedRawDataToUser = (simplifiedRawUser: SimplifiedRawUser): User => ({
+export const simplifiedRawDataToUser = (simplifiedRawUser: SimplifiedRawUser): User => ({
   key: simplifiedRawUser.key,
   email: "",
   nickname: simplifiedRawUser.nickname,

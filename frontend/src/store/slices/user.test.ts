@@ -12,9 +12,11 @@ import userReducer, {
   getPitapatReceivers,
   getPitapatSenders,
   SimplifiedRawUser,
+  simplifiedRawDataToUser,
   userToRawData,
   fetchSignout,
-  UserState
+  UserState,
+  getChatParticipants, userActions
 } from "./user";
 
 
@@ -77,6 +79,13 @@ describe("user reducer", () => {
     expect(store.getState().user.loginUser).toBeNull();
   });
 
+  it("should not sign in with error", async () => {
+    axios.post = jest.fn().mockResolvedValue(new Error("error"));
+
+    await store.dispatch(fetchSignin({ username: testUser.email, password: "password" }));
+    expect(store.getState().user.loginUser).toBeNull();
+  });
+
   it("should sign out", async () => {
     axios.post = jest.fn().mockResolvedValue({ status: 200 });
     await store.dispatch(fetchSignout());
@@ -97,9 +106,10 @@ describe("user reducer", () => {
   });
 
   it("should get users", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+    axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
 
     await store.dispatch(getUsers(1));
+    expect(store.getState().user.users).toEqual([simplifiedRawDataToUser(testSimplifiedRawUser)]);
   });
 
   it("should not get users", async () => {
@@ -109,9 +119,11 @@ describe("user reducer", () => {
   });
 
   it("should get user tags", async () => {
+    store.dispatch(userActions.setInterestedUser(testUser));
     axios.get = jest.fn().mockResolvedValue({ data: [1, 2], status: 200 });
-
+    const testUserWithNewTags = {...testUser, tags: [1, 2]};
     await store.dispatch(getUserTags(1));
+    expect(store.getState().user.interestingUser).toEqual(testUserWithNewTags);
   });
 
   it("should not get user tags", async () => {
@@ -121,9 +133,12 @@ describe("user reducer", () => {
   });
 
   it("should get user introduction", async () => {
+    store.dispatch(userActions.setInterestedUser(testUser));
     axios.get = jest.fn().mockResolvedValue({ data: "hi", status: 200 });
-
+    const testUserWithNewIntroduction = {...testUser, introduction: "hi"};
     await store.dispatch(getUserIntroduction(1));
+    expect(store.getState().user.interestingUser).toEqual(testUserWithNewIntroduction);
+
   });
 
   it("should not get user introduction", async () => {
@@ -133,9 +148,10 @@ describe("user reducer", () => {
   });
 
   it("should get pitapat senders", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+    axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser]}, status: 200 });
 
     await store.dispatch(getPitapatSenders(1));
+    expect(store.getState().user.pitapat.senders).toEqual([simplifiedRawDataToUser(testSimplifiedRawUser)]);
   });
 
   it("should not get pitapat senders", async () => {
@@ -145,15 +161,28 @@ describe("user reducer", () => {
   });
 
   it("should get pitapat receivers", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+    axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser]}, status: 200 });
 
     await store.dispatch(getPitapatReceivers(1));
+    expect(store.getState().user.pitapat.receivers).toEqual([simplifiedRawDataToUser(testSimplifiedRawUser)]);
   });
 
   it("should not get pitapat receivers", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
     await store.dispatch(getPitapatReceivers(1));
+  });
+
+  it("should get chat participants", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+
+    await store.dispatch(getChatParticipants(1));
+  });
+
+  it("should not get chat participants", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
+
+    await store.dispatch(getChatParticipants(1));
   });
 
   it("should work getGender method properly", async () => {
