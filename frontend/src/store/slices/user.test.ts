@@ -119,6 +119,9 @@ describe("user reducer", () => {
   });
 
   it("should get user tags", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: { results: users}, status: 200 });
+    await store.dispatch(getUsers(1));
+
     store.dispatch(userActions.setInterestedUser(testUser));
     axios.get = jest.fn().mockResolvedValue({ data: [1, 2], status: 200 });
     const testUserWithNewTags = {...testUser, tags: [1, 2]};
@@ -133,6 +136,9 @@ describe("user reducer", () => {
   });
 
   it("should get user introduction", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: { results: users}, status: 200 });
+    await store.dispatch(getUsers(1));
+
     store.dispatch(userActions.setInterestedUser(testUser));
     axios.get = jest.fn().mockResolvedValue({ data: "hi", status: 200 });
     const testUserWithNewIntroduction = {...testUser, introduction: "hi"};
