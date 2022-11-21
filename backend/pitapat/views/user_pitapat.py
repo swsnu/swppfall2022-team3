@@ -17,7 +17,7 @@ class PitapatToUserViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         pitapats = Pitapat.objects.filter(to=user, is_from__isnull=False)
         sender_keys = [pitapat.is_from.key for pitapat in pitapats]
-        users = User.objects.filter(key__in=sender_keys)
+        users = User.objects.filter(key__in=sender_keys).order_by('key')
 
         page = self.paginate_queryset(users)
         if page is not None:
@@ -38,7 +38,7 @@ class PitapatFromUserViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         pitapats = Pitapat.objects.filter(is_from=user, to__isnull=False)
         receiver_keys = [pitapat.to.key for pitapat in pitapats]
-        users = User.objects.filter(key__in=receiver_keys)
+        users = User.objects.filter(key__in=receiver_keys).order_by('key')
 
         page = self.paginate_queryset(users)
         if page is not None:
