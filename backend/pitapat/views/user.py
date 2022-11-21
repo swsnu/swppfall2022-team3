@@ -5,7 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Introduction, Photo, User, UserTag
+from pitapat.models import Chatroom, Introduction, Photo, Pitapat, User, UserChatroom, UserTag
 from pitapat.paginations import UserListPagination
 from pitapat.serializers import (UserListSerializer, UserListFilterSerializer,
                                  UserCreateSerializer, UserDetailSerializer)
@@ -35,20 +35,38 @@ class UserViewSet(viewsets.ModelViewSet):
         tags_included = request.GET.get('tags_included')
         tags_excluded = request.GET.get('tags_excluded')
 
-        now_year = datetime.now().year
         filters = Q()
+
+        # exclude session user
+        filters &= ~Q(key=request.user.key)
+
+        # exclude pitapat users
+        sended_pitapats = Pitapat.objects.filter(to=request.user, is_from__isnull=False)
+        sender_keys = [pitapat.is_from.key for pitapat in sended_pitapats]
+        filters &= ~Q(key__in=sender_keys)
+        received_pitapats = Pitapat.objects.filter(is_from=request.user, to__isnull=False)
+        receiver_keys = [pitapat.to.key for pitapat in received_pitapats]
+        filters &= ~Q(key__in=receiver_keys)
+
+        # exclude chatroom users
+        user_chatrooms = UserChatroom.objects.filter(user=request.user)
+        users = []
+        for user_chatroom in user_chatrooms:
+            chatroom = user_chatroom.chatroom
+            users.extend([uc.user.key for uc in UserChatroom.objects.filter(Q(chatroom=chatroom) & ~Q(user=request.user))])
+        filters &= ~Q(key__in=users)
 
         if gender:
             filters &= Q(gender=gender)
 
         if age_min:
             age_min = int(age_min)
-            birth_year_max = now_year - age_min + 1
+            birth_year_max = datetime.now().year - age_min + 1
             filters &= Q(birthday__year__lte=birth_year_max)
 
         if age_max:
             age_max = int(age_max)
-            birth_year_min = now_year - age_max + 2
+            birth_year_min = datetime.now().year - age_max + 2
             filters &= Q(birthday__year__gte=birth_year_min)
 
         if colleges_included:
