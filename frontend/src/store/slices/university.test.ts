@@ -28,11 +28,13 @@ describe("university reducer", () => {
   it("should have initial state", () => {
     expect(store.getState().university.universities).toEqual([]);
   });
+
   it("should handle getUniversities", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: [testRawUniversity], status: 200 });
     await store.dispatch(getUniversities());
     expect(store.getState().university.universities).toEqual([testUniversity]);
   });
+
   it("should handle 500 getUniversities", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: [], status: 500 });
     await store.dispatch(getUniversities());

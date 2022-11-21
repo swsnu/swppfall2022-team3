@@ -1,9 +1,9 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
 import axios from "axios";
 import { chats, chatrooms } from "../../dummyData";
-import {Chat, Chatroom, User} from "../../types";
-import chatReducer, {rawChatroomToChatroom, RawChatroom, getChatrooms, getChats, ChatState} from "./chat";
-import {getUsers, simplifiedRawDataToUser, UserState} from "./user";
+import { Chat, Chatroom, User } from "../../types";
+import chatReducer, { rawChatroomToChatroom, RawChatroom, getChatrooms, getChats, ChatState } from "./chat";
+import { getUsers, simplifiedRawDataToUser, UserState } from "./user";
 
 
 export const chatroomToRawChatroom = (chatroom: Chatroom): RawChatroom => (

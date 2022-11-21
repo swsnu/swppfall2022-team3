@@ -33,7 +33,7 @@ const collegeSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       getColleges.fulfilled,
-      (state,action) => {
+      (state, action) => {
         if (action.payload) {
           state.colleges = action.payload;
         }

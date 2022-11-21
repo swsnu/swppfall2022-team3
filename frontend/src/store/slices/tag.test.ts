@@ -20,11 +20,13 @@ describe("tag reducer", () => {
   it("should have initial state", () => {
     expect(store.getState().tag.tags).toEqual([]);
   });
+
   it("should handle getTags", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: [testTag], status: 200 });
     await store.dispatch(getTags());
     expect(store.getState().tag.tags).toEqual([testTag]);
   });
+
   it("should handle 500 getTags", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: [], status: 500 });
     await store.dispatch(getTags());
