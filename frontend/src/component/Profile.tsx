@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import paths from "../constant/path";
 import { AppDispatch } from "../store";
-import { getUserIntroduction, getUserTags, selectUser, userActions } from "../store/slices/user";
+import { getUser, selectUser } from "../store/slices/user";
 import { User } from "../types";
 import { getKoreanAge } from "../util/getKoreanAge";
 import PitapatButton from "./PitapatButton";
@@ -25,13 +25,7 @@ export default function Profile({
   const loginUser = useSelector(selectUser).loginUser;
 
   const profileOnClick = useCallback(async () => {
-    dispatch(userActions.setInterestedUser(user));
-    const functionWrapper = async () => {
-      dispatch(getUserTags(user.key));
-      dispatch(getUserIntroduction(user.key));
-    };
-    await functionWrapper();
-
+    await dispatch(getUser(user.key));
     navigate(paths.profile);
   }, [navigate, user, dispatch]);
 

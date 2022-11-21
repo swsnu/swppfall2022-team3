@@ -6,6 +6,7 @@ import userReducer, {
   getGender,
   fetchSignin,
   fetchSignup,
+  getUser,
   getUsers,
   getUserTags,
   getUserIntroduction,
@@ -16,7 +17,8 @@ import userReducer, {
   userToRawData,
   fetchSignout,
   UserState,
-  getChatParticipants, userActions
+  getChatParticipants,
+  userActions,
 } from "./user";
 
 
@@ -116,6 +118,20 @@ describe("user reducer", () => {
     axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
     await store.dispatch(getUsers(1));
+    expect(store.getState().user.users).toEqual([]);
+  });
+
+  it("should get user", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: testRawUser, status: 200 });
+
+    await store.dispatch(getUser(1));
+    expect(store.getState().user.interestingUser).toEqual(testUser);
+  });
+
+  it("should not change the state when getting user is failed", async () => {
+    axios.get = jest.fn().mockResolvedValue({ status: 500 });
+
+    await store.dispatch(getUser(1));
   });
 
   it("should get user tags", async () => {

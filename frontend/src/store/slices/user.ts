@@ -175,6 +175,19 @@ export const getUsers = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "user/get-one",
+  async (userKey: number): Promise<User | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/`);
+    if (response.status === 200) {
+      return rawDataToUser(response.data as RawUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
 /**
  * should be called after state.interestedUser is set
  */
@@ -272,6 +285,14 @@ const userSlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.users = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getUser.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.interestingUser = action.payload;
         }
       }
     );
