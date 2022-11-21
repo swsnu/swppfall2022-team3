@@ -115,25 +115,3 @@ class UserDetailSerializer(serializers.ModelSerializer):
             'tags',
             'photos',
         ]
-
-
-class UserTagListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = ['key']
-
-
-class UserTagCreateSerializer(serializers.ModelSerializer):
-    tags = serializers.SlugRelatedField(
-        queryset=Tag.objects.all(),
-        slug_field='key',
-        many=True,
-    )
-
-    class Meta:
-        model = UserTag
-        fields = ['tags']
-
-
-class UserIntroductionSerializer(serializers.Serializer):
-    content = serializers.CharField(required=True)

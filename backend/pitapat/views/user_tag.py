@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import Tag, User, UserTag
-from pitapat.serializers import UserTagListSerializer, UserTagCreateSerializer
+from pitapat.serializers import TagKeySerializer, UserTagCreateSerializer
 
 
 class UserTagViewSet(viewsets.ModelViewSet):
@@ -12,14 +12,14 @@ class UserTagViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return UserTagListSerializer
+            return TagKeySerializer
         if self.action == 'create' or self.action == 'delete':
             return UserTagCreateSerializer
 
     def list(self, request, *args, **kwargs):
         user_key = kwargs['user_key']
         tags = Tag.objects.filter(user=user_key)
-        serializer = UserTagListSerializer(tags, many=True)
+        serializer = self.get_serializer(tags, many=True)
         tag_keys = list(map(lambda x: x['key'], serializer.data))
         return Response(tag_keys)
 

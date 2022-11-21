@@ -2,10 +2,10 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from backend.settings import IMAGE_URL
-from pitapat.models import Chatroom, Chat, UserChatroom
+from pitapat.models import Chatroom, UserChatroom
 
 
-class UserChatroomSerializer(serializers.ModelSerializer):
+class ChatroomSerializer(serializers.ModelSerializer):
     chatroom = serializers.SlugRelatedField(
         queryset=Chatroom.objects.all(),
         slug_field='key',

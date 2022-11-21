@@ -1,18 +1,18 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import User, UserChatroom
-from pitapat.serializers import UserChatroomSerializer
+from pitapat.serializers import UserListSerializer
 
 
-class UserChatroomViewSet(viewsets.ModelViewSet):
+class ChatroomUserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
-    queryset = UserChatroom.objects.all()
-    serializer_class = UserChatroomSerializer
+    queryset = User.objects.all()
+    serializer_class = UserListSerializer
+    lookup_field = 'key'
 
     def list(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        user_chatrooms = UserChatroom.objects.filter(user__exact=user)
-        serializer = UserChatroomSerializer(user_chatrooms, many=True)
+        chatroom_key = kwargs['chatroom_key']
+        users = [user_chatroom.user for user_chatroom in UserChatroom.objects.filter(chatroom__key=chatroom_key)]
+        serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)

@@ -1,15 +1,14 @@
 from datetime import datetime
 
 from django.db.models import Count, Q
-from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Introduction, Photo, User, UserTag, UserChatroom
+from pitapat.models import Introduction, Photo, User, UserTag
 from pitapat.paginations import UserListPagination
-from pitapat.serializers import (UserListSerializer, UserListFilterSerializer, UserCreateSerializer,
-                                 UserDetailSerializer, UserIntroductionSerializer)
+from pitapat.serializers import (UserListSerializer, UserListFilterSerializer,
+                                 UserCreateSerializer, UserDetailSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -112,46 +111,3 @@ class UserDetailViewSet(viewsets.ModelViewSet):
             photo.delete()
         User.objects.get(key=key).delete()
         return Response(status=204)
-
-
-class UserChatroomParticipantViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get']
-    queryset = User.objects.all()
-    serializer_class = UserDetailSerializer
-    lookup_field = 'key'
-
-    def list(self, request, *args, **kwargs):
-        chatroom_key = kwargs['chatroom_key']
-        users = [user_chatroom.user for user_chatroom in UserChatroom.objects.filter(chatroom__key=chatroom_key)]
-        serializer = UserListSerializer(users, many=True)
-        return Response(serializer.data)
-
-
-class UserIntroductionViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get', 'post', 'put']
-    queryset = Introduction.objects.all()
-    # TODO: set serializer_class
-
-    def retrieve(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        introduction = get_object_or_404(Introduction.objects.all(), user=user)
-        return Response(introduction.content)
-
-    @swagger_auto_schema(request_body=UserIntroductionSerializer)
-    def create(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        content = request.data.get('content')
-        if content is None or Introduction.objects.filter(user=user).count() != 0:
-            return Response(status=404)
-        introduction = Introduction.objects.create(user=user, content=content)
-        return Response(introduction.content)
-
-    @swagger_auto_schema(request_body=UserIntroductionSerializer)
-    def update(self, request, *args, **kwargs):
-        user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
-        introduction = get_object_or_404(Introduction.objects.all(), user=user)
-        content = request.data.get('content')
-        if content is None:
-            return Response(status=404)
-        introduction = Introduction.objects.create(user=user, content=content)
-        return Response(introduction.content)
