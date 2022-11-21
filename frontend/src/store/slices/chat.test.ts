@@ -1,12 +1,28 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
-import { chats } from "../../dummyData";
-import { Chat } from "../../types";
-import chatReducer from "./chat";
+import axios from "axios";
+import { chats, chatrooms } from "../../dummyData";
+import {Chat, Chatroom, User} from "../../types";
+import chatReducer, {rawChatroomToChatroom, RawChatroom, getChatrooms, getChats, ChatState} from "./chat";
+import {getUsers, simplifiedRawDataToUser, UserState} from "./user";
 
+
+export const chatroomToRawChatroom = (chatroom: Chatroom): RawChatroom => (
+  {
+    chatroom: chatroom.key,
+    name: chatroom.name,
+    image_path: chatroom.imagePath,
+    last_chat: chatroom.lastChat ?? undefined,
+  }
+);
 
 describe("chat reducer", () => {
+  const testChat = chats[0];
+  const testChatroom = chatrooms[0];
+  const testRawChatroom = chatroomToRawChatroom(testChatroom);
+
+
   let store: EnhancedStore<
-    { chat: { chats: Chat[] } },
+    { chat: ChatState },
     AnyAction,
     [ThunkMiddleware<{ chat: { chats: Chat[] } }>]
   >;
@@ -16,7 +32,21 @@ describe("chat reducer", () => {
   });
 
   it("should have initial state", () => {
-    expect(store.getState().chat.chats).toEqual(chats);
+    expect(store.getState().chat.chatrooms).toEqual([]);
+    expect(store.getState().chat.chats).toEqual([]);
+  });
+
+  it("should get chatrooms", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: [testRawChatroom], status: 200 });
+
+    await store.dispatch(getChatrooms(1));
+    expect(store.getState().chat.chatrooms).toEqual([testChatroom]);
+  });
+
+  it("should not get users", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
+
+    await store.dispatch(getUsers(1));
   });
 
   it("should add a chat properly", () => {

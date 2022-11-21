@@ -6,14 +6,14 @@ import { RootState } from "../index";
 
 export const userUrl = "/user";
 
-type RawChatroom = {
+export type RawChatroom = {
   chatroom: number;
   name: string;
   image_path: string;
   last_chat?: string;
 }
 
-const rawChatToChatroom = (rawData: RawChatroom): Chatroom => (
+export const rawChatroomToChatroom = (rawData: RawChatroom): Chatroom => (
   {
     key: rawData.chatroom,
     name: rawData.name,
@@ -37,7 +37,7 @@ export const getChatrooms = createAsyncThunk(
   async (userKey: number): Promise<Chatroom[] | null> => {
     const response = await axios.get(`${userUrl}/${userKey}/chatroom/`);
     if (response.status === 200) {
-      return (response.data as RawChatroom[]).map(rawChatToChatroom);
+      return (response.data as RawChatroom[]).map(rawChatroomToChatroom);
     }
     else {
       return null;
