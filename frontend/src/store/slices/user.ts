@@ -199,7 +199,7 @@ export const getUserIntroduction = createAsyncThunk(
   async (userKey: number): Promise<string | null> => {
     const response = await axios.get(`${userUrl}/${userKey}/introduction/`);
     if (response.status === 200) {
-      return response.data as string;
+      return response.data.content as string;
     }
     else {
       return null;
