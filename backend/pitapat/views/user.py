@@ -5,10 +5,11 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Chatroom, Introduction, Photo, Pitapat, User, UserChatroom, UserTag
+from pitapat.models import Introduction, Photo, Pitapat, User, UserChatroom, UserTag
 from pitapat.paginations import UserListPagination
 from pitapat.serializers import (UserListSerializer, UserListFilterSerializer,
                                  UserCreateSerializer, UserDetailSerializer)
+from pitapat.utils.page import paginate
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,94 +26,70 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @swagger_auto_schema(query_serializer=UserListFilterSerializer)
     def list(self, request, *args, **kwargs):
-        gender = request.GET.get('gender')
-        age_min = request.GET.get('age_min')
-        age_max = request.GET.get('age_max')
-        colleges_included = request.GET.get('colleges_included')
-        colleges_excluded = request.GET.get('colleges_excluded')
-        majors_included = request.GET.get('majors_included')
-        majors_excluded = request.GET.get('majors_excluded')
-        tags_included = request.GET.get('tags_included')
-        tags_excluded = request.GET.get('tags_excluded')
-
         filters = Q()
-
-        # exclude session user
         filters &= ~Q(key=request.user.key)
+        filters &= exclude_pitapat_users(request.user)
+        filters &= exclude_chatroom_users(request.user)
 
-        # exclude pitapat users
-        sended_pitapats = Pitapat.objects.filter(to=request.user, is_from__isnull=False)
-        sender_keys = [pitapat.is_from.key for pitapat in sended_pitapats]
-        filters &= ~Q(key__in=sender_keys)
-        received_pitapats = Pitapat.objects.filter(is_from=request.user, to__isnull=False)
-        receiver_keys = [pitapat.to.key for pitapat in received_pitapats]
-        filters &= ~Q(key__in=receiver_keys)
-
-        # exclude chatroom users
-        user_chatrooms = UserChatroom.objects.filter(user=request.user)
-        users = []
-        for user_chatroom in user_chatrooms:
-            chatroom = user_chatroom.chatroom
-            users.extend([uc.user.key for uc in UserChatroom.objects.filter(Q(chatroom=chatroom) & ~Q(user=request.user))])
-        filters &= ~Q(key__in=users)
-
+        gender = request.GET.get('gender')
         if gender:
             filters &= Q(gender=gender)
 
+        age_min = request.GET.get('age_min')
         if age_min:
             age_min = int(age_min)
-            birth_year_max = datetime.now().year - age_min + 1
-            filters &= Q(birthday__year__lte=birth_year_max)
+            filters &= Q(birthday__year__lte=datetime.now().year - age_min + 1)
 
+        age_max = request.GET.get('age_max')
         if age_max:
             age_max = int(age_max)
-            birth_year_min = datetime.now().year - age_max + 2
-            filters &= Q(birthday__year__gte=birth_year_min)
+            filters &= Q(birthday__year__gte=datetime.now().year - age_max + 1)
 
+        colleges_included = request.GET.get('colleges_included')
         if colleges_included:
-            colleges_included = [int(c) for c in colleges_included.split(',')]
+            colleges_included = parse_int_query_parameters(colleges_included)
             filters &= Q(college__in=colleges_included)
 
+        colleges_excluded = request.GET.get('colleges_excluded')
         if colleges_excluded:
-            colleges_excluded = [int(c) for c in colleges_excluded.split(',')]
+            colleges_excluded = parse_int_query_parameters(colleges_excluded)
             filters &= ~Q(college__in=colleges_excluded)
 
+        majors_included = request.GET.get('majors_included')
         if majors_included:
-            majors_included = [int(c) for c in majors_included.split(',')]
+            majors_included = parse_int_query_parameters(majors_included)
             filters &= Q(major__in=majors_included)
 
+        majors_excluded = request.GET.get('majors_excluded')
         if majors_excluded:
-            majors_excluded = [int(c) for c in majors_excluded.split(',')]
+            majors_excluded = parse_int_query_parameters(majors_excluded)
             filters &= ~Q(major__in=majors_excluded)
 
+        tags_included = request.GET.get('tags_included')
         if tags_included:
-            tags_included = [int(c) for c in tags_included.split(',')]
-            users_with_all_required_tags = UserTag.objects.filter(tag__in=tags_included) \
-                                                          .values('user') \
-                                                          .annotate(cnt=Count('*')) \
-                                                          .values('user', 'cnt') \
-                                                          .filter(cnt=len(tags_included)) \
-                                                          .distinct() \
-                                                          .values('user')
-            filters &= Q(key__in=users_with_all_required_tags)
+            tags_included = parse_int_query_parameters(tags_included)
+            filters &= Q(key__in=UserTag.objects.filter(tag__in=tags_included)
+                                                .values('user')
+                                                .annotate(cnt=Count('*'))
+                                                .values('user', 'cnt')
+                                                .filter(cnt=len(tags_included))
+                                                .distinct()
+                                                .values('user'))
 
+        tags_excluded = request.GET.get('tags_excluded')
         if tags_excluded:
-            tags_excluded = [int(c) for c in tags_excluded.split(',')]
-            users_with_banned_tag = UserTag.objects.filter(tag__in=tags_excluded) \
-                                                   .values('user') \
-                                                   .distinct() \
-                                                   .values('user')
-            filters &= ~Q(key__in=users_with_banned_tag)
+            tags_excluded = parse_int_query_parameters(tags_excluded)
+            filters &= ~Q(key__in=UserTag.objects.filter(tag__in=tags_excluded)
+                                                  .values('user')
+                                                  .distinct()
+                                                  .values('user'))
 
-        users = User.objects.filter(filters).order_by('key')
-
-        page = self.paginate_queryset(users)
-        if page is not None:
-            serializer = UserListSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = UserListSerializer(users, many=True)
-        return Response(serializer.data)
+        return paginate(
+            User.objects.filter(filters).order_by('key'),
+            self.paginate_queryset,
+            self.get_serializer,
+            self.get_paginated_response,
+        )
 
 
 class UserDetailViewSet(viewsets.ModelViewSet):
@@ -130,3 +107,28 @@ class UserDetailViewSet(viewsets.ModelViewSet):
             photo.delete()
         User.objects.get(key=key).delete()
         return Response(status=204)
+
+
+def exclude_pitapat_users(session_user):
+    filters = Q()
+    sended_pitapats = Pitapat.objects.filter(to=session_user, is_from__isnull=False)
+    sender_keys = [pitapat.is_from.key for pitapat in sended_pitapats]
+    filters &= ~Q(key__in=sender_keys)
+    received_pitapats = Pitapat.objects.filter(is_from=session_user, to__isnull=False)
+    receiver_keys = [pitapat.to.key for pitapat in received_pitapats]
+    filters &= ~Q(key__in=receiver_keys)
+    return filters
+
+def exclude_chatroom_users(session_user):
+    user_chatrooms = UserChatroom.objects.filter(user=session_user)
+    chatroom_users = []
+    for user_chatroom in user_chatrooms:
+        chatroom_users.extend(
+            [uc.user.key for uc in UserChatroom.objects.filter(
+                Q(chatroom=user_chatroom.chatroom) & ~Q(user=session_user)
+            )]
+        )
+    return ~Q(key__in=chatroom_users)
+
+def parse_int_query_parameters(params):
+    return [int(c) for c in params.split(',')]
