@@ -31,7 +31,7 @@ export default function SignIn() {
   const loginOnClick = useCallback(() => {
     const loginData = {
       username: email,
-      password,
+      password: password,
     };
     dispatch(fetchSignin(loginData)).then(() => {
       setSigninTried(true);
