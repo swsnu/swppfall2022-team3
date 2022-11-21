@@ -73,7 +73,7 @@ class UserViewSet(viewsets.ModelViewSet):
                                                           .values('user') \
                                                           .annotate(cnt=Count('*')) \
                                                           .values('user', 'cnt') \
-                                                          .filter(cnt=2) \
+                                                          .filter(cnt=len(tags_included)) \
                                                           .distinct() \
                                                           .values('user')
             filters &= Q(key__in=users_with_all_required_tags)
