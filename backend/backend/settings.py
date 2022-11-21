@@ -202,7 +202,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000'
 ]
 
-# Email
+# Email Verification
 
 EMAIL_BACKEND = get_external_value(
     BASE_DIR / 'backend/.secrets/email.json',
@@ -231,4 +231,13 @@ EMAIL_USE_TLS = get_external_value(
 DEFAUKT_FROM_EMAIL = get_external_value(
     BASE_DIR / 'backend/.secrets/email.json',
     'DEFAULT_FROM_EMAIL',
+)
+
+CRYPTO_KEY = get_external_value(
+    BASE_DIR / 'backend/.secrets/aes.json',
+    'key',
+)
+CRYPTO_IV = CRYPTO_KEY = get_external_value(
+    BASE_DIR / 'backend/.secrets/aes.json',
+    'iv',
 )
