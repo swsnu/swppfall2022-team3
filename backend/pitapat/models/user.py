@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
+from .chatroom import Chatroom
 from .college import College
 from .custom_field.unsigned_auto_field import UnsignedAutoField
 from .major import Major
@@ -21,7 +22,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     interested_gender = models.CharField(max_length=1)
     birthday = models.DateField()
     tags = models.ManyToManyField('Tag', through='UserTag', through_fields=('user', 'tag'))
-    chatrooms = models.ManyToManyField('Chatroom', through='UserChatroom', through_fields=('user', 'chatroom'))
+    chatrooms = models.ManyToManyField(
+        Chatroom,
+        through='UserChatroom',
+        through_fields=('user', 'chatroom'),
+    )
     reg_dt = models.DateTimeField(auto_now_add=True)
     reg_id = models.CharField(max_length=50)
     upd_dt = models.DateTimeField(auto_now=True)

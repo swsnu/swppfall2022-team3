@@ -6,6 +6,7 @@ from drf_yasg import openapi
 from . import views
 
 
+# pylint: disable=invalid-name
 schema_view = get_schema_view(
     openapi.Info(
         title='pitapat campus api',

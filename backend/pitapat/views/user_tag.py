@@ -13,8 +13,9 @@ class UserTagViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return TagKeySerializer
-        if self.action == 'create' or self.action == 'delete':
+        if self.action in ('create', 'delete'):
             return UserTagCreateSerializer
+        return None
 
     def list(self, request, *args, **kwargs):
         user_key = kwargs['user_key']

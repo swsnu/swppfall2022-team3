@@ -1,6 +1,5 @@
 from .chat import Chat
 from .chatroom import Chatroom
-from .relationship.user_chatroom import UserChatroom
 from .introduction import Introduction
 from .photo import Photo
 from .pitapat_user_manager import PitapatUserManager

@@ -14,6 +14,7 @@ def pad(data):
     return data + b"\x00" * (16 - len(data) % 16)
 
 
+# pylint: disable=invalid-name
 def aes_encrypt(data, key, iv):
     key = key.encode('utf-8')
     iv = iv.encode('utf-8')

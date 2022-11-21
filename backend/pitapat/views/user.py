@@ -21,6 +21,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return UserListSerializer
         if self.action == 'create':
             return UserCreateSerializer
+        return None
 
     @swagger_auto_schema(query_serializer=UserListFilterSerializer)
     def list(self, request, *args, **kwargs):

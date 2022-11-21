@@ -8,6 +8,9 @@ class ImageUrlField(serializers.RelatedField):
     def to_representation(self, value):
         return f'{IMAGE_URL}{value.name}'
 
+    def to_internal_value(self, data):
+        pass
+
 
 class UserListSerializer(serializers.ModelSerializer):
     major = serializers.SlugRelatedField(
@@ -45,6 +48,12 @@ class UserListFilterSerializer(serializers.Serializer):
     majors_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
     tags_included = serializers.ListField(child=serializers.IntegerField(), required=False)
     tags_excluded = serializers.ListField(child=serializers.IntegerField(), required=False)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
