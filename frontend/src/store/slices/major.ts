@@ -4,7 +4,7 @@ import { Major } from "../../types";
 import { RootState } from "../index";
 
 
-const majorUrl = "/majors/";
+const majorUrl = "/major/";
 
 export interface MajorState {
   majors: Major[];

@@ -4,7 +4,7 @@ import { College } from "../../types";
 import { RootState } from "../index";
 
 
-const collegeUrl = "/colleges/";
+const collegeUrl = "/college/";
 
 export interface CollegeState {
   colleges: College[];
