@@ -7,7 +7,6 @@ import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
-// import { sendVerificationCode } from "../../util/email";
 import InformationInput from "./InformationInput";
 
 
@@ -69,7 +68,7 @@ export default function UniversityCheck({
     <section className={style.page.base}>
       <section className={"flex-1"}>
         <p className={style.component.signIn.notification}>
-          소속대학과<br />
+          소속대학과<br/>
           학교 이메일을 입력해주세요
         </p>
         <section className="flex flex-col items-center space-y-4 mt-8">

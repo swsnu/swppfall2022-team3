@@ -210,14 +210,14 @@ describe("user reducer", () => {
     axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
 
     await store.dispatch(getChatParticipants(1));
-    expect(store.getState().user.chat.participants).toEqual([simplifiedTestUser])
+    expect(store.getState().user.chat.participants).toEqual([simplifiedTestUser]);
   });
 
   it("should not get chat participants", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
     await store.dispatch(getChatParticipants(1));
-    expect(store.getState().user.chat.participants).toEqual([])
+    expect(store.getState().user.chat.participants).toEqual([]);
   });
 
   it("should work getGender method properly", () => {
