@@ -15,7 +15,6 @@ jest.mock("../../util/verification", () => ({
   getCode: () => jest.fn(() => "ABCDEF"),
 }));
 
-const mockSetVerificationCode = jest.fn();
 const mockSetStep = jest.fn();
 
 describe("EmailVerification", () => {
@@ -28,8 +27,8 @@ describe("EmailVerification", () => {
       <EmailVerification
         email={""}
         limitSec={3 * 60}
-        verificationCode={"abcdef"}
-        setVerificationCode={mockSetVerificationCode}
+        requestTime={new Date()}
+        setRequestTime={jest.fn()}
         setStep={mockSetStep}
       />
     );
@@ -42,8 +41,8 @@ describe("EmailVerification", () => {
       <EmailVerification
         email={""}
         limitSec={3 * 60}
-        verificationCode={"abcdef"}
-        setVerificationCode={mockSetVerificationCode}
+        requestTime={new Date()}
+        setRequestTime={jest.fn()}
         setStep={mockSetStep}
       />
     );
@@ -60,8 +59,8 @@ describe("EmailVerification", () => {
       <EmailVerification
         email={""}
         limitSec={3 * 60}
-        verificationCode={"ABCDEF"}
-        setVerificationCode={mockSetVerificationCode}
+        requestTime={new Date()}
+        setRequestTime={jest.fn()}
         setStep={mockSetStep}
       />
     );
@@ -85,8 +84,8 @@ describe("EmailVerification", () => {
       <EmailVerification
         email={""}
         limitSec={30}
-        verificationCode={"ABCDEF"}
-        setVerificationCode={mockSetVerificationCode}
+        requestTime={new Date()}
+        setRequestTime={jest.fn()}
         setStep={mockSetStep}
       />
     );

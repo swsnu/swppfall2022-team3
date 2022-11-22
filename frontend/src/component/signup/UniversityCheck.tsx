@@ -1,31 +1,31 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@mui/material";
+import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
 import { selectUser } from "../../store/slices/user";
 import { University } from "../../types";
 // import { sendVerificationCode } from "../../util/email";
-import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
 
 interface IProps {
   university: University | null;
-  setUniversity: Dispatch<SetStateAction<University | null>>;
   email: string;
+  requestTime: Date | undefined;
+  setUniversity: Dispatch<SetStateAction<University | null>>;
   setEmail: Dispatch<SetStateAction<string>>;
-  setVerificationCode: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function UniversityCheck({
   university,
-  setUniversity,
   email,
+  requestTime,
+  setUniversity,
   setEmail,
-  setVerificationCode,
   setStep,
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
@@ -40,12 +40,13 @@ export default function UniversityCheck({
       alert("이미 존재하는 이메일입니다.");
     }
     else {
-      const code = getCode();
-      // await sendVerificationCode(email, code);
-      setVerificationCode(code);
-      setStep(2);
+      await axios.post("/auth/email/", {
+        email: email,
+        request_time: requestTime,
+      });
+      setStep(1);
     }
-  }, [users, email, setStep, setVerificationCode]);
+  }, [users, email, requestTime, setStep]);
 
   useEffect(() => {
     dispatch(getUniversities());

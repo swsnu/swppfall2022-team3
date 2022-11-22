@@ -21,8 +21,8 @@ export default function SignUp() {
   // const photos = useSelector(selectPhoto).photos;
   const [step, setStep] = useState<number>(0);
   const [university, setUniversity] = useState<University | null>(null);
+  const [requestTime, setRequestTime] = useState<Date>(new Date());
   const [email, setEmail] = useState<string>("");
-  const [verificationCode, setVerificationCode] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
@@ -82,18 +82,18 @@ export default function SignUp() {
     case 0:
       return <UniversityCheck
         university={university}
-        setUniversity={setUniversity}
         email={email}
+        requestTime={requestTime}
+        setUniversity={setUniversity}
         setEmail={setEmail}
-        setVerificationCode={setVerificationCode}
         setStep={setStep}
       />;
     case 1:
       return <EmailVerification
         email={email}
+        requestTime={requestTime}
+        setRequestTime={setRequestTime}
         limitSec={3 * 60}
-        verificationCode={verificationCode}
-        setVerificationCode={setVerificationCode}
         setStep={setStep}
       />;
     case 2:
@@ -154,7 +154,6 @@ export default function SignUp() {
     }
   }, [
     university,
-    verificationCode,
     email,
     username,
     password,

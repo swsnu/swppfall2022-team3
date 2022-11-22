@@ -35,10 +35,10 @@ describe("UniversityCheck", () => {
       <Provider store={mockStore}>
         <UniversityCheck
           university={university}
-          setUniversity={mockSetUniversity}
+          requestTime={new Date()}
           email={""}
+          setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
-          setVerificationCode={mockSetVerificationCode}
           setStep={mockSetStep}
         />
       </Provider>
@@ -50,10 +50,10 @@ describe("UniversityCheck", () => {
       <Provider store={mockStore}>
         <UniversityCheck
           university={university}
-          setUniversity={mockSetUniversity}
+          requestTime={new Date()}
           email={""}
+          setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
-          setVerificationCode={mockSetVerificationCode}
           setStep={mockSetStep}
         />
       </Provider>
@@ -68,11 +68,11 @@ describe("UniversityCheck", () => {
     render(
       <Provider store={mockStore}>
         <UniversityCheck
-          university={null}
-          setUniversity={mockSetUniversity}
+          university={university}
+          requestTime={new Date()}
           email={""}
+          setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
-          setVerificationCode={mockSetVerificationCode}
           setStep={mockSetStep}
         />
       </Provider>
@@ -88,10 +88,10 @@ describe("UniversityCheck", () => {
       <Provider store={mockStore}>
         <UniversityCheck
           university={university}
+          requestTime={new Date()}
+          email={"test"}
           setUniversity={mockSetUniversity}
-          email={""}
           setEmail={mockSetEmail}
-          setVerificationCode={mockSetVerificationCode}
           setStep={mockSetStep}
         />
       </Provider>
@@ -108,10 +108,10 @@ describe("UniversityCheck", () => {
       <Provider store={mockStore}>
         <UniversityCheck
           university={university}
-          setUniversity={mockSetUniversity}
+          requestTime={new Date()}
           email={"test"}
+          setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
-          setVerificationCode={mockSetVerificationCode}
           setStep={mockSetStep}
         />
       </Provider>
@@ -131,10 +131,10 @@ describe("UniversityCheck", () => {
       <Provider store={mockStore}>
         <UniversityCheck
           university={university}
-          setUniversity={mockSetUniversity}
           email={users[0].email}
+          requestTime={new Date()}
+          setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
-          setVerificationCode={mockSetVerificationCode}
           setStep={mockSetStep}
         />
       </Provider>

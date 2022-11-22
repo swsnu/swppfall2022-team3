@@ -1,22 +1,22 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import axios from "axios";
 import style from "../../constant/style";
-import { getCode } from "../../util/verification";
 import InformationInput from "./InformationInput";
 
 
 interface IProps {
   email: string;
   limitSec: number;
-  verificationCode: string;
-  setVerificationCode: Dispatch<SetStateAction<string>>;
+  requestTime: Date;
+  setRequestTime: Dispatch<SetStateAction<Date>>;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
 export default function EmailVerification({
   email,
   limitSec,
-  verificationCode,
-  setVerificationCode,
+  requestTime,
+  setRequestTime,
   setStep,
 }: IProps) {
   const [sec, setSec] = useState<number>(limitSec);
@@ -37,20 +37,27 @@ export default function EmailVerification({
   }, [sec, setSec, setStep]);
 
   const resendOnClick = useCallback(async () => {
-    const newCode = getCode();
-    // await sendVerificationCode(email, newCode);
-    setVerificationCode(newCode);
+    setRequestTime(new Date());
+    await axios.post("/auth/email/", {
+      email: email,
+      request_time: requestTime,
+    });
     setSec(180);
-  }, [email, setSec, setVerificationCode]);
+  }, [email, requestTime, setRequestTime, setSec]);
 
-  const confirmOnClick = useCallback(() => {
-    if (code === verificationCode) {
+  const confirmOnClick = useCallback(async () => {
+    const result = await axios.post("/auth/verify/", {
+      email: email,
+      request_time: requestTime,
+      code: code,
+    });
+    if (result.status === 204) {
       setStep(2);
     }
     else {
       alert("잘못된 인증코드입니다 \n다시 한 번 확인해주세요.");
     }
-  }, [code, verificationCode, setStep]);
+  }, [email, requestTime, code, setStep]);
 
   return (
     <section className={style.page.base}>

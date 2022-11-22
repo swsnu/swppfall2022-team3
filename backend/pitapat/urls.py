@@ -41,14 +41,14 @@ urlpatterns = [
         include('dj_rest_auth.urls'),
     ),
     path(
-        'auth/email',
+        'auth/email/',
         views.AuthEmailViewSet.as_view({
             'post': 'create',
         }),
         name='auth_email'
     ),
     path(
-        'auth/verify',
+        'auth/verify/',
         views.AuthVerifyViewSet.as_view({
             'post': 'create',
         }),
@@ -74,8 +74,6 @@ urlpatterns = [
     path(
         'user/<int:user_key>/introduction/',
         views.UserIntroductionViewSet.as_view({
-            'get': 'retrieve',
-            'post': 'create',
             'put': 'update',
         }),
         name='user_introduction',
@@ -83,7 +81,6 @@ urlpatterns = [
     path(
         'user/<int:user_key>/tag/',
         views.UserTagViewSet.as_view({
-            'get': 'list',
             'post': 'create',
             'delete': 'destroy',
         }),
@@ -168,4 +165,5 @@ urlpatterns = [
         }),
         name='chatroom_user'
     ),
+    # path('test/<int:chatroom_key>', views.test.chatroom, name='chatroom')
 ]
