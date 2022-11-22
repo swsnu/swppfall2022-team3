@@ -4,7 +4,7 @@ import { University } from "../../types";
 import { RootState } from "../index";
 
 
-const universityUrl = "/universities/";
+const universityUrl = "/university/";
 
 export type RawUniversity = {
   key: number;
