@@ -31,7 +31,7 @@ class MajorViewSet(viewsets.ModelViewSet):
     serializer_class = MajorSerializer
 
     def list(self, request, *args, **kwargs):
-        college_key = kwargs['collge_key']
+        college_key = kwargs['college_key']
         get_object_or_404(College.objects.all(), key=college_key)
         majors = Major.objects.filter(college=college_key)
         serializer = MajorSerializer(majors, many=True)
