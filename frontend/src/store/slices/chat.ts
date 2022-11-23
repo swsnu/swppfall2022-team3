@@ -45,24 +45,6 @@ export const getChatrooms = createAsyncThunk(
   }
 );
 
-export const getChats = createAsyncThunk(
-  "chat/get-all-by-chatroom",
-  async (chatroomKey: number): Promise<Chat[] | null> => {
-    return null;
-  }
-);
-
-export const addChat = createAsyncThunk(
-  "chat/add-chat-to-chatroom",
-  async (chat: {chatroomKey: number; from: number; content: string}): Promise<Chat> => {
-    return {
-      ...chat,
-      key: 1,
-      regDt: (new Date()).toString(),
-    };
-  }
-);
-
 const chatSlice = createSlice({
   name: "chat",
   initialState,
@@ -74,20 +56,6 @@ const chatSlice = createSlice({
         if (action.payload) {
           state.chatrooms = action.payload;
         }
-      }
-    );
-    builder.addCase(
-      getChats.fulfilled,
-      (state, action) => {
-        if (action.payload) {
-          state.chats = action.payload;
-        }
-      }
-    );
-    builder.addCase(
-      addChat.fulfilled,
-      (state, action) => {
-        state.chats.push(action.payload);
       }
     );
   }
