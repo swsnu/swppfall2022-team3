@@ -13,13 +13,7 @@ const mockSendVerificationCode = jest.fn().mockResolvedValue({
   status: 200,
   text: "OK",
 });
-jest.mock("../../util/email", () => ({
-  sendVerificationCode: () => mockSendVerificationCode,
-}));
 
-jest.mock("../../util/verification", () => ({
-  getCode: () => jest.fn(() => "ABCDEF"),
-}));
 
 const mockSetUniversity = jest.fn();
 const mockSetEmail = jest.fn();
@@ -30,119 +24,33 @@ const university: University = universities[0];
 
 
 describe("UniversityCheck", () => {
+  function getElement(
+    university: University | null,
+  ) {
+    return (
+      <Provider store={mockStore}>
+        <UniversityCheck
+          university={university}
+          requestTime={new Date()}
+          email={""}
+          setUniversity={mockSetUniversity}
+          setEmail={mockSetEmail}
+          setStep={mockSetStep}
+        />
+      </Provider>
+    );
+  }
+
   it("should be rendered", () => {
-    render(
-      <Provider store={mockStore}>
-        <UniversityCheck
-          university={university}
-          requestTime={new Date()}
-          email={""}
-          setUniversity={mockSetUniversity}
-          setEmail={mockSetEmail}
-          setStep={mockSetStep}
-        />
-      </Provider>
-    );
+    const { container } = render(getElement(university));
+    expect(container).toBeTruthy();
   });
 
-  it("should be render university's email domain", () => {
-    render(
-      <Provider store={mockStore}>
-        <UniversityCheck
-          university={university}
-          requestTime={new Date()}
-          email={""}
-          setUniversity={mockSetUniversity}
-          setEmail={mockSetEmail}
-          setStep={mockSetStep}
-        />
-      </Provider>
-    );
-
-    const universityDomain = screen.getByText(`@${university.domain}`);
-
-    expect(universityDomain).toBeInTheDocument();
-  });
-
-  it("should be render a default domain when there is no university", () => {
-    render(
-      <Provider store={mockStore}>
-        <UniversityCheck
-          university={university}
-          requestTime={new Date()}
-          email={""}
-          setUniversity={mockSetUniversity}
-          setEmail={mockSetEmail}
-          setStep={mockSetStep}
-        />
-      </Provider>
-    );
-
-    const defaultDomain = screen.getByText("@pitapat.com");
-
-    expect(defaultDomain).toBeInTheDocument();
-  });
-
-  it("should update the value when a user enters an email", () => {
-    render(
-      <Provider store={mockStore}>
-        <UniversityCheck
-          university={university}
-          requestTime={new Date()}
-          email={"test"}
-          setUniversity={mockSetUniversity}
-          setEmail={mockSetEmail}
-          setStep={mockSetStep}
-        />
-      </Provider>
-    );
-
-    const emailInput = screen.getByRole("textbox");
-
-    fireEvent.change(emailInput, { target: { value: "email_input" } } );
-    expect(mockSetEmail).toBeCalled();
-  });
-
-  it("should send code when confirm button is clicked and inputs are not empty", async () => {
-    render(
-      <Provider store={mockStore}>
-        <UniversityCheck
-          university={university}
-          requestTime={new Date()}
-          email={"test"}
-          setUniversity={mockSetUniversity}
-          setEmail={mockSetEmail}
-          setStep={mockSetStep}
-        />
-      </Provider>
-    );
-
+  it("should check email", () => {
+    render(getElement(university));
+    const emailField = screen.getByPlaceholderText("이메일");
     const confirmButton = screen.getByText("확인");
-
+    fireEvent.change(emailField, { target: { value: "user@snu.ac.kr" } });
     fireEvent.click(confirmButton);
-    await waitFor(() => expect(mockSetStep).toHaveBeenCalled());
-    await waitFor(() => expect(mockSetVerificationCode).toHaveBeenCalled());
-  });
-
-  it("should not send a code when confirm button is clicked but duplicated email", () => {
-    const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
-
-    render(
-      <Provider store={mockStore}>
-        <UniversityCheck
-          university={university}
-          email={users[0].email}
-          requestTime={new Date()}
-          setUniversity={mockSetUniversity}
-          setEmail={mockSetEmail}
-          setStep={mockSetStep}
-        />
-      </Provider>
-    );
-
-    const confirmButton = screen.getByText("확인");
-
-    fireEvent.click(confirmButton);
-    expect(spyAlert).toBeCalled();
   });
 });
