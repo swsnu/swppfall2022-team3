@@ -22,8 +22,8 @@ class Chat(models.Model):
     )
     valid = models.CharField(max_length=1)
     content = models.TextField()
-    reg_dt = models.DateTimeField()
-    upd_dt = models.DateTimeField()
+    reg_dt = models.DateTimeField(auto_now_add=True)
+    upd_dt = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.author.nickname}: {self.content}'

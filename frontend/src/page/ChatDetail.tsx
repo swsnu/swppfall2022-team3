@@ -59,11 +59,21 @@ export default function ChatDetail() {
     if (socket && chatroomKey) {
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
-        dispatch(addChat({
-          chatroomKey: chatroomKey,
-          from: data.author,
-          content: data.message,
-        }));
+        if (data.method === "create") {
+          dispatch(addChat({
+            chatroomKey: chatroomKey,
+            from: data.author,
+            content: data.content,
+          }));
+        } else if (data.method === "load") {
+          data.chats.forEach((chat: {author: number; content: string}) => {
+            dispatch(addChat({
+              chatroomKey: chatroomKey,
+              from: chat.author,
+              content: chat.content,
+            }));
+          });
+        }
       };
     }
   }, [loginUser, socket, chatroomKey, dispatch]);
@@ -71,6 +81,7 @@ export default function ChatDetail() {
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
       socket?.send(JSON.stringify({
+        method: "create",
         message: chatInput,
       }));
       setChatInput("");

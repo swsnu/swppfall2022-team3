@@ -165,5 +165,4 @@ urlpatterns = [
         }),
         name='chatroom_user',
     ),
-    # path('test/<int:chatroom_key>', views.test.chatroom, name='chatroom'),
 ]

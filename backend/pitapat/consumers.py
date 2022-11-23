@@ -1,28 +1,42 @@
 import json
 
-from asgiref.sync import async_to_sync
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-# from pitapat.models import User, Chatroom, Chat
+from pitapat.models import Chatroom, Chat
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.chatroom_key = self.scope['url_route']['kwargs']['chatroom_key']
-        # self.room_group_name = f'chatroom_{self.chatroom_key}'
-        # self.chatroom = Chatroom.objects.get(key=self.chatroom_key)
 
     async def connect(self):
         self.user = self.scope['user']
         self.chatroom_key = self.scope['url_route']['kwargs']['chatroom_key']
         self.room_group_name = f'chatroom_{self.chatroom_key}'
+        self.chatroom = await database_sync_to_async(self.get_chatroom)()
 
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name,
         )
         await self.accept()
+
+        chats = await database_sync_to_async(self.get_chats)()
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'load_past_messages',
+                'method': 'load',
+                'chats': chats,
+            }
+        )
+
+    def get_chatroom(self):
+        return Chatroom.objects.get(key=self.chatroom_key)
+
+    def get_chats(self):
+        chats = Chatroom.objects.get(key=self.chatroom_key).chats.all()
+        return [{'content': chat.content, 'author': chat.author.key} for chat in chats]
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(
@@ -32,20 +46,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json: dict = json.loads(text_data)
-        # method_type = text_data_json['type']
-        message = text_data_json.setdefault('message', None)
+        method = text_data_json['method']
         author_key = self.user.key
-        # chat_key = text_data_json.setdefault('chat', None)
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'send_message',
-                'message': message,
-                'author': author_key,
-                # 'chat': chat_key,
-            },
-        )
+        if method == 'create':
+            content = text_data_json.setdefault('message', None)
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'send_message',
+                    'method': method,
+                    'content': content,
+                    'author': author_key,
+                },
+            )
+            await database_sync_to_async(self.create_chat)(content)
         # text data example
         # {
         #     "type": "create",
@@ -83,8 +98,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
         #     # invalid method type,
         #     return
 
+    def create_chat(self, content):
+        Chat.objects.create(
+            chatroom=self.chatroom,
+            author=self.user,
+            valid='V',
+            content=content,
+        )
+
     async def send_message(self, event):
         await self.send(text_data=json.dumps({
+            'method': event['method'],
+            'content': event['content'],
             'author': event['author'],
-            'message': event['message'],
+        }))
+
+    async def load_past_messages(self, event):
+        await self.send(text_data=json.dumps({
+            'method': event['method'],
+            'chats': event['chats'],
         }))
