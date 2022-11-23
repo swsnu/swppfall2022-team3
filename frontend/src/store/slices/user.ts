@@ -249,7 +249,7 @@ export const getPitapatReceivers = createAsyncThunk(
 export const getChatParticipants = createAsyncThunk(
   "user/get-all-by-chatroom",
   async (chatroomKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}/chatroom/${chatroomKey}`);
+    const response = await axios.get(`/chatroom/${chatroomKey}${userUrl}`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }

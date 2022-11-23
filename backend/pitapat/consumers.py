@@ -14,6 +14,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # self.chatroom = Chatroom.objects.get(key=self.chatroom_key)
 
     async def connect(self):
+        self.user = self.scope['user']
         self.chatroom_key = self.scope['url_route']['kwargs']['chatroom_key']
         self.room_group_name = f'chatroom_{self.chatroom_key}'
 
@@ -32,16 +33,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json: dict = json.loads(text_data)
         # method_type = text_data_json['type']
-        content = text_data_json.setdefault('message', None)
-        # author_key = text_data_json.setdefault('author', None)
+        message = text_data_json.setdefault('message', None)
+        author_key = self.user.key
         # chat_key = text_data_json.setdefault('chat', None)
 
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'send_message',
-                'content': content,
-                # 'author': author_key,
+                'message': message,
+                'author': author_key,
                 # 'chat': chat_key,
             },
         )
@@ -83,7 +84,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         #     return
 
     async def send_message(self, event):
-        content = event['content']
         await self.send(text_data=json.dumps({
-            'message': content,
+            'author': event['author'],
+            'message': event['message'],
         }))

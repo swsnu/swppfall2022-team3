@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch , useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { selectChat } from "../store/slices/chat";
+import { addChat, getChats, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
+import { Chat } from "../types";
 import encryptor from "../util/encryptor";
 
 
@@ -18,45 +19,61 @@ interface IDecrypted {
 
 export default function ChatDetail() {
   const params = useParams();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
   const participants = useSelector(selectUser).chat.participants;
   const chats = useSelector(selectChat).chats;
-  const dispatch = useDispatch<AppDispatch>();
 
   const [appBarTitle, setAppBarTitle] = useState<string>("");
   const [chatInput, setChatInput] = useState<string>("");
+  const [socket, setSocket] = useState<WebSocket>();
+  const [chatroomKey, setChatroomKey] = useState<number>();
+
+  useEffect(() => {
+    if (!loginUser) {
+      navigate(paths.signIn);
+    }
+
+    const encrypted = params.encrypted ?? null;
+    if (encrypted === null) {
+      navigate(paths.chat);
+    }
+
+    try {
+      const decrypted = encryptor.decrypt<IDecrypted>(encrypted!);
+      if (decrypted.chatroomKey && decrypted.chatroomName) {
+        setAppBarTitle(decrypted.chatroomName);
+        dispatch(getChats(decrypted.chatroomKey));
+        setSocket(new WebSocket(`ws://localhost:8000/ws/chat/${decrypted.chatroomKey}/`));
+        setChatroomKey(decrypted.chatroomKey);
+      }
+      else {
+        navigate(paths.chat);
+      }
+    } catch (_) {
+      navigate(paths.chat);
+    }
+  }, [params, loginUser, navigate, dispatch]);
+
+  useEffect(() => {
+    if (socket && chatroomKey) {
+      socket.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        dispatch(addChat({
+          chatroomKey: chatroomKey,
+          from: data.author,
+          content: data.message,
+        }));
+      };
+    }
+  }, [loginUser, socket, chatroomKey, dispatch]);
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
       setChatInput("");
     }
-  }, [dispatch, chatInput]);
-
-  useEffect(() => {
-    if (loginUser) {
-      const encrypted = params.encrypted ?? null;
-      if (encrypted === null) {
-        navigate(paths.chat);
-      }
-      else {
-        try {
-          const decrypted = encryptor.decrypt<IDecrypted>(encrypted);
-          if ((decrypted?.chatroomKey) && (decrypted?.chatroomName)) {
-            setAppBarTitle(decrypted.chatroomName);
-          }
-          else {
-            navigate(paths.chat);
-          }
-        } catch (_) {
-          navigate(paths.chat);
-        }
-      }
-    }
-    else {
-      navigate(paths.signIn);
-    }
-  }, [params, navigate, chats, loginUser]);
+  }, [chatInput]);
 
   return (
     <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
