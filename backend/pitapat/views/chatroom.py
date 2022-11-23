@@ -5,7 +5,7 @@ from pitapat.models import User, UserChatroom
 from pitapat.serializers import UserListSerializer
 
 
-class ChatroomUserViewSet(viewsets.ModelViewSet):
+class ChatroomParticipantViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = User.objects.all()
     serializer_class = UserListSerializer
