@@ -69,7 +69,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         intro = validated_data.pop('introduction')
 
         user: User = User.objects.create_user(**validated_data)
-        Introduction.objects.create(user=user, field=intro)
+        Introduction.objects.create(user=user, content=intro)
         for tag_key in tags:
             tag = Tag.objects.get(key=tag_key)
             UserTag.objects.create(user=user, tag=tag)
