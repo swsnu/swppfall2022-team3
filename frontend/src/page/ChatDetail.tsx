@@ -8,7 +8,6 @@ import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { addChat, getChats, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
-import { Chat } from "../types";
 import encryptor from "../util/encryptor";
 
 
@@ -71,9 +70,12 @@ export default function ChatDetail() {
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
+      socket?.send(JSON.stringify({
+        message: chatInput,
+      }));
       setChatInput("");
     }
-  }, [chatInput]);
+  }, [socket, chatInput]);
 
   return (
     <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
