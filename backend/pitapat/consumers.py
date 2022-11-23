@@ -39,7 +39,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'chat_message',
+                'type': 'send_message',
                 'content': content,
                 # 'author': author_key,
                 # 'chat': chat_key,
@@ -82,7 +82,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         #     # invalid method type,
         #     return
 
-    async def chat_message(self, event):
+    async def send_message(self, event):
         content = event['content']
         await self.send(text_data=json.dumps({
             'message': content,
