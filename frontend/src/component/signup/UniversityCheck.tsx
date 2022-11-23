@@ -91,6 +91,7 @@ export default function UniversityCheck({
               }}
               size={"small"}
               label={"이메일"}
+              placeholder={"이메일"}
               variant={"outlined"}
               value={emailInput}
               onChange={(e) => {
