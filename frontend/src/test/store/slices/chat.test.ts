@@ -1,7 +1,7 @@
 import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@reduxjs/toolkit";
 import axios from "axios";
-import { chats, chatrooms } from "../../../dummyData";
-import chatReducer, { RawChatroom, getChatrooms, getChats, ChatState } from "../../../store/slices/chat";
+import { chatrooms } from "../../../dummyData";
+import chatReducer, { RawChatroom, getChatrooms, ChatState } from "../../../store/slices/chat";
 import { getUsers } from "../../../store/slices/user";
 import { Chat, Chatroom } from "../../../types";
 
@@ -16,7 +16,6 @@ export const chatroomToRawChatroom = (chatroom: Chatroom): RawChatroom => (
 );
 
 describe("chat reducer", () => {
-  const testChat = chats[0];
   const testChatroom = chatrooms[0];
   const testRawChatroom = chatroomToRawChatroom(testChatroom);
 
@@ -41,13 +40,6 @@ describe("chat reducer", () => {
 
     await store.dispatch(getChatrooms(1));
     expect(store.getState().chat.chatrooms).toEqual([testChatroom]);
-  });
-
-  it("should get chats", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: [testChat], status: 200 });
-
-    await store.dispatch(getChats(1));
-    expect(store.getState().chat.chats).toEqual([]);
   });
 
   it("should not get chatrooms", async () => {
