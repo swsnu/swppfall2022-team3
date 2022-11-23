@@ -34,13 +34,13 @@ const initialState: ChatState = {
 
 export const getChatrooms = createAsyncThunk(
   "chatroom/get-all-by-user",
-  async (userKey: number): Promise<Chatroom[] | null> => {
+  async (userKey: number): Promise<Chatroom[]> => {
     const response = await axios.get(`${userUrl}/${userKey}/chatroom/`);
     if (response.status === 200) {
       return (response.data as RawChatroom[]).map(rawChatroomToChatroom);
     }
     else {
-      return null;
+      return [];
     }
   }
 );
@@ -53,9 +53,7 @@ const chatSlice = createSlice({
     builder.addCase(
       getChatrooms.fulfilled,
       (state, action) => {
-        if (action.payload) {
-          state.chatrooms = action.payload;
-        }
+        state.chatrooms = action.payload;
       }
     );
   }
