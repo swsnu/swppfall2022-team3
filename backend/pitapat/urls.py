@@ -160,10 +160,10 @@ urlpatterns = [
     ),
     path(
         'chatroom/<int:chatroom_key>/user/',
-        views.ChatroomUserViewSet.as_view({
+        views.ChatroomParticipantViewSet.as_view({
             'get': 'list',
         }),
-        name='chatroom_user'
+        name='chatroom_user',
     ),
-    # path('test/<int:chatroom_key>', views.test.chatroom, name='chatroom')
+    # path('test/<int:chatroom_key>', views.test.chatroom, name='chatroom'),
 ]
