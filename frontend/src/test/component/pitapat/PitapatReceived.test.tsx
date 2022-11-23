@@ -7,7 +7,7 @@ import { getDefaultMockStore, getNoPhotoMockStore } from "../../../test-utils/mo
 
 
 jest.mock(
-  "../Profile",
+  "../../../component/Profile",
   () => ({myKey, photo}: {myKey: number; photo: string}) => (
     <div data-testid="profile">
       <div data-testid="myKey">{myKey}</div>

@@ -1,5 +1,5 @@
-import { Gender } from "../types";
-import { parseGender } from "./parseGender";
+import { Gender } from "../../types";
+import { parseGender } from "../../util/parseGender";
 
 
 describe("parseGender", () => {

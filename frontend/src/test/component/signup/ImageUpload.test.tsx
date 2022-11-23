@@ -17,7 +17,7 @@ const mockPhotos = [new File([""], "a.jpeg")];
 const mockSetUploadedPhotose = jest.fn();
 const mockSetStep = jest.fn();
 
-jest.mock("./ImageUploadIcon", () => (props: IProps) => (
+jest.mock("../../../component/signup/ImageUploadIcon", () => (props: IProps) => (
   <div data-testid="spyImageUploadIcon">
     {props.src}
   </div>

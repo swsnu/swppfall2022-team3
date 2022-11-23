@@ -1,4 +1,4 @@
-import encryptor from "./encryptor";
+import encryptor from "../../util/encryptor";
 
 
 describe("encryptor", () => {
