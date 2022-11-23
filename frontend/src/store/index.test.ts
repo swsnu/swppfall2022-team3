@@ -7,9 +7,7 @@ describe("RootStore", () => {
     expect(store.getState()).toHaveProperty("college");
     expect(store.getState()).toHaveProperty("major");
     expect(store.getState()).toHaveProperty("user");
-    expect(store.getState()).toHaveProperty("photo");
     expect(store.getState()).toHaveProperty("tag");
-    expect(store.getState()).toHaveProperty("pitapat");
     expect(store.getState()).toHaveProperty("chat");
   });
 });
