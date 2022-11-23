@@ -14,29 +14,24 @@ export default function SignIn() {
   const loginUser = useSelector(selectUser).loginUser;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [signinTried, setSigninTried] = useState<boolean>(false);
 
   useEffect(() => {
     if (loginUser) {
       navigate(paths.search);
     }
-    else {
-      if (signinTried) {
-        alert("로그인에 실패했습니다. 이메일이나 비밀번호를 확인해주세요");
-        setSigninTried(false);
-      }
-    }
-  }, [navigate, loginUser, signinTried, setSigninTried]);
+  }, [navigate, loginUser]);
 
   const loginOnClick = useCallback(() => {
     const loginData = {
       username: email,
       password: password,
     };
-    dispatch(fetchSignin(loginData)).then(() => {
-      setSigninTried(true);
+    dispatch(fetchSignin(loginData)).then((response) => {
+      if (response.payload === null) {
+        alert("로그인에 실패했습니다. 이메일이나 비밀번호를 확인해주세요");
+      }
     });
-  }, [email, dispatch, password, setSigninTried]);
+  }, [email, dispatch, password]);
 
   return (
     <section className={style.page.base}>
@@ -105,3 +100,4 @@ export default function SignIn() {
     </section>
   );
 }
+
