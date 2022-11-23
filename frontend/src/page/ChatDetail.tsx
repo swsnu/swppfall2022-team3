@@ -27,25 +27,25 @@ export default function ChatDetail() {
   const [appBarTitle, setAppBarTitle] = useState<string>("");
   const [chatInput, setChatInput] = useState<string>("");
   const [socket, setSocket] = useState<WebSocket>();
-  const [chatroomKey, setChatroomKey] = useState<number>();
+  const [decrypted, setDecrypted] = useState<IDecrypted>();
 
   useEffect(() => {
     if (!loginUser) {
       navigate(paths.signIn);
     }
+  }, [loginUser, navigate]);
 
-    const encrypted = params.encrypted ?? null;
-    if (encrypted === null) {
+  useEffect(() => {
+    const encrypted = params.encrypted ?? "";
+    if (encrypted === "") {
       navigate(paths.chat);
     }
 
     try {
-      const decrypted = encryptor.decrypt<IDecrypted>(encrypted!);
+      const decrypted = encryptor.decrypt<IDecrypted>(encrypted);
       if (decrypted.chatroomKey && decrypted.chatroomName) {
         setAppBarTitle(decrypted.chatroomName);
-        dispatch(getChats(decrypted.chatroomKey));
-        setSocket(new WebSocket(`ws://localhost:8000/ws/chat/${decrypted.chatroomKey}/`));
-        setChatroomKey(decrypted.chatroomKey);
+        setDecrypted(decrypted);
       }
       else {
         navigate(paths.chat);
@@ -53,30 +53,45 @@ export default function ChatDetail() {
     } catch (_) {
       navigate(paths.chat);
     }
-  }, [params, loginUser, navigate, dispatch]);
+  }, [params, navigate]);
 
   useEffect(() => {
-    if (socket && chatroomKey) {
-      socket.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        if (data.method === "create") {
-          dispatch(addChat({
-            chatroomKey: chatroomKey,
-            from: data.author,
-            content: data.content,
-          }));
-        } else if (data.method === "load") {
-          data.chats.forEach((chat: {author: number; content: string}) => {
+    if (decrypted) {
+      setSocket(new WebSocket(`ws://localhost:8000/ws/chat/${decrypted.chatroomKey}/`));
+    }
+  }, [decrypted]);
+
+  useEffect(() => {
+    if (decrypted) {
+      dispatch(getChats(decrypted.chatroomKey));
+    }
+  }, [decrypted, dispatch]);
+
+  useEffect(() => {
+    if (decrypted) {
+      const chatroomKey = decrypted.chatroomKey;
+      if (socket && chatroomKey) {
+        socket.onmessage = (e) => {
+          const data = JSON.parse(e.data);
+          if (data.method === "create") {
             dispatch(addChat({
               chatroomKey: chatroomKey,
-              from: chat.author,
-              content: chat.content,
+              from: data.author,
+              content: data.content,
             }));
-          });
-        }
-      };
+          } else if (data.method === "load") {
+            data.chats.forEach((chat: {author: number; content: string}) => {
+              dispatch(addChat({
+                chatroomKey: chatroomKey,
+                from: chat.author,
+                content: chat.content,
+              }));
+            });
+          }
+        };
+      }
     }
-  }, [loginUser, socket, chatroomKey, dispatch]);
+  }, [socket, decrypted, dispatch]);
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
