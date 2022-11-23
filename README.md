@@ -20,3 +20,19 @@ cd frontend
 yarn test --coverage --watchAll=false
 ```
 
+## Backend
+
+### Run
+
+```shell
+cd backend
+python manage.py runserver
+```
+
+### Test
+
+```shell
+cd backend
+coverage run --source='.' manage.py test
+```
+
