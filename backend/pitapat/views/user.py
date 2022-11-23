@@ -91,6 +91,13 @@ class UserViewSet(viewsets.ModelViewSet):
             self.get_paginated_response,
         )
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({'key': user.key, **serializer.data}, status=201)
+        return Response(serializer.errors, status=400)
+
 
 class UserDetailViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'put', 'delete']
