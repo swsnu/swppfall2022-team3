@@ -1,5 +1,5 @@
 from .auth import AuthEmailViewSet, AuthVerifyViewSet
-from .chatroom import ChatroomUserViewSet
+from .chatroom import ChatroomParticipantViewSet
 from .pitapat import PitapatViewSet
 from .photo import PhotoViewSet, PhotoDetailViewSet
 from .tag import TagViewSet
