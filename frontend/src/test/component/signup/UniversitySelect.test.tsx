@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { fireEvent, render, screen } from "@testing-library/react";
-import UniversityCheck from "../../../component/signup/UniversityCheck";
+import UniversitySelect from "../../../component/signup/UniversitySelect";
 import { universities } from "../../../dummyData";
 import { getDefaultMockStore } from "../../../test-utils/mocks";
 import { University } from "../../../types";
@@ -15,13 +15,13 @@ const mockSetStep = jest.fn();
 const university: University = universities[0];
 
 
-describe("UniversityCheck", () => {
+describe("UniversitySelect", () => {
   function getElement(
     university: University | null,
   ) {
     return (
       <Provider store={mockStore}>
-        <UniversityCheck
+        <UniversitySelect
           university={university}
           requestTime={new Date()}
           email={""}

@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { pink } from "@mui/material/colors";
 import style from "../../constant/style";
-import { selectTag } from "../../store/slices/tag";
+import { AppDispatch } from "../../store";
+import { getTags, selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
 
 
@@ -14,28 +15,33 @@ interface IProps {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-export default function CreateTag({
+export default function TagSelect({
   tags,
   setTags,
   setStep,
 }: IProps) {
-  const existingTags = useSelector(selectTag).tags;
-  const [tag, setTag] = useState<Tag | null>(null);
-  const [selectedTagKey, setSelectedTagKey] = useState<number>(0);
+  const dispatch = useDispatch<AppDispatch>();
+  const loadedTags = useSelector(selectTag).tags;
+  const [selectedTag, setSelectedTag] = useState<Tag>();
+  const [selectedTagKey, setSelectedTagKey] = useState<number>(1);
   const [submittedWithNoTag, setSubmittedWithNoTag] = useState<boolean>(false);
 
   useEffect(() => {
-    const targetTag = existingTags.find((t) => (t.key === selectedTagKey));
-    setTag(targetTag ?? null);
-  }, [setTag, selectedTagKey, existingTags]);
+    let targetTag = loadedTags.find((t) => (t.key === selectedTagKey));
+    if (!targetTag) {
+      dispatch(getTags());
+      targetTag = loadedTags.find((t) => (t.key === selectedTagKey));
+    }
+    setSelectedTag(targetTag);
+  }, [loadedTags, selectedTagKey, dispatch]);
 
   const addTagOnClick = useCallback(() => {
-    if (tag) {
-      if (!tags.includes(tag)) {
-        setTags([...tags, tag]);
+    if (selectedTag) {
+      if (!tags.includes(selectedTag)) {
+        setTags([...tags, selectedTag]);
       }
     }
-  }, [tag, tags, setTags]);
+  }, [selectedTag, tags, setTags]);
 
   const confirmOnClick = useCallback(() => {
     if (tags.length !== 0) {
@@ -74,8 +80,7 @@ export default function CreateTag({
                 }}
               >
                 {
-                  ([{ key: 0, name: "", type: "" }] as Tag[])
-                    .concat(existingTags)
+                  loadedTags
                     .map((t) => ({ name: t.name, value: t.key }))
                     .map(({ name, value }) => (<MenuItem value={value} key={value}>{name}</MenuItem>))
                 }

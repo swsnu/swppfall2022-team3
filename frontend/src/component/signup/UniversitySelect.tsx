@@ -19,7 +19,7 @@ interface IProps {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-export default function UniversityCheck({
+export default function UniversitySelect({
   university,
   email,
   requestTime,

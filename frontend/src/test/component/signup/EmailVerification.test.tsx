@@ -23,7 +23,7 @@ describe("EmailVerification", () => {
   });
 
   it("should alert with invalid code", () => {
-    const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
+    // const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
 
     render(
       <EmailVerification
