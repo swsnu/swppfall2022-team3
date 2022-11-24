@@ -12,11 +12,12 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { selectUser } from "../store/slices/user";
 import { College, Gender, Major, Tag, University } from "../types";
+import { dateToString } from "../util/date";
 
 
 export default function SignUp() {
   const loginUser = useSelector(selectUser).loginUser;
-  const [step, setStep] = useState<number>(3);
+  const [step, setStep] = useState<number>(0);
   const [university, setUniversity] = useState<University | null>(null);
   const [requestTime, setRequestTime] = useState<Date>(new Date());
   const [email, setEmail] = useState<string>("");
@@ -46,7 +47,7 @@ export default function SignUp() {
       nickname: nickname,
       gender: gender,
       interested_gender: interestedGender,
-      birthday: birthday,
+      birthday: dateToString(birthday),
       university: university?.key,
       college: college?.key,
       major: major?.key,
@@ -57,9 +58,7 @@ export default function SignUp() {
       user: user.data.key,
       name: uploadedPhotos[0],
     });
-    // if (university && college && major && birthday) {
     navigate("/signin");
-    // }
   }, [
     navigate,
     university,

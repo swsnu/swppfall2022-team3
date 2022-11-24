@@ -7,7 +7,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge } from "../util/getKoreanAge";
+import { getKoreanAge } from "../util/date";
 
 
 export default function ProfileEdit() {
