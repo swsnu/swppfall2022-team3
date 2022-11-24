@@ -9,7 +9,7 @@ import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge } from "../util/getKoreanAge";
+import { getKoreanAge } from "../util/date";
 
 
 export default function ProfileDetail() {

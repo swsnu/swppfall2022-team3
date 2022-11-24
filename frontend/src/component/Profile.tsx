@@ -5,7 +5,7 @@ import paths from "../constant/path";
 import { AppDispatch } from "../store";
 import { getUser, selectUser } from "../store/slices/user";
 import { User } from "../types";
-import { getKoreanAge } from "../util/getKoreanAge";
+import { getKoreanAge } from "../util/date";
 import PitapatButton from "./PitapatButton";
 
 
