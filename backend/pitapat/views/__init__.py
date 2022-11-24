@@ -1,7 +1,7 @@
 from .auth import AuthEmailViewSet, AuthVerifyViewSet
 from .chatroom import ChatroomParticipantViewSet
 from .pitapat import PitapatViewSet
-from .photo import PhotoViewSet, PhotoDetailViewSet
+from .photo import PhotoCreateViewSet, PhotoDetailViewSet
 from .tag import TagViewSet
 from .university import UniversityViewSet, CollegeViewSet, MajorViewSet
 from .user import UserViewSet, UserDetailViewSet

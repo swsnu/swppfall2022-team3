@@ -46,15 +46,16 @@ export default function EmailVerification({
   }, [email, requestTime, setRequestTime, setSec]);
 
   const confirmOnClick = useCallback(async () => {
-    const result = await axios.post("/auth/verify/", {
-      email: email,
-      request_time: requestTime,
-      code: code,
-    });
-    if (result.status === 204) {
-      setStep(2);
-    }
-    else {
+    try {
+      const result = await axios.post("/auth/verify/", {
+        email: email,
+        request_time: requestTime,
+        code: code,
+      });
+      if (result.status === 204) {
+        setStep(2);
+      }
+    } catch (_) {
       alert("잘못된 인증코드입니다 \n다시 한 번 확인해주세요.");
     }
   }, [email, requestTime, code, setStep]);

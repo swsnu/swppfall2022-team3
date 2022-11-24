@@ -129,8 +129,8 @@ urlpatterns = [
         name='major_college',
     ),
     path(
-        'photo/',
-        views.PhotoViewSet.as_view({
+        'photo/user/<int:user_key>/',
+        views.PhotoCreateViewSet.as_view({
             'post': 'create',
         }),
         name='photo',

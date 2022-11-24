@@ -27,22 +27,13 @@ export default function ImageUpload({
       <section className={"flex-1 flex flex-col"}>
         <section className={"grid grid-cols-2 gap-2 px-12"}>
           {uploadedPhotos.map((photo, index) => {
-            const examples = ["photo13.jpeg", "photo14.jpeg"];
             return <ImageUploadIcon
               key={index}
-              src={examples[index]}
+              src={""}
               disabled={true}
               uploadedPhotos={uploadedPhotos}
               setUploadedPhotos={setUploadedPhotos}
             />;
-
-            // DO NOT DELETE: will be used with real server
-            // return <ImageUploadIcon
-            //   src={photo.name}
-            //   key={index}
-            //   uploadedPhotos={uploadedPhotos}
-            //   setUploadedPhotos={setUploadedPhotos}
-            // />;
           })}
           <ImageUploadIcon
             src="plus.jpeg"
