@@ -8,7 +8,7 @@ import { College, Gender, Major, University } from "../../types";
 import InformationInput from "./InformationInput";
 
 
-interface IProps {
+export interface IProps {
   nickname: string;
   setNickname: Dispatch<SetStateAction<string>>;
   password: string;

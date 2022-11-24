@@ -3,7 +3,7 @@ import style from "../../constant/style";
 import ImageUploadIcon from "./ImageUploadIcon";
 
 
-interface IProps {
+export interface IProps {
   uploadedPhotos: File[];
   setUploadedPhotos: Dispatch<SetStateAction<File[]>>;
   setStep: Dispatch<SetStateAction<number>>;

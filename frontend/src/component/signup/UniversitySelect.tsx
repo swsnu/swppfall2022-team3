@@ -10,7 +10,7 @@ import { University } from "../../types";
 import InformationInput from "./InformationInput";
 
 
-interface IProps {
+export interface IProps {
   university: University | null;
   email: string;
   requestTime: Date | undefined;

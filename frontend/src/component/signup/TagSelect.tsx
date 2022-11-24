@@ -9,7 +9,7 @@ import { getTags, selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
 
 
-interface IProps {
+export interface IProps {
   tags: Tag[];
   setTags: Dispatch<SetStateAction<Tag[]>>;
   setStep: Dispatch<SetStateAction<number>>;

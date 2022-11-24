@@ -4,7 +4,7 @@ import style from "../../constant/style";
 import InformationInput from "./InformationInput";
 
 
-interface IProps {
+export interface IProps {
   email: string;
   limitSec: number;
   requestTime: Date;

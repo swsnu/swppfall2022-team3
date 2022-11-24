@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import style from "../../constant/style";
 
 
-interface IProps {
+export interface IProps {
   introduction: string;
   setIntroduction: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<number>>;

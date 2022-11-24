@@ -6,7 +6,7 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { Gender } from "../../types";
 
 
-interface IProps {
+export interface IProps {
   label: string;
   value: string | number | Date | Gender;
   setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>;
