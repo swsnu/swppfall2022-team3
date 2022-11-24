@@ -10,9 +10,11 @@ import InformationInput from "./InformationInput";
 
 interface IProps {
   nickname: string;
-  setUsername: Dispatch<SetStateAction<string>>;
+  setNickname: Dispatch<SetStateAction<string>>;
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
+  phone: string;
+  setPhone: Dispatch<SetStateAction<string>>;
   birthday: Date;
   setBirthday: Dispatch<SetStateAction<Date>>;
   university: University | null;
@@ -29,9 +31,11 @@ interface IProps {
 
 export default function PersonalInformation({
   nickname,
-  setUsername,
+  setNickname,
   password,
   setPassword,
+  phone,
+  setPhone,
   birthday,
   setBirthday,
   university,
@@ -118,7 +122,7 @@ export default function PersonalInformation({
         <InformationInput
           label={"닉네임"}
           value={nickname}
-          setValue={setUsername}
+          setValue={setNickname}
           type={"text"}
         />
         <InformationInput
@@ -127,6 +131,12 @@ export default function PersonalInformation({
           setValue={setPassword}
           type={"text"}
           isPassword={true}
+        />
+        <InformationInput
+          label={"휴대폰"}
+          value={phone}
+          setValue={setPhone}
+          type={"text"}
         />
         <InformationInput
           label={"생년월일"}

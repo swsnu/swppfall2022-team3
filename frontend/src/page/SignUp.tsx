@@ -23,6 +23,7 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [college, setCollege] = useState<College | null>(null);
   const [major, setMajor] = useState<Major | null>(null);
@@ -43,7 +44,7 @@ export default function SignUp() {
     const user = await axios.post("/user/", {
       email: email,
       password: password,
-      phone: "",  // FIXME
+      phone: phone,
       nickname: nickname,
       gender: gender,
       interested_gender: interestedGender,
@@ -64,6 +65,7 @@ export default function SignUp() {
     university,
     email,
     password,
+    phone,
     nickname,
     gender,
     interestedGender,
@@ -97,9 +99,11 @@ export default function SignUp() {
     case 2:
       return <PersonalInformation
         nickname={nickname}
-        setUsername={setNickname}
+        setNickname={setNickname}
         password={password}
         setPassword={setPassword}
+        phone={phone}
+        setPhone={setPhone}
         birthday={birthday}
         setBirthday={setBirthday}
         university={university}
@@ -156,6 +160,7 @@ export default function SignUp() {
     email,
     nickname,
     password,
+    phone,
     birthday,
     college,
     major,
