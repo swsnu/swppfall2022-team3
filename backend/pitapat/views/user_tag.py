@@ -7,26 +7,29 @@ from pitapat.serializers import TagKeySerializer, UserTagCreateSerializer
 
 
 class UserTagViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get', 'post', 'delete']
+    http_method_names = ['post', 'delete']
     queryset = Tag.objects.all()
 
     def get_serializer_class(self):
+        '''
         if self.action == 'list':
             return TagKeySerializer
+        '''
         if self.action in ('create', 'delete'):
             return UserTagCreateSerializer
         return None
-
+    '''
     def list(self, request, *args, **kwargs):
         user_key = kwargs['user_key']
         tags = Tag.objects.filter(user=user_key)
         serializer = self.get_serializer(tags, many=True)
         tag_keys = list(map(lambda x: x['key'], serializer.data))
         return Response(tag_keys)
+    '''
 
     def create(self, request, *args, **kwargs):
         user = User.objects.get(key=kwargs['user_key'])
-        tags = request.data.getlist('tags')
+        tags = request.data['tags']
         for tag_key in tags:
             tag = Tag.objects.get(key=tag_key)
             UserTag.objects.create(user=user, tag=tag)

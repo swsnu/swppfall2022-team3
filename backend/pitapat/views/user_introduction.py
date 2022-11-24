@@ -8,10 +8,11 @@ from pitapat.serializers import IntroductionSerializer
 
 
 class UserIntroductionViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get', 'post', 'put']
+    http_method_names = ['put']
     queryset = Introduction.objects.all()
     serializer_class = IntroductionSerializer
 
+    '''
     def retrieve(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         introduction = get_object_or_404(Introduction.objects.all(), user=user)
@@ -27,6 +28,7 @@ class UserIntroductionViewSet(viewsets.ModelViewSet):
         introduction = Introduction.objects.create(user=user, content=content)
         serializer = IntroductionSerializer(introduction)
         return Response(serializer.data)
+    '''
 
     @swagger_auto_schema(request_body=IntroductionSerializer)
     def update(self, request, *args, **kwargs):
@@ -35,6 +37,7 @@ class UserIntroductionViewSet(viewsets.ModelViewSet):
         content = request.data.get('content')
         if content is None:
             return Response(status=404)
+        introduction.delete()
         introduction = Introduction.objects.create(user=user, content=content)
         serializer = IntroductionSerializer(introduction)
         return Response(serializer.data)
