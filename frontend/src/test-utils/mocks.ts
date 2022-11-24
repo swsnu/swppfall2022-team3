@@ -36,8 +36,8 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
     loginUser: shouldLogin ? users[0] : null,
     interestingUser: null,
     pitapat: {
-      senders: [],
-      receivers: [],
+      senders: [users[1]],
+      receivers: [users[2]],
     },
     chat: {
       participants: [],

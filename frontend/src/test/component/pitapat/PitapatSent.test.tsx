@@ -3,15 +3,14 @@ import { Provider } from "react-redux";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { render, screen } from "@testing-library/react";
 import PitapatSent from "../../../component/pitapat/PitapatSent";
-import { getDefaultMockStore, getNoPhotoMockStore } from "../../../test-utils/mocks";
+import { IProps } from "../../../component/Profile";
+import { getDefaultMockStore } from "../../../test-utils/mocks";
 
 
 jest.mock(
   "../../../component/Profile",
-  () => ({myKey, photo}: {myKey: number; photo: string}) => (
+  () => (props: IProps) => (
     <div data-testid="profile">
-      <div data-testid="myKey">{myKey}</div>
-      <div data-testid="photo">{photo}</div>
     </div>
   ),
 );
@@ -36,21 +35,5 @@ describe("PitapatSent", () => {
   it("should not be rendered if pitapat receiver does not exist", () => {
     render(getElement(getDefaultMockStore(true)));
     expect(() => screen.getByTestId("profile")).toThrowError();
-  });
-
-  it("should deliver myKey as -1 if not logged in", () => {
-    render(getElement(getDefaultMockStore(false)));
-    const myKeys = screen.getAllByTestId("myKey");
-    myKeys.forEach((myKey) => {
-      expect(myKey).toContainHTML("-1");
-    });
-  });
-
-  it("should deliver empty photo path if photo is not found", () => {
-    render(getElement(getNoPhotoMockStore()));
-    const photos = screen.getAllByTestId("photo");
-    photos.forEach((photo) => {
-      expect(photo).toContainHTML("");
-    });
   });
 });
