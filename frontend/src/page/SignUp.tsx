@@ -55,15 +55,18 @@ export default function SignUp() {
       introduction: introduction,
       tags: tags.map((tag) => tag.key),
     });
-    const photo = uploadedPhotos[0];
-    const form = new FormData();
-    form.append("file", photo);
-    await axios.post(`/photo/user/${user.data.key}/`, form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Content-Disposition": `form-data; filename=${photo.name};`,
-      },
+
+    uploadedPhotos.forEach(async (photo) => {
+      const form = new FormData();
+      form.append("file", photo);
+      await axios.post(`/photo/user/${user.data.key}/`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Content-Disposition": `form-data; filename=${photo.name};`,
+        },
+      });
     });
+
     navigate("/signin");
   }, [
     navigate,
