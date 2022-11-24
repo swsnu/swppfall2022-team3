@@ -6,9 +6,6 @@ from pitapat.models import Chatroom, Chat
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     async def connect(self):
         self.user = self.scope['user']
         self.chatroom_key = self.scope['url_route']['kwargs']['chatroom_key']
@@ -38,6 +35,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         chats = Chatroom.objects.get(key=self.chatroom_key).chats.all()
         return [{'content': chat.content, 'author': chat.author.key} for chat in chats]
 
+    async def load_past_messages(self, event):
+        await self.send(text_data=json.dumps({
+            'method': event['method'],
+            'chats': event['chats'],
+        }))
+
     async def disconnect(self, code):
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -49,6 +52,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         method = text_data_json['method']
         author_key = self.user.key
 
+        # {
+        #     "method": "create",
+        #     "content": "안녕하세요 반갑습니다~",
+        #     "author": 10
+        # }
         if method == 'create':
             content = text_data_json.setdefault('message', None)
             await self.channel_layer.group_send(
@@ -61,42 +69,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 },
             )
             await database_sync_to_async(self.create_chat)(content)
-        # text data example
+
         # {
-        #     "type": "create",
-        #     "content": "안녕하세요 반갑습니다~",
-        #     "author": 10
-        # }
-        # {
-        #     "type": "update",
+        #     "method": "update",
         #     "content": "채팅을 좀 바꿨어요",
         #     "chat": 8
         # }
+        elif method == 'update':
+            pass
+
         # {
-        #     "type": "delete",
+        #     "method": "delete",
         #     "chat": 8
         # }
+        elif method == 'delete':
+            pass
 
-        # if method_type == "create":
-        #     author = User.objects.get(key=author_key)
-        #     new_chat = Chat(
-        #         chatroom=self.chatroom,
-        #         author=author,
-        #         content=content,
-        #         valid='V'
-        #     )
-        #     new_chat.save()
-
-        # elif method_type == "update":
-        #     chat = Chat.objects.get(key=chat_key)
-        #     chat.content = content
-        #     chat.save()
-        # elif method_type == "delete":
-        #     chat = Chat.objects.get(key=chat_key)
-        #     chat.delete()
-        # else:
-        #     # invalid method type,
-        #     return
+        else:
+            return
 
     def create_chat(self, content):
         Chat.objects.create(
@@ -111,10 +101,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'method': event['method'],
             'content': event['content'],
             'author': event['author'],
-        }))
-
-    async def load_past_messages(self, event):
-        await self.send(text_data=json.dumps({
-            'method': event['method'],
-            'chats': event['chats'],
         }))
