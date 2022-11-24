@@ -33,7 +33,7 @@ describe("PitapatSent", () => {
   });
 
   it("should not be rendered if pitapat receiver does not exist", () => {
-    render(getElement(getDefaultMockStore(true)));
+    render(getElement(getDefaultMockStore(false)));
     expect(() => screen.getByTestId("profile")).toThrowError();
   });
 });

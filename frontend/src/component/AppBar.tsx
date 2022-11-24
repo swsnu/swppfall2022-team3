@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowUturnLeftIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 
 
-interface IProps {
+export interface IProps {
   title?: string;
 }
 

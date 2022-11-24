@@ -34,10 +34,10 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   user: {
     users: users,
     loginUser: shouldLogin ? users[0] : null,
-    interestingUser: null,
+    interestingUser: shouldLogin ? users[3] : null,
     pitapat: {
-      senders: [users[1]],
-      receivers: [users[2]],
+      senders: shouldLogin ? [users[1]] : [],
+      receivers: shouldLogin ? [users[2]] : [],
     },
     chat: {
       participants: [],
@@ -70,5 +70,28 @@ export const getNoPhotoMockStore = () => getMockStore({
   chat: {
     chatrooms,
     chats,
+  },
+});
+
+export const getNointerestingUserMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    users: users,
+    loginUser: users[0],
+    interestingUser: null,
+    pitapat: {
+      senders: [users[1]],
+      receivers: [users[2]],
+    },
+    chat: {
+      participants: [],
+    }
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chats: chats
   },
 });
