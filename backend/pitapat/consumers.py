@@ -6,6 +6,13 @@ from pitapat.models import Chatroom, Chat
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    def __init__(self):
+        super().__init__(self)
+        self.user = None
+        self.chatroom_key = None
+        self.room_group_name = None
+        self.chatroom = None
+
     async def connect(self):
         self.user = self.scope['user']
         self.chatroom_key = self.scope['url_route']['kwargs']['chatroom_key']

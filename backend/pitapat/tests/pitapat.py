@@ -1,7 +1,9 @@
-from django.test import TestCase, Client
-from pitapat.testutils.setup import setup
-from ..models import User
 import json
+
+from django.test import TestCase, Client
+
+from pitapat.models import User
+from pitapat.testutils.setup import setup
 
 
 class PitapatTestCase(TestCase):
