@@ -5,7 +5,7 @@ import { selectUser } from "../store/slices/user";
 import { User } from "../types";
 
 
-interface IProps {
+export interface IProps {
   content: string;
   sender: User;
 }
