@@ -55,8 +55,7 @@ describe("Profile", () => {
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledTimes(profilePictures.length);
-    })
-
+    });
   });
 
   it("should render without error(reject button & last element)", () => {
