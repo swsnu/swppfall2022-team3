@@ -1,4 +1,4 @@
-import {dateToString} from "../../util/date";
+import { dateToString } from "../../util/date";
 
 
 describe("date test", () => {

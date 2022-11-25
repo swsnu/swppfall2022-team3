@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import PitapatButton from "../../component/PitapatButton";
 import { getDefaultMockStore } from "../../test-utils/mocks";
 import { PitapatStatus } from "../../types";

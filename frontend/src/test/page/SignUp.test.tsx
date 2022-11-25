@@ -2,7 +2,6 @@ import React from "react";
 import { Provider } from "react-redux";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
-import axios from "axios";
 import { IProps as EmailProps } from "../../component/signup/EmailVerification";
 import { IProps as ImageProps } from "../../component/signup/ImageUpload";
 import { IProps as IntroProps } from "../../component/signup/Introduction";
