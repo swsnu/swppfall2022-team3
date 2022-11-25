@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Profile, { IProps } from "../../component/Profile";
 import { users } from "../../dummyData";
 import { getDefaultMockStore } from "../../test-utils/mocks";
@@ -24,8 +24,13 @@ jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useNavigate: () => mockNavigate,
 }));
+const mockDispatch = jest.fn();
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => mockDispatch,
+}));
 
-describe("<Profile />", () => {
+describe("Profile", () => {
   function getElement(props: IProps) {
     return (
       <Provider store={mockStore}>
@@ -40,14 +45,18 @@ describe("<Profile />", () => {
     jest.clearAllMocks();
   });
 
-  it("should render without error(no reject button & not last element) and should navigate", () => {
+  it("should render without error(no reject button & not last element) and should navigate", async () => {
     const { container } = render(getElement(mockIProps));
     expect(container).toBeTruthy();
     const profilePictures = screen.getAllByRole("img");
     profilePictures.forEach((picture) => {
       fireEvent.click(picture);
     });
-    expect(mockNavigate).toHaveBeenCalledTimes(profilePictures.length);
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledTimes(profilePictures.length);
+    })
+
   });
 
   it("should render without error(reject button & last element)", () => {
