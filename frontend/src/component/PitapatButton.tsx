@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../store";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import { selectUser } from "../store/slices/user";
 import { PitapatStatus } from "../types";
 
@@ -18,7 +18,6 @@ export default function PitapatButton({
   isAccept,
   isListView,
 }: IProps) {
-  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const senders = useSelector(selectUser).pitapat.senders;
   const receivers = useSelector(selectUser).pitapat.receivers;
@@ -54,9 +53,7 @@ export default function PitapatButton({
     if (!isAccept) {
       return "X";
     }
-    else if (
-      (loginUser?.key === to)
-    ) {
+    else if (loginUser?.key === to) {
       return "♥";
     }
     else {
@@ -78,14 +75,14 @@ export default function PitapatButton({
     }
   }, [isAccept, getPitapatStatus]);
 
-  const pitapatOnClick = useCallback(() => {
-    /*
-    if (isAccept) {
+  const pitapatOnClick = useCallback(async () => {
+    if (!isAccept || getPitapatStatus() === PitapatStatus.FROM_ME) {
+      await axios.delete("/pitapat", { data: { from: from, to: to } });
     }
     else {
+      await axios.post("/pitapat/", { from: from, to: to });
     }
-    */
-  }, [dispatch, isAccept, from, to]);
+  }, [isAccept, getPitapatStatus, from, to]);
 
   return (
     <button
