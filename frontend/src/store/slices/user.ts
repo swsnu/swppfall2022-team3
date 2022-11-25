@@ -265,7 +265,13 @@ const userSlice = createSlice({
   reducers: {
     setInterestedUser: (state, action: PayloadAction<User>) => {
       state.interestingUser = action.payload;
-    }
+    },
+    deleteSender: (state, action: PayloadAction<number>) => {
+      state.pitapat.senders = state.pitapat.senders.filter((u) => u.key !== action.payload);
+    },
+    deleteReceiver: (state, action: PayloadAction<number>) => {
+      state.pitapat.receivers = state.pitapat.receivers.filter((u) => u.key !== action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
