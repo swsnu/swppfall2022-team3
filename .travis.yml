@@ -27,7 +27,7 @@ jobs:
     - coveralls-lcov -v -n coverage/lcov.info > coverage.json
     - cd ../backend
     - pylint **/*.py
-    - coverage run --source='.' manage.py test
+    - coverage run --source='./pitapat' manage.py test
     - coverage xml
     - coveralls --merge=../frontend/coverage.json
     - cd .. && sonar-scanner
