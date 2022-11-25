@@ -3,7 +3,7 @@ export function getKoreanAge(birthday: Date | string): number {
 }
 
 export function dateToString(date: Date): string {
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   const day = date.getDate();
   return `${date.getFullYear()}-${((month < 10) ? "0" : "") + month}-${((day < 10) ? "0" : "") + day}`;
 }
