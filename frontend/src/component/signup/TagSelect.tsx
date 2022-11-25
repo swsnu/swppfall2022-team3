@@ -76,7 +76,7 @@ export default function TagSelect({
                 variant={"outlined"}
                 value={selectedTagKey}
                 onChange={(e) => {
-                  (setSelectedTagKey as Dispatch<SetStateAction<string | number>>)(e.target.value as (string | number));
+                  (setSelectedTagKey as Dispatch<SetStateAction<string | number>>)(e.target.value);
                 }}
               >
                 {
