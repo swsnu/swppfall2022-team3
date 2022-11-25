@@ -30,7 +30,7 @@ export default function Search() {
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
-        <section className="h-fit pb-[56px] overflow-y-scroll">
+        <section className="h-fit pb-[56px] overflow-y-scroll w-full">
           {
             users.map((user, index) => (
               <Profile
