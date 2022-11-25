@@ -11,7 +11,6 @@ import { getChatrooms, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
 
 
-
 export default function ChatList() {
   const loginUser = useSelector(selectUser).loginUser;
   const chatrooms = useSelector(selectChat).chatrooms;
@@ -28,17 +27,15 @@ export default function ChatList() {
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
         <section className={style.page.body}>{
-          loginUser ?
-            chatrooms.map(({ key, name, imagePath, lastChat }) => (
-              <ChatListElement
-                key={key}
-                chatroomKey={key}
-                chatroomName={name}
-                imagePath={imagePath}
-                lastChat={lastChat}
-              />
-            )) :
-            null
+          chatrooms.map(({ key, name, imagePath, lastChat }) => (
+            <ChatListElement
+              key={key}
+              chatroomKey={key}
+              chatroomName={name}
+              imagePath={imagePath}
+              lastChat={lastChat}
+            />
+          ))
         }</section>
         <NavigationBar/>
       </section> :
