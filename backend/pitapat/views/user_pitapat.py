@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 
 from pitapat.models import Pitapat, User
-from pitapat.paginations import UserListPagination
+# from pitapat.paginations import UserListPagination
 from pitapat.serializers import UserListSerializer
 from pitapat.utils.page import paginate
 
@@ -11,7 +11,7 @@ class PitapatToUserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Pitapat.objects.all()
     serializer_class = UserListSerializer
-    pagination_class = UserListPagination
+    # pagination_class = UserListPagination
 
     def list(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
@@ -31,7 +31,7 @@ class PitapatFromUserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Pitapat.objects.all()
     serializer_class = UserListSerializer
-    pagination_class = UserListPagination
+    # pagination_class = UserListPagination
 
     def list(self, request, *args, **kwargs):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])

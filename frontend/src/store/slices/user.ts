@@ -165,9 +165,11 @@ export const fetchSignup = createAsyncThunk(
 export const getUsers = createAsyncThunk(
   "user/get-all",
   async (page: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}/?page=${page}`);
+    // const response = await axios.get(`${userUrl}/?page=${page}`);
+    const response = await axios.get(`${userUrl}/`);
     if (response.status === 200) {
-      return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return null;
@@ -225,7 +227,8 @@ export const getPitapatSenders = createAsyncThunk(
   async (userKey: number): Promise<User[] | null> => {
     const response = await axios.get(`${userUrl}/${userKey}/pitapat/to/`);
     if (response.status === 200) {
-      return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return null;
@@ -238,7 +241,8 @@ export const getPitapatReceivers = createAsyncThunk(
   async (userKey: number): Promise<User[] | null> => {
     const response = await axios.get(`${userUrl}/${userKey}/pitapat/from/`);
     if (response.status === 200) {
-      return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return null;
