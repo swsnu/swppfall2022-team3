@@ -3,8 +3,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { users } from "../../dummyData";
-import ChatDetail from "../../page/ChatDetail";
+import ChatDetail, { IDecrypted } from "../../page/ChatDetail";
 import { getDefaultMockStore } from "../../test-utils/mocks";
 import encryptor from "../../util/encryptor";
 
@@ -18,12 +17,6 @@ jest.mock("react-router", () => ({
   useNavigate: () => mockNavigate,
 }));
 
-const mockDispatch = jest.fn();
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useDispatch: () => mockDispatch,
-}));
-
 jest.mock("@heroicons/react/20/solid", () => ({
   ...jest.requireActual("@heroicons/react/20/solid"),
   ArrowUturnLeftIcon: (props: { onClick: () => void }) => (
@@ -34,16 +27,11 @@ jest.mock("@heroicons/react/20/solid", () => ({
   ),
 }));
 
-jest.mock("../../component/AppBar", () => () => <div>appbar</div>);
-jest.mock("../../component/ChatBox", () => () => <div></div>);
-
 describe("ChatDetail", () => {
-  const user1 = users[0];
-  const user2 = users[1];
-  const parameterData = {
-    from: user1.key,
-    to: user2.key,
-    photoPath: "photo",
+  const chatroomName = "chatroom name";
+  const parameterData: IDecrypted = {
+    chatroomKey: 1,
+    chatroomName,
   };
   const encrypted = encryptor.encrypt(parameterData);
 
@@ -62,6 +50,7 @@ describe("ChatDetail", () => {
   it("should be rendered", () => {
     render(getElement(mockStore));
     expect(screen.getByText("전송")).toBeInTheDocument();
+    expect(screen.getByText(chatroomName)).toBeInTheDocument();
   });
 
   it("should redirect to other page when not logged in", () => {
@@ -76,15 +65,11 @@ describe("ChatDetail", () => {
     const sendButton = screen.getByText("전송");
 
     fireEvent.click(sendButton);
-    expect(mockDispatch).not.toBeCalled();
-    fireEvent.change(userInput, {target: {value: "user's input" } });
-    fireEvent.click(sendButton);
-    // expect(mockDispatch).toBeCalled();
+    // fireEvent.change(userInput, {target: {value: "user's input" } });
+    // fireEvent.click(sendButton);
     // fireEvent.change(userInput, {target: {value: "user's second input" } });
-    // fireEvent.keyUp(userInput, { key: "k" });
-    // expect(mockDispatch).toBeCalledTimes(1);
-    // fireEvent.keyUp(userInput, { key: "Enter" });
-    // expect(mockDispatch).toBeCalledTimes(2);
+    fireEvent.keyUp(userInput, { key: "k" });
+    fireEvent.keyUp(userInput, { key: "Enter" });
   });
 
   it("should redirect when the data are invalid format", () => {

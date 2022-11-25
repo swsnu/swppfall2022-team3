@@ -1,23 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch , useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
 import style from "../constant/style";
-import { AppDispatch } from "../store";
 import { selectUser } from "../store/slices/user";
 import encryptor from "../util/encryptor";
 
 
-interface IDecrypted {
+export interface IDecrypted {
   chatroomKey: number;
   chatroomName: string;
 }
 
 export default function ChatDetail() {
   const params = useParams();
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
   const participants = useSelector(selectUser).chat.participants;
@@ -80,7 +78,7 @@ export default function ChatDetail() {
         };
       }
     }
-  }, [decrypted, socket, chats, dispatch]);
+  }, [decrypted, socket, chats]);
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
