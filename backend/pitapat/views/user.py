@@ -28,6 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         filters = Q()
         filters &= ~Q(key=request.user.key)
+        filters &= Q(university=request.user.university)
         filters &= exclude_pitapat_users(request.user)
         filters &= exclude_chatroom_users(request.user)
 
