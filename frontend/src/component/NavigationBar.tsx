@@ -5,6 +5,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import path from "../constant/path";
+import style from "../constant/style";
 
 
 type TabIndex = 0 | 1 | 2;
@@ -64,16 +65,15 @@ export default function NavigationBar(){
     >
       <BottomNavigation
         className={"fixed bottom-0 w-full"}
-        classes={{ root: "fill: green", }}
         showLabels
         value={currentTab}
         onChange={(_, newValue) => {
           setCurrentTab(newValue);
         }}
         sx={{
-          backgroundColor: "#F48FB1",
+          backgroundColor: style.color.mainLightRgb,
           "& .Mui-selected": {
-            color: "white",
+            color: style.color.background,
           },
           "& .Mui-selected svg": {
             color: "white",

@@ -15,14 +15,12 @@ export interface Major {
 export interface College {
   key: number;
   name: string;
-  majors: number[];
 }
 
 export interface University {
   key: number;
   name: string;
   domain: string;
-  colleges: number[];
 }
 
 export interface Tag {
@@ -37,42 +35,41 @@ export interface Photo {
   path: string;
 }
 
-export interface Chat {
+export interface Chatroom {
   key: number;
-  from: number;
-  to: number;
-  content: string;
-  regDt: Date;
+  name: string;
+  imagePath: string;
+  lastChat: string | null;
 }
 
-export interface Pitapat {
+export interface Chat {
+  key: number;
+  chatroomKey: number;
   from: number;
-  to: number;
+  content: string;
+  regDt: string;
 }
 
 export enum PitapatStatus {
   // eslint-disable-next-line no-unused-vars
   NONE,
   // eslint-disable-next-line no-unused-vars
-  SENT,
+  FROM_ME,
   // eslint-disable-next-line no-unused-vars
-  RECEIVED,
-  // eslint-disable-next-line no-unused-vars
-  MATCHED,
+  TO_ME,
 }
 
 export interface User {
   key: number;
   email: string;
-  username: string;
+  nickname: string;
   gender: Gender;
-  targetGender: Gender;
-  birthday: Date;
-  location: string;
+  interestedGender: Gender;
+  birthday: string;
   university: number;
   college: number;
   major: number;
   introduction: string;
   tags: number[];
-  photos: number[];
+  photos: string[];
 }

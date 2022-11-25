@@ -1,12 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { selectUser } from "../store/slices/user";
+import { User } from "../types";
 
 
-interface IProps {
+export interface IProps {
   content: string;
-  isMine: boolean;
-  sender: number;
-  photoPath: string;
+  sender: User;
 }
 
 const basicChatClassName = "p-2 m-1 border w-auto max-w-2/3 rounded-xl";
@@ -16,13 +17,12 @@ const othersChatClassName = "bg-gray-400 self-start text-white border-gray-400";
 export default function ChatBox({
   content,
   sender,
-  isMine,
-  photoPath,
 }: IProps) {
   const navigate = useNavigate();
+  const loginUser = useSelector(selectUser).loginUser;
 
   return (
-    isMine ?
+    loginUser && (loginUser.key === sender.key) ?
       (
         <article className={`${basicChatClassName} ${myChatClassname}`}>
           {content}
@@ -37,7 +37,7 @@ export default function ChatBox({
             <img
               className={"w-10 h-10 m-2 bg-blue-100 rounded-full justify-self-top"}
               alt={""}
-              src={photoPath}
+              src={sender.photos[0]}
             />
           </button>
           <article className={`${basicChatClassName} ${othersChatClassName}`}>

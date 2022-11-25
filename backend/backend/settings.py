@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import json
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
+import pymysql
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,7 @@ def get_external_value(filename: str, key: str):
     except KeyError as error:
         raise ImproperlyConfigured(f'key \'{key}\' does not exist') from error
 
+
 SECRET_KEY = get_external_value(BASE_DIR / 'backend/.secrets/secret_key.json', 'secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -41,13 +43,14 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '0.0.0.0',
+    '127.0.0.1',
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'user.apps.UserConfig',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +58,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'drf_yasg',
+    'storages',
+    'pitapat',
 ]
 
 MIDDLEWARE = [
@@ -86,23 +94,40 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = 'backend.asgi.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+pymysql.install_as_MySQLdb()
+
+db = get_external_value(BASE_DIR / 'backend/.secrets/db.json', 'default')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': db['ENGINE'],
+        'HOST': db['HOST'],
+        'PORT': db['PORT'],
+        'USER': db['USER'],
+        'PASSWORD': db['PASSWORD'],
+        'NAME': db['NAME'],
     }
 }
 
 
-# Password validation
+# Authentication
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'pitapat.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -119,13 +144,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -140,4 +173,72 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'pitapat.models.custom_field.unsigned_auto_field.UnsignedAutoField'
+
+# AWS S3
+
+IMAGE_URL = get_external_value(
+    BASE_DIR / 'backend/.secrets/s3.json',
+    'url',
+)
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_SECURE_URLS = False
+AWS_QUERYSTRING_AUTH = False
+
+AWS_S3_ACCESS_KEY_ID = get_external_value(
+    BASE_DIR / 'backend/.secrets/s3.json',
+    'access_key_id',
+)
+AWS_S3_SECRET_ACCESS_KEY = get_external_value(
+    BASE_DIR / 'backend/.secrets/s3.json',
+    'secret_access_key',
+)
+AWS_STORAGE_BUCKET_NAME = 'pitapatcampus'
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',  # react port
+)
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000'
+]
+
+# Email Verification
+
+EMAIL_BACKEND = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_BACKEND',
+)
+EMAIL_HOST = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_HOST',
+)
+EMAIL_PORT = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_PORT',
+)
+EMAIL_HOST_USER = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_HOST_USER',
+)
+EMAIL_HOST_PASSWORD = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_HOST_PASSWORD',
+)
+EMAIL_USE_TLS = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'EMAIL_USE_TLS',
+)
+DEFAUKT_FROM_EMAIL = get_external_value(
+    BASE_DIR / 'backend/.secrets/email.json',
+    'DEFAULT_FROM_EMAIL',
+)
+
+CRYPTO_KEY = get_external_value(
+    BASE_DIR / 'backend/.secrets/aes.json',
+    'key',
+)
+CRYPTO_IV = CRYPTO_KEY = get_external_value(
+    BASE_DIR / 'backend/.secrets/aes.json',
+    'iv',
+)

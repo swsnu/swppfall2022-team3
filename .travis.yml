@@ -1,7 +1,7 @@
 branches:
   only:
-    - main
-    - integration
+  - main
+  - integration
 dist: bionic
 jobs:
   include:
@@ -22,15 +22,16 @@ jobs:
     - pip install coveralls
     script:
     - cd ../frontend
-    - ./node_modules/.bin/eslint src/**/*.{ts,tsx}
+    - "./node_modules/.bin/eslint src/**/*.{ts,tsx}"
     - yarn test --coverage --watchAll=false
     - coveralls-lcov -v -n coverage/lcov.info > coverage.json
     - cd ../backend
-    # - pylint **/*.py
-    - coverage run --source='.' manage.py test
+    - pylint **/*.py
+    - coverage run --source='./pitapat' manage.py test
     - coverage xml
     - coveralls --merge=../frontend/coverage.json
     - cd .. && sonar-scanner
+    - curl -w "\n" -X PURGE https://camo.githubusercontent.com/0283f7d8d154f28339b2facac18092714ebdf99c46067b352f18342dd6aed95a/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f6769746875622f7377736e752f7377707066616c6c323032322d7465616d332f62616467652e7376673f6272616e63683d6d61696e266b696c6c5f63616368653d31
     addons:
       sonarcloud:
         organization: swsnu

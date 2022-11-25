@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import { Photo, User } from "../types";
+import { User } from "../types";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./PhotoSlider.css";
@@ -8,12 +8,10 @@ import "./PhotoSlider.css";
 
 interface IProps {
   user: User;
-  photos: Photo[];
 }
 
 export default function PhotoSlider({
   user,
-  photos,
 }: IProps) {
   return (
     <Slider
@@ -25,11 +23,11 @@ export default function PhotoSlider({
       dots={true}
       dotsClass={"dots"}
     >
-      {user.photos.map((p, index) =>
+      {user.photos.map((photoPath, index) =>
         <img
           key={index}
-          src={photos.find((photo) => photo.key === p)?.path}
-          alt={String(photos.find((photo) => photo.key === p)?.index)}
+          src={photoPath}
+          alt={photoPath}
           className={"object-cover h-[100vw]"}
         />
       )}

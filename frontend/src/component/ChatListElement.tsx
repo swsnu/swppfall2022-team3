@@ -1,50 +1,47 @@
 import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectPhoto } from "../store/slices/photo";
-import { User } from "../types";
-import urlParamEncryptor from "../util/urlParamEncryptor";
+import { AppDispatch } from "../store";
+import { getChatParticipants } from "../store/slices/user";
+import encryptor from "../util/encryptor";
 
 
 interface IProps {
-  myUser: User;
-  otherUser: User;
+  chatroomKey: number;
+  chatroomName: string;
+  imagePath: string;
   lastChat: string | null;
 }
 
 export default function ChatListElement({
-  myUser,
-  otherUser,
+  chatroomKey,
+  chatroomName,
+  imagePath,
   lastChat,
 }: IProps) {
   const navigate = useNavigate();
-  const userPhotos =
-    useSelector(selectPhoto).photos
-      .filter((photo) => otherUser.photos.indexOf(photo.key) !== -1)
-      .sort((a, b) => a.index - b.index);
-  const photoPath = userPhotos[0].path;
+  const dispatch = useDispatch<AppDispatch>();
 
-  const elementOnClick = useCallback(() => {
-    const encrypted = urlParamEncryptor.encrypt(
+  const elementOnClick = useCallback(async () => {
+    await dispatch(getChatParticipants(chatroomKey));
+    const encrypted = encryptor.encrypt(
       {
-        from: myUser.key,
-        to: otherUser.key,
-        photoPath: photoPath,
+        chatroomKey,
+        chatroomName,
       }
     );
     navigate(`/chat/${encrypted}`);
-  }, [myUser, otherUser, navigate, photoPath]);
+  }, [dispatch, navigate, chatroomKey, chatroomName]);
 
   return (
     <article className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}>
       <button
         className={"min-w-fit min-h-fit"}
-        onClick={() => navigate("/profile/" + otherUser.key)}
       >
         <img
           className={"w-16 h-16 m-2 bg-blue-100 rounded-full"}
-          alt={""}
-          src={photoPath}
+          alt={"프로필 사진"}
+          src={imagePath}
         />
       </button>
       <article
@@ -52,7 +49,7 @@ export default function ChatListElement({
         className={"flex-1 flex flex-col h-full pl-2 w-0"}
         onClick={elementOnClick}
       >
-        <article className={"basis-1/4 pt-2 font-bold text-lg"}>{otherUser.username}</article>
+        <article className={"basis-1/4 pt-2 font-bold text-lg"}>{chatroomName}</article>
         <article className={"basis-3/4 items-center text-gray-600 truncate"}>{lastChat ?? "대화를 시작해보세요!!"}</article>
       </article>
     </article>

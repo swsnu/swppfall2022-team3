@@ -4,104 +4,116 @@ import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
+import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { chatAction, selectChat } from "../store/slices/chat";
+import { chatAction, getChatroomSocketUrl, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
-import { Chat } from "../types";
-import urlParamEncryptor from "../util/urlParamEncryptor";
+import encryptor from "../util/encryptor";
 
 
-interface IDecrypted {
-  from: number;
-  to: number;
-  photoPath: string;
+export interface IDecrypted {
+  chatroomKey: number;
+  chatroomName: string;
 }
 
 export default function ChatDetail() {
-  const loginUser = useSelector(selectUser).loginUser;
   const params = useParams();
   const navigate = useNavigate();
-  const chats = useSelector(selectChat).chats;
-  const users = useSelector(selectUser).users;
   const dispatch = useDispatch<AppDispatch>();
-  const [from, setFrom] = useState<number>(0);
-  const [to, setTo] = useState<number>(0);
-  const [otherUserPhotoPath, setOtherUserPhotoPath] = useState<string>("");
+  const loginUser = useSelector(selectUser).loginUser;
+  const participants = useSelector(selectUser).chat.participants;
+  const chatSockets = useSelector(selectChat).chatSockets;
 
   const [appBarTitle, setAppBarTitle] = useState<string>("");
+  const [decrypted, setDecrypted] = useState<IDecrypted | null>(null);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [chats, setChats] = useState<{chatroomKey: number; author: number; content: string}[]>([]);
   const [chatInput, setChatInput] = useState<string>("");
-  const [myChats, setMyChats] = useState<Chat[]>([]);
+
+  useEffect(() => {
+    if (!loginUser) {
+      navigate(paths.signIn);
+    }
+  }, [loginUser, navigate]);
+
+  useEffect(() => {
+    const encrypted = params.encrypted ?? "";
+    if (encrypted === "") {
+      navigate(paths.chat);
+    }
+
+    try {
+      const decrypted = encryptor.decrypt<IDecrypted>(encrypted);
+      if (decrypted.chatroomKey && decrypted.chatroomName) {
+        setAppBarTitle(decrypted.chatroomName);
+        setDecrypted(decrypted);
+      }
+      else {
+        navigate(paths.chat);
+      }
+    } catch (_) {
+      navigate(paths.chat);
+    }
+  }, [params, navigate, setDecrypted, setAppBarTitle]);
+
+  useEffect(() => {
+    if (decrypted) {
+      const mySocket = chatSockets.find((s) => s.url === getChatroomSocketUrl(decrypted.chatroomKey));
+      if (mySocket) {
+        setSocket(mySocket);
+      }
+      else {
+        dispatch(chatAction.setSocket(decrypted.chatroomKey));
+      }
+    }
+  }, [decrypted, setSocket, chatSockets, dispatch]);
+
+  useEffect(() => {
+    if (decrypted) {
+      const chatroomKey = decrypted.chatroomKey;
+      if (socket && chatroomKey) {
+        socket.onmessage = (e) => {
+          const data = JSON.parse(e.data);
+          if (data.method === "create") {
+            setChats([...chats, {
+              chatroomKey: chatroomKey,
+              author: data.author,
+              content: data.content,
+            }]);
+          } else if (data.method === "load") {
+            setChats(data.chats.map((chat: {author: number; content: string}) => {
+              return {...chat, chatroomKey: chatroomKey};
+            }));
+          }
+        };
+      }
+    }
+  }, [decrypted, socket, chats]);
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
-      dispatch(chatAction.add(
-        {
-          from,
-          to,
-          key: Math.max(...chats.map((c) => c.key)) + 1,
-          regDt: new Date(),
-          content: chatInput,
-        }
-      ));
+      socket?.send(JSON.stringify({
+        method: "create",
+        message: chatInput,
+      }));
       setChatInput("");
     }
-  }, [dispatch, chatInput, from, to, chats]);
-
-  useEffect(() => {
-    if (loginUser) {
-      const encrypted = params.encrypted ?? null;
-      if (encrypted === null) {
-        navigate(paths.chat);
-      }
-      else {
-        try {
-          const decrypted = urlParamEncryptor.decrypt<IDecrypted>(encrypted);
-          if ((decrypted?.from) && (decrypted?.to) && (decrypted?.photoPath)) {
-            if (decrypted.from !== loginUser.key) {
-              navigate(paths.chat);
-            }
-            else {
-              setFrom(decrypted.from);
-              setTo(decrypted.to);
-              setOtherUserPhotoPath(decrypted.photoPath);
-              setMyChats(
-                chats.filter(
-                  (c) =>
-                    ((c.from === decrypted.from) && (c.to === decrypted.to)) ||
-                    ((c.from === decrypted.to) && (c.to === decrypted.from))
-                )
-              );
-
-              const userTo = users.find((u) => u.key === to);
-              setAppBarTitle(userTo?.username ?? "");
-            }
-          }
-          else {
-            navigate(paths.chat);
-          }
-        } catch (_) {
-          navigate(paths.chat);
-        }
-      }
-    }
-    else {
-      navigate(paths.signIn);
-    }
-  }, [params, navigate, chats, users, loginUser, to]);
+  }, [socket, chatInput]);
 
   return (
-    <section className={"flex-1 flex flex-col mt-12 mb-16"}>
+    <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
       <AppBar title={appBarTitle}/>
-      <section className={"flex-1 flex flex-col overflow-scroll"}>{
-        myChats.map((chat) => (
-          <ChatBox
-            key={chat.content + chat.regDt.getTime()}
-            content={chat.content}
-            sender={chat.from}
-            isMine={chat.from === from}
-            photoPath={otherUserPhotoPath}
-          />
-        ))
+      <section className={style.page.body}>{
+        chats.map((chat, index) => {
+          const participant = participants.find((u) => u.key === chat.author);
+          return participant ?
+            (<ChatBox
+              key={index}
+              content={chat.content}
+              sender={participant}
+            />) :
+            null;
+        })
       }</section>
       <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
         <input

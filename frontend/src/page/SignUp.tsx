@@ -1,38 +1,37 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import CreateTag from "../component/signup/CreateTag";
+import axios from "axios";
 import EmailVerification from "../component/signup/EmailVerification";
 import ImageUpload from "../component/signup/ImageUpload";
 import Introduction from "../component/signup/Introduction";
 import PersonalInformation from "../component/signup/PersonalInformation";
-import UniversityCheck from "../component/signup/UniversityCheck";
+import TagSelect from "../component/signup/TagSelect";
+import UniversitySelect from "../component/signup/UniversitySelect";
 import paths from "../constant/path";
-import { AppDispatch } from "../store";
-// import { selectPhoto } from "../store/slices/photo";
-import { selectUser, userActions } from "../store/slices/user";
+import style from "../constant/style";
+import { selectUser } from "../store/slices/user";
 import { College, Gender, Major, Tag, University } from "../types";
+import { dateToString } from "../util/date";
 
 
 export default function SignUp() {
-  const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
-  // const photos = useSelector(selectPhoto).photos;
   const [step, setStep] = useState<number>(0);
   const [university, setUniversity] = useState<University | null>(null);
+  const [requestTime, setRequestTime] = useState<Date>(new Date());
   const [email, setEmail] = useState<string>("");
-  const [verificationCode, setVerificationCode] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [college, setCollege] = useState<College | null>(null);
   const [major, setMajor] = useState<Major | null>(null);
   const [gender, setGender] = useState<Gender>(Gender.MALE);
-  const [targetGender, setTargetGender] = useState<Gender>(Gender.ALL);
+  const [interestedGender, setTargetGender] = useState<Gender>(Gender.ALL);
   const [tags, setTags] = useState<Tag[]>([]);
   const [introduction, setIntroduction] = useState<string>("");
   const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,97 +40,93 @@ export default function SignUp() {
     }
   }, [navigate, loginUser]);
 
-  const confirmOnClick = useCallback(() => {
-    // DO NOT DELETE: will be used with real server
-    // uploadedPhotos.forEach((photo) => {
-    //   const key = photos.length + 1;
-    //   const temp = (photo as File).name.split(".");
-    //   const extension = temp[temp.length - 1];
-    //   const filename = `photo${key}.${extension}`;
-    //   dispatch(photoActions.add({
-    //     key: key,
-    //     index: 1,
-    //     path: filename,
-    //   }));
-    //   // TODO: save image in server
-    // });
+  const confirmOnClick = useCallback(async () => {
+    const user = await axios.post("/user/", {
+      email: email,
+      password: password,
+      phone: phone,
+      nickname: nickname,
+      gender: gender,
+      interested_gender: interestedGender,
+      birthday: dateToString(birthday),
+      university: university?.key,
+      college: college?.key,
+      major: major?.key,
+      introduction: introduction,
+      tags: tags.map((tag) => tag.key),
+    });
 
-    const tagKeys = tags.map((tag) => tag.key);
-    if (university && college && major && birthday) {
-      dispatch(userActions.add(
-        {
-          key: users.length + 1,
-          email,
-          username: username,
-          gender,
-          targetGender,
-          birthday,
-          location: "관악구",
-          university: university.key,
-          college: college.key,
-          major: major.key,
-          introduction,
-          tags: tagKeys,
-          photos: [13, 14]
-        }
-      ));
-      navigate("/signin");
-    }
+    uploadedPhotos.forEach(async (photo) => {
+      const form = new FormData();
+      form.append("file", photo);
+      await axios.post(`/photo/user/${user.data.key}/`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Content-Disposition": `form-data; filename=${photo.name};`,
+        },
+      });
+    });
+
+    navigate("/signin");
   }, [
-    dispatch,
     navigate,
-    users,
     university,
     email,
-    username,
+    password,
+    phone,
+    nickname,
+    gender,
+    interestedGender,
     birthday,
     college,
     major,
-    gender,
-    targetGender,
-    tags,
     introduction,
+    tags,
+    uploadedPhotos,
   ]);
 
   const getPage = useCallback((step: number): JSX.Element => {
     switch (step) {
     case 0:
-      return <UniversityCheck
+      return <UniversitySelect
         university={university}
-        setUniversity={setUniversity}
         email={email}
+        requestTime={requestTime}
+        setUniversity={setUniversity}
         setEmail={setEmail}
-        setVerificationCode={setVerificationCode}
         setStep={setStep}
       />;
     case 1:
       return <EmailVerification
         email={email}
+        requestTime={requestTime}
+        setRequestTime={setRequestTime}
         limitSec={3 * 60}
-        verificationCode={verificationCode}
-        setVerificationCode={setVerificationCode}
         setStep={setStep}
       />;
     case 2:
       return <PersonalInformation
-        username={username}
-        setUsername={setUsername}
+        nickname={nickname}
+        setNickname={setNickname}
         password={password}
         setPassword={setPassword}
+        phone={phone}
+        setPhone={setPhone}
         birthday={birthday}
         setBirthday={setBirthday}
+        university={university}
         college={college}
         setCollege={setCollege}
         major={major}
         setMajor={setMajor}
         gender={gender}
         setGender={setGender}
-        targetGender={targetGender}
+        targetGender={interestedGender}
         setTargetGender={setTargetGender}
         setStep={setStep}
       />;
     case 3:
-      return <CreateTag
+      return <TagSelect
         tags={tags}
         setTags={setTags}
         setStep={setStep}
@@ -150,36 +145,35 @@ export default function SignUp() {
       />;
     case 6:
       return (
-        <section className="w-full flex flex-col mt-64 mb-16">
-          <p className="text-center text-pink-500/100 mt-6">
+        <section className={style.page.base}>
+          <p className={`text-center text-${style.color.main}`}>
             프로필 작성 완료!<br/>
             다른 사람들의 프로필을 구경하고<br/>
             마음에 드는 상대에게 &apos;두근&apos;을 보내보세요
           </p>
-          <div className={"text-center"}>
-            <button
-              className={"bg-pink-500 text-center text-white mt-16 w-36 h-12 rounded-md"}
-              onClick={confirmOnClick}
-            >
-              완료
-            </button>
-          </div>
+          <button
+            className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
+            onClick={confirmOnClick}
+          >
+            완료
+          </button>
         </section>
       );
     default:
       return <section/>;
     }
   }, [
+    requestTime,
     university,
-    verificationCode,
     email,
-    username,
+    nickname,
     password,
+    phone,
     birthday,
     college,
     major,
     gender,
-    targetGender,
+    interestedGender,
     tags,
     introduction,
     uploadedPhotos,

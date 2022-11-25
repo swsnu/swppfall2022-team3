@@ -4,16 +4,15 @@ import { useNavigate } from "react-router";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import paths from "../constant/path";
-import { selectPhoto } from "../store/slices/photo";
+import style from "../constant/style";
 import { selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { getKoreanAge } from "../util/getKoreanAge";
+import { getKoreanAge } from "../util/date";
 
 
 export default function ProfileEdit() {
   const navigate = useNavigate();
   const loginUser = useSelector(selectUser).loginUser;
-  const photos = useSelector(selectPhoto).photos;
   const tags = useSelector(selectTag).tags;
 
   useEffect(() => {
@@ -25,13 +24,12 @@ export default function ProfileEdit() {
   return (loginUser) ? (
     // add bottom margin if navigation bar is added
     // <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
-    <section className={"flex-1 w-full mt-12 flex flex-col"}>
-      <AppBar title={`${loginUser.username}/${getKoreanAge(loginUser.birthday)}`}/>
+    <section className={`${style.page.base} ${style.page.margin.top}`}>
+      <AppBar title={`${loginUser.nickname}/${getKoreanAge(loginUser.birthday)}`}/>
       <section className={"w-full flex-1 z-0 flex flex-col"}>
         <section className={"relative"}>
           <PhotoSlider
             user={loginUser}
-            photos={photos}
           />
         </section>
         <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
@@ -44,5 +42,5 @@ export default function ProfileEdit() {
         <article className={"mx-3 mb-6 text-base"}>{loginUser.introduction}</article>
       </section>
     </section>
-  ) : <section></section>;
+  ) : <section/>;
 }

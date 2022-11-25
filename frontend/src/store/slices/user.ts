@@ -1,92 +1,361 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import axios from "axios";
-import { users } from "../../dummyData";
-import { User } from "../../types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { Gender, User } from "../../types";
 import { RootState } from "../index";
 
 
-const storeKey = "user";
-const loginStoreKey = "loginUser";
+export const signinUrl = "/auth/login/";
+export const signoutUrl = "/auth/logout/";
+export const authUserUrl = "/auth/user/";
+export const userUrl = "/user";
+
+export type RawUser = {
+  key: number;
+  email: string;
+  nickname: string;
+  gender: string;
+  interested_gender: string;
+  birthday: string;
+  university: number;
+  college: number;
+  major: number;
+  introduction: string;
+  tags: number[];
+  photos: string[];
+}
+
+export type SimplifiedRawUser = {
+  key: number;
+  nickname: string;
+  gender: string;
+  birthday: string;
+  college: number;
+  major: number;
+  repr_photo: string;
+}
+
+export const getGender = (genderStr: string): Gender => {
+  if (genderStr === "M") {
+    return Gender.MALE;
+  }
+  else if (genderStr === "F") {
+    return Gender.FEMALE;
+  }
+  return Gender.ALL;
+};
+
+const rawDataToUser = (rawUser: RawUser): User => (
+  {
+    key: rawUser.key,
+    email: rawUser.email,
+    nickname: rawUser.nickname,
+    gender: getGender(rawUser.gender),
+    interestedGender: getGender(rawUser.interested_gender),
+    birthday: rawUser.birthday,
+    university: rawUser.university,
+    college: rawUser.college,
+    major: rawUser.major,
+    introduction: rawUser.introduction,
+    tags: rawUser.tags,
+    photos: rawUser.photos,
+  }
+);
+export const simplifiedRawDataToUser = (simplifiedRawUser: SimplifiedRawUser): User => ({
+  key: simplifiedRawUser.key,
+  email: "",
+  nickname: simplifiedRawUser.nickname,
+  gender: getGender(simplifiedRawUser.gender),
+  interestedGender: Gender.ALL,
+  birthday: simplifiedRawUser.birthday,
+  university: 0,
+  college: simplifiedRawUser.college,
+  major: simplifiedRawUser.major,
+  introduction: "",
+  tags: [],
+  photos: [simplifiedRawUser.repr_photo],
+});
+export const userToRawData = (user: User): RawUser => (
+  {
+    key: user.key,
+    email: user.email,
+    nickname: user.nickname,
+    gender: user.gender,
+    interested_gender: user.interestedGender,
+    birthday: user.birthday,
+    university: user.university,
+    college: user.college,
+    major: user.major,
+    introduction: user.introduction,
+    tags: user.tags,
+    photos: user.photos,
+  }
+);
 
 export interface UserState {
   users: User[];
   loginUser: User | null;
+  interestingUser: User | null;
+  pitapat: {
+    senders: User[];
+    receivers: User[];
+  };
+  chat: {
+    participants: User[];
+  };
 }
 
-const getInitialUsers = (): User[] => {
-  let savedValue = localStorage.getItem(storeKey);
-  if (savedValue === null) {
-    const dummy = JSON.stringify(users);
-    localStorage.setItem(storeKey, dummy);
-    savedValue = dummy;
-  }
-  return (JSON.parse(savedValue) as User[]).map((user) =>
-    ({ ...user, birthday: new Date(user.birthday) })
-  );
-};
-
-const getLoginUser = (): User | null => {
-  const savedValue = localStorage.getItem(loginStoreKey);
-  if (savedValue === null) {
-    return null;
-  }
-  return JSON.parse(savedValue) as User;
-};
-
 const initialState: UserState = {
-  users: getInitialUsers(),
-  loginUser: getLoginUser(),
+  users: [],
+  loginUser: null,
+  interestingUser: null,
+  pitapat: {
+    senders: [],
+    receivers: [],
+  },
+  chat: {
+    participants: [],
+  }
 };
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-// const login = createAsyncThunk(
-//   "user/",
-//   async (user: { email: string, password: string }, { dispatch }) => {
-//     const response = await axios.post("/user/login/", user);
-//     if (response.status === 204) {
-//       dispatch(userActions.login(user));
-//       return true;
-//     }
-//     else {
-//       return false;
-//     }
-//   }
-// );
+
+export const fetchSignin = createAsyncThunk(
+  "user/signin",
+  async (user: { username: string; password: string }): Promise<User | null> => {
+    try {
+      // get session token
+      await axios.post(signinUrl, user);
+      // get user key
+      const authResponse = await axios.get(authUserUrl);
+      if (authResponse.status !== 200)
+      {return null;}
+      const userKey = authResponse.data.pk as number;
+      // get user data
+      const userResponse = await axios.get(`${userUrl}/${userKey}`);
+      return rawDataToUser(userResponse.data as RawUser);
+    }
+    catch (_) {
+      return null;
+    }
+  }
+);
+
+export const fetchSignout = createAsyncThunk(
+  "user/signout",
+  async (): Promise<void> => {
+    await axios.post(signoutUrl);
+  }
+);
+
+export const fetchSignup = createAsyncThunk(
+  "user/signup",
+  async (user: User): Promise<User | null> => {
+    const response = await axios.post(
+      userUrl,
+      userToRawData(user),
+    );
+    if (response.status === 200) {
+      return rawDataToUser(response.data as RawUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getUsers = createAsyncThunk(
+  "user/get-all",
+  async (page: number): Promise<User[] | null> => {
+    // const response = await axios.get(`${userUrl}/?page=${page}`);
+    const response = await axios.get(`${userUrl}/`);
+    if (response.status === 200) {
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getUser = createAsyncThunk(
+  "user/get-one",
+  async (userKey: number): Promise<User | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/`);
+    if (response.status === 200) {
+      return rawDataToUser(response.data as RawUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+/**
+ * should be called after state.interestedUser is set
+ */
+export const getUserTags = createAsyncThunk(
+  "user/tags",
+  async (userKey: number): Promise<number[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/tag/`);
+    if (response.status === 200) {
+      return response.data as number[];
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+/**
+ * should be called after state.interestedUser is set
+ */
+export const getUserIntroduction = createAsyncThunk(
+  "user/introduction",
+  async (userKey: number): Promise<string | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/introduction/`);
+    if (response.status === 200) {
+      return response.data.content as string;
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getPitapatSenders = createAsyncThunk(
+  "user/pitapat-senders-to-user",
+  async (userKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/pitapat/to/`);
+    if (response.status === 200) {
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getPitapatReceivers = createAsyncThunk(
+  "user/pitapat-receivers-to-user",
+  async (userKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/pitapat/from/`);
+    if (response.status === 200) {
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
+export const getChatParticipants = createAsyncThunk(
+  "user/get-all-by-chatroom",
+  async (chatroomKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`/chatroom/${chatroomKey}${userUrl}`);
+    if (response.status === 200) {
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<User>) => {
-      const newUsers = [...state.users, action.payload];
-      localStorage.setItem(storeKey, JSON.stringify(newUsers));
-      state.users = newUsers;
+    setInterestedUser: (state, action: PayloadAction<User>) => {
+      state.interestingUser = action.payload;
     },
-    update: (state, action: PayloadAction<User>) => {
-      const newUsers: User[] = [];
-      state.users.forEach((user) => {
-        if (user.key === action.payload.key) {
-          newUsers.push(action.payload);
-        }
-        else {
-          newUsers.push(user);
-        }
-      });
-      localStorage.setItem(storeKey, JSON.stringify(newUsers));
-      state.users = newUsers;
+    deleteSender: (state, action: PayloadAction<number>) => {
+      state.pitapat.senders = state.pitapat.senders.filter((u) => u.key !== action.payload);
     },
-    login: (state, action: PayloadAction<{ email: string }>) => {
-      const users: User[] = state.users;
-      const user = users.filter((u) => u.email === action.payload.email);
-      if (user.length > 0) {
-        state.loginUser = user[0];
-        localStorage.setItem(loginStoreKey, JSON.stringify(user[0]));
+    deleteReceiver: (state, action: PayloadAction<number>) => {
+      state.pitapat.receivers = state.pitapat.receivers.filter((u) => u.key !== action.payload);
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      fetchSignin.fulfilled,
+      (state, action) => {
+        state.loginUser = action.payload;
       }
-    },
-    logout: (state, _action: PayloadAction<void>) => {
-      state.loginUser = null;
-      localStorage.removeItem(loginStoreKey);
-    },
+    );
+    builder.addCase(
+      fetchSignout.fulfilled,
+      (state) => {
+        state.loginUser = null;
+      }
+    );
+    builder.addCase(
+      getUsers.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.users = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getUser.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.interestingUser = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getUserTags.fulfilled,
+      (state, action) => {
+        if (action.payload && state.interestingUser) {
+          const newInterestedUser: User = {
+            ...state.interestingUser,
+            tags: action.payload,
+          };
+          state.interestingUser = newInterestedUser;
+          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
+        }
+      }
+    );
+    builder.addCase(
+      getUserIntroduction.fulfilled,
+      (state, action) => {
+        if (action.payload && state.interestingUser) {
+          const newInterestedUser: User = {
+            ...state.interestingUser,
+            introduction: action.payload,
+          };
+          state.interestingUser = newInterestedUser;
+          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
+        }
+      }
+    );
+    builder.addCase(
+      getPitapatSenders.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.pitapat.senders = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getPitapatReceivers.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.pitapat.receivers = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getChatParticipants.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.chat.participants = action.payload;
+        }
+      }
+    );
   },
 });
 

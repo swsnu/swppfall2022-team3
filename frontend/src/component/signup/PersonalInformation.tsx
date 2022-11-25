@@ -1,18 +1,23 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectCollege } from "../../store/slices/college";
-import { selectMajor } from "../../store/slices/major";
-import { College, Gender, Major } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import style from "../../constant/style";
+import { AppDispatch } from "../../store";
+import { getColleges, selectCollege } from "../../store/slices/college";
+import { getMajors, selectMajor } from "../../store/slices/major";
+import { College, Gender, Major, University } from "../../types";
 import InformationInput from "./InformationInput";
 
 
-interface IProps {
-  username: string;
-  setUsername: Dispatch<SetStateAction<string>>;
+export interface IProps {
+  nickname: string;
+  setNickname: Dispatch<SetStateAction<string>>;
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
+  phone: string;
+  setPhone: Dispatch<SetStateAction<string>>;
   birthday: Date;
   setBirthday: Dispatch<SetStateAction<Date>>;
+  university: University | null;
   college: College | null;
   setCollege: Dispatch<SetStateAction<College | null>>;
   major: Major | null;
@@ -25,12 +30,15 @@ interface IProps {
 }
 
 export default function PersonalInformation({
-  username,
-  setUsername,
+  nickname,
+  setNickname,
   password,
   setPassword,
+  phone,
+  setPhone,
   birthday,
   setBirthday,
+  university,
   college,
   setCollege,
   major,
@@ -43,13 +51,13 @@ export default function PersonalInformation({
 }: IProps) {
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
-  const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(0);
-  const [selectedMajorKey, setSelectedMajorKey] = useState<number>(0);
-  const [targetMajors, setTargetMajors] = useState<Major[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(colleges.length === 0 ? 0 : colleges[0].key);
+  const [selectedMajorKey, setSelectedMajorKey] = useState<number>(majors.length === 0 ? 0 : majors[0].key);
 
   const confirmOnClick = useCallback(() => {
     if (
-      username &&
+      nickname &&
       birthday &&
       ((college?.key ?? 0) > 0) &&
       ((major?.key ?? 0) > 0) &&
@@ -61,7 +69,37 @@ export default function PersonalInformation({
     else {
       // do something later
     }
-  }, [setStep, username, birthday, college, major, gender, targetGender]);
+  }, [setStep, nickname, birthday, college, major, gender, targetGender]);
+
+  useEffect(() => {
+    if (university) {
+      dispatch(getColleges(university.key));
+    }
+  }, [dispatch, university]);
+
+  useEffect(() => {
+    if (college) {
+      dispatch(getMajors(college.key));
+    }
+  }, [dispatch, college]);
+
+  useEffect(() => {
+    if (colleges.length !== 0) {
+      setSelectedCollegeKey(colleges[0].key);
+    }
+    else {
+      setSelectedCollegeKey(0);
+    }
+  }, [colleges, setSelectedCollegeKey]);
+
+  useEffect(() => {
+    if (majors.length !== 0) {
+      setSelectedMajorKey(majors[0].key);
+    }
+    else {
+      setSelectedMajorKey(0);
+    }
+  }, [majors, setSelectedMajorKey]);
 
   useEffect(() => {
     const targetCollege = colleges.find((c) => (c.key === selectedCollegeKey));
@@ -73,27 +111,18 @@ export default function PersonalInformation({
     setMajor(targetMajor ?? null);
   }, [setMajor, selectedMajorKey, majors]);
 
-  useEffect(() => {
-    if (college) {
-      const collegeMajors = majors.filter((mjr) => (college.majors.includes(mjr.key)));
-      setTargetMajors(collegeMajors);
-    }
-    else {
-      setTargetMajors([]);
-    }
-  }, [college, majors]);
 
   return (
-    <section className="h-full flex flex-col items-center w-full">
-      <p className="mt-16 h-fit text-center text-pink-500/100">
+    <section className={style.page.base}>
+      <p className={style.component.signIn.notification}>
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!
       </p>
-      <section className={"flex-1 flex flex-col items-center justify-start space-y-4 mt-8"}>
+      <section className={"flex-1 flex flex-col space-y-4"}>
         <InformationInput
           label={"닉네임"}
-          value={username}
-          setValue={setUsername}
+          value={nickname}
+          setValue={setNickname}
           type={"text"}
         />
         <InformationInput
@@ -102,6 +131,12 @@ export default function PersonalInformation({
           setValue={setPassword}
           type={"text"}
           isPassword={true}
+        />
+        <InformationInput
+          label={"휴대폰"}
+          value={phone}
+          setValue={setPhone}
+          type={"text"}
         />
         <InformationInput
           label={"생년월일"}
@@ -115,9 +150,7 @@ export default function PersonalInformation({
           setValue={setSelectedCollegeKey}
           type={"select"}
           options={
-            ([{ key: 0, name: "", majors: [] }] as College[])
-              .concat(colleges)
-              .map((col) => ({ name: col.name, value: col.key }))
+            colleges.map((col) => ({ name: col.name, value: col.key }))
           }
         />
         <InformationInput
@@ -126,9 +159,7 @@ export default function PersonalInformation({
           setValue={setSelectedMajorKey}
           type={"select"}
           options={
-            ([{ key: 0, name: "" }] as Major[])
-              .concat(targetMajors)
-              .map((m) => ({ name: m.name, value: m.key }))
+            majors.map((m) => ({ name: m.name, value: m.key }))
           }
         />
         <InformationInput
@@ -153,9 +184,9 @@ export default function PersonalInformation({
           ]}
         />
       </section>
-      <section>
+      <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={"w-36 min-h-12 h-12 mt-12 mb-12 bg-pink-500 text-center text-white rounded-md"}
+          className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
         >
           다음
