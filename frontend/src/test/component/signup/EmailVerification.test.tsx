@@ -1,5 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import axios from "axios";
 import EmailVerification from "../../../component/signup/EmailVerification";
 
 
@@ -7,7 +8,17 @@ const mockSetStep = jest.fn();
 
 describe("EmailVerification", () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     jest.clearAllTimers();
+    axios.post = jest.fn().mockImplementation(async (url: string) => {
+      if (url === "/auth/email/") {
+        return { status: 200 };
+      } else if (url === "/auth/verify") {
+        return { status: 204 };
+      } else {
+        return null;
+      }
+    });
   });
 
   it("should be rendered", () => {
@@ -20,49 +31,6 @@ describe("EmailVerification", () => {
         setStep={mockSetStep}
       />
     );
-  });
-
-  it("should alert with invalid code", () => {
-    // const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
-
-    render(
-      <EmailVerification
-        email={""}
-        limitSec={3 * 60}
-        requestTime={new Date()}
-        setRequestTime={jest.fn()}
-        setStep={mockSetStep}
-      />
-    );
-
-    const confirmButton = screen.getByText("확인");
-    fireEvent.click(confirmButton);
-    // expect(spyAlert).toBeCalled();
-  });
-
-  it("should update code if resend button is clicked", async () => {
-    const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
-
-    render(
-      <EmailVerification
-        email={""}
-        limitSec={3 * 60}
-        requestTime={new Date()}
-        setRequestTime={jest.fn()}
-        setStep={mockSetStep}
-      />
-    );
-
-    const resendButton = screen.getByText("재전송");
-    const confirmButton = screen.getByText("확인");
-    const userInput = screen.getByRole("textbox");
-
-    fireEvent.click(resendButton);
-    fireEvent.change(userInput, { target: { value: "ABCDEF" } });
-    fireEvent.click(confirmButton);
-
-    expect(spyAlert).not.toBeCalled();
-    // await waitFor(() => expect(mockSetStep).toHaveBeenCalled());
   });
 
   it("should set proper time interval", async () => {
