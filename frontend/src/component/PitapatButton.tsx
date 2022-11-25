@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { selectUser } from "../store/slices/user";
+import { AppDispatch } from "../store";
+import { getPitapatReceivers, getPitapatSenders, selectUser } from "../store/slices/user";
 import { PitapatStatus } from "../types";
 
 
@@ -18,6 +19,7 @@ export default function PitapatButton({
   isAccept,
   isListView,
 }: IProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const senders = useSelector(selectUser).pitapat.senders;
   const receivers = useSelector(selectUser).pitapat.receivers;
@@ -76,13 +78,21 @@ export default function PitapatButton({
   }, [isAccept, getPitapatStatus]);
 
   const pitapatOnClick = useCallback(async () => {
-    if (!isAccept || getPitapatStatus() === PitapatStatus.FROM_ME) {
+    if (!loginUser) { return; }
+
+    if (!isAccept) {
+      await axios.delete("/pitapat", { data: { from: to, to: from } });
+      await dispatch(getPitapatSenders(loginUser.key));
+    }
+    else if (getPitapatStatus() === PitapatStatus.FROM_ME) {
       await axios.delete("/pitapat", { data: { from: from, to: to } });
+      await dispatch(getPitapatReceivers(loginUser.key));
     }
     else {
       await axios.post("/pitapat/", { from: from, to: to });
+      await dispatch(getPitapatSenders(loginUser.key));
     }
-  }, [isAccept, getPitapatStatus, from, to]);
+  }, [loginUser, isAccept, from, to, getPitapatStatus, dispatch]);
 
   return (
     <button
