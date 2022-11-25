@@ -3,14 +3,14 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { render, screen } from "@testing-library/react";
+import paths from "../../constant/path";
 import ChatList from "../../page/ChatList";
 import { getDefaultMockStore } from "../../test-utils/mocks";
-import paths from "../../constant/path";
 
 
 const mockNavigate = jest.fn();
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+jest.mock("react-router", () => ({
+  ...jest.requireActual("react-router"),
   useNavigate: () => mockNavigate,
 }));
 
