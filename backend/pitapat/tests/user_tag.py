@@ -1,7 +1,7 @@
+import json
 from django.test import TestCase, Client
 from pitapat.testutils.setup import setup
 from ..models import User, Tag, UserTag
-import json
 
 
 class UserTagTestCase(TestCase):

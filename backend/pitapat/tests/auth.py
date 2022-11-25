@@ -1,7 +1,7 @@
+import json
 from django.test import TestCase, Client
 from pitapat.testutils.setup import setup
 from pitapat.utils.crypto import create_verification_code
-import json
 
 
 class AuthTestCase(TestCase):
@@ -17,12 +17,16 @@ class AuthTestCase(TestCase):
         self.assertEqual(response.status_code, 400)
 
         response = client.post('/auth/email/',
-                               json.dumps({'email': 'snu1@snu.ac.kr', 'request_time': request_time}),
+                               json.dumps({'email': 'snu1@snu.ac.kr',
+                                           'request_time': request_time
+                                           }),
                                content_type='application/json')
         self.assertEqual(response.status_code, 409)
 
         response = client.post('/auth/email/',
-                               json.dumps({'email': email, 'request_time': request_time}),
+                               json.dumps({'email': email,
+                                           'request_time': request_time
+                                           }),
                                content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
@@ -36,13 +40,17 @@ class AuthTestCase(TestCase):
         self.assertEqual(response.status_code, 400)
 
         response = client.post('/auth/verify/',
-                               json.dumps({'email': email, 'request_time': request_time, 'code': 'aaaaaa'}),
+                               json.dumps({'email': email,
+                                           'request_time': request_time,
+                                           'code': 'aaaaaa'
+                                           }),
                                content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
         response = client.post('/auth/verify/',
-                               json.dumps({'email': email, 'request_time': request_time, 'code': code}),
+                               json.dumps({'email': email,
+                                           'request_time': request_time,
+                                           'code': code
+                                           }),
                                content_type='application/json')
         self.assertEqual(response.status_code, 204)
-
-

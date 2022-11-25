@@ -1,6 +1,6 @@
+from datetime import date
 from django.test import TestCase, Client
 from pitapat.testutils.setup import setup
-from datetime import date
 from ..models import Chat, Chatroom,User, UserChatroom
 
 
