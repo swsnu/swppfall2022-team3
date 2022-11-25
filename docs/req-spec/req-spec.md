@@ -1,6 +1,6 @@
 # Pitapat Campus: Requirements and Specification
 
-Rev. 1.1, 10/28/2022
+Rev. 1.2, 11/25/2022
 
 ## Project Abstract
 
@@ -277,3 +277,4 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
 
 - Rev. 1.0, 10/12/2022 - initial version
 - Rev. 1.1, 10/28/2022 - updated user stories & user interface
+- Rev. 1.2, 11/25/2022 - updated user interface

@@ -1,6 +1,6 @@
 # Pitapat Campus: Design and Planning
 
-Rev. 1.0, 10/28/2022
+Rev. 1.2, 11/25/2022
 
 ## System Architecture
 
@@ -64,6 +64,7 @@ The functionality and the requirement for each page are described below.
 
 - Show the list of users.
 - Pictures and the username of each user are shown.
+- User list can be filtered by colleges, majors, and tags.
 - If a user clicks a picture, navigate to the user-detail page.
 
 #### User Detail Page (`/profile/:id/`)
@@ -118,32 +119,138 @@ The functionality and the requirement for each page are described below.
 
 #### API
 
-| Model            | API                                         | GET                          | POST                                    | PUT                            | DELETE                                                       |
-| ---------------- | ------------------------------------------- | ---------------------------- | --------------------------------------- | ------------------------------ | ------------------------------------------------------------ |
-| **University**   | `/universities/`                            | get universities             | X                                       | X                              | X                                                            |
-| **College**      | `/colleges/university/<int:university_key>` | get colleges of a university | X                                       | X                              | X                                                            |
-| **Major**        | `/majors/college/<int:college_key>`         | get majors of a college      | X                                       | X                              | X                                                            |
-| **User**         | `/auth/email/`                              | X                            | receive email to send verification code | X                              | X                                                            |
-|                  | `/auth/verify/`                             | X                            | check email authentication code         | X                              | X                                                            |
-|                  | `/auth/login/`                              | X                            | log in                                  | X                              | X                                                            |
-|                  | `/auth/logout/`                             | X                            | log out                                 | X                              | X                                                            |
-|                  | `/user/`                                    | get users                    | create new user                         | X                              | X                                                            |
-|                  | `/user/<int:key>/`                          | get a user                   | X                                       | edit a user                    | delete a user and its introduction, photos, tag relationships |
-| **Introduction** | `/introduction/user/<int:user_key>/`        | X                            | X                                       | edit an introduction of a user | X                                                            |
-| **Photo**        | `/photo/`                                   | X                            | create new photo                        | X                              | X                                                            |
-|                  | `/photo/<int:key>/`                         | get a photo                  | X                                       | X                              | delete a photo                                               |
-| **Tag**          | `/tag/`                                     | get tags                     | create new tag                          | X                              | X                                                            |
-|                  | `/tags/user/<int:user_key>`                 | get tags of a user           | X                                       | edit user-tag relationship     | X                                                            |
-| **Pitapat**      | `/pitapat/`                                 | X                            | create new pitapat                      | X                              | X                                                            |
-|                  | `/pitapat/from/<int:user_key>`              | get pitapats from a user     | X                                       | X                              | X                                                            |
-|                  | `/pitapat/to/<int:user_key>/`               | get pitapats to a user       | X                                       | X                              | X                                                            |
-|                  | `/pitapat/<int:key>/`                       | X                            | accept a pitapat                        | X                              | delete a pitapat                                             |
-| **Block**        | `/block/user/<int:user_key>`                | get blocks from a user       | create new block from a user            | X                              | X                                                            |
-|                  | `/block/<int:key>`                          | X                            | X                                       | X                              | delete a block                                               |
-| **Chat**         | `/chatroom/user/<int:user_key>/`            | get chatrooms of a user      | X                                       | X                              | X                                                            |
-|                  | `/chatroom/<int:key>/`                      | X                            | X                                       | X                              | delete a chatroom                                            |
+| Model            | API                                        | GET                                           | POST                                    | PUT                            | DELETE                                                       |
+| ---------------- | ------------------------------------------ | --------------------------------------------- | --------------------------------------- | ------------------------------ | ------------------------------------------------------------ |
+| **University**   | `/university/`                             | get universities                              | X                                       | X                              | X                                                            |
+| **College**      | `/college/university/<int:university_key>` | get colleges of a university                  | X                                       | X                              | X                                                            |
+| **Major**        | `/major/college/<int:college_key>`         | get majors of a college                       | X                                       | X                              | X                                                            |
+| **User**         | `/auth/email/`                             | X                                             | receive email to send verification code | X                              | X                                                            |
+|                  | `/auth/verify/`                            | X                                             | check email verification code           | X                              | X                                                            |
+|                  | `/auth/login/`                             | X                                             | log in                                  | X                              | X                                                            |
+|                  | `/auth/logout/`                            | X                                             | log out                                 | X                              | X                                                            |
+|                  | `/user/`                                   | get users                                     | create new user                         | X                              | X                                                            |
+|                  | `/user/<int:key>/`                         | get a user and its introduction, photos, tags | X                                       | edit a user                    | delete a user and its introduction, photos, tag relationships |
+| **Introduction** | `/user/<int:user_key>/introduction/`       | X                                             | X                                       | edit an introduction of a user | X                                                            |
+| **Photo**        | `/photo/user/<int:user_key>/`              | X                                             | create new photo                        | X                              | X                                                            |
+|                  | `/photo/<int:key>/`                        | get a photo                                   | X                                       | X                              | delete a photo                                               |
+| **Tag**          | `/tag/`                                    | get tags                                      | create new tag                          | X                              | X                                                            |
+|                  | `/user/<int:user_key>/tag/`                | X                                             | create user-tag relationships           | X                              | delete user-tag relationships                                |
+| **Pitapat**      | `/pitapat/`                                | X                                             | create new pitapat                      | X                              | delete a pitapat                                             |
+|                  | `/user/<int:user_key>/pitapat/from/`       | get pitapats from a user                      | X                                       | X                              | X                                                            |
+|                  | `/user/<int:user_key>/pitapat/to/`         | get pitapats to a user                        | X                                       | X                              | X                                                            |
+| **Chatroom**     | `/chatroom/<int:chatroom_key>/user/`       | get user list in a chatroom                   | X                                       | X                              | X                                                            |
+|                  | `/user/<int:user_key>/chatroom/`           | get chatroom list of a user                   | X                                       | X                              | X                                                            |
+| **Block**        | `/block/user/<int:user_key>`               | get blocks from a user                        | create new block from a user            | X                              | X                                                            |
+|                  | `/block/<int:key>`                         | X                                             | X                                       | X                              | delete a block                                               |
 
 #### HTTP Data Format
+
+#####  `/university/ ` [GET]
+
+###### Request
+
+```json
+{}
+```
+
+###### Response
+
+- status: `200`
+
+```json
+[
+    {
+        "id": 1,
+        "name": "서울대학교"
+    },
+    {
+        "id": 2,
+        "name": "연세대학교"
+    },
+    {
+        "id": 3,
+        "name": "고려대학교"
+    }
+]
+```
+
+##### `/college/university/<int:university_key>/ ` [GET]
+
+###### Request
+
+```json
+{}
+```
+
+###### Response: Success
+
+- status: `200`
+
+```json
+[
+    {
+        "key": 1,
+        "name": "인문대학"
+    },
+    {
+        "key": 2,
+        "name": "사회과학대학"
+    },
+    {
+        "key": 3,
+        "name": "자연과학대학"
+    },
+    {
+        "key": 4,
+        "name": "공과대학"
+    }
+]
+```
+
+###### Response: Failed (Invalid ID Parameter)
+
+- status: `404`
+
+```json
+
+```
+
+##### `/major/college/<int:college_key>` [GET]
+
+###### Request
+
+```json
+{}
+```
+
+###### Response: Success
+
+- status: `200`
+
+```json
+[
+    {
+        "key": 1,
+        "name": "국어국문학과"
+    },
+    {
+        "key": 2,
+        "name": "중어중문학과"
+    },
+    {
+        "key": 3,
+        "name": "영어영문학과"
+    }
+]
+```
+
+###### Response: Failed (Invalid ID Parameter)
+
+- status: `404`
+
+```json
+
+```
 
 ##### `/auth/email/` [POST]
 
@@ -151,16 +258,17 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "email": "email@snu.ac.kr"
+    "email": "email@snu.ac.kr",
+    "request_time": "2022-11-25T22:00:14Z"
 }
 ```
 
 ###### Response: Success
 
-- status: `204`
+- status: `201`
 
 ```json
-{}
+
 ```
 
 ###### Response: Failed (Duplicated Email)
@@ -168,7 +276,7 @@ The functionality and the requirement for each page are described below.
 - status: `409`
 
 ```json
-{}
+
 ```
 
 ##### `/auth/verify/` [POST]
@@ -177,16 +285,18 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
+    "email": "email@snu.ac.kr",
+    "request_time": "2022-11-25T22:00:14",
     "code": "123456"
 }
 ```
 
 ###### Response: Success
 
-- status: `204`
+- status: `201`
 
 ```json
-{}
+
 ```
 
 ###### Response: Failed (Wrong Verification Code)
@@ -194,7 +304,50 @@ The functionality and the requirement for each page are described below.
 - status: `401`
 
 ```json
-{}
+
+```
+
+##### `/auth/login/` [POST]
+
+###### Request
+
+```json
+{
+    "email": "email@snu.ac.kr",
+    "password": "password"
+}
+```
+
+###### Response: Success
+
+- status: `201`
+
+```json
+
+```
+
+###### Response: Failed (Wrong Email or Password)
+
+- status: `401`
+
+```json
+
+```
+
+##### `/auth/logout/` [POST]
+
+###### Request
+
+```json
+
+```
+
+###### Response
+
+- status: `201`
+
+```json
+
 ```
 
 ##### `/user/` [GET]
@@ -203,7 +356,7 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "genders": ["M"],
+    "gender": "M",
     "age_min": 22,
     "age_max": 26,
     "colleges_included": [
@@ -235,20 +388,29 @@ The functionality and the requirement for each page are described below.
 ```json
 [
     {
-        "id": 1,
-        "username": "닉네임1",
+        "key": 1,
+        "nickname": "닉네임1",
         "gender": "M",
-        "photo_path": "PATH1",
-        "age": 25,
-        "major": "기계공학부"
+        "birthday": "1999-01-01",
+        "major": 2,
+        "repr_photo": "URL",
+        "tags": [
+            2,
+            3,
+            4
+        ]
     },
     {
-        "id": 2,
-        "username": "닉네임2",
+        "key": 2,
+        "nickname": "닉네임2",
         "gender": "M",
-        "photo_path": "PATH2",
-        "age": 22,
-        "major": "생명과학부"
+        "birthday": "2000-02-28",
+        "major": 3,
+        "repr_photo": "URL",
+        "tags": [
+            1,
+            4
+        ]
     }
 ]
 ```
@@ -271,9 +433,8 @@ The functionality and the requirement for each page are described below.
     "major": 1,
     "introduction": "안녕하세요, 홍길동입니다.",
     "tags": [
-        "헬스",
-        "음악",
-        "여행"
+        1,
+        2
     ]
 }
 ```
@@ -284,8 +445,9 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
+    "key": 4,
     "email": "email@snu.ac.kr",
-    "password": "encrypted password",
+    "password": "password",
     "phone": "01012345678",
     "nickname": "닉네임",
     "gender": "M",
@@ -296,57 +458,13 @@ The functionality and the requirement for each page are described below.
     "major": 1,
     "introduction": "안녕하세요, 홍길동입니다.",
     "tags": [
-        "헬스",
-        "음악",
-        "여행"
+        1,
+        2
     ]
 }
 ```
 
-##### `/user/login/` [POST]
-
-###### Request
-
-```json
-{
-    "email": "email@snu.ac.kr",
-    "password": "password"
-}
-```
-
-###### Response: Success
-
-- status: `204`
-
-```json
-{}
-```
-
-###### Response: Failed (Wrong Email or Password)
-
-- status: `401`
-
-```json
-{}
-```
-
-##### `/user/logout/` [POST]
-
-###### Request
-
-```json
-{}
-```
-
-###### Response
-
-- status: `204`
-
-```json
-{}
-```
-
-##### `/user/<id:int>/ ` [GET]
+##### `/user/<int:key>/ ` [GET]
 
 ###### Request
 
@@ -365,39 +483,50 @@ The functionality and the requirement for each page are described below.
     "phone": "01000000000",
     "nickname": "닉네임4",
     "gender": "M",
-    "age": 24,
-    "college": "경영대학",
-    "major": "경영학부",
+    "birthday": "1999-02-24T00:00:00Z",
+    "college": 1,
+    "major": 1,
     "introduction": "안녕하세요 홍길동입니다",
     "tags": [
-        "헬스",
-        "맛집탐방",
-        "여행"
+        1,
+        2
     ],
     "photos": [
-        "PATH1",
-        "PATH2"
+        "URL1",
+        "URL2"
     ]
 }
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
-##### `/user/<id:int>/ ` [PUT]
+##### `/user/<int:key>/ ` [PUT]
 
 ###### Request
 
 ```json
 {
-    "nickname": "닉네임4",
-    "college": "경영대학",
-    "major": "경영학부"
+    "email": "email@snu.ac.kr",
+    "password": "password",
+    "phone": "01012345678",
+    "nickname": "닉네임",
+    "gender": "M",
+    "interested_gender": "F",
+    "birthday": "1999-02-24T00:00:00Z",
+    "university": 1,
+    "college": 1,
+    "major": 1,
+    "introduction": "안녕하세요, 홍길동입니다.",
+    "tags": [
+        1,
+        2
+    ]
 }
 ```
 
@@ -407,33 +536,31 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "key": 1,
+    "key": 4,
     "email": "email@snu.ac.kr",
-    "phone": "01000000000",
-    "nickname": "닉네임4",
+    "password": "password",
+    "phone": "01012345678",
+    "nickname": "닉네임",
     "gender": "M",
-    "age": 24,
-    "college": "경영대학",
-    "major": "경영학부",
-    "introduction": "안녕하세요 홍길동입니다",
+    "interested_gender": "F",
+    "birthday": "1999-02-24T00:00:00Z",
+    "university": 1,
+    "college": 1,
+    "major": 1,
+    "introduction": "안녕하세요, 홍길동입니다.",
     "tags": [
-        "헬스",
-        "맛집탐방",
-        "여행"
-    ],
-    "photos": [
-        "PATH1",
-        "PATH2"
+        1,
+        2
     ]
 }
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
 ###### Response: Failed (Invalid Request Body)
@@ -441,10 +568,10 @@ The functionality and the requirement for each page are described below.
 - status: `400`
 
 ```json
-{}
+
 ```
 
-##### `/user/<id:int>/  `[DELETE]
+##### `/user/<int:key>/  `[DELETE]
 
 ###### Request
 
@@ -457,52 +584,25 @@ The functionality and the requirement for each page are described below.
 - status: `204`
 
 ```json
-{}
+
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
-#####  `/univ/ ` [GET]
+##### `/user/<int:user_key>/introduction/` [PUT]
 
 ###### Request
 
 ```json
-{}
-```
-
-###### Response
-
-- status: `200`
-
-```json
-[
-    {
-        "id": 1,
-        "name": "서울대학교"
-    },
-    {
-        "id": 2,
-        "name": "연세대학교"
-    },
-    {
-        "id": 3,
-        "name": "고려대학교"
-    }
-]
-```
-
-##### `/univ/<id:int>/ ` [GET]
-
-###### Request
-
-```json
-{}
+{
+    "content": "안녕"
+}
 ```
 
 ###### Response: Success
@@ -510,51 +610,25 @@ The functionality and the requirement for each page are described below.
 - status: `200`
 
 ```json
-{
-    "id": 1,
-    "name": "서울대학교",
-    "colleges": [
-        {
-            "name": "인문대학",
-            "majors": [
-                "국어국문학과",
-                "영어영문학과",
-                "국사학과"
-            ],
-        },
-        {
-            "name": "자연과학대학",
-            "majors": [
-                "수리과학부",
-                "화학부"
-            ]
-        }
-    ]
-}
+
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
-##### `/photo/ ` [POST]
+##### `/photo/user/<int:user_key>/ ` [POST]
 
 ###### Request
 
 ```json
+// Content-Type: multipart/form-data
 [
-    {
-        "user": 1,
-        "name": "test1.jpg"
-    },
-    {
-        "user": 1,
-        "name": "test2.jpg"
-    },
+    "name": "test1.jpg"
 ]
 ```
 
@@ -564,16 +638,7 @@ The functionality and the requirement for each page are described below.
 
 ```json
 [
-    {
-        "id": 10,
-        "user": 1,
-        "name": "test1.jpg"
-    },
-    {
-        "id": 11,
-        "user": 1,
-        "name": "test2.jpg"
-    }
+    "name": "URL"
 ]
 ```
 
@@ -591,19 +656,17 @@ The functionality and the requirement for each page are described below.
 
 ```json
 {
-    "id": 10,
-    "user_id": 1,
-    "index": 1,
-    "path": "PATH1"
+    "user": 1,
+    "name": "URL"
 }
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
 ##### `/photo/<id:int>/` [DELETE]
@@ -619,15 +682,15 @@ The functionality and the requirement for each page are described below.
 - status: `204`
 
 ```json
-{}
+
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
 ##### `/tag/` [GET]
@@ -645,32 +708,36 @@ The functionality and the requirement for each page are described below.
 ```json
 [
     {
+        "key": 1,
         "name": "영화",
         "type": "HOBBY"
     },
     {
+        "key": 2,
         "name": "음악",
         "type": "HOBBY"
     },
     {
+        "key": 3,
         "name": "코딩",
         "type": "SELF_DEV"
     },
     {
+        "key": 4,
         "name": "헬스",
         "type": "SPORT"
     }
 ]
 ```
 
-##### `/tag/` [POST]
+##### `/pitapat/` [POST]
 
 ###### Request
 
 ```json
 {
-    "name": "맛집탐방",
-    "type": "HOBBY"
+    "from": 3,
+    "to": 2
 }
 ```
 
@@ -679,52 +746,50 @@ The functionality and the requirement for each page are described below.
 - status: `201`
 
 ```json
-{
-    "name": "맛집탐방",
-    "type": "HOBBY"
-}
+
 ```
 
-##### `/pitapat/from/<userid:int>/` [POST]
-
-###### Request
-
-```json
-{
-    "user_to": 3
-}
-```
-
-###### Response: Success
-
-- status: `201`
-
-```json
-{}
-```
-
-###### Response: Failed (Duplicated Pitapat Request)
-
-- status: `409`
-
-```json
-{}
-```
-
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
-##### `/pitapat/to/<userid:int>/` [GET]
+##### `/pitapat/` [DELETE]
 
 ###### Request
 
 ```json
-{}
+{
+    "from": 3,
+    "to": 2
+}
+```
+
+###### Response: Success
+
+- status: `204`
+
+```json
+
+```
+
+###### Response: Failed (Invalid key Parameter)
+
+- status: `404`
+
+```json
+
+```
+
+##### `/user/<int:user_key>/pitapat/from/` [GET]
+
+###### Request
+
+```json
+
 ```
 
 ###### Response: Success
@@ -734,89 +799,92 @@ The functionality and the requirement for each page are described below.
 ```json
 [
     {
-        "id": 1,
-        "username": "닉네임1",
+        "key": 1,
+        "nickname": "닉네임1",
         "gender": "M",
-        "photo_path": "PATH1",
-        "age": 25,
-        "major": "기계공학부"
+        "birthday": "1999-01-01",
+        "major": 2,
+        "repr_photo": "URL",
+        "tags": [
+            2,
+            3,
+            4
+        ]
     },
     {
-        "id": 2,
-        "username": "닉네임2",
+        "key": 2,
+        "nickname": "닉네임2",
         "gender": "M",
-        "photo_path": "PATH2",
-        "age": 22,
-        "major": "생명과학부"
+        "birthday": "2000-02-28",
+        "major": 3,
+        "repr_photo": "URL",
+        "tags": [
+            1,
+            4
+        ]
     }
 ]
 ```
 
-###### Response: Failed (Invalid ID Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-[]
+
 ```
 
-##### `/pitapat/<from:int>/<to:int>/` [POST]
+##### `/user/<int:user_key>/pitapat/to/` [GET]
 
 ###### Request
 
 ```json
-{}
+
 ```
 
 ###### Response: Success
 
-- status: `201`
+- status: `200`
 
 ```json
-{}
+[
+    {
+        "key": 1,
+        "nickname": "닉네임1",
+        "gender": "M",
+        "birthday": "1999-01-01",
+        "major": 2,
+        "repr_photo": "URL",
+        "tags": [
+            2,
+            3,
+            4
+        ]
+    },
+    {
+        "key": 2,
+        "nickname": "닉네임2",
+        "gender": "M",
+        "birthday": "2000-02-28",
+        "major": 3,
+        "repr_photo": "URL",
+        "tags": [
+            1,
+            4
+        ]
+    }
+]
 ```
 
-###### Response: Failed (Duplicated Pitapat Response)
-
-- status: `409`
-
-```json
-{}
-```
-
-###### Response: Failed (Invalid From or To Parameter)
+###### Response: Failed (Invalid key Parameter)
 
 - status: `404`
 
 ```json
-{}
+
 ```
 
-##### `/pitapat/<from:int>/<to:int>/` [DELETE]
-
-###### Request
-
-```json
-{}
-```
-
-###### Response: Success
-
-- status: `204`
-
-```json
-{}
-```
-
-###### Response: Failed (Invalid From or To Parameter)
-
-- status: `404`
-
-```json
-{}
-```
-
-##### `/block/<userid:int> ` [GET]
+##### `/chatroom/<int:chatroom_key/user/> ` [GET]
 
 ###### Request
 
@@ -830,78 +898,55 @@ The functionality and the requirement for each page are described below.
 
 ```json
 [
-    1,
-    2,
-    3
+    {
+        "key": 1,
+        "nickname": "닉네임1",
+        "gender": "M",
+        "birthday": "1999-01-01",
+        "major": 2,
+        "repr_photo": "URL",
+        "tags": [
+            2,
+            3,
+            4
+        ]
+    },
+    {
+        "key": 2,
+        "nickname": "닉네임2",
+        "gender": "M",
+        "birthday": "2000-02-28",
+        "major": 3,
+        "repr_photo": "URL",
+        "tags": [
+            1,
+            4
+        ]
+    }
 ]
 ```
 
-##### `/block/<userid:int>` [POST]
+##### `/user/<int:user_key>/chatroom/`
 
 ###### Request
 
 ```json
-{
-    "to": 1
-}
-```
-
-###### Response: Success
-
-- status: `201`
-
-```json
 {}
 ```
 
-###### Response: Failed (Duplicated Block)
+###### Response
 
-- status: `409`
-
-```json
-{}
-```
-
-###### Response: Failed (Invalid ID Parameter)
-
-- status: `404`
+- status: `200`
 
 ```json
-{}
-```
-
-##### `/block/<userid:int>` [POST]
-
-###### Request
-
-```json
-{
-    "to": 1
-}
-```
-
-###### Response: Success
-
-- status: `201`
-
-```json
-{}
-```
-
-###### Response: Failed (Non-existing Block)
-
-- status: `409`
-
-```json
-{}
-```
-
-###### Response: Failed (Invalid ID Parameter)
-
-- status: `404`
-
-```json
-{}
+[
+    {
+        "chatroom": 1,
+        "name": "닉네임1",
+        "image_path": "URL",
+        "last_chat": "안녕하세요"
+    }
+]
 ```
 
 ## Implementation Plan
@@ -966,3 +1011,4 @@ For the acceptance test, cucumber will be used to automatically map user stories
 
 - Rev. 1.0, 10/28/2022 - initial version
 - Rev. 1.1, 11/11/2022 - updated model, controller, HTTP data format, and plans
+- Rev. 1.2, 11/25/2022 - updated API list and HTTP data format
