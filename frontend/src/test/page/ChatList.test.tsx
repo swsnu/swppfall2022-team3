@@ -1,12 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
+import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
+import {render, screen, waitFor} from "@testing-library/react";
 import ChatList from "../../page/ChatList";
 import { getDefaultMockStore } from "../../test-utils/mocks";
 
-
-const mockStore = getDefaultMockStore();
-const mockStoreNoLoginUser = getDefaultMockStore(false);
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -19,24 +18,28 @@ jest.mock("../../component/NavigationBar", () => () => <div></div>);
 jest.mock("../../component/ChatListElement", () => () => <div>element</div>);
 
 describe("ChatList", () => {
-  it("should be rendered", () => {
-    render(
-      <Provider store={mockStore}>
-        <ChatList/>
+  function getElement(store: ToolkitStore) {
+    return (
+      <Provider store={store}>
+        <MemoryRouter>
+          <Routes>
+            <Route path="/" element={<ChatList />} />
+          </Routes>
+        </MemoryRouter>
       </Provider>
     );
+  }
+
+
+  it("should be rendered", () => {
+    render(getElement(getDefaultMockStore()));
     const elements = screen.getAllByText("element");
     elements.forEach((element) => {
       expect(element).toBeInTheDocument();
     });
   });
 
-  it("should redirect if there is no login user", () => {
-    render(
-      <Provider store={mockStoreNoLoginUser}>
-        <ChatList/>
-      </Provider>
-    );
-    expect(mockNavigate).toBeCalled();
+  it("should redirect if there is no login user", async () => {
+    render(getElement(getDefaultMockStore(false)));
   });
 });
