@@ -7,3 +7,4 @@ from .user_introduction import UserIntroductionTestCase
 from .user_pitapat import UserPitapatTestCase
 from .user_tag import UserTagTestCase
 from .user import UserTestCase
+from .photo import PhotoTestCase
