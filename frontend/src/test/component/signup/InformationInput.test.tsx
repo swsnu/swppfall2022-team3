@@ -13,32 +13,46 @@ describe("InformationInput", () => {
     jest.clearAllMocks();
   });
 
-  it("renders InformationInput", () => {
-    render(
-      <InformationInput
-        label={""}
-        value={""}
-        setValue={mockSetValue}
-        type={"select"}
-      />
-    );
+  const textInformationInput = (
+    <InformationInput
+      label={""}
+      value={""}
+      setValue={mockSetValue}
+      type={"text"}
+    />
+  );
+  const selectInformationInput = (
+    <InformationInput
+      label={"test"}
+      value={"test"}
+      setValue={mockSetValue}
+      type={"select"}
+      options={
+        ([{ key: 0, name: "" }] as College[])
+          .concat(colleges)
+          .map((col) => ({ name: col.name, value: col.key }))
+      }
+    />
+  );
+  const dateInformationInput = (
+    <InformationInput
+      label={"test"}
+      value={new Date()}
+      setValue={mockSetValue}
+      type={"date"}
+    />
+  );
+
+  it("should render and handle onChange when the type is text", () => {
+    render(textInformationInput);
+
+    const userInput = "user's input";
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: userInput } });
   });
 
 
-  it("should change value when type is select", () => {
-    render(
-      <InformationInput
-        label={"test"}
-        value={"test"}
-        setValue={mockSetValue}
-        type={"select"}
-        options={
-          ([{ key: 0, name: "" }] as College[])
-            .concat(colleges)
-            .map((col) => ({ name: col.name, value: col.key }))
-        }
-      />
-    );
+  it("should render and handle onChange when the type is select", () => {
+    render(selectInformationInput);
 
     fireEvent.mouseDown(screen.getByRole("button"));
     const listbox = within(screen.getByRole("listbox"));
@@ -46,16 +60,9 @@ describe("InformationInput", () => {
     expect(mockSetValue).toBeCalled();
   });
 
-  it("should change value when type is date", () => {
-    render(
-      <InformationInput
-        label={"test"}
-        value={new Date()}
-        setValue={mockSetValue}
-        type={"date"}
-      />
-    );
+  it("should render and handle onChange when the type is date", () => {
+    render(dateInformationInput);
 
-    fireEvent.change(screen.getByRole("textbox"), { target: { value: new Date() } });
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: new Date("2020/10/11") } });
   });
 });
