@@ -1,51 +1,63 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import EmailVerification from "../../../component/signup/EmailVerification";
 
 
-const mockSetStep = jest.fn();
-
 describe("EmailVerification", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    jest.clearAllTimers();
-    axios.post = jest.fn().mockImplementation(async (url: string) => {
-      if (url === "/auth/email/") {
-        return { status: 200 };
-      } else if (url === "/auth/verify") {
-        return { status: 204 };
-      } else {
-        return null;
-      }
-    });
-  });
-
-  it("should be rendered", () => {
-    render(
+  const mockSetStep = jest.fn();
+  const mockSetRequestTime = jest.fn();
+  function component() {
+    return (
       <EmailVerification
         email={""}
         limitSec={3 * 60}
         requestTime={new Date()}
-        setRequestTime={jest.fn()}
+        setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
       />
     );
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.clearAllTimers();
   });
 
-  it("should set proper time interval", async () => {
-    jest.useFakeTimers();
+  it("should be rendered", () => {
+    render(component());
+    expect(screen.getByText("재전송")).toBeInTheDocument();
+  });
 
-    render(
-      <EmailVerification
-        email={""}
-        limitSec={30}
-        requestTime={new Date()}
-        setRequestTime={jest.fn()}
-        setStep={mockSetStep}
-      />
-    );
+  it("should call setStep with status code 204", async () => {
+    axios.post = jest.fn().mockResolvedValue({ status: 204 });
+    render(component());
+    const confirmButton = screen.getByText("확인");
+    fireEvent.click(confirmButton);
+    await waitFor(() => {
+      expect(mockSetStep).toBeCalled();
+    });
+  });
 
-    // jest.advanceTimersByTime(30 * 1000 + 1);
+  it("should alert with axios error", async () => {
+    window.alert = jest.fn();
+    axios.post = jest.fn().mockRejectedValue({});
+    render(component());
+    const confirmButton = screen.getByText("확인");
+    fireEvent.click(confirmButton);
+    await waitFor(() => {
+      expect(window.alert).toBeCalled();
+    });
+  });
+
+  it("should handle resend button click", async () => {
+    axios.post = jest.fn();
+    render(component());
+    const resendButton = screen.getByText("재전송");
+    fireEvent.click(resendButton);
+    expect(mockSetRequestTime).toBeCalled();
+    await waitFor(() => {
+      expect(axios.post).toBeCalled();
+    });
   });
 });
