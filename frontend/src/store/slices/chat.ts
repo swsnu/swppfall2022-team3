@@ -1,10 +1,12 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Chat, Chatroom } from "../../types";
 import { RootState } from "../index";
 
 
 export const userUrl = "/user";
+export const chatroomSocketUrl = "ws://localhost:8000/ws/chat";
+export const getChatroomSocketUrl = (chatroomKey: number): string => `${chatroomSocketUrl}/${chatroomKey}/`;
 
 export type RawChatroom = {
   chatroom: number;
@@ -25,11 +27,13 @@ export const rawChatroomToChatroom = (rawData: RawChatroom): Chatroom => (
 export interface ChatState {
   chatrooms: Chatroom[];
   chats: Chat[];
+  chatSockets: WebSocket[];
 }
 
 const initialState: ChatState = {
   chatrooms: [],
   chats: [],
+  chatSockets: [],
 };
 
 export const getChatrooms = createAsyncThunk(
@@ -48,7 +52,12 @@ export const getChatrooms = createAsyncThunk(
 const chatSlice = createSlice({
   name: "chat",
   initialState,
-  reducers: {},
+  reducers: {
+    setSocket: (state, action: PayloadAction<number>) => {
+      const chatroomKey = action.payload;
+      state.chatSockets = [ ...state.chatSockets, new WebSocket(getChatroomSocketUrl(chatroomKey)) ];
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(
       getChatrooms.fulfilled,

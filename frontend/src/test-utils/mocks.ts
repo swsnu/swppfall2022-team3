@@ -46,7 +46,8 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats: chats
+    chats: chats,
+    chatSockets: [],
   },
 });
 
@@ -70,6 +71,7 @@ export const getNoPhotoMockStore = () => getMockStore({
   chat: {
     chatrooms,
     chats,
+    chatSockets: [],
   },
 });
 
@@ -92,6 +94,7 @@ export const getNointerestingUserMockStore = () => getMockStore({
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats: chats
+    chats: chats,
+    chatSockets: [],
   },
 });

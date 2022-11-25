@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import ChatBox from "../component/ChatBox";
 import paths from "../constant/path";
 import style from "../constant/style";
+import { AppDispatch } from "../store";
+import { chatAction, getChatroomSocketUrl, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
 import encryptor from "../util/encryptor";
 
@@ -17,12 +19,14 @@ export interface IDecrypted {
 export default function ChatDetail() {
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const participants = useSelector(selectUser).chat.participants;
+  const chatSockets = useSelector(selectChat).chatSockets;
 
   const [appBarTitle, setAppBarTitle] = useState<string>("");
-  const [decrypted, setDecrypted] = useState<IDecrypted>();
-  const [socket, setSocket] = useState<WebSocket>();
+  const [decrypted, setDecrypted] = useState<IDecrypted | null>(null);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
   const [chats, setChats] = useState<{chatroomKey: number; author: number; content: string}[]>([]);
   const [chatInput, setChatInput] = useState<string>("");
 
@@ -50,13 +54,19 @@ export default function ChatDetail() {
     } catch (_) {
       navigate(paths.chat);
     }
-  }, [params, navigate]);
+  }, [params, navigate, setDecrypted, setAppBarTitle]);
 
   useEffect(() => {
     if (decrypted) {
-      setSocket(new WebSocket(`ws://localhost:8000/ws/chat/${decrypted.chatroomKey}/`));
+      const mySocket = chatSockets.find((s) => s.url === getChatroomSocketUrl(decrypted.chatroomKey));
+      if (mySocket) {
+        setSocket(mySocket);
+      }
+      else {
+        dispatch(chatAction.setSocket(decrypted.chatroomKey));
+      }
     }
-  }, [decrypted]);
+  }, [decrypted, setSocket, chatSockets, dispatch]);
 
   useEffect(() => {
     if (decrypted) {

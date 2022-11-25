@@ -2,32 +2,10 @@ import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import App from "../App";
-import { chatrooms, chats, colleges, majors, tags, universities, users } from "../dummyData";
-import { getMockStore } from "../test-utils/mocks";
+import { getDefaultMockStore } from "../test-utils/mocks";
 
 
-const mockStore = getMockStore({
-  university: { universities: universities },
-  college: { colleges: colleges },
-  major: { majors: majors },
-  user: {
-    users: users,
-    loginUser: null,
-    interestingUser: null,
-    pitapat: {
-      senders: [],
-      receivers: [],
-    },
-    chat: {
-      participants: [],
-    }
-  },
-  tag: { tags: tags },
-  chat: {
-    chatrooms: chatrooms,
-    chats: chats,
-  },
-});
+const mockStore = getDefaultMockStore();
 
 jest.mock("../page/SignIn", () => () => <div/>);
 jest.mock("../page/SignUp", () => () => <div/>);
