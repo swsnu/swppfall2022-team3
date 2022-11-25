@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { AppDispatch } from "../store";
-import { getPitapatSenders, selectUser, userActions } from "../store/slices/user";
+import { selectUser, userActions } from "../store/slices/user";
 import { PitapatStatus } from "../types";
 
 
