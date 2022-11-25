@@ -13,6 +13,11 @@ jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useNavigate: () => mockNavigate,
 }));
+const mockDispatch = jest.fn().mockResolvedValue(() => {});
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => mockDispatch,
+}));
 
 describe("ChatListElement", () => {
   const defaultLastChat = "대화를 시작해보세요!!";
@@ -49,39 +54,39 @@ describe("ChatListElement", () => {
     expect(userImage).toBeInTheDocument();
   });
 
-  // it("should navigate to chat room page when user name is clicked", async () => {
-  //   render(
-  //     <Provider store={mockStore}>
-  //       <ChatListElement
-  //         chatroomKey={chatroom.key}
-  //         chatroomName={chatroom.name}
-  //         imagePath={chatroom.imagePath}
-  //         lastChat={chatroom.lastChat}
-  //       />
-  //     </Provider>
-  //   );
-  //   const chatroomName = screen.getByText(chatroom.name);
-  //   fireEvent.click(chatroomName);
-  //   await waitFor(() => {
-  //     expect(mockNavigate).toBeCalled();
-  //   });
-  // });
+  it("should navigate to chat room page when user name is clicked", async () => {
+    render(
+      <Provider store={mockStore}>
+        <ChatListElement
+          chatroomKey={chatroom.key}
+          chatroomName={chatroom.name}
+          imagePath={chatroom.imagePath}
+          lastChat={chatroom.lastChat}
+        />
+      </Provider>
+    );
+    const chatroomName = screen.getByText(chatroom.name);
+    fireEvent.click(chatroomName);
+    await waitFor(() => {
+      expect(mockNavigate).toBeCalled();
+    });
+  });
 
-  // it("should navigate to chat room page when last chat is clicked", async () => {
-  //   render(
-  //     <Provider store={mockStore}>
-  //       <ChatListElement
-  //         chatroomKey={chatroom.key}
-  //         chatroomName={chatroom.name}
-  //         imagePath={chatroom.imagePath}
-  //         lastChat={chatroom.lastChat}
-  //       />
-  //     </Provider>
-  //   );
-  //   const lastChatroomName = screen.getByText(chatroom.name);
-  //   fireEvent.click(lastChatroomName);
-  //   await waitFor(() => {
-  //     expect(mockNavigate).toBeCalled();
-  //   });
-  // });
+  it("should navigate to chat room page when last chat is clicked", async () => {
+    render(
+      <Provider store={mockStore}>
+        <ChatListElement
+          chatroomKey={chatroom.key}
+          chatroomName={chatroom.name}
+          imagePath={chatroom.imagePath}
+          lastChat={chatroom.lastChat}
+        />
+      </Provider>
+    );
+    const lastChatroomName = screen.getByText(chatroom.name);
+    fireEvent.click(lastChatroomName);
+    await waitFor(() => {
+      expect(mockNavigate).toBeCalled();
+    });
+  });
 });

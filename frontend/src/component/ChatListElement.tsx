@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../store";
-import { getChatParticipants, selectUser } from "../store/slices/user";
+import { getChatParticipants } from "../store/slices/user";
 import encryptor from "../util/encryptor";
 
 
@@ -21,21 +21,17 @@ export default function ChatListElement({
 }: IProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const loginUser = useSelector(selectUser).loginUser;
 
-  const elementOnClick = useCallback(() => {
-    if (loginUser) {
-      dispatch(getChatParticipants(chatroomKey)).then(() => {
-        const encrypted = encryptor.encrypt(
-          {
-            chatroomKey,
-            chatroomName,
-          }
-        );
-        navigate(`/chat/${encrypted}`);
-      });
-    }
-  }, [dispatch, navigate, chatroomKey, chatroomName, loginUser]);
+  const elementOnClick = useCallback(async () => {
+    await dispatch(getChatParticipants(chatroomKey));
+    const encrypted = encryptor.encrypt(
+      {
+        chatroomKey,
+        chatroomName,
+      }
+    );
+    navigate(`/chat/${encrypted}`);
+  }, [dispatch, navigate, chatroomKey, chatroomName]);
 
   return (
     <article className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}>
