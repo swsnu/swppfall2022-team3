@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { AppDispatch } from "../store";
-import { getPitapatReceivers, getPitapatSenders, selectUser } from "../store/slices/user";
+import { getPitapatReceivers, getPitapatSenders, selectUser, userActions } from "../store/slices/user";
 import { PitapatStatus } from "../types";
 
 
@@ -82,11 +82,11 @@ export default function PitapatButton({
 
     if (!isAccept) {
       await axios.delete("/pitapat", { data: { from: to, to: from } });
-      await dispatch(getPitapatSenders(loginUser.key));
+      dispatch(userActions.deleteSender(to));
     }
     else if (getPitapatStatus() === PitapatStatus.FROM_ME) {
       await axios.delete("/pitapat", { data: { from: from, to: to } });
-      await dispatch(getPitapatReceivers(loginUser.key));
+      dispatch(userActions.deleteReceiver(to));
     }
     else {
       await axios.post("/pitapat/", { from: from, to: to });
