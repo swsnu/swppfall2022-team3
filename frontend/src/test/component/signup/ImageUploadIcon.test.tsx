@@ -49,7 +49,7 @@ describe("ImageUploadIcon", () => {
 
   it("should change Ref", () => {
     render(getElement());
-    const imageButton = screen.getByRole("button");
+    const imageButton = screen.getByRole("img");
     fireEvent.click(imageButton);
   });
 
