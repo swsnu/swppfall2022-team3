@@ -72,6 +72,13 @@ urlpatterns = [
         name='user_detail',
     ),
     path(
+        'user/exist/<str:email>',
+        views.UserExistenceCheckViewSet.as_view({
+            'get': 'retrieve',
+        }),
+        name='user_existence',
+    ),
+    path(
         'user/<int:user_key>/introduction/',
         views.UserIntroductionViewSet.as_view({
             'put': 'update',

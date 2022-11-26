@@ -117,6 +117,16 @@ class UserDetailViewSet(viewsets.ModelViewSet):
         return Response(status=204)
 
 
+class UserExistenceCheckViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    queryset = User.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        email = kwargs['email']
+        is_exist = User.objects.filter(email=email).exists()
+        return Response(is_exist, status=200)
+
+
 def exclude_pitapat_users(session_user):
     filters = Q()
     sended_pitapats = Pitapat.objects.filter(to=session_user, is_from__isnull=False)
@@ -126,6 +136,7 @@ def exclude_pitapat_users(session_user):
     receiver_keys = [pitapat.to.key for pitapat in received_pitapats]
     filters &= ~Q(key__in=receiver_keys)
     return filters
+
 
 def exclude_chatroom_users(session_user):
     user_chatrooms = UserChatroom.objects.filter(user=session_user)
@@ -137,6 +148,7 @@ def exclude_chatroom_users(session_user):
             )]
         )
     return ~Q(key__in=chatroom_users)
+
 
 def parse_int_query_parameters(params):
     return [int(c) for c in params.split(',')]
