@@ -52,11 +52,15 @@ export default function PersonalInformation({
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
   const dispatch = useDispatch<AppDispatch>();
+  const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(colleges.length === 0 ? 0 : colleges[0].key);
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(majors.length === 0 ? 0 : majors[0].key);
 
   const confirmOnClick = useCallback(() => {
-    if (
+    if (password !== passwordCheck) {
+      alert("비밀번호를 정확히 입력해주세요");
+    }
+    else if (
       nickname &&
       birthday &&
       ((college?.key ?? 0) > 0) &&
@@ -69,7 +73,7 @@ export default function PersonalInformation({
     else {
       // do something later
     }
-  }, [setStep, nickname, birthday, college, major, gender, targetGender]);
+  }, [password, passwordCheck, setStep, nickname, birthday, college, major, gender, targetGender]);
 
   useEffect(() => {
     if (university) {
@@ -129,6 +133,13 @@ export default function PersonalInformation({
           label={"비밀번호"}
           value={password}
           setValue={setPassword}
+          type={"text"}
+          isPassword={true}
+        />
+        <InformationInput
+          label={"비밀번호 확인"}
+          value={passwordCheck}
+          setValue={setPasswordCheck}
           type={"text"}
           isPassword={true}
         />
