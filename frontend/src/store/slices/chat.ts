@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Chat, Chatroom } from "../../types";
+import { dateToString } from "../../util/date";
 import { RootState } from "../index";
 
 
@@ -15,24 +16,33 @@ export type RawChatroom = {
   last_chat?: string;
 }
 
-export const rawChatroomToChatroom = (rawData: RawChatroom): Chatroom => (
-  {
+export const rawChatroomToChatroom = (rawData: RawChatroom): Chatroom => {
+  const chats: Chat[] = [];
+  if (rawData.last_chat) {
+    const lastChat: Chat = {
+      key: -1,
+      chatroomKey: -1,
+      author: -1,
+      content: rawData.last_chat,
+      regDt: dateToString(new Date()),
+    };
+    chats.push(lastChat);
+  }
+  return {
     key: rawData.chatroom,
     name: rawData.name,
     imagePath: rawData.image_path,
-    lastChat: rawData.last_chat ?? null,
-  }
-);
+    chats,
+  };
+};
 
 export interface ChatState {
   chatrooms: Chatroom[];
-  chats: Chat[];
   chatSockets: WebSocket[];
 }
 
 const initialState: ChatState = {
   chatrooms: [],
-  chats: [],
   chatSockets: [],
 };
 
@@ -56,13 +66,35 @@ const chatSlice = createSlice({
     setSocket: (state, action: PayloadAction<number>) => {
       const chatroomKey = action.payload;
       state.chatSockets = [ ...state.chatSockets, new WebSocket(getChatroomSocketUrl(chatroomKey)) ];
-    }
+    },
+    setChatroomChats: (state, action: PayloadAction<{ chatroomKey: number; chats: Chat[] }>) => {
+      const chatroom = state.chatrooms.find((r) => r.key === action.payload.chatroomKey);
+      if (chatroom) {
+        const newChatroom: Chatroom = { ...chatroom, chats: action.payload.chats };
+        state.chatrooms = state.chatrooms.map((r) => r.key === newChatroom.key ? newChatroom : r);
+      }
+    },
+    addChat: (state, action: PayloadAction<Chat>) => {
+      const newChat = action.payload;
+      const chatroom = state.chatrooms.find((r) => r.key === newChat.chatroomKey);
+      if (chatroom) {
+        const newChatroom: Chatroom = { ...chatroom, chats: [ ...chatroom.chats, newChat ] };
+        state.chatrooms = state.chatrooms.map((r) => r.key === newChatroom.key ? newChatroom : r);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
       getChatrooms.fulfilled,
       (state, action) => {
-        state.chatrooms = action.payload;
+        const existingKeys = state.chatrooms.map((r) => r.key);
+        const newChatrooms: Chatroom[] = [ ...state.chatrooms ];
+        action.payload.forEach((chatroom) => {
+          if (existingKeys.indexOf(chatroom.key) < 0) {
+            newChatrooms.push(chatroom);
+          }
+        });
+        state.chatrooms = newChatrooms;
       }
     );
   }

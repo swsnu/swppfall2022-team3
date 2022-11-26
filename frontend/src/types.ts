@@ -39,13 +39,13 @@ export interface Chatroom {
   key: number;
   name: string;
   imagePath: string;
-  lastChat: string | null;
+  chats: Chat[];
 }
 
 export interface Chat {
   key: number;
   chatroomKey: number;
-  from: number;
+  author: number;
   content: string;
   regDt: string;
 }

@@ -23,29 +23,28 @@ describe("ChatListElement", () => {
   const defaultLastChat = "대화를 시작해보세요!!";
   const chatroom = chatrooms[0];
 
+  const getChatroomElement = (isLastChatNull = false) => (
+    <ChatListElement
+      chatroomKey={chatroom.key}
+      chatroomName={chatroom.name}
+      imagePath={chatroom.imagePath}
+      lastChat={isLastChatNull ? null : chatroom.chats[chatroom.chats.length - 1].content}
+    />
+  );
+
   it("should be rendered", () => {
     render(
-      <Provider store={mockStore}>
-        <ChatListElement
-          chatroomKey={chatroom.key}
-          chatroomName={chatroom.name}
-          imagePath={chatroom.imagePath}
-          lastChat={chatroom.lastChat}
-        />
-      </Provider>
+      <Provider store={mockStore}>{
+        getChatroomElement()
+      }</Provider>
     );
   });
 
   it("should be rendered with no lastChat", () => {
     render(
-      <Provider store={mockStore}>
-        <ChatListElement
-          chatroomKey={chatroom.key}
-          chatroomName={chatroom.name}
-          imagePath={chatroom.imagePath}
-          lastChat={null}
-        />
-      </Provider>
+      <Provider store={mockStore}>{
+        getChatroomElement(true)
+      }</Provider>
     );
     const lastChatArticle = screen.getByText(defaultLastChat);
     const userImage = screen.getByRole("img");
@@ -56,14 +55,9 @@ describe("ChatListElement", () => {
 
   it("should navigate to chat room page when user name is clicked", async () => {
     render(
-      <Provider store={mockStore}>
-        <ChatListElement
-          chatroomKey={chatroom.key}
-          chatroomName={chatroom.name}
-          imagePath={chatroom.imagePath}
-          lastChat={chatroom.lastChat}
-        />
-      </Provider>
+      <Provider store={mockStore}>{
+        getChatroomElement()
+      }</Provider>
     );
     const chatroomName = screen.getByText(chatroom.name);
     fireEvent.click(chatroomName);
@@ -79,7 +73,7 @@ describe("ChatListElement", () => {
           chatroomKey={chatroom.key}
           chatroomName={chatroom.name}
           imagePath={chatroom.imagePath}
-          lastChat={chatroom.lastChat}
+          lastChat={chatroom.chats.length === 0 ? null : chatroom.chats[chatroom.chats.length - 1].content}
         />
       </Provider>
     );

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { PreloadedState } from "redux";
-import { chatrooms, chats, colleges, majors, tags, universities, users } from "../dummyData";
+import { chatrooms, colleges, majors, tags, universities, users } from "../dummyData";
 import { RootState } from "../store";
 import chatReducer from "../store/slices/chat";
 import collegeReducer from "../store/slices/college";
@@ -46,7 +46,6 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats: chats,
     chatSockets: [],
   },
 });
@@ -70,7 +69,6 @@ export const getNoPhotoMockStore = () => getMockStore({
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats,
     chatSockets: [],
   },
 });
@@ -94,7 +92,6 @@ export const getNointerestingUserMockStore = () => getMockStore({
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats: chats,
     chatSockets: [],
   },
 });

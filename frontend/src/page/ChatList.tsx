@@ -27,13 +27,13 @@ export default function ChatList() {
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
         <section className={style.page.body}>{
-          chatrooms.map(({ key, name, imagePath, lastChat }) => (
+          chatrooms.map(({ key, name, imagePath, chats }) => (
             <ChatListElement
               key={key}
               chatroomKey={key}
               chatroomName={name}
               imagePath={imagePath}
-              lastChat={lastChat}
+              lastChat={chats.length === 0 ? null : chats[chats.length - 1].content}
             />
           ))
         }</section>

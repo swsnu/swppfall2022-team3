@@ -8,6 +8,7 @@ import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { chatAction, getChatroomSocketUrl, selectChat } from "../store/slices/chat";
 import { selectUser } from "../store/slices/user";
+import { Chat, Chatroom } from "../types";
 import encryptor from "../util/encryptor";
 
 
@@ -23,11 +24,12 @@ export default function ChatDetail() {
   const loginUser = useSelector(selectUser).loginUser;
   const participants = useSelector(selectUser).chat.participants;
   const chatSockets = useSelector(selectChat).chatSockets;
+  const chatrooms = useSelector(selectChat).chatrooms;
 
   const [appBarTitle, setAppBarTitle] = useState<string>("");
   const [decrypted, setDecrypted] = useState<IDecrypted | null>(null);
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [chats, setChats] = useState<{chatroomKey: number; author: number; content: string}[]>([]);
+  const [chatroom, setChatroom] = useState<Chatroom | null>(null);
   const [chatInput, setChatInput] = useState<string>("");
 
   useEffect(() => {
@@ -59,14 +61,19 @@ export default function ChatDetail() {
   useEffect(() => {
     if (decrypted) {
       const mySocket = chatSockets.find((s) => s.url === getChatroomSocketUrl(decrypted.chatroomKey));
-      if (mySocket) {
+      const myChatroom = chatrooms.find((r) => r.key === decrypted.chatroomKey);
+      if (mySocket && myChatroom) {
         setSocket(mySocket);
+        setChatroom(myChatroom);
       }
-      else {
+      else if (!mySocket){
         dispatch(chatAction.setSocket(decrypted.chatroomKey));
       }
+      else {
+        navigate(paths.chat);
+      }
     }
-  }, [decrypted, setSocket, chatSockets, dispatch]);
+  }, [decrypted, setSocket, chatSockets, chatrooms, dispatch, navigate]);
 
   useEffect(() => {
     if (decrypted) {
@@ -75,20 +82,29 @@ export default function ChatDetail() {
         socket.onmessage = (e) => {
           const data = JSON.parse(e.data);
           if (data.method === "create") {
-            setChats([...chats, {
+            const newChat: Chat = {
+              key: data.key,
               chatroomKey: chatroomKey,
               author: data.author,
               content: data.content,
-            }]);
+              regDt: data.reg_dt,
+            };
+            dispatch(chatAction.addChat(newChat));
           } else if (data.method === "load") {
-            setChats(data.chats.map((chat: {author: number; content: string}) => {
-              return {...chat, chatroomKey: chatroomKey};
+            const rawChats = data.chats as { key: number; content: string; author: number; reg_dt: string }[];
+            const chats: Chat[] = rawChats.map((rawChat) => ({
+              key: rawChat.key,
+              chatroomKey,
+              content: rawChat.content,
+              author: rawChat.author,
+              regDt: rawChat.reg_dt,
             }));
+            dispatch(chatAction.setChatroomChats({ chatroomKey, chats }));
           }
         };
       }
     }
-  }, [decrypted, socket, chats]);
+  }, [decrypted, socket, dispatch]);
 
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
@@ -104,7 +120,7 @@ export default function ChatDetail() {
     <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
       <AppBar title={appBarTitle}/>
       <section className={style.page.body}>{
-        chats.map((chat, index) => {
+        chatroom?.chats.map((chat, index) => {
           const participant = participants.find((u) => u.key === chat.author);
           return participant ?
             (<ChatBox
