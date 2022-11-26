@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
@@ -14,6 +14,7 @@ export default function SignIn() {
   const loginUser = useSelector(selectUser).loginUser;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const passwordInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (loginUser) {
@@ -57,6 +58,11 @@ export default function SignIn() {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                passwordInput.current?.focus();
+              }
+            }}
             required
           />
         </div>
@@ -65,6 +71,7 @@ export default function SignIn() {
             비밀번호
           </article>
           <TextField
+            inputRef={passwordInput}
             sx={{
               maxWidth: 240,
               minWidth: 200,
@@ -77,6 +84,11 @@ export default function SignIn() {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
+            }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                loginOnClick();
+              }
             }}
             required
           />
