@@ -34,7 +34,7 @@ export default function UniversitySelect({
 
   const confirmOnClick = useCallback(async () => {
     const isExist = await axios.get(`${userUrl}/exist/${email}`);
-    if (isExist) {
+    if (isExist.status !== 200) {
       alert("이미 존재하는 이메일입니다.");
     }
     else {

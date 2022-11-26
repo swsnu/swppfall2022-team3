@@ -123,8 +123,8 @@ class UserExistenceCheckViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         email = kwargs['email']
-        is_exist = User.objects.filter(email=email).exists()
-        return Response(is_exist, status=200)
+        exists = User.objects.filter(email=email).exists()
+        return Response({'exists': exists}, status=409 if exists else 200)
 
 
 def exclude_pitapat_users(session_user):
