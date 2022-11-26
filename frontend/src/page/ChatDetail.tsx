@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "../component/AppBar";
@@ -31,6 +31,15 @@ export default function ChatDetail() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [chatroom, setChatroom] = useState<Chatroom | null>(null);
   const [chatInput, setChatInput] = useState<string>("");
+  const [chatNumber, setChatNumber] = useState<number>(0);
+
+  const pageBody = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = useCallback(() => {
+    if (pageBody.current) {
+      pageBody.current.scrollTop = pageBody.current.scrollHeight;
+    }
+  }, [pageBody]);
 
   useEffect(() => {
     if (!loginUser) {
@@ -66,7 +75,7 @@ export default function ChatDetail() {
         setSocket(mySocket);
         setChatroom(myChatroom);
       }
-      else if (!mySocket){
+      else if (!mySocket) {
         dispatch(chatAction.setSocket(decrypted.chatroomKey));
       }
       else {
@@ -90,7 +99,8 @@ export default function ChatDetail() {
               regDt: data.reg_dt,
             };
             dispatch(chatAction.addChat(newChat));
-          } else if (data.method === "load") {
+          }
+          else if (data.method === "load") {
             const rawChats = data.chats as { key: number; content: string; author: number; reg_dt: string }[];
             const chats: Chat[] = rawChats.map((rawChat) => ({
               key: rawChat.key,
@@ -106,6 +116,19 @@ export default function ChatDetail() {
     }
   }, [decrypted, socket, dispatch]);
 
+  useEffect(() => {
+    if (chatroom && (chatNumber !== chatroom.chats.length)) {
+      setChatNumber(chatroom.chats.length);
+      const chats = chatroom.chats;
+      if (chats[chats.length - 1].author === loginUser?.key) {
+        scrollToBottom();
+      }
+      else {
+        // do something later
+      }
+    }
+  }, [chatNumber, setChatNumber, chatroom, scrollToBottom, loginUser]);
+
   const sendChat = useCallback(() => {
     if (chatInput !== "") {
       socket?.send(JSON.stringify({
@@ -119,19 +142,24 @@ export default function ChatDetail() {
   return (
     <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
       <AppBar title={appBarTitle}/>
-      <section className={style.page.body}>{
-        chatroom?.chats.map((chat, index) => {
-          const participant = participants.find((u) => u.key === chat.author);
-          return participant ?
-            (<ChatBox
-              key={index}
-              content={chat.content}
-              sender={participant}
-            />) :
-            null;
-        })
-      }</section>
-      <article className={"w-full flex flex-row bg-gray-300 p-2 gap-2 items-center fixed bottom-0"}>
+      <section
+        className={style.page.body}
+        ref={pageBody}
+      >
+        {
+          chatroom?.chats.map((chat, index) => {
+            const participant = participants.find((u) => u.key === chat.author);
+            return participant ?
+              (<ChatBox
+                key={index}
+                content={chat.content}
+                sender={participant}
+              />) :
+              null;
+          })
+        }
+      </section>
+      <article className={"w-full flex flex-row bg-gray-300 px-2 gap-2 items-center fixed bottom-0"}>
         <input
           className={"rounded bg-white h-8 my-1 flex-1"}
           type={"text"}
