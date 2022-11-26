@@ -5,7 +5,7 @@ import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
-import { selectUser } from "../../store/slices/user";
+import { userUrl } from "../../store/slices/user";
 import { University } from "../../types";
 import InformationInput from "./InformationInput";
 
@@ -28,14 +28,13 @@ export default function UniversitySelect({
   setStep,
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
-  const users = useSelector(selectUser).users;
   const dispatch = useDispatch<AppDispatch>();
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [emailInput, setEmailInput] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
-    const doesEmailExist = users.find((user) => user.email === email);
-    if (doesEmailExist) {
+    const isExist = await axios.get(`${userUrl}/exist/${email}`);
+    if (isExist) {
       alert("이미 존재하는 이메일입니다.");
     }
     else {
@@ -45,7 +44,7 @@ export default function UniversitySelect({
       });
       setStep(1);
     }
-  }, [users, email, requestTime, setStep]);
+  }, [email, requestTime, setStep]);
 
   useEffect(() => {
     dispatch(getUniversities());
