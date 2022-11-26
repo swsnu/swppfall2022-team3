@@ -139,7 +139,6 @@ export default function SignUp() {
       />;
     case 5:
       return <ImageUpload
-        uploadedPhotos={uploadedPhotos}
         setUploadedPhotos={setUploadedPhotos}
         setStep={setStep}
       />;
@@ -176,7 +175,6 @@ export default function SignUp() {
     interestedGender,
     tags,
     introduction,
-    uploadedPhotos,
     confirmOnClick,
   ]);
 

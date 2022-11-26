@@ -5,20 +5,18 @@ import ImageUploadIcon from "../../../component/signup/ImageUploadIcon";
 import { getDefaultMockStore } from "../../../test-utils/mocks";
 
 
-const mockSetUploadedPhotose = jest.fn();
+URL.createObjectURL = jest.fn().mockReturnValue("photo_src");
 const mockPhotos = [new File([""], "a.jpeg")];
 
 describe("ImageUploadIcon", () => {
   const mockStore = getDefaultMockStore(false);
 
-  function getElement(disabled: boolean) {
+  function getElement() {
     return (
       <Provider store={mockStore}>
         <ImageUploadIcon
-          src={"plus.jpeg"}
-          disabled={disabled}
-          uploadedPhotos={[]}
-          setUploadedPhotos={mockSetUploadedPhotose}
+          index={0}
+          setIthPhoto={() => {}}
         />
       </Provider>
     );
@@ -29,25 +27,25 @@ describe("ImageUploadIcon", () => {
   });
 
   it("renders ImageUploadIcon", () => {
-    const { container } = render(getElement(false));
+    const { container } = render(getElement());
     expect(container).toBeTruthy();
   });
 
 
   it("should set photo when file is uploaded", () => {
-    render(getElement(false));
+    render(getElement());
     const file = screen.getByPlaceholderText("photo");
     fireEvent.change(file, { target: { files: mockPhotos } });
   });
 
   it("shouldn't set photo when file is not uploaded", () => {
-    render(getElement(false));
+    render(getElement());
     const file = screen.getByPlaceholderText("photo");
     fireEvent.change(file, { target: { files: null } });
   });
 
   it("should change Ref", () => {
-    render(getElement(false));
+    render(getElement());
     const imageButton = screen.getByRole("button");
     fireEvent.click(imageButton);
   });

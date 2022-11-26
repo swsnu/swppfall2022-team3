@@ -1,27 +1,27 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useRef } from "react";
+import React, { ChangeEvent, useCallback, useRef, useState } from "react";
 
 
 interface IProps {
-  src: string;
-  disabled: boolean;
-  uploadedPhotos: File[];
-  setUploadedPhotos: Dispatch<SetStateAction<File[]>>;
+  index: number;
+  setIthPhoto: (i: number, file: File) => void;
 }
 
 export default function ImageUploadIcon({
-  src,
-  disabled,
-  uploadedPhotos,
-  setUploadedPhotos,
+  index,
+  setIthPhoto,
 }: IProps) {
+  const [src, setSrc] = useState<string>("plus.jpeg");
   const uploadRef = useRef<HTMLInputElement | null>(null);
 
   const imageOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const uploaded = event.target.files;
+    const inputFiles = event.target.files;
+    const uploaded = inputFiles ? inputFiles[0] : null;
+
     if (uploaded) {
-      setUploadedPhotos([...uploadedPhotos, uploaded[0]]);
+      setSrc(URL.createObjectURL(uploaded));
+      setIthPhoto(index, uploaded);
     }
-  }, [uploadedPhotos, setUploadedPhotos]);
+  }, [index, setSrc, setIthPhoto]);
 
   const imageOnClick = useCallback(() => {
     uploadRef.current?.click();
@@ -36,7 +36,6 @@ export default function ImageUploadIcon({
         type="file"
         accept="image/*"
         onChange={imageOnChange}
-        disabled={disabled}
       />
       <button
         className={"w-fit h-fit"}

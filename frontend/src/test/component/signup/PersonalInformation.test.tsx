@@ -62,11 +62,11 @@ describe("InformationInput", () => {
     expect(container).toBeTruthy();
   });
 
-  it("should setStep when all information is set", () => {
+  it("shouldn't setStep when password check is invalid", () => {
     render(getElement(testUniversity, testCollege, testMajor));
     const confirmButton = screen.getByText("다음");
     fireEvent.click(confirmButton);
-    expect(mockSetStep).toBeCalled();
+    expect(mockSetStep).not.toBeCalled();
   });
 
   it("shouldn't setStep when some college is empty", () => {

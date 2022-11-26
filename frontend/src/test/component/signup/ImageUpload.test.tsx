@@ -13,7 +13,6 @@ interface IProps {
   setUploadedPhotos: Dispatch<SetStateAction<File[]>>;
 }
 
-const mockPhotos = [new File([""], "a.jpeg")];
 const mockSetUploadedPhotose = jest.fn();
 const mockSetStep = jest.fn();
 
@@ -30,7 +29,6 @@ describe("ImageUpload", () => {
     return (
       <Provider store={mockStore}>
         <ImageUpload
-          uploadedPhotos={mockPhotos}
           setUploadedPhotos={mockSetUploadedPhotose}
           setStep={mockSetStep}
         />
