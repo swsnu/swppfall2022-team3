@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import * as React from "react";
 import { Provider } from "react-redux";
 import { fireEvent, render, screen } from "@testing-library/react";
@@ -16,7 +17,9 @@ describe("ImageUploadIcon", () => {
       <Provider store={mockStore}>
         <ImageUploadIcon
           index={0}
+          src={"plus.jpeg"}
           setIthPhoto={() => {}}
+          removeIthPhoto={() => {}}
         />
       </Provider>
     );

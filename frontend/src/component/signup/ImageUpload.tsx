@@ -3,11 +3,20 @@ import style from "../../constant/style";
 import ImageUploadIcon from "./ImageUploadIcon";
 
 
-type nullableFile = File | null;
-type FixedSizePhotoArray = [
-  nullableFile, nullableFile, nullableFile, nullableFile, nullableFile,
-  nullableFile, nullableFile, nullableFile, nullableFile, nullableFile,
+type PhotoInfo = {
+  file: File | null;
+  src: string;
+}
+type FixedSizePhotoInfoArray = [
+  PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo,
+  PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo,
 ]
+const initPhotoInfo = (): PhotoInfo => (
+  {
+    file: null,
+    src: "plus.jpeg",
+  }
+);
 
 export interface IProps {
   setUploadedPhotos: Dispatch<SetStateAction<File[]>>;
@@ -18,27 +27,48 @@ export default function ImageUpload({
   setUploadedPhotos,
   setStep,
 }: IProps) {
-  const [fixedSizePhotos, setFixedSizePhotos] = useState<FixedSizePhotoArray>(
+  const [photoInfos, setPhotoInfos] = useState<FixedSizePhotoInfoArray>(
     [
-      null, null, null, null, null,
-      null, null, null, null, null,
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
     ]
   );
   const photoNumber = useMemo(
-    () => fixedSizePhotos.filter((p) => p !== null).length,
-    [fixedSizePhotos]
+    () => photoInfos.filter((p) => p.file !== null).length,
+    [photoInfos]
   );
 
   const setIthPhoto = useCallback((i: number, file: File) => {
-    const newPhotos: FixedSizePhotoArray = [...fixedSizePhotos];
-    newPhotos[i] = file;
-    setFixedSizePhotos(newPhotos);
-  }, [fixedSizePhotos, setFixedSizePhotos]);
+    const newPhotos: FixedSizePhotoInfoArray = [...photoInfos];
+    newPhotos[i] = { file, src: URL.createObjectURL(file) };
+    setPhotoInfos(newPhotos);
+  }, [photoInfos, setPhotoInfos]);
+
+  const removeIthPhoto = useCallback((i: number) => {
+    const newFixedSizePhotos: FixedSizePhotoInfoArray = [
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+    ];
+    photoInfos.forEach((photo, index) => {
+      if (index < i) {
+        newFixedSizePhotos[index] = photoInfos[index];
+      }
+      else if (index > i) {
+        newFixedSizePhotos[index - i] = photoInfos[index];
+      }
+    });
+    setPhotoInfos(newFixedSizePhotos);
+  }, [photoInfos, setPhotoInfos]);
 
   const confirmOnClick = useCallback(() => {
-    setUploadedPhotos(fixedSizePhotos.filter((p) => (p !== null)) as File[]);
+    setUploadedPhotos(
+      photoInfos
+        .filter((info) => (info.file !== null))
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        .map((info) => info.file!)
+    );
     setStep(6);
-  }, [fixedSizePhotos, setUploadedPhotos, setStep]);
+  }, [photoInfos, setUploadedPhotos, setStep]);
 
   return (
     <section className={style.page.base}>
@@ -49,20 +79,25 @@ export default function ImageUpload({
       <section className={"flex-1 flex flex-col"}>
         <section className={"grid grid-cols-2 gap-2 px-12"}>
           {
-            fixedSizePhotos.map((photo, index) => (
-              photo ?
+            photoInfos.map((info, index) => (
+              info.file ?
                 (
                   <ImageUploadIcon
                     key={index}
                     index={index}
+                    src={info.src}
                     setIthPhoto={setIthPhoto}
+                    removeIthPhoto={removeIthPhoto}
                   />
                 ) :
                 index === photoNumber ?
                   <ImageUploadIcon
                     key={index}
                     index={photoNumber}
+                    src={info.src}
                     setIthPhoto={setIthPhoto}
+                    removeIthPhoto={removeIthPhoto}
+                    showDeleteButton={false}
                   /> :
                   null
             ))

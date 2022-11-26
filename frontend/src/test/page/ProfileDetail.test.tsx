@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import {render, screen, waitFor} from "@testing-library/react";
-import { IProps } from "../../component/AppBar";
 import ProfileDetail from "../../page/ProfileDetail";
 import { getDefaultMockStore, getNointerestingUserMockStore } from "../../test-utils/mocks";
 
@@ -11,7 +10,7 @@ import { getDefaultMockStore, getNointerestingUserMockStore } from "../../test-u
 const mockNavigate = jest.fn();
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
-  Navigate: (props: any) => {
+  "Navigate": (props: { to: string }) => {
     mockNavigate(props.to);
     return null;
   },
@@ -24,7 +23,7 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../../component/AppBar", () => (props: IProps) => <div>appbar</div>);
+jest.mock("../../component/AppBar", () => () => <div>appbar</div>);
 jest.mock("../../component/PhotoSlider", () => () => <div></div>);
 jest.mock("../../component/PitapatButton", () => () => <div></div>);
 
