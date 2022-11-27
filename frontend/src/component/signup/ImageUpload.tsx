@@ -8,8 +8,9 @@ type PhotoInfo = {
   src: string;
 }
 type FixedSizePhotoInfoArray = [
-  PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo,
-  PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo, PhotoInfo,
+  PhotoInfo, PhotoInfo, PhotoInfo,
+  PhotoInfo, PhotoInfo, PhotoInfo,
+  PhotoInfo, PhotoInfo, PhotoInfo,
 ]
 const initPhotoInfo = (): PhotoInfo => (
   {
@@ -29,8 +30,9 @@ export default function ImageUpload({
 }: IProps) {
   const [photoInfos, setPhotoInfos] = useState<FixedSizePhotoInfoArray>(
     [
-      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
-      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
     ]
   );
   const photoNumber = useMemo(
@@ -46,8 +48,9 @@ export default function ImageUpload({
 
   const removeIthPhoto = useCallback((i: number) => {
     const newFixedSizePhotos: FixedSizePhotoInfoArray = [
-      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
-      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+      initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
     ];
     photoInfos.forEach((photo, index) => {
       if (index < i) {
@@ -77,7 +80,7 @@ export default function ImageUpload({
         사진을 올려주세요!
       </p>
       <section className={"flex-1 flex flex-col"}>
-        <section className={"grid grid-cols-2 gap-2 px-12"}>
+        <section className={"grid grid-cols-3 gap-2 px-12"}>
           {
             photoInfos.map((info, index) => (
               info.file ?
