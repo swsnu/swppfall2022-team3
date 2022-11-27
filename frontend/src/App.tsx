@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import paths from "./constant/path";
 import ChatDetail from "./page/ChatDetail";
@@ -13,9 +13,6 @@ import SignUp from "./page/SignUp";
 
 
 function App() {
-  useEffect(() => {
-    document.title = "두근두근 캠퍼스";
-  });
 
   return (
     <BrowserRouter>

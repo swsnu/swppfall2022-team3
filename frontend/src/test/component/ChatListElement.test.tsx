@@ -13,6 +13,7 @@ jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useNavigate: () => mockNavigate,
 }));
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const mockDispatch = jest.fn().mockResolvedValue(() => {});
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
