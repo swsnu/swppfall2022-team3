@@ -7,9 +7,15 @@ import { getDefaultMockStore, getNoPhotoMockStore } from "../../test-utils/mocks
 
 
 const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
+const mockUseLocation = jest.fn();
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
-  useNavigate: () => mockNavigate,
+  useLocation: () => mockUseLocation,
 }));
 
 const mockDispatch = jest.fn();

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../component/AppBar";
 import NavigationBar from "../component/NavigationBar";
@@ -8,6 +9,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getUsers, selectUser } from "../store/slices/user";
+import { savePageYPosition, scrollToPrevPosition } from "../util/pageScroll";
 
 
 export default function Search() {
@@ -15,6 +17,13 @@ export default function Search() {
   const dispatch = useDispatch<AppDispatch>();
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
+  const urlPath = useLocation().pathname;
+
+  const pageBody = useRef<HTMLDivElement>(null);
+
+  const saveYPosition = useCallback(() => {
+    savePageYPosition(pageBody, urlPath);
+  }, [pageBody, urlPath]);
 
   useEffect(() => {
     if (!loginUser) {
@@ -26,11 +35,20 @@ export default function Search() {
 
   }, [navigate, loginUser, dispatch]);
 
+  useEffect(() => {
+    scrollToPrevPosition(pageBody, urlPath);
+  }, [pageBody, urlPath]);
+
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
-        <section className="h-fit pb-[56px] overflow-y-scroll w-full">
+        <section
+          className={"h-fit pb-[56px] overflow-y-scroll w-full"}
+          role={"presentation"}
+          ref={pageBody}
+          onClick={saveYPosition}
+        >
           {
             users.map((user, index) => (
               <Profile
