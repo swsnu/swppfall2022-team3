@@ -104,9 +104,13 @@ export interface UserState {
   };
 }
 
+const savedLoginUser = sessionStorage.getItem("loginUser");
+
 const initialState: UserState = {
   users: [],
-  loginUser: null,
+  loginUser: savedLoginUser ?
+    JSON.parse(savedLoginUser) as User :
+    null,
   interestingUser: null,
   pitapat: {
     senders: [],
@@ -126,14 +130,14 @@ export const fetchSignin = createAsyncThunk(
       await axios.post(signinUrl, user);
       // get user key
       const authResponse = await axios.get(authUserUrl);
-      if (authResponse.status !== 200)
-      {return null;}
+      if (authResponse.status !== 200) {
+        return null;
+      }
       const userKey = authResponse.data.pk as number;
       // get user data
       const userResponse = await axios.get(`${userUrl}/${userKey}`);
       return rawDataToUser(userResponse.data as RawUser);
-    }
-    catch (_) {
+    } catch (_) {
       return null;
     }
   }
@@ -281,12 +285,14 @@ const userSlice = createSlice({
     builder.addCase(
       fetchSignin.fulfilled,
       (state, action) => {
+        sessionStorage.setItem("loginUser", JSON.stringify(action.payload));
         state.loginUser = action.payload;
       }
     );
     builder.addCase(
       fetchSignout.fulfilled,
       (state) => {
+        sessionStorage.removeItem("loginUser");
         state.loginUser = null;
       }
     );
