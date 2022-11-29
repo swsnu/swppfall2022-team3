@@ -10,6 +10,7 @@ module.exports = {
     "text-pink-500",
     "text-pink-200",
     "text-white",
+    "border-pink-500",
   ],
   theme: {
     maxWidth: {
