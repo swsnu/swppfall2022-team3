@@ -19,6 +19,7 @@ const mockSetMajor = jest.fn();
 const mockSetGender = jest.fn();
 const mockSettargetGender = jest.fn();
 const mockSetStep = jest.fn();
+window.alert = jest.fn();
 
 describe("InformationInput", () => {
   const mockStore = getDefaultMockStore(false);
