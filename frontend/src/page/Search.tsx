@@ -44,7 +44,7 @@ export default function Search() {
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar/>
         <section
-          className={"h-fit pb-[56px] overflow-y-scroll w-full"}
+          className={"h-fit overflow-y-scroll w-full"}
           role={"presentation"}
           ref={pageBody}
           onClick={saveYPosition}
