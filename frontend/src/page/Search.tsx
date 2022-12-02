@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
+import Modal from "@mui/material/Modal";
 import AppBar from "../component/AppBar";
 import NavigationBar from "../component/NavigationBar";
 import Profile from "../component/Profile";
+import UserFilter from "../component/UserFilter";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -18,7 +20,9 @@ export default function Search() {
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
   const urlPath = useLocation().pathname;
-
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [college, setCollege] = useState<number>(0);
+  const [major, setMajor] = useState<number>(0);
   const pageBody = useRef<HTMLDivElement>(null);
 
   const saveYPosition = useCallback(() => {
@@ -42,7 +46,7 @@ export default function Search() {
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
-        <AppBar/>
+        <AppBar modalOpen={modalOpen} setModalOpen={setModalOpen} />
         <section
           className={"h-fit overflow-y-scroll w-full"}
           role={"presentation"}
@@ -61,6 +65,17 @@ export default function Search() {
           }
         </section>
         <NavigationBar/>
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+        >
+          <UserFilter
+            college={college}
+            setCollege={setCollege}
+            major={major}
+            setMajor={setMajor}
+          />
+        </Modal>
       </section> : <section/>
   );
 }
