@@ -424,6 +424,11 @@ frontend/public/psa.jpeg
 
 # yarn.lock
 yarn.lock
+# package-lock
+/frontend/package-lock.json
 
 # coverage
 coverage.json
+
+# ide
+.idea
