@@ -41,7 +41,8 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
     },
     chat: {
       participants: [],
-    }
+    },
+    pitapatListTabIndex: 0,
   },
   tag: { tags: tags },
   chat: {
@@ -64,7 +65,8 @@ export const getNoPhotoMockStore = () => getMockStore({
     },
     chat: {
       participants: [],
-    }
+    },
+    pitapatListTabIndex: 0,
   },
   tag: { tags: tags },
   chat: {
@@ -87,7 +89,8 @@ export const getNointerestingUserMockStore = () => getMockStore({
     },
     chat: {
       participants: [],
-    }
+    },
+    pitapatListTabIndex: 1,
   },
   tag: { tags: tags },
   chat: {

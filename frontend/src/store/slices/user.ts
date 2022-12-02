@@ -102,6 +102,7 @@ export interface UserState {
   chat: {
     participants: User[];
   };
+  pitapatListTabIndex: 0 | 1;
 }
 
 const savedLoginUser = sessionStorage.getItem("loginUser");
@@ -118,7 +119,8 @@ const initialState: UserState = {
   },
   chat: {
     participants: [],
-  }
+  },
+  pitapatListTabIndex: 0,
 };
 
 
@@ -271,6 +273,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setPitapatListTabIndex: (state, action: PayloadAction<0 | 1>) => {
+      state.pitapatListTabIndex = action.payload;
+    },
     setInterestedUser: (state, action: PayloadAction<User>) => {
       state.interestingUser = action.payload;
     },

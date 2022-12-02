@@ -9,10 +9,8 @@ import PitapatSent from "../component/pitapat/PitapatSent";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { getPitapatReceivers, getPitapatSenders, selectUser } from "../store/slices/user";
+import { getPitapatReceivers, getPitapatSenders, selectUser, userActions } from "../store/slices/user";
 
-
-type TabIndex = 0 | 1;
 
 const theme = createTheme({
   palette: {
@@ -26,7 +24,7 @@ export default function PitapatList() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-  const [selectedTabIndex, setSelectedTabIndex] = useState<TabIndex>(0);
+  const pitapatListTabIndex = useSelector(selectUser).pitapatListTabIndex;
 
   useEffect(() => {
     if (!loginUser) {
@@ -44,8 +42,8 @@ export default function PitapatList() {
       <ThemeProvider theme={theme}>
         <Tabs
           className={"top-12 w-full flex flex-row h-12 z-10 fixed"}
-          value={selectedTabIndex}
-          onChange={(_, newValue) => setSelectedTabIndex(newValue)}
+          value={pitapatListTabIndex}
+          onChange={(_, newValue) => dispatch(userActions.setPitapatListTabIndex(newValue))}
           sx={{
             backgroundColor: "white",
           }}
@@ -58,7 +56,7 @@ export default function PitapatList() {
       </ThemeProvider>
       <section className={style.page.body}>
         {
-          selectedTabIndex === 0 ?
+          pitapatListTabIndex === 0 ?
             (<PitapatReceived/>) :
             (<PitapatSent/>)
         }
