@@ -16,7 +16,7 @@ from django.core.exceptions import ImproperlyConfigured
 import pymysql
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = str(Path(__file__).resolve().parent.parent.parent)
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,20 +35,12 @@ def get_external_value(filename: str, key: str):
         raise ImproperlyConfigured(f'key \'{key}\' does not exist') from error
 
 
-SECRET_KEY = get_external_value(BASE_DIR / 'backend/.secrets/secret_key.json', 'secret_key')
+SECRET_KEY = get_external_value(f'{BASE_DIR}/backend/.secrets/secret_key.json', 'secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '0.0.0.0',
-    '127.0.0.1',
-]
-
-
 # Application definition
-
 INSTALLED_APPS = [
     'daphne',
     'django.contrib.admin',
@@ -110,7 +102,7 @@ CHANNEL_LAYERS = {
 
 pymysql.install_as_MySQLdb()
 
-db = get_external_value(BASE_DIR / 'backend/.secrets/db.json', 'default')
+db = get_external_value(f'{BASE_DIR}/backend/.secrets/db.json', 'test')
 
 DATABASES = {
     'default': {
@@ -177,68 +169,28 @@ DEFAULT_AUTO_FIELD = 'pitapat.models.custom_field.unsigned_auto_field.UnsignedAu
 
 # AWS S3
 
-IMAGE_URL = get_external_value(
-    BASE_DIR / 'backend/.secrets/s3.json',
-    'url',
-)
+IMAGE_URL = get_external_value(f'{BASE_DIR}/backend/.secrets/s3.json', 'url')
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False
 
-AWS_S3_ACCESS_KEY_ID = get_external_value(
-    BASE_DIR / 'backend/.secrets/s3.json',
-    'access_key_id',
-)
-AWS_S3_SECRET_ACCESS_KEY = get_external_value(
-    BASE_DIR / 'backend/.secrets/s3.json',
-    'secret_access_key',
-)
+AWS_S3_ACCESS_KEY_ID = get_external_value(f'{BASE_DIR}/backend/.secrets/s3.json', 'access_key_id')
+AWS_S3_SECRET_ACCESS_KEY = get_external_value(f'{BASE_DIR}/backend/.secrets/s3.json', 'secret_access_key')
 AWS_STORAGE_BUCKET_NAME = 'pitapatcampus'
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',  # react port
-)
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000'
-]
+CORS_ORIGIN_WHITELIST = []
+CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
 
 # Email Verification
 
-EMAIL_BACKEND = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'EMAIL_BACKEND',
-)
-EMAIL_HOST = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'EMAIL_HOST',
-)
-EMAIL_PORT = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'EMAIL_PORT',
-)
-EMAIL_HOST_USER = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'EMAIL_HOST_USER',
-)
-EMAIL_HOST_PASSWORD = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'EMAIL_HOST_PASSWORD',
-)
-EMAIL_USE_TLS = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'EMAIL_USE_TLS',
-)
-DEFAUKT_FROM_EMAIL = get_external_value(
-    BASE_DIR / 'backend/.secrets/email.json',
-    'DEFAULT_FROM_EMAIL',
-)
+EMAIL_BACKEND = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_BACKEND')
+EMAIL_HOST = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_HOST')
+EMAIL_PORT = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_PORT')
+EMAIL_HOST_USER = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_USE_TLS')
+DEFAULT_FROM_EMAIL = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'DEFAULT_FROM_EMAIL')
 
-CRYPTO_KEY = get_external_value(
-    BASE_DIR / 'backend/.secrets/aes.json',
-    'key',
-)
-CRYPTO_IV = CRYPTO_KEY = get_external_value(
-    BASE_DIR / 'backend/.secrets/aes.json',
-    'iv',
-)
+CRYPTO_KEY = get_external_value(f'{BASE_DIR}/backend/.secrets/aes.json', 'key')
+CRYPTO_IV = get_external_value(f'{BASE_DIR}/backend/.secrets/aes.json', 'iv')
