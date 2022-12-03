@@ -8,6 +8,7 @@ import { getUniversities, selectUniversity } from "../../store/slices/university
 import { userUrl } from "../../store/slices/user";
 import { University } from "../../types";
 import InformationInput from "./InformationInput";
+import SignInModal from "./SignInModal";
 
 
 export interface IProps {
@@ -30,12 +31,13 @@ export default function UniversitySelect({
   const universities = useSelector(selectUniversity).universities;
   const dispatch = useDispatch<AppDispatch>();
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [emailInput, setEmailInput] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
     const isExist = await axios.get(`${userUrl}/exist/${email}`);
     if (isExist.data.exists) {
-      alert("이미 존재하는 이메일입니다.");
+      setModalOpen(true);
     }
     else {
       await axios.post("/auth/email/", {
@@ -65,9 +67,20 @@ export default function UniversitySelect({
 
   return (
     <section className={style.page.base}>
+      <SignInModal
+        description={
+          <p>
+            로그인에 실패했습니다.<br />
+            이메일이나 비밀번호를<br />
+            확인해주세요.
+          </p>
+        }
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       <section className={"flex-1"}>
         <p className={style.component.signIn.notification}>
-          소속대학과<br/>
+          소속대학과<br />
           학교 이메일을 입력해주세요
         </p>
         <section className="flex flex-col items-center space-y-4 mt-8">

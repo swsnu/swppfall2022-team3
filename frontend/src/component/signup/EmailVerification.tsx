@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } fro
 import axios from "axios";
 import style from "../../constant/style";
 import InformationInput from "./InformationInput";
+import SignInModal from "./SignInModal";
 
 
 export interface IProps {
@@ -21,6 +22,7 @@ export default function EmailVerification({
 }: IProps) {
   const [sec, setSec] = useState<number>(limitSec);
   const [code, setCode] = useState<string>("");
+  const [wrongModalOpen, setWrongModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -56,12 +58,22 @@ export default function EmailVerification({
         setStep(2);
       }
     } catch (_) {
-      alert("잘못된 인증코드입니다 \n다시 한 번 확인해주세요.");
+      setWrongModalOpen(true);
     }
   }, [email, requestTime, code, setStep]);
 
   return (
     <section className={style.page.base}>
+      <SignInModal
+        description={
+          <p>
+            잘못된 인증코드입니다.<br />
+            다시 한 번 확인해주세요.
+          </p>
+        }
+        modalOpen={wrongModalOpen}
+        setModalOpen={setWrongModalOpen}
+      />
       <section className={"flex-1 w-full"}>
         <p className={style.component.signIn.notification}>
           인증 코드가 발송되었습니다!<br />

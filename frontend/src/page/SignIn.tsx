@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
+import SignInModal from "../component/signup/SignInModal";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -14,6 +15,7 @@ export default function SignIn() {
   const loginUser = useSelector(selectUser).loginUser;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const passwordInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -29,13 +31,24 @@ export default function SignIn() {
     };
     dispatch(fetchSignin(loginData)).then((response) => {
       if (response.payload === null) {
-        alert("로그인에 실패했습니다. 이메일이나 비밀번호를 확인해주세요");
+        setModalOpen(true);
       }
     });
   }, [email, dispatch, password]);
 
   return (
     <section className={style.page.base}>
+      <SignInModal
+        description={
+          <p>
+            로그인에 실패했습니다.<br />
+            이메일이나 비밀번호를<br />
+            확인해주세요.
+          </p>
+        }
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       <h1 className={"text-center text-5xl text-pink-500 font-bold mt-24 my-16"}>
         두근두근<br />
         캠퍼스
@@ -112,4 +125,3 @@ export default function SignIn() {
     </section>
   );
 }
-

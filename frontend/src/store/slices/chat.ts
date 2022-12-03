@@ -3,7 +3,6 @@ import axios from "axios";
 import { Chat, Chatroom, User } from "../../types";
 import { dateToString } from "../../util/date";
 import { RootState } from "../index";
-import { SimplifiedRawUser, simplifiedRawDataToUser } from "./user";
 
 
 export const userUrl = "/user";
@@ -61,18 +60,6 @@ export const getChatrooms = createAsyncThunk(
   }
 );
 
-export const getUsersInChatroom = createAsyncThunk(
-  "chatroom/get-users-by chatroom",
-  async (chatroomKey: number): Promise<User[]> => {
-    const response = await axios.get(`${chatroomUrl}/${chatroomKey}${userUrl}/`);
-    if (response.status === 200) {
-      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
-    }
-    else {
-      return [];
-    }
-  }
-);
 
 const chatSlice = createSlice({
   name: "chat",
