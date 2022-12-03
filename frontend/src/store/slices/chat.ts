@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Chat, Chatroom } from "../../types";
+import { Chat, Chatroom, User } from "../../types";
 import { dateToString } from "../../util/date";
 import { RootState } from "../index";
+import { SimplifiedRawUser, simplifiedRawDataToUser } from "./user";
 
 
 export const userUrl = "/user";
+export const chatroomUrl = "/chatroom";
 export const chatroomSocketUrl = "ws://localhost:8000/ws/chat";
 export const getChatroomSocketUrl = (chatroomKey: number): string => `${chatroomSocketUrl}/${chatroomKey}/`;
 
@@ -49,9 +51,22 @@ const initialState: ChatState = {
 export const getChatrooms = createAsyncThunk(
   "chatroom/get-all-by-user",
   async (userKey: number): Promise<Chatroom[]> => {
-    const response = await axios.get(`${userUrl}/${userKey}/chatroom/`);
+    const response = await axios.get(`${userUrl}/${userKey}${chatroomUrl}/`);
     if (response.status === 200) {
       return (response.data as RawChatroom[]).map(rawChatroomToChatroom);
+    }
+    else {
+      return [];
+    }
+  }
+);
+
+export const getUsersInChatroom = createAsyncThunk(
+  "chatroom/get-users-by chatroom",
+  async (chatroomKey: number): Promise<User[]> => {
+    const response = await axios.get(`${chatroomUrl}/${chatroomKey}${userUrl}/`);
+    if (response.status === 200) {
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return [];
