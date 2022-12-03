@@ -7,8 +7,6 @@ import userReducer, {
   fetchSignup,
   getUser,
   getUsers,
-  getUserTags,
-  getUserIntroduction,
   getPitapatReceivers,
   getPitapatSenders,
   SimplifiedRawUser,
@@ -17,7 +15,6 @@ import userReducer, {
   fetchSignout,
   UserState,
   getChatParticipants,
-  userActions,
 } from "../../../store/slices/user";
 import { Gender, User } from "../../../types";
 
@@ -138,47 +135,6 @@ describe("user reducer", () => {
 
     await store.dispatch(getUser(1));
     expect(store.getState().user.interestingUser).toBeNull();
-  });
-
-  it("should get user tags", async () => {
-    // axios.get = jest.fn().mockResolvedValue({ data: { results: users }, status: 200 });
-    axios.get = jest.fn().mockResolvedValue({ data: users, status: 200 });
-    await store.dispatch(getUsers(1));
-
-    store.dispatch(userActions.setInterestedUser(testUser));
-    axios.get = jest.fn().mockResolvedValue({ data: [1, 2], status: 200 });
-    const testUserWithNewTags = { ...testUser, tags: [1, 2] };
-    await store.dispatch(getUserTags(1));
-    expect(store.getState().user.interestingUser).toEqual(testUserWithNewTags);
-  });
-
-  it("should not get user tags", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
-    store.dispatch(userActions.setInterestedUser({ ...testUser, tags: [] }));
-
-    await store.dispatch(getUserTags(1));
-    expect(store.getState().user.interestingUser?.tags).toEqual([]);
-  });
-
-  it("should get user introduction", async () => {
-    // axios.get = jest.fn().mockResolvedValue({ data: { results: users }, status: 200 });
-    axios.get = jest.fn().mockResolvedValue({ data: users, status: 200 });
-    await store.dispatch(getUsers(1));
-
-    store.dispatch(userActions.setInterestedUser(testUser));
-    axios.get = jest.fn().mockResolvedValue({ data: { content: "hi" }, status: 200 });
-    const testUserWithNewIntroduction = { ...testUser, introduction: "hi" };
-    await store.dispatch(getUserIntroduction(1));
-    expect(store.getState().user.interestingUser).toEqual(testUserWithNewIntroduction);
-
-  });
-
-  it("should not get user introduction", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
-    store.dispatch(userActions.setInterestedUser({ ...testUser, introduction: "" }));
-
-    await store.dispatch(getUserIntroduction(1));
-    expect(store.getState().user.interestingUser?.introduction).toEqual("");
   });
 
   it("should get pitapat senders", async () => {
