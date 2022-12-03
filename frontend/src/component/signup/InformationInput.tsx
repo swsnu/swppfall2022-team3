@@ -11,6 +11,7 @@ export interface IProps {
   value: string | number | Date | Gender;
   setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>;
   type: HTMLInputTypeAttribute | "select";
+  required: boolean;
   isPassword?: boolean;
   options?: { name: string; value: string | Gender | number }[];
 }
@@ -20,6 +21,7 @@ export default function InformationInput({
   value,
   setValue,
   type,
+  required,
   isPassword,
   options,
 }: IProps) {
@@ -33,7 +35,7 @@ export default function InformationInput({
               minWidth: 240,
             }}
             size={"small"}
-            required
+            required={required}
           >
             <InputLabel id={`input-label-${label}`}>
               {label}
@@ -68,7 +70,7 @@ export default function InformationInput({
                       minWidth: 240,
                     }}
                     size={"small"}
-                    required
+                    required={required}
                   />)}
               />
             </LocalizationProvider> :
@@ -85,7 +87,7 @@ export default function InformationInput({
               onChange={(e) => {
                 (setValue as Dispatch<SetStateAction<string>>)(e.target.value);
               }}
-              required
+              required={required}
             />
       }
     </article>

@@ -73,6 +73,7 @@ export default function EmailVerification({
             value={code}
             setValue={setCode}
             type={"text"}
+            required={true}
           />
           <div className={"m-2"}>
             {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}

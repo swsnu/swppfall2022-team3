@@ -6,8 +6,7 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 
 export interface IProps {
   title?: string;
-  modalOpen?: boolean;
-  setModalOpen?: Dispatch<SetStateAction<boolean>>;
+  setIsModalOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 const iconClassName = "h-8 w-8 mx-2";
@@ -15,15 +14,13 @@ const defaultTitle = "두근두근 캠퍼스";
 
 export default function AppBar({
   title=defaultTitle,
-  modalOpen,
-  setModalOpen,
+  setIsModalOpen,
 }: IProps) {
   const pathName = window.location.pathname;
   const navigate = useNavigate();
   const [isBackVisible, setIsBackVisible] = useState<boolean>(false);
   const [isUserVisible, setIsUserVisible] = useState<boolean>(false);
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
-  // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const backOnClick = useCallback(() => {
     navigate(-1);
@@ -34,10 +31,10 @@ export default function AppBar({
   }, [navigate]);
 
   const filterOnClick = useCallback(() => {
-    if (setModalOpen) {
-      setModalOpen(true);
+    if (setIsModalOpen !== undefined) {
+      setIsModalOpen(true);
     }
-  }, [setModalOpen]);
+  }, [setIsModalOpen]);
 
   useEffect(() => {
     const shouldBackVisible: boolean =

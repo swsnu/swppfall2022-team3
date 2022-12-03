@@ -128,12 +128,14 @@ export default function PersonalInformation({
           value={nickname}
           setValue={setNickname}
           type={"text"}
+          required={true}
         />
         <InformationInput
           label={"비밀번호"}
           value={password}
           setValue={setPassword}
           type={"text"}
+          required={true}
           isPassword={true}
         />
         <InformationInput
@@ -141,6 +143,7 @@ export default function PersonalInformation({
           value={passwordCheck}
           setValue={setPasswordCheck}
           type={"text"}
+          required={true}
           isPassword={true}
         />
         <InformationInput
@@ -148,18 +151,21 @@ export default function PersonalInformation({
           value={phone}
           setValue={setPhone}
           type={"text"}
+          required={true}
         />
         <InformationInput
           label={"생년월일"}
           value={birthday}
           setValue={setBirthday}
           type={"date"}
+          required={true}
         />
         <InformationInput
           label={"단과대"}
           value={selectedCollegeKey}
           setValue={setSelectedCollegeKey}
           type={"select"}
+          required={true}
           options={
             colleges.map((col) => ({ name: col.name, value: col.key }))
           }
@@ -169,6 +175,7 @@ export default function PersonalInformation({
           value={selectedMajorKey}
           setValue={setSelectedMajorKey}
           type={"select"}
+          required={true}
           options={
             majors.map((m) => ({ name: m.name, value: m.key }))
           }
@@ -178,6 +185,7 @@ export default function PersonalInformation({
           value={gender}
           setValue={setGender}
           type={"select"}
+          required={true}
           options={[
             { name: "남자", value: Gender.MALE },
             { name: "여자", value: Gender.FEMALE },
@@ -188,6 +196,7 @@ export default function PersonalInformation({
           value={targetGender}
           setValue={setTargetGender}
           type={"select"}
+          required={true}
           options={[
             { name: "남자", value: Gender.MALE },
             { name: "여자", value: Gender.FEMALE },

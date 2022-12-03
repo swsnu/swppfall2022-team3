@@ -20,14 +20,20 @@ export default function Search() {
   const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
   const urlPath = useLocation().pathname;
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
   const [college, setCollege] = useState<number>(0);
   const [major, setMajor] = useState<number>(0);
+  const [tag, setTag] = useState<number>(0);
   const pageBody = useRef<HTMLDivElement>(null);
 
   const saveYPosition = useCallback(() => {
     savePageYPosition(pageBody, urlPath);
   }, [pageBody, urlPath]);
+
+  const onModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, [setIsModalOpen]);
 
   useEffect(() => {
     if (!loginUser) {
@@ -46,7 +52,7 @@ export default function Search() {
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
-        <AppBar modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        <AppBar setIsModalOpen={setIsModalOpen} />
         <section
           className={"h-fit overflow-y-scroll w-full"}
           role={"presentation"}
@@ -66,14 +72,23 @@ export default function Search() {
         </section>
         <NavigationBar/>
         <Modal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
+          open={isModalOpen}
+          onClose={onModalClose}
+          style={{
+            display:"flex",
+            alignItems:"center",
+            justifyContent:"center",
+          }}
         >
           <UserFilter
             college={college}
             setCollege={setCollege}
             major={major}
             setMajor={setMajor}
+            tag={tag}
+            setTag={setTag}
+            ageRange={ageRange}
+            setAgeRange={setAgeRange}
           />
         </Modal>
       </section> : <section/>

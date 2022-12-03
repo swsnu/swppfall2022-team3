@@ -76,6 +76,7 @@ export default function UniversitySelect({
             value={selectedUniversityKey}
             setValue={setSelectedUniversityKey}
             type={"select"}
+            required={true}
             options={
               ([{ name: "", key: 0 }] as University[])
                 .concat(universities)
