@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
+import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
+import paths from "../constant/path";
 import { AppDispatch } from "../store";
 import {getChatParticipants, getUser, selectUser} from "../store/slices/user";
+import { User } from "../types";
 import encryptor from "../util/encryptor";
 
 
@@ -23,7 +25,6 @@ export default function ChatListElement({
 }: IProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const participantsUser = useSelector(selectUser).chat.participants;
 
   const elementOnClick = useCallback(async () => {
     dispatch(getChatParticipants(chatroomKey));
@@ -37,10 +38,15 @@ export default function ChatListElement({
   }, [dispatch, navigate, chatroomKey, chatroomName]);
 
   const profileOnClick = useCallback(async () => {
-    dispatch(getChatParticipants(chatroomKey));
-    const anotherUser = participantsUser.find(user => user.key !== loginUserKey);
-    getUser(anotherUser?.key ?? 0);
-    navigate("/profile");
+    dispatch(getChatParticipants(chatroomKey)).then((participantsUsers) => {
+      const users = participantsUsers.payload as User[];
+      const anotherUser = users.find(user => user.key !== loginUserKey);
+      if(anotherUser) {
+        dispatch(getUser(anotherUser.key)).then(() => {
+          navigate(paths.profile);
+        });
+      }
+    });
   }, [dispatch, chatroomKey, chatroomName]);
 
   return (
