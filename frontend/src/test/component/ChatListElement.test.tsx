@@ -30,6 +30,7 @@ describe("ChatListElement", () => {
       chatroomName={chatroom.name}
       imagePath={chatroom.imagePath}
       lastChat={isLastChatNull ? null : chatroom.chats[chatroom.chats.length - 1].content}
+      loginUserKey={1}
     />
   );
 
@@ -75,6 +76,7 @@ describe("ChatListElement", () => {
           chatroomName={chatroom.name}
           imagePath={chatroom.imagePath}
           lastChat={chatroom.chats.length === 0 ? null : chatroom.chats[chatroom.chats.length - 1].content}
+          loginUserKey={1}
         />
       </Provider>
     );

@@ -34,6 +34,7 @@ export default function ChatList() {
               chatroomName={name}
               imagePath={imagePath}
               lastChat={chats.length === 0 ? null : chats[chats.length - 1].content}
+              loginUserKey={loginUser.key}
             />
           ))
         }</section>

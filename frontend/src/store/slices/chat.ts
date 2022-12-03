@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Chat, Chatroom, User } from "../../types";
+import { Chat, Chatroom } from "../../types";
 import { dateToString } from "../../util/date";
 import { RootState } from "../index";
 

@@ -196,37 +196,6 @@ export const getUser = createAsyncThunk(
   }
 );
 
-/**
- * should be called after state.interestedUser is set
- */
-export const getUserTags = createAsyncThunk(
-  "user/tags",
-  async (userKey: number): Promise<number[] | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/tag/`);
-    if (response.status === 200) {
-      return response.data as number[];
-    }
-    else {
-      return null;
-    }
-  }
-);
-
-/**
- * should be called after state.interestedUser is set
- */
-export const getUserIntroduction = createAsyncThunk(
-  "user/introduction",
-  async (userKey: number): Promise<string | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/introduction/`);
-    if (response.status === 200) {
-      return response.data.content as string;
-    }
-    else {
-      return null;
-    }
-  }
-);
 
 export const getPitapatSenders = createAsyncThunk(
   "user/pitapat-senders-to-user",
@@ -276,9 +245,6 @@ const userSlice = createSlice({
     setPitapatListTabIndex: (state, action: PayloadAction<0 | 1>) => {
       state.pitapatListTabIndex = action.payload;
     },
-    setInterestedUser: (state, action: PayloadAction<User>) => {
-      state.interestingUser = action.payload;
-    },
     deleteSender: (state, action: PayloadAction<number>) => {
       state.pitapat.senders = state.pitapat.senders.filter((u) => u.key !== action.payload);
     },
@@ -314,32 +280,6 @@ const userSlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.interestingUser = action.payload;
-        }
-      }
-    );
-    builder.addCase(
-      getUserTags.fulfilled,
-      (state, action) => {
-        if (action.payload && state.interestingUser) {
-          const newInterestedUser: User = {
-            ...state.interestingUser,
-            tags: action.payload,
-          };
-          state.interestingUser = newInterestedUser;
-          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
-        }
-      }
-    );
-    builder.addCase(
-      getUserIntroduction.fulfilled,
-      (state, action) => {
-        if (action.payload && state.interestingUser) {
-          const newInterestedUser: User = {
-            ...state.interestingUser,
-            introduction: action.payload,
-          };
-          state.interestingUser = newInterestedUser;
-          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
         }
       }
     );

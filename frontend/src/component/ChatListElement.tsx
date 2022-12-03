@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../store";
-import { getChatParticipants } from "../store/slices/user";
+import {getChatParticipants, getUser, selectUser} from "../store/slices/user";
 import encryptor from "../util/encryptor";
 
 
@@ -11,6 +11,7 @@ interface IProps {
   chatroomName: string;
   imagePath: string;
   lastChat: string | null;
+  loginUserKey: number;
 }
 
 export default function ChatListElement({
@@ -18,12 +19,14 @@ export default function ChatListElement({
   chatroomName,
   imagePath,
   lastChat,
+  loginUserKey,
 }: IProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const participantsUser = useSelector(selectUser).chat.participants;
 
   const elementOnClick = useCallback(async () => {
-    await dispatch(getChatParticipants(chatroomKey));
+    dispatch(getChatParticipants(chatroomKey));
     const encrypted = encryptor.encrypt(
       {
         chatroomKey,
@@ -33,10 +36,18 @@ export default function ChatListElement({
     navigate(`/chat/${encrypted}`);
   }, [dispatch, navigate, chatroomKey, chatroomName]);
 
+  const profileOnClick = useCallback(async () => {
+    dispatch(getChatParticipants(chatroomKey));
+    const anotherUser = participantsUser.find(user => user.key !== loginUserKey);
+    getUser(anotherUser?.key ?? 0);
+    navigate("/profile");
+  }, [dispatch, chatroomKey, chatroomName]);
+
   return (
     <article className={"w-full h-20 flex flex-row items-center border-b-2 border-b-gray-300"}>
       <button
         className={"min-w-fit min-h-fit"}
+        onClick={profileOnClick}
       >
         <img
           className={"w-16 h-16 m-2 bg-blue-100 rounded-full"}
