@@ -3,7 +3,6 @@ import axios from "axios";
 import { Chat, Chatroom, User } from "../../types";
 import { dateToString } from "../../util/date";
 import { RootState } from "../index";
-import { SimplifiedRawUser, simplifiedRawDataToUser } from "./user";
 
 
 export const userUrl = "/user";
