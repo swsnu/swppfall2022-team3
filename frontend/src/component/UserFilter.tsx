@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch , useSelector } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -10,34 +10,23 @@ import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajors, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
+import { Tag } from "../types";
 import InformationInput from "./signup/InformationInput";
+import TagElement from "./signup/TagElement";
 
 
-interface IProps {
-  college: number;
-  setCollege: Dispatch<SetStateAction<number>>;
-  major: number;
-  setMajor: Dispatch<SetStateAction<number>>;
-  tag: number;
-  setTag: Dispatch<SetStateAction<number>>;
-  ageRange: number[];
-  setAgeRange: Dispatch<SetStateAction<number[]>>;
-}
-
-export default function UserFilter({
-  college,
-  setCollege,
-  major,
-  setMajor,
-  tag,
-  setTag,
-  ageRange,
-  setAgeRange,
-}: IProps) {
+export default function UserFilter() {
   const university = useSelector(selectUser).loginUser?.university;
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
   const tags = useSelector(selectTag).tags;
+  const [college, setCollege] = useState<number>(0);
+  const [major, setMajor] = useState<number>(0);
+  const [tag, setTag] = useState<number>(0);
+  // const [includedColleges, setincludedColleges] = useState<number[]>([]);
+  // const [includedMajors, setincludedMajors] = useState<number[]>([]);
+  const [includedTags, setIncludedTags] = useState<Tag[]>([]);
+  const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -56,16 +45,29 @@ export default function UserFilter({
     dispatch(getTags());
   }, [dispatch]);
 
-  const onAgeChange = useCallback((event: Event, newValue: number | number[]) => {
+  const onAgeChange = useCallback((_: Event, newValue: number | number[]) => {
     setAgeRange(newValue as number[]);
   }, [setAgeRange]);
+
+  const addTag = useCallback(() => {
+    if (tag) {
+      const addedTag = tags.filter((t) => t.key === tag)[0];
+      if (!includedTags.includes(addedTag)) {
+        setIncludedTags([...includedTags, addedTag]);
+      }
+    }
+  }, [tag, tags, includedTags, setIncludedTags]);
+
+  const deleteTag = useCallback((tagKey: number) => {
+    setIncludedTags(includedTags.filter((t) => t.key !== tagKey));
+  }, [includedTags]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
       <section>
         <div className={"flex flex-row"}>
           <p className={"text-left pr-1"}>나이</p>
-          <p className={"text-gray-500"}>({ageRange[0]}~{ageRange[1]})</p>
+          <p className={"text-gray-500"}>({ageRange[0]}~{ageRange[1] < 30 ? ageRange[1] : "30+"})</p>
         </div>
         <div className="flex flex-col items-center">
           <Slider
@@ -156,7 +158,7 @@ export default function UserFilter({
           />
           <button
             className={"ml-2"}
-          // onClick={}
+            onClick={addTag}
           >
             <AddCircleIcon
               style={{ color: pink[400] }}
@@ -172,6 +174,19 @@ export default function UserFilter({
               fontSize={"large"}
             />
           </button>
+        </article>
+        <article
+          className={"w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold justify-start"}
+        >
+          {
+            includedTags.map((tag) => (
+              <TagElement
+                key={tag.key}
+                tagName={tag.name}
+                onDelete={() => { deleteTag(tag.key); }}
+              />
+            ))
+          }
         </article>
       </section>
       <button

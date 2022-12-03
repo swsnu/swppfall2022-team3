@@ -14,7 +14,7 @@ export default function TagElement({
 }: IProps) {
   return (
     <article
-      className={`relative px-2.5 py-0.5 my-1 mx-2 rounded-2xl border-2 border-${style.color.main} text-${style.color.main}`}
+      className={`relative w-fit px-2.5 py-0.5 my-1 mx-2 rounded-2xl border-2 border-${style.color.main} text-${style.color.main}`}
     >
       {tagName}
       {

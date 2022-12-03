@@ -21,10 +21,6 @@ export default function Search() {
   const loginUser = useSelector(selectUser).loginUser;
   const urlPath = useLocation().pathname;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
-  const [college, setCollege] = useState<number>(0);
-  const [major, setMajor] = useState<number>(0);
-  const [tag, setTag] = useState<number>(0);
   const pageBody = useRef<HTMLDivElement>(null);
 
   const saveYPosition = useCallback(() => {
@@ -80,16 +76,7 @@ export default function Search() {
             justifyContent:"center",
           }}
         >
-          <UserFilter
-            college={college}
-            setCollege={setCollege}
-            major={major}
-            setMajor={setMajor}
-            tag={tag}
-            setTag={setTag}
-            ageRange={ageRange}
-            setAgeRange={setAgeRange}
-          />
+          <UserFilter/>
         </Modal>
       </section> : <section/>
   );
