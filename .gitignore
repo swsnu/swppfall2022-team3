@@ -426,6 +426,10 @@ frontend/public/psa.jpeg
 yarn.lock
 # package-lock
 /frontend/package-lock.json
+# .env
+/frontend/.env.development
+/frontend/.env.local
+/frontend/.env.production
 
 # coverage
 coverage.json
