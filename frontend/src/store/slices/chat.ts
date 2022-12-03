@@ -7,7 +7,7 @@ import { RootState } from "../index";
 
 export const userUrl = "/user";
 export const chatroomUrl = "/chatroom";
-export const chatroomSocketUrl = "ws://localhost:8000/ws/chat";
+export const chatroomSocketUrl = process.env.REACT_APP_SOCKET_URL;
 export const getChatroomSocketUrl = (chatroomKey: number): string => `${chatroomSocketUrl}/${chatroomKey}/`;
 
 export type RawChatroom = {

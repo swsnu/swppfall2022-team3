@@ -4,7 +4,9 @@
   "private": true,
   "proxy": "http://localhost:8000",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env.local react-scripts start",
+    "start:prod": "env-cmd -f .env.production react-scripts start",
+    "start:dev": "env-cmd -f .env.development react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -30,6 +32,7 @@
     "axios": "^0.27.2",
     "crypto-ts": "^1.0.2",
     "dayjs": "^1.11.6",
+    "env-cmd": "^10.1.0",
     "jest": "^29.2.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
