@@ -16,4 +16,3 @@ export function ProfileOnClick(userKey: number) {
   }, [navigate, userKey, dispatch]);
   return profileOnClick;
 }
-
