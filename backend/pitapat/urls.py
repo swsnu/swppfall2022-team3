@@ -172,4 +172,19 @@ urlpatterns = [
         }),
         name='chatroom_user',
     ),
+    path(
+        'block/',
+        views.BlockViewSet.as_view({
+            'post': 'create',
+            'delete': 'destroy',
+        }),
+        name='block',
+    ),
+    path(
+        'user/<int:user_key>/block/',
+        views.BlockFromUserViewSet.as_view({
+            'get': 'list',
+        }),
+        name='user_block'
+    ),
 ]
