@@ -23,9 +23,12 @@ export default function UserFilter() {
   const [college, setCollege] = useState<number | "">("");
   const [major, setMajor] = useState<number | "">("");
   const [tag, setTag] = useState<number | "">("");
-  // const [includedColleges, setincludedColleges] = useState<number[]>([]);
-  // const [includedMajors, setincludedMajors] = useState<number[]>([]);
+  // const [includedColleges, setIncludedColleges] = useState<number[]>([]);
+  // const [excludedColleges, setExcludedColleges] = useState<number[]>([]);
+  // const [includedMajors, setIncludedMajors] = useState<number[]>([]);
+  // const [excludedMajors, setExcludedMajors] = useState<number[]>([]);
   const [includedTags, setIncludedTags] = useState<Tag[]>([]);
+  const [excludedTags, setExcludedTags] = useState<Tag[]>([]);
   const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -49,18 +52,31 @@ export default function UserFilter() {
     setAgeRange(newValue as number[]);
   }, [setAgeRange]);
 
-  const addTag = useCallback(() => {
+  const addIncludedTags = useCallback(() => {
     if (tag) {
       const addedTag = tags.filter((t) => t.key === tag)[0];
-      if (!includedTags.includes(addedTag)) {
+      if (!includedTags.includes(addedTag) && !excludedTags.includes(addedTag)) {
         setIncludedTags([...includedTags, addedTag]);
       }
     }
-  }, [tag, tags, includedTags, setIncludedTags]);
+  }, [tag, tags, includedTags, excludedTags, setIncludedTags]);
 
-  const deleteTag = useCallback((tagKey: number) => {
+  const addExcludedTags = useCallback(() => {
+    if (tag) {
+      const addedTag = tags.filter((t) => t.key === tag)[0];
+      if (!includedTags.includes(addedTag) && !excludedTags.includes(addedTag)) {
+        setExcludedTags([...excludedTags, addedTag]);
+      }
+    }
+  }, [tag, tags, includedTags, excludedTags, setExcludedTags]);
+
+  const deleteIncludedTags = useCallback((tagKey: number) => {
     setIncludedTags(includedTags.filter((t) => t.key !== tagKey));
   }, [includedTags]);
+
+  const deleteExcludedTags = useCallback((tagKey: number) => {
+    setExcludedTags(excludedTags.filter((t) => t.key !== tagKey));
+  }, [excludedTags]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
@@ -96,7 +112,7 @@ export default function UserFilter() {
           />
           <button
             className={"ml-2"}
-          // onClick={}
+            // onClick={}
           >
             <AddCircleIcon
               style={{ color: pink[400] }}
@@ -105,7 +121,7 @@ export default function UserFilter() {
           </button>
           <button
             className={"ml-2"}
-          // onClick={}
+            // onClick={}
           >
             <RemoveCircleIcon
               style={{ color: blue[400] }}
@@ -127,7 +143,7 @@ export default function UserFilter() {
           />
           <button
             className={"ml-2"}
-          // onClick={}
+            // onClick={}
           >
             <AddCircleIcon
               style={{ color: pink[400] }}
@@ -136,7 +152,7 @@ export default function UserFilter() {
           </button>
           <button
             className={"ml-2"}
-          // onClick={}
+            // onClick={}
           >
             <RemoveCircleIcon
               style={{ color: blue[400] }}
@@ -158,7 +174,7 @@ export default function UserFilter() {
           />
           <button
             className={"ml-2"}
-            onClick={addTag}
+            onClick={addIncludedTags}
           >
             <AddCircleIcon
               style={{ color: pink[400] }}
@@ -167,7 +183,7 @@ export default function UserFilter() {
           </button>
           <button
             className={"ml-2"}
-          // onClick={}
+            onClick={addExcludedTags}
           >
             <RemoveCircleIcon
               style={{ color: blue[400] }}
@@ -176,14 +192,25 @@ export default function UserFilter() {
           </button>
         </article>
         <article
-          className={"w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold justify-start"}
+          className={"w-full max-w-xs flex flex-row flex-wrap text-base font-bold justify-start"}
         >
           {
             includedTags.map((tag) => (
               <TagElement
                 key={tag.key}
                 tagName={tag.name}
-                onDelete={() => { deleteTag(tag.key); }}
+                included={true}
+                onDelete={() => { deleteIncludedTags(tag.key); }}
+              />
+            ))
+          }
+          {
+            excludedTags.map((tag) => (
+              <TagElement
+                key={tag.key}
+                tagName={tag.name}
+                included={false}
+                onDelete={() => { deleteExcludedTags(tag.key); }}
               />
             ))
           }
