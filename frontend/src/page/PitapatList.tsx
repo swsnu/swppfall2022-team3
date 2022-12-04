@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {useLocation} from "react-router";
 import { useNavigate } from "react-router-dom";
 import { createTheme, Tab, Tabs, ThemeProvider } from "@mui/material";
 import AppBar from "../component/AppBar";
@@ -10,6 +11,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getPitapatReceivers, getPitapatSenders, selectUser, userActions } from "../store/slices/user";
+import { savePageYPosition, scrollToPrevPosition } from "../util/pageScroll";
 
 
 const theme = createTheme({
@@ -25,6 +27,16 @@ export default function PitapatList() {
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const pitapatListTabIndex = useSelector(selectUser).pitapatListTabIndex;
+  const urlPath = useLocation().pathname;
+  const pageBody = useRef<HTMLDivElement>(null);
+
+  const saveYPosition = useCallback(() => {
+    savePageYPosition(pageBody, urlPath);
+  }, [pageBody, urlPath]);
+
+  useEffect(() => {
+    scrollToPrevPosition(pageBody, urlPath);
+  }, [pageBody, urlPath]);
 
   useEffect(() => {
     if (!loginUser) {
@@ -54,7 +66,12 @@ export default function PitapatList() {
           <Tab label={"보낸 두근"}/>
         </Tabs>
       </ThemeProvider>
-      <section className={style.page.body}>
+      <section
+        className={style.page.body}
+        role={"presentation"}
+        ref={pageBody}
+        onClick={saveYPosition}
+      >
         {
           pitapatListTabIndex === 0 ?
             (<PitapatReceived/>) :
