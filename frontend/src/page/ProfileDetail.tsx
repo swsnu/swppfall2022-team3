@@ -7,6 +7,7 @@ import PitapatButton from "../component/PitapatButton";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
+import { selectChat } from "../store/slices/chat";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/date";
@@ -16,6 +17,10 @@ export default function ProfileDetail() {
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const interestingUser = useSelector(selectUser).interestingUser;
+  const chatroomParticipants = useSelector(selectChat).chatrooms;
+  const isChatroomParticipant = (chatroomParticipants.findIndex(
+    participant => participant.name === interestingUser?.nickname
+  ) >= 0) ? true : false;
   const tags = useSelector(selectTag).tags;
 
   useEffect(() => {
@@ -41,14 +46,17 @@ export default function ProfileDetail() {
           <PhotoSlider
             user={interestingUser}
           />
-          <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>
-            <PitapatButton
-              from={loginUser.key}
-              to={interestingUser.key}
-              isAccept={true}
-              isListView={false}
-            />
-          </div>
+          {isChatroomParticipant ?
+            null :
+            <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>
+              <PitapatButton
+                from={loginUser.key}
+                to={interestingUser.key}
+                isAccept={true}
+                isListView={false}
+              />
+            </div>
+          }
         </section>
         <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
           {interestingUser.tags.map((t, index) =>

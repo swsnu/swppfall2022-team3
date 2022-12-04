@@ -31,7 +31,7 @@ class PitapatViewSet(viewsets.ModelViewSet):
             chatroom = Chatroom.objects.create(user_count=2)
             UserChatroom.objects.create(user=from_user, chatroom=chatroom)
             UserChatroom.objects.create(user=to_user, chatroom=chatroom)
-            reverse_pitapat.delete()
+            Pitapat.objects.create(is_from=from_user, to=to_user)
             return Response(status=205)
 
         # duplicated request
