@@ -420,6 +420,7 @@ sketch
 # django
 backend/backend/.secrets/
 backend/backend/secrets.tar
+backend/static
 
 # sample image
 frontend/public/psa.jpeg
