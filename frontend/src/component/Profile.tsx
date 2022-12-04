@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 import paths from "../constant/path";
-import { AppDispatch } from "../store";
-import { getUser, selectUser } from "../store/slices/user";
+import { selectUser } from "../store/slices/user";
 import { User } from "../types";
 import { getKoreanAge } from "../util/date";
+import { ProfileOnClick }  from "../util/profileOnClick";
 import PitapatButton from "./PitapatButton";
 
 
@@ -20,20 +20,13 @@ export default function Profile({
   showRejectButton,
   isLastElement,
 }: IProps) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-
-  const profileOnClick = useCallback(async () => {
-    await dispatch(getUser(user.key));
-    navigate(paths.profile);
-  }, [navigate, user, dispatch]);
 
   return (
     loginUser ?
       (<article className={`relative h-[100vw] ${isLastElement ? "" : "mb-2"}`}>
         <button
-          onClick={profileOnClick}
+          onClick={ProfileOnClick(user.key)}
           className={"w-full z-0"}
         >
           <img
