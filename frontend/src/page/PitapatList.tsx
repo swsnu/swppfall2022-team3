@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef} from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {useLocation} from "react-router";
+import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { createTheme, Tab, Tabs, ThemeProvider } from "@mui/material";
 import AppBar from "../component/AppBar";
