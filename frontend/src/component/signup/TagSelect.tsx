@@ -120,7 +120,7 @@ export default function TagSelect({
             tags.map((tag) => (
               <TagElement
                 key={tag.key}
-                tagName={tag.name}
+                name={tag.name}
                 onDelete={() => { deleteTag(tag.key); }}
               />
             ))

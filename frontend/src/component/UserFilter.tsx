@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch , useSelector } from "react-redux";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { pink, blue } from "@mui/material/colors";
+import { pink } from "@mui/material/colors";
 import Slider from "@mui/material/Slider";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -10,9 +8,8 @@ import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajors, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
-import { Tag } from "../types";
-import InformationInput from "./signup/InformationInput";
-import TagElement from "./signup/TagElement";
+import { College, Major, Tag } from "../types";
+import UserFilterElement from "./UserFilterElement";
 
 
 export default function UserFilter() {
@@ -23,10 +20,10 @@ export default function UserFilter() {
   const [college, setCollege] = useState<number | "">("");
   const [major, setMajor] = useState<number | "">("");
   const [tag, setTag] = useState<number | "">("");
-  // const [includedColleges, setIncludedColleges] = useState<number[]>([]);
-  // const [excludedColleges, setExcludedColleges] = useState<number[]>([]);
-  // const [includedMajors, setIncludedMajors] = useState<number[]>([]);
-  // const [excludedMajors, setExcludedMajors] = useState<number[]>([]);
+  const [includedColleges, setIncludedColleges] = useState<College[]>([]);
+  const [excludedColleges, setExcludedColleges] = useState<College[]>([]);
+  const [includedMajors, setIncludedMajors] = useState<Major[]>([]);
+  const [excludedMajors, setExcludedMajors] = useState<Major[]>([]);
   const [includedTags, setIncludedTags] = useState<Tag[]>([]);
   const [excludedTags, setExcludedTags] = useState<Tag[]>([]);
   const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
@@ -52,32 +49,6 @@ export default function UserFilter() {
     setAgeRange(newValue as number[]);
   }, [setAgeRange]);
 
-  const addIncludedTags = useCallback(() => {
-    if (tag) {
-      const addedTag = tags.filter((t) => t.key === tag)[0];
-      if (!includedTags.includes(addedTag) && !excludedTags.includes(addedTag)) {
-        setIncludedTags([...includedTags, addedTag]);
-      }
-    }
-  }, [tag, tags, includedTags, excludedTags, setIncludedTags]);
-
-  const addExcludedTags = useCallback(() => {
-    if (tag) {
-      const addedTag = tags.filter((t) => t.key === tag)[0];
-      if (!includedTags.includes(addedTag) && !excludedTags.includes(addedTag)) {
-        setExcludedTags([...excludedTags, addedTag]);
-      }
-    }
-  }, [tag, tags, includedTags, excludedTags, setExcludedTags]);
-
-  const deleteIncludedTags = useCallback((tagKey: number) => {
-    setIncludedTags(includedTags.filter((t) => t.key !== tagKey));
-  }, [includedTags]);
-
-  const deleteExcludedTags = useCallback((tagKey: number) => {
-    setExcludedTags(excludedTags.filter((t) => t.key !== tagKey));
-  }, [excludedTags]);
-
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
       <section>
@@ -85,7 +56,7 @@ export default function UserFilter() {
           <p className={"text-left pr-1"}>나이</p>
           <p className={"text-gray-500"}>({ageRange[0]}~{ageRange[1] < 30 ? ageRange[1] : "30+"})</p>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mb-4">
           <Slider
             value={ageRange}
             onChange={onAgeChange}
@@ -98,126 +69,39 @@ export default function UserFilter() {
             }}
           />
         </div>
-        <p>단과대</p>
-        <article className={"flex flex-row mb-4"}>
-          <InformationInput
-            label={""}
-            value={college}
-            setValue={setCollege}
-            type={"select"}
-            required={false}
-            options={
-              colleges.map((col) => ({ name: col.name, value: col.key }))
-            }
-          />
-          <button
-            className={"ml-2"}
-            // onClick={}
-          >
-            <AddCircleIcon
-              style={{ color: pink[400] }}
-              fontSize={"large"}
-            />
-          </button>
-          <button
-            className={"ml-2"}
-            // onClick={}
-          >
-            <RemoveCircleIcon
-              style={{ color: blue[400] }}
-              fontSize={"large"}
-            />
-          </button>
-        </article>
-        <p>학과</p>
-        <article className={"flex flex-row mb-4"}>
-          <InformationInput
-            label={""}
-            value={major}
-            setValue={setMajor}
-            type={"select"}
-            required={false}
-            options={
-              majors.map((m) => ({ name: m.name, value: m.key }))
-            }
-          />
-          <button
-            className={"ml-2"}
-            // onClick={}
-          >
-            <AddCircleIcon
-              style={{ color: pink[400] }}
-              fontSize={"large"}
-            />
-          </button>
-          <button
-            className={"ml-2"}
-            // onClick={}
-          >
-            <RemoveCircleIcon
-              style={{ color: blue[400] }}
-              fontSize={"large"}
-            />
-          </button>
-        </article>
-        <p>태그</p>
-        <article className={"flex flex-row mb-4"}>
-          <InformationInput
-            label={""}
-            value={tag}
-            setValue={setTag}
-            type={"select"}
-            required={false}
-            options={
-              tags.map((t) => ({ name: t.name, value: t.key }))
-            }
-          />
-          <button
-            className={"ml-2"}
-            onClick={addIncludedTags}
-          >
-            <AddCircleIcon
-              style={{ color: pink[400] }}
-              fontSize={"large"}
-            />
-          </button>
-          <button
-            className={"ml-2"}
-            onClick={addExcludedTags}
-          >
-            <RemoveCircleIcon
-              style={{ color: blue[400] }}
-              fontSize={"large"}
-            />
-          </button>
-        </article>
-        <article
-          className={"w-full max-w-xs flex flex-row flex-wrap text-base font-bold justify-start"}
-        >
-          {
-            includedTags.map((tag) => (
-              <TagElement
-                key={tag.key}
-                tagName={tag.name}
-                included={true}
-                onDelete={() => { deleteIncludedTags(tag.key); }}
-              />
-            ))
-          }
-          {
-            excludedTags.map((tag) => (
-              <TagElement
-                key={tag.key}
-                tagName={tag.name}
-                included={false}
-                onDelete={() => { deleteExcludedTags(tag.key); }}
-              />
-            ))
-          }
-        </article>
+        <UserFilterElement<College>
+          title="단과대"
+          value={college}
+          values={colleges}
+          includedValues={includedColleges}
+          excludedValues={excludedColleges}
+          setValue={setCollege}
+          setIncludedValues={setIncludedColleges}
+          setExcludedValues={setExcludedColleges}
+        />
+        <UserFilterElement<Major>
+          title="학과"
+          value={major}
+          values={majors}
+          includedValues={includedMajors}
+          excludedValues={excludedMajors}
+          setValue={setMajor}
+          setIncludedValues={setIncludedMajors}
+          setExcludedValues={setExcludedMajors}
+        />
+        <UserFilterElement<Tag>
+          title="태그"
+          value={tag}
+          values={tags}
+          includedValues={includedTags}
+          excludedValues={excludedTags}
+          setValue={setTag}
+          setIncludedValues={setIncludedTags}
+          setExcludedValues={setExcludedTags}
+        />
       </section>
       <button
-        className={`${style.button.base} ${style.button.colorSet.main} mt-4`}
+        className={`${style.button.base} ${style.button.colorSet.main} mt-2`}
         // onClick={}
       >
         적용
