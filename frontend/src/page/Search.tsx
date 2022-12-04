@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +45,12 @@ export default function Search() {
     scrollToPrevPosition(pageBody, urlPath);
   }, [pageBody, urlPath]);
 
+  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
+    <span {...props} ref={ref}>
+      {props.children}
+    </span>
+  ));
+
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
@@ -71,12 +77,14 @@ export default function Search() {
           open={isModalOpen}
           onClose={onModalClose}
           style={{
-            display:"flex",
-            alignItems:"center",
-            justifyContent:"center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <UserFilter/>
+          <Wrapper>
+            <UserFilter/>
+          </Wrapper>
         </Modal>
       </section> : <section/>
   );
