@@ -4,6 +4,7 @@ from .introduction import Introduction
 from .photo import Photo
 from .pitapat_user_manager import PitapatUserManager
 from .relationship.pitapat import Pitapat
+from .relationship.block import Block
 from .relationship.user_chatroom import UserChatroom
 from .relationship.user_tag import UserTag
 from .tag import Tag
