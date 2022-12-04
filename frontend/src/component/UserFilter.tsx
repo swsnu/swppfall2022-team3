@@ -20,9 +20,9 @@ export default function UserFilter() {
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
   const tags = useSelector(selectTag).tags;
-  const [college, setCollege] = useState<number>(0);
-  const [major, setMajor] = useState<number>(0);
-  const [tag, setTag] = useState<number>(0);
+  const [college, setCollege] = useState<number | "">("");
+  const [major, setMajor] = useState<number | "">("");
+  const [tag, setTag] = useState<number | "">("");
   // const [includedColleges, setincludedColleges] = useState<number[]>([]);
   // const [includedMajors, setincludedMajors] = useState<number[]>([]);
   const [includedTags, setIncludedTags] = useState<Tag[]>([]);
@@ -191,6 +191,7 @@ export default function UserFilter() {
       </section>
       <button
         className={`${style.button.base} ${style.button.colorSet.main} mt-4`}
+        // onClick={}
       >
         적용
       </button>

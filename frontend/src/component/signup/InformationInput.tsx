@@ -9,7 +9,11 @@ import { Gender } from "../../types";
 export interface IProps {
   label: string;
   value: string | number | Date | Gender;
-  setValue: Dispatch<SetStateAction<string>> | Dispatch<SetStateAction<number>> | Dispatch<SetStateAction<Date>> | Dispatch<SetStateAction<Gender>>;
+  setValue: Dispatch<SetStateAction<string>>
+          | Dispatch<SetStateAction<number>>
+          | Dispatch<SetStateAction<number | "">>
+          | Dispatch<SetStateAction<Date>>
+          | Dispatch<SetStateAction<Gender>>;
   type: HTMLInputTypeAttribute | "select";
   required: boolean;
   isPassword?: boolean;
