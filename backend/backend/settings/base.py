@@ -184,6 +184,8 @@ AWS_STORAGE_BUCKET_NAME = 'pitapatcampus'
 CORS_ORIGIN_WHITELIST = []
 CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
 
+SECURE_HSTS_SECONDS = 31536000
+
 # Email Verification
 
 EMAIL_BACKEND = get_external_value(f'{BASE_DIR}/backend/.secrets/email.json', 'EMAIL_BACKEND')
