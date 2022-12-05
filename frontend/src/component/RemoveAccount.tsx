@@ -45,7 +45,7 @@ export default function RemoveAccount({onModalClose}: IProps) {
         className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
         onClick={removeOnClickHandler}
       >
-        삭제
+        계정 삭제
       </button>
       <button
         className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
