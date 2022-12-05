@@ -32,9 +32,19 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
         username: loginUser?.email ?? "",
         password: password,
       };
+      try {
+        await axios.post("/api/auth/password/change/", {
+          new_password1: password,
+          new_password2: password,
+        });
+      }
+      catch {
+        alert("비밀번호가 너무 쉽습니다.");
+        onModalClose();
+        return;
+      }
       await axios.put(`${userUrl}${loginUser?.key}/`, {
         email: loginUser?.email,
-        password: password,
         phone: phone,
         nickname: nickname,
         gender: loginUser?.gender,
@@ -50,7 +60,23 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
         onModalClose();
       });
     }
-  }, [password, passwordCheck]);
+  },
+  [dispatch,
+    loginUser?.birthday,
+    loginUser?.college,
+    loginUser?.email,
+    loginUser?.gender,
+    loginUser?.interestedGender,
+    loginUser?.introduction,
+    loginUser?.key,
+    loginUser?.major,
+    loginUser?.tags,
+    loginUser?.university,
+    nickname,
+    onModalClose,
+    password,
+    passwordCheck,
+    phone]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
