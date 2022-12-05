@@ -71,7 +71,7 @@ export default function Setting() {
           role={"presentation"}
           onClick={() => setLoginChangeModalOpen(true)}
         >
-          로그인 정보 변경
+          회원정보 변경
         </article>
         <article
           className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
