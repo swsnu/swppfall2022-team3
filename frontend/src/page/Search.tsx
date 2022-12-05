@@ -72,7 +72,7 @@ export default function Search() {
             ))
           }
         </section>
-        <NavigationBar/>
+        <NavigationBar saveYPosition={saveYPosition}/>
         <Modal
           open={isModalOpen}
           onClose={onModalClose}
