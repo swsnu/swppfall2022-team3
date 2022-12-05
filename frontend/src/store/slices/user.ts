@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Gender, User } from "../../types";
 import { RootState } from "../index";
-import { signinUrl, signoutUrl, authUserUrl, userUrl } from "../urls";
+import { signinUrl, signoutUrl, authUserUrl, userUrl, chatroomUrl } from "../urls";
 
 
 export type RawUser = {
@@ -133,7 +133,7 @@ export const fetchSignin = createAsyncThunk(
       }
       const userKey = authResponse.data.pk as number;
       // get user data
-      const userResponse = await axios.get(`${userUrl}/${userKey}`);
+      const userResponse = await axios.get(`${userUrl}${userKey}/`);
       return rawDataToUser(userResponse.data as RawUser);
     } catch (_) {
       return null;
@@ -230,7 +230,7 @@ export const getUsers = createAsyncThunk(
         });
       }
     }
-    const response = await axios.get(`${userUrl}/${paramUrl ? `?${paramUrl}` : ""}`);
+    const response = await axios.get(`${userUrl}${paramUrl ? `?${paramUrl}` : ""}`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
@@ -244,7 +244,7 @@ export const getUsers = createAsyncThunk(
 export const getUser = createAsyncThunk(
   "user/get-one",
   async (userKey: number): Promise<User | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/`);
+    const response = await axios.get(`${userUrl}${userKey}/`);
     if (response.status === 200) {
       return rawDataToUser(response.data as RawUser);
     }
@@ -258,7 +258,7 @@ export const getUser = createAsyncThunk(
 export const getPitapatSenders = createAsyncThunk(
   "user/pitapat-senders-to-user",
   async (userKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/pitapat/to/`);
+    const response = await axios.get(`${userUrl}${userKey}/pitapat/to/`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
@@ -272,7 +272,7 @@ export const getPitapatSenders = createAsyncThunk(
 export const getPitapatReceivers = createAsyncThunk(
   "user/pitapat-receivers-to-user",
   async (userKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/pitapat/from/`);
+    const response = await axios.get(`${userUrl}${userKey}/pitapat/from/`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
@@ -286,7 +286,7 @@ export const getPitapatReceivers = createAsyncThunk(
 export const getChatParticipants = createAsyncThunk(
   "user/get-all-by-chatroom",
   async (chatroomKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`/chatroom/${chatroomKey}${userUrl}`);
+    const response = await axios.get(`${chatroomUrl}${chatroomKey}/user/`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }

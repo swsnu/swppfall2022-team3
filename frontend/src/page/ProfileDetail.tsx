@@ -23,6 +23,10 @@ export default function ProfileDetail() {
   const isChatroomParticipant = (chatroomParticipants.findIndex(
     participant => participant.name === interestingUser?.nickname
   ) >= 0) ? true : false;
+  const senders = useSelector(selectUser).pitapat.senders;
+  const showRejectButton = (senders.findIndex(
+    sender => sender.key === interestingUser?.key
+  ) >= 0) ? true : false;
   const tags = useSelector(selectTag).tags;
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
@@ -52,6 +56,17 @@ export default function ProfileDetail() {
           <PhotoSlider
             user={interestingUser}
           />
+          {showRejectButton ?
+            <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>
+              <PitapatButton
+                from={loginUser.key}
+                to={interestingUser.key}
+                isAccept={false}
+                isListView={true}
+              />
+            </div> :
+            null
+          }
           {isChatroomParticipant ?
             null :
             <div className={"absolute h-14 bottom-0 left-0 right-0 px-4 py-2 flex flex-col justify-center"}>

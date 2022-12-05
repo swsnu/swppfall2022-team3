@@ -35,7 +35,7 @@ export default function UniversitySelect({
   const [emailInput, setEmailInput] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
-    const isExist = await axios.get(`${userUrl}/exist/${email}`);
+    const isExist = await axios.get(`${userUrl}exist/${email}`);
     if (isExist.data.exists) {
       setModalOpen(true);
     }

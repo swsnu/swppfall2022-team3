@@ -16,7 +16,7 @@ const initialState: TagState = {
 export const getTags = createAsyncThunk(
   "tag/get-all",
   async (): Promise<Tag[] | null> => {
-    const response = await axios.get(`${tagUrl}/`);
+    const response = await axios.get(`${tagUrl}`);
     if (response.status === 200) {
       return response.data as Tag[];
     }

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Chat, Chatroom } from "../../types";
 import { dateToString } from "../../util/date";
 import { RootState } from "../index";
-import { userUrl, chatroomUrl, chatroomSocketUrl } from "../urls";
+import { userUrl, chatroomSocketUrl } from "../urls";
 
 
 export const getChatroomSocketUrl = (chatroomKey: number): string => `${chatroomSocketUrl}/${chatroomKey}/`;
@@ -48,7 +48,7 @@ const initialState: ChatState = {
 export const getChatrooms = createAsyncThunk(
   "chatroom/get-all-by-user",
   async (userKey: number): Promise<Chatroom[]> => {
-    const response = await axios.get(`${userUrl}/${userKey}${chatroomUrl}/`);
+    const response = await axios.get(`${userUrl}${userKey}/chatroom/`);
     if (response.status === 200) {
       return (response.data as RawChatroom[]).map(rawChatroomToChatroom);
     }
