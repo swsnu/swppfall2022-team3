@@ -112,14 +112,14 @@ describe("user reducer", () => {
     // axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
     axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
 
-    await store.dispatch(getUsers(1));
+    await store.dispatch(getUsers());
     expect(store.getState().user.users).toEqual([simplifiedTestUser]);
   });
 
   it("should not get users", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
-    await store.dispatch(getUsers(1));
+    await store.dispatch(getUsers());
     expect(store.getState().user.users).toEqual([]);
   });
 

@@ -7,12 +7,19 @@ import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajors, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
-import { selectUser } from "../store/slices/user";
-import { College, Major, Tag } from "../types";
+import { getUsers, selectUser } from "../store/slices/user";
+import { College, Gender, Major, Tag } from "../types";
 import UserFilterElement from "./UserFilterElement";
 
 
-export default function UserFilter() {
+interface IProps {
+  onModalClose: () => void;
+}
+
+export default function UserFilter({
+  onModalClose,
+}: IProps) {
+  const interestedGender = useSelector(selectUser).loginUser?.interestedGender;
   const university = useSelector(selectUser).loginUser?.university;
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
@@ -102,7 +109,21 @@ export default function UserFilter() {
       </section>
       <button
         className={`${style.button.base} ${style.button.colorSet.main} mt-2`}
-        // onClick={}
+        onClick={() => {
+          dispatch(getUsers({
+            page: 1,
+            gender: interestedGender ? interestedGender : Gender.ALL,
+            minAge: ageRange[0],
+            maxAge: ageRange[1],
+            includedColleges: includedColleges.map((c) => c.key),
+            excludedColleges: excludedColleges.map((c) => c.key),
+            includedMajors: includedMajors.map((m) => m.key),
+            excludedMajors: excludedMajors.map((m) => m.key),
+            includedTags: includedTags.map((t) => t.key),
+            excludedTags: excludedTags.map((t) => t.key),
+          }));
+          onModalClose();
+        }}
       >
         적용
       </button>

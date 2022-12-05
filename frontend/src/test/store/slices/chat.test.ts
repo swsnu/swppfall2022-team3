@@ -53,6 +53,6 @@ describe("chat reducer", () => {
   it("should not get users", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
-    await store.dispatch(getUsers(1));
+    await store.dispatch(getUsers());
   });
 });

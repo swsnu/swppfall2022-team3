@@ -36,7 +36,7 @@ export default function Search() {
       navigate(paths.signIn);
     }
     else {
-      dispatch(getUsers(1));
+      dispatch(getUsers());
     }
 
   }, [navigate, loginUser, dispatch]);
@@ -83,7 +83,7 @@ export default function Search() {
           }}
         >
           <Wrapper>
-            <UserFilter/>
+            <UserFilter onModalClose={onModalClose}/>
           </Wrapper>
         </Modal>
       </section> : <section/>

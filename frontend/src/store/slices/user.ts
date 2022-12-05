@@ -170,9 +170,71 @@ export const fetchSignup = createAsyncThunk(
 
 export const getUsers = createAsyncThunk(
   "user/get-all",
-  async (page: number): Promise<User[] | null> => {
-    // const response = await axios.get(`${userUrl}/?page=${page}`);
-    const response = await axios.get(`${userUrl}/`);
+  async (param?: {
+    page: number;
+    gender: Gender;
+    minAge: number;
+    maxAge: number;
+    includedColleges: number[];
+    excludedColleges: number[];
+    includedMajors: number[];
+    excludedMajors: number[];
+    includedTags: number[];
+    excludedTags: number[];
+  }): Promise<User[] | null> => {
+    let paramUrl = "";
+    if (param) {
+      paramUrl = `page=${param.page}${param.gender !== Gender.ALL ? `&gender=${param.gender}` : ""}`;
+      if (param.minAge) {
+        paramUrl += `&age_min=${param.minAge}`;
+      }
+      if (param.maxAge) {
+        paramUrl += `&age_max=${param.maxAge}`;
+      }
+      if (param.includedColleges.length > 0) {
+        const lastIndex = param.includedColleges.length - 1;
+        paramUrl += "&colleges_included=";
+        param.includedColleges.forEach((college, index) => {
+          paramUrl += `${college}${index < lastIndex - 1 ? "," : ""}`;
+        });
+      }
+      if (param.excludedColleges.length > 0) {
+        const lastIndex = param.excludedColleges.length - 1;
+        paramUrl += "&colleges_excluded=";
+        param.excludedColleges.forEach((college, index) => {
+          paramUrl += `${college}${index < lastIndex - 1 ? "," : ""}`;
+        });
+      }
+      if (param.includedMajors.length > 0) {
+        const lastIndex = param.includedMajors.length - 1;
+        paramUrl += "&majors_included=";
+        param.includedMajors.forEach((major, index) => {
+          paramUrl += `${major}${index < lastIndex - 1 ? "," : ""}`;
+        });
+      }
+      if (param.excludedMajors.length > 0) {
+        const lastIndex = param.excludedMajors.length - 1;
+        paramUrl += "&majors_excluded=";
+        param.excludedMajors.forEach((major, index) => {
+          paramUrl += `${major}${index < lastIndex - 1 ? "," : ""}`;
+        });
+      }
+      if (param.includedTags.length > 0) {
+        const lastIndex = param.includedTags.length - 1;
+        paramUrl += "&tags_included=";
+        param.includedTags.forEach((tag, index) => {
+          paramUrl += `${tag}${index < lastIndex - 1 ? "," : ""}`;
+        });
+      }
+      if (param.excludedTags.length > 0) {
+        const lastIndex = param.excludedTags.length - 1;
+        paramUrl += "&tags_excluded=";
+        param.excludedTags.forEach((tag, index) => {
+          paramUrl += `${tag}${index < lastIndex - 1 ? "," : ""}`;
+        });
+      }
+    }
+    const response = await axios.get(`${userUrl}/${paramUrl ? `?${paramUrl}` : ""}`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
