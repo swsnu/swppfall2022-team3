@@ -41,15 +41,18 @@ export default function Search() {
   }, [loginUser, navigate]);
 
   useEffect(() => {
-    if (filter) {
-      dispatch(getUsers(filter));
-    } else {
-      dispatch(getUsers({
-        page: 1,
-        gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL,
-      }));
+    if (users.length === 0) {
+      if (filter) {
+        dispatch(getUsers(filter));
+      }
+      else {
+        dispatch(getUsers({
+          page: 1,
+          gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL,
+        }));
+      }
     }
-  }, [dispatch, filter, loginUser?.interestedGender]);
+  }, [dispatch, users, filter, loginUser?.interestedGender]);
 
   useEffect(() => {
     scrollToPrevPosition(pageBody, urlPath);
