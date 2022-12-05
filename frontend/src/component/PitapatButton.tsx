@@ -90,7 +90,7 @@ export default function PitapatButton({
       dispatch(userActions.deleteReceiver(to));
     }
     else {
-      await axios.post(`${pitapatUrl}/`, { from: from, to: to });
+      await axios.post(`${pitapatUrl}`, { from: from, to: to });
       dispatch(userActions.deleteSender(to));
     }
   }, [loginUser, isAccept, from, to, getPitapatStatus, dispatch]);
