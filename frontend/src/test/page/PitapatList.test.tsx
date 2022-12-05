@@ -1,5 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
 import PitapatList from "../../page/PitapatList";
@@ -31,7 +32,11 @@ describe("PitapatList", () => {
   function getElement(store: ToolkitStore) {
     return (
       <Provider store={store}>
-        <PitapatList/>
+        <MemoryRouter>
+          <Routes>
+            <Route path="/" element={<PitapatList/>}/>
+          </Routes>
+        </MemoryRouter>
       </Provider>
     );
   }

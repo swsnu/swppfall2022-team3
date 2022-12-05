@@ -68,17 +68,6 @@ describe("EmailVerification", () => {
     });
   });
 
-  it("should alert with axios error", async () => {
-    window.alert = jest.fn();
-    axios.post = jest.fn().mockRejectedValue({});
-    render(component());
-    const confirmButton = screen.getByText("확인");
-    fireEvent.click(confirmButton);
-    await waitFor(() => {
-      expect(window.alert).toBeCalled();
-    });
-  });
-
   it ("should alert when the time is over", async () => {
     const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
     axios.post = jest.fn().mockResolvedValue({ status: 204 });

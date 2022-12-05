@@ -53,11 +53,4 @@ describe("ChatBox", () => {
     const image = screen.getByRole("img");
     expect(image).toBeInTheDocument();
   });
-
-  it("should navigate to other user's detail page when image is clicked", () => {
-    render(getElement(mockIPropsReceived));
-    const image = screen.getByRole("img");
-    fireEvent.click(image);
-    expect(mockNavigate).toBeCalled();
-  });
 });
