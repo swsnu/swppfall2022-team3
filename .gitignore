@@ -433,6 +433,7 @@ yarn.lock
 /frontend/.env.development
 /frontend/.env.local
 /frontend/.env.production
+/frontend/nginx.conf
 
 # coverage
 coverage.json
