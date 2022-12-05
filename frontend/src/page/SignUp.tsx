@@ -104,7 +104,7 @@ export default function SignUp() {
         email={email}
         requestTime={requestTime}
         setRequestTime={setRequestTime}
-        limitSec={10}
+        limitSec={3 * 60}
         setStep={setStep}
         isOpenTimeoutModal={isOpenTimeoutModal}
         setIsOpenTimeoutModal={setIsOpenTimeoutModal}
