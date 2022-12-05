@@ -43,15 +43,15 @@ export default function RemoveAccount({onModalClose}: IProps) {
       </div>
       <button
         className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
-        onClick={remainOnClickHandler}
-      >
-        유지
-      </button>
-      <button
-        className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
         onClick={removeOnClickHandler}
       >
         삭제
+      </button>
+      <button
+        className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
+        onClick={remainOnClickHandler}
+      >
+        유지
       </button>
     </section>
   );
