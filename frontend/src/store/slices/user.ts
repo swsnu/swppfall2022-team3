@@ -195,21 +195,21 @@ export const getUsers = createAsyncThunk(
         const lastIndex = param.includedColleges.length - 1;
         paramUrl += "&colleges_included=";
         param.includedColleges.forEach((college, index) => {
-          paramUrl += `${college}${index < lastIndex - 1 ? "," : ""}`;
+          paramUrl += `${college}${index < lastIndex ? "," : ""}`;
         });
       }
       if (param.excludedColleges.length > 0) {
         const lastIndex = param.excludedColleges.length - 1;
         paramUrl += "&colleges_excluded=";
         param.excludedColleges.forEach((college, index) => {
-          paramUrl += `${college}${index < lastIndex - 1 ? "," : ""}`;
+          paramUrl += `${college}${index < lastIndex ? "," : ""}`;
         });
       }
       if (param.includedMajors.length > 0) {
         const lastIndex = param.includedMajors.length - 1;
         paramUrl += "&majors_included=";
         param.includedMajors.forEach((major, index) => {
-          paramUrl += `${major}${index < lastIndex - 1 ? "," : ""}`;
+          paramUrl += `${major}${index < lastIndex ? "," : ""}`;
         });
       }
       if (param.excludedMajors.length > 0) {
