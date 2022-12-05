@@ -48,7 +48,7 @@ export default function UniversitySelect({
         email: email,
         request_time: requestTime,
       });
-      setStep(2);
+      setStep(1);
     }
   }, [email, requestTime, setStep]);
 
