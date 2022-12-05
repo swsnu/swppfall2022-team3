@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Major } from "../../types";
 import { RootState } from "../index";
+import { majorUrl } from "../urls";
 
-
-const majorUrl = "/major/";
 
 export interface MajorState {
   majors: Major[];

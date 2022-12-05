@@ -5,7 +5,7 @@ import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
-import { userUrl } from "../../store/slices/user";
+import { userUrl } from "../../store/urls";
 import { University } from "../../types";
 import InformationInput from "./InformationInput";
 import SignInModal from "./SignInModal";

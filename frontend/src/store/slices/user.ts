@@ -2,12 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Gender, User } from "../../types";
 import { RootState } from "../index";
+import { signinUrl, signoutUrl, authUserUrl, userUrl } from "../urls";
 
-
-export const signinUrl = "/auth/login/";
-export const signoutUrl = "/auth/logout/";
-export const authUserUrl = "/auth/user/";
-export const userUrl = "/user";
 
 export type RawUser = {
   key: number;

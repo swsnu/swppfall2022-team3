@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { University } from "../../types";
 import { RootState } from "../index";
+import { universityUrl } from "../urls";
 
-
-const universityUrl = "/university/";
 
 export type RawUniversity = {
   key: number;

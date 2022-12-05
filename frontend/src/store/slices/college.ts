@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { College } from "../../types";
 import { RootState } from "../index";
+import { collegeUrl } from "../urls";
 
-
-const collegeUrl = "/college/";
 
 export interface CollegeState {
   colleges: College[];
