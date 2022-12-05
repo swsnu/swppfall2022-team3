@@ -8,6 +8,8 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { selectChat } from "../store/slices/chat";
+import {getColleges, selectCollege} from "../store/slices/college";
+import {getMajors, selectMajor} from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/date";
@@ -22,6 +24,8 @@ export default function ProfileDetail() {
     participant => participant.name === interestingUser?.nickname
   ) >= 0) ? true : false;
   const tags = useSelector(selectTag).tags;
+  const colleges = useSelector(selectCollege).colleges;
+  const majors = useSelector(selectMajor).majors;
 
   useEffect(() => {
     if (interestingUser) {
@@ -35,6 +39,8 @@ export default function ProfileDetail() {
       if (shouldGetTags) {
         dispatch(getTags());
       }
+      dispatch(getColleges(interestingUser.university));
+      dispatch(getMajors(interestingUser.college));
     }
   }, [interestingUser, dispatch, tags]);
 
@@ -58,6 +64,14 @@ export default function ProfileDetail() {
             </div>
           }
         </section>
+        <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
+          <div className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
+            {colleges.find((college) => college.key === interestingUser.college)?.name}
+          </div>
+          <div className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
+            {majors.find((major) => major.key === interestingUser.major)?.name}
+          </div>
+        </article>
         <article className={"flex flex-wrap mx-1.5 my-2 text-base font-bold text-pink-500"}>
           {interestingUser.tags.map((t, index) =>
             <div key={index} className={"flex-none px-2.5 py-0.5 mx-1 my-1 rounded-2xl border-2 border-pink-400"}>
