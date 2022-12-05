@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import Modal from "@mui/material/Modal";
 import AppBar from "../component/AppBar";
 import LoginInfoChanger from "../component/LoginInfoChanger";
+import RemoveAccount from "../component/RemoveAccount";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -14,11 +15,16 @@ export default function Setting() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isLoginChangeModalOpen, setLoginChangeModalOpen] = useState<boolean>(false);
+  const [isRemoveAccModalOpen, setRemoveAccModalOpen] = useState<boolean>(false);
 
-  const onPasswordModalClose = useCallback(() => {
-    setModalOpen(false);
-  }, [setModalOpen]);
+  const onLoginChangeModalClose = useCallback(() => {
+    setLoginChangeModalOpen(false);
+  }, [setLoginChangeModalOpen]);
+
+  const onRemoveAccModalClose = useCallback(() => {
+    setRemoveAccModalOpen(false);
+  }, [setRemoveAccModalOpen]);
 
   const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
     <span {...props} ref={ref}>
@@ -63,7 +69,7 @@ export default function Setting() {
         <article
           className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
           role={"presentation"}
-          onClick={() => setModalOpen(true)}
+          onClick={() => setLoginChangeModalOpen(true)}
         >
           로그인 정보 변경
         </article>
@@ -74,11 +80,18 @@ export default function Setting() {
         >
           로그아웃
         </article>
+        <article
+          className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
+          role={"presentation"}
+          onClick={() => setRemoveAccModalOpen(true)}
+        >
+          회원 탈퇴
+        </article>
       </section>
 
       <Modal
-        open={isModalOpen}
-        onClose={onPasswordModalClose}
+        open={isLoginChangeModalOpen}
+        onClose={onLoginChangeModalClose}
         style={{
           display: "flex",
           alignItems: "center",
@@ -86,7 +99,21 @@ export default function Setting() {
         }}
       >
         <Wrapper>
-          <LoginInfoChanger onModalClose={onPasswordModalClose}/>
+          <LoginInfoChanger onModalClose={onLoginChangeModalClose}/>
+        </Wrapper>
+      </Modal>
+
+      <Modal
+        open={isRemoveAccModalOpen}
+        onClose={onRemoveAccModalClose}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Wrapper>
+          <RemoveAccount onModalClose={onRemoveAccModalClose}/>
         </Wrapper>
       </Modal>
 
