@@ -43,10 +43,20 @@ export default function ProfileDetail() {
       if (shouldGetTags) {
         dispatch(getTags());
       }
-      dispatch(getColleges(interestingUser.university));
-      dispatch(getMajors(interestingUser.college));
+
+      const collegeKeys = colleges.map((college) => college.key);
+      const shouldGetColleges = collegeKeys.indexOf(interestingUser.college) < 0;
+      if (shouldGetColleges) {
+        dispatch(getColleges(interestingUser.university));
+      }
+
+      const majorKeys = majors.map((major) => major.key);
+      const shouldGetMajors = majorKeys.indexOf(interestingUser.major) < 0;
+      if (shouldGetMajors) {
+        dispatch(getMajors(interestingUser.college));
+      }
     }
-  }, [interestingUser, dispatch, tags]);
+  }, [interestingUser, tags, colleges, majors, dispatch]);
 
   return (loginUser && interestingUser) ? (
     <section className={`${style.page.base} ${style.page.margin.top}`}>
