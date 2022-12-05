@@ -6,6 +6,7 @@ import { getColleges, selectCollege } from "../../store/slices/college";
 import { getMajors, selectMajor } from "../../store/slices/major";
 import { College, Gender, Major, University } from "../../types";
 import InformationInput from "./InformationInput";
+import SignInModal from "./SignInModal";
 
 
 export interface IProps {
@@ -55,10 +56,11 @@ export default function PersonalInformation({
   const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(colleges.length === 0 ? 0 : colleges[0].key);
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(majors.length === 0 ? 0 : majors[0].key);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const confirmOnClick = useCallback(() => {
     if (password !== passwordCheck) {
-      alert("비밀번호를 정확히 입력해주세요");
+      setModalOpen(true);
     }
     else if (
       nickname &&
@@ -118,6 +120,16 @@ export default function PersonalInformation({
 
   return (
     <section className={style.page.base}>
+      <SignInModal
+        description={
+          <p>
+            비밀번호를<br />
+            정확히 입력해주세요.
+          </p>
+        }
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       <p className={style.component.signIn.notification}>
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!

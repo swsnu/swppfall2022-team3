@@ -48,7 +48,7 @@ export default function UniversitySelect({
         email: email,
         request_time: requestTime,
       });
-      setStep(1);
+      setStep(2);
     }
   }, [email, requestTime, setStep]);
 
@@ -75,7 +75,8 @@ export default function UniversitySelect({
         description={
           <p>
             입력 가능한 시간이 지났습니다.<br />
-            다시 학교 이메일을 입력해주세요.
+            다시 학교 이메일을<br />
+            입력해주세요.
           </p>
         }
         modalOpen={isOpenTimeoutModal}
@@ -85,7 +86,8 @@ export default function UniversitySelect({
         description={
           <p>
             해당 계정이 이미 존재합니다.<br />
-            다른 이메일을 입력해주세요.
+            다른 이메일을<br />
+            입력해주세요.
           </p>
         }
         modalOpen={modalOpen}
