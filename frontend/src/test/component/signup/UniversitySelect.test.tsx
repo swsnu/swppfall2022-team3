@@ -11,6 +11,7 @@ const mockStore = getDefaultMockStore();
 const mockSetUniversity = jest.fn();
 const mockSetEmail = jest.fn();
 const mockSetStep = jest.fn();
+const mockSetIsOpenTimeoutModal = jest.fn();
 
 const university: University = universities[0];
 
@@ -25,9 +26,11 @@ describe("UniversitySelect", () => {
           university={university}
           requestTime={new Date()}
           email={""}
+          isOpenTimeoutModal={false}
           setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
           setStep={mockSetStep}
+          setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
         />
       </Provider>
     );

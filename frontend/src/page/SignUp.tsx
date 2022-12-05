@@ -32,6 +32,7 @@ export default function SignUp() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [introduction, setIntroduction] = useState<string>("");
   const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
+  const [isOpenTimeoutModal, setIsOpenTimeoutModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,14 +96,18 @@ export default function SignUp() {
         setUniversity={setUniversity}
         setEmail={setEmail}
         setStep={setStep}
+        isOpenTimeoutModal={isOpenTimeoutModal}
+        setIsOpenTimeoutModal={setIsOpenTimeoutModal}
       />;
     case 1:
       return <EmailVerification
         email={email}
         requestTime={requestTime}
         setRequestTime={setRequestTime}
-        limitSec={3 * 60}
+        limitSec={10}
         setStep={setStep}
+        isOpenTimeoutModal={isOpenTimeoutModal}
+        setIsOpenTimeoutModal={setIsOpenTimeoutModal}
       />;
     case 2:
       return <PersonalInformation
@@ -175,7 +180,9 @@ export default function SignUp() {
     interestedGender,
     tags,
     introduction,
+    isOpenTimeoutModal,
     confirmOnClick,
+    setIsOpenTimeoutModal,
   ]);
 
   return getPage(step);

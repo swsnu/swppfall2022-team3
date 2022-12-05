@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import style from "../../constant/style";
+import { authEmailUrl, authVerifyUrl } from "../../store/urls";
 import InformationInput from "./InformationInput";
 import SignInModal from "./SignInModal";
 
@@ -9,16 +10,20 @@ export interface IProps {
   email: string;
   limitSec: number;
   requestTime: Date;
+  isOpenTimeoutModal: boolean;
   setRequestTime: Dispatch<SetStateAction<Date>>;
   setStep: Dispatch<SetStateAction<number>>;
+  setIsOpenTimeoutModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function EmailVerification({
   email,
   limitSec,
   requestTime,
+  isOpenTimeoutModal,
   setRequestTime,
   setStep,
+  setIsOpenTimeoutModal,
 }: IProps) {
   const [sec, setSec] = useState<number>(limitSec);
   const [code, setCode] = useState<string>("");
@@ -31,16 +36,17 @@ export default function EmailVerification({
       }
       else {
         clearInterval(countdown);
-        alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.");
+        //alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.");
+        setIsOpenTimeoutModal(true);
         setStep(0);
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [sec, setSec, setStep]);
+  }, [sec, setIsOpenTimeoutModal, setSec, setStep]);
 
   const resendOnClick = useCallback(async () => {
     setRequestTime(new Date());
-    await axios.post("/auth/email/", {
+    await axios.post(`${authEmailUrl}`, {
       email: email,
       request_time: requestTime,
     });
@@ -49,7 +55,7 @@ export default function EmailVerification({
 
   const confirmOnClick = useCallback(async () => {
     try {
-      const result = await axios.post("/auth/verify/", {
+      const result = await axios.post(`${authVerifyUrl}`, {
         email: email,
         request_time: requestTime,
         code: code,

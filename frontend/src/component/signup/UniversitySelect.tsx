@@ -5,7 +5,7 @@ import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
-import { userUrl } from "../../store/urls";
+import { userUrl , authEmailUrl } from "../../store/urls";
 import { University } from "../../types";
 import InformationInput from "./InformationInput";
 import SignInModal from "./SignInModal";
@@ -15,18 +15,22 @@ export interface IProps {
   university: University | null;
   email: string;
   requestTime: Date | undefined;
+  isOpenTimeoutModal: boolean;
   setUniversity: Dispatch<SetStateAction<University | null>>;
   setEmail: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<number>>;
+  setIsOpenTimeoutModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function UniversitySelect({
   university,
   email,
   requestTime,
+  isOpenTimeoutModal,
   setUniversity,
   setEmail,
   setStep,
+  setIsOpenTimeoutModal,
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +44,7 @@ export default function UniversitySelect({
       setModalOpen(true);
     }
     else {
-      await axios.post("/auth/email/", {
+      await axios.post(`${authEmailUrl}`, {
         email: email,
         request_time: requestTime,
       });
@@ -70,9 +74,18 @@ export default function UniversitySelect({
       <SignInModal
         description={
           <p>
-            로그인에 실패했습니다.<br />
-            이메일이나 비밀번호를<br />
-            확인해주세요.
+            입력 가능한 시간이 지났습니다.<br />
+            다시 학교 이메일을 입력해주세요.
+          </p>
+        }
+        modalOpen={isOpenTimeoutModal}
+        setModalOpen={setIsOpenTimeoutModal}
+      />
+      <SignInModal
+        description={
+          <p>
+            해당 계정이 이미 존재합니다.<br />
+            다른 이메일을 입력해주세요.
           </p>
         }
         modalOpen={modalOpen}

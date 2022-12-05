@@ -3,6 +3,8 @@ const backendUrl = "/api";
 export const signinUrl = `${backendUrl}/auth/login/`;
 export const signoutUrl = `${backendUrl}/auth/logout/`;
 export const authUserUrl = `${backendUrl}/auth/user/`;
+export const authEmailUrl = `${backendUrl}/auth/email/`;
+export const authVerifyUrl = `${backendUrl}/auth/verify/`;
 export const userUrl = `${backendUrl}/user/`;
 
 export const chatroomUrl = `${backendUrl}/chatroom/`;
