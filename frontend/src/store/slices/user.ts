@@ -133,7 +133,7 @@ export const fetchSignin = createAsyncThunk(
       }
       const userKey = authResponse.data.pk as number;
       // get user data
-      const userResponse = await axios.get(`${userUrl}/${userKey}`);
+      const userResponse = await axios.get(`${userUrl}/${userKey}/`);
       return rawDataToUser(userResponse.data as RawUser);
     } catch (_) {
       return null;
