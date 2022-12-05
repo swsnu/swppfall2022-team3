@@ -7,7 +7,7 @@ import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajors, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
-import { getUsers, selectUser } from "../store/slices/user";
+import { getUsers, selectUser, userActions } from "../store/slices/user";
 import { College, Gender, Major, Tag } from "../types";
 import UserFilterElement from "./UserFilterElement";
 
@@ -55,6 +55,35 @@ export default function UserFilter({
   const onAgeChange = useCallback((_: Event, newValue: number | number[]) => {
     setAgeRange(newValue as number[]);
   }, [setAgeRange]);
+
+  const onClickApply = useCallback(async () => {
+    const filter = {
+      page: 1,
+      gender: interestedGender ? interestedGender : Gender.ALL,
+      minAge: ageRange[0],
+      maxAge: ageRange[1],
+      includedColleges: includedColleges.map((c) => c.key),
+      excludedColleges: excludedColleges.map((c) => c.key),
+      includedMajors: includedMajors.map((m) => m.key),
+      excludedMajors: excludedMajors.map((m) => m.key),
+      includedTags: includedTags.map((t) => t.key),
+      excludedTags: excludedTags.map((t) => t.key),
+    };
+    await dispatch(getUsers(filter));
+    dispatch(userActions.setFilter(filter));
+    onModalClose();
+  }, [
+    interestedGender,
+    ageRange,
+    includedColleges,
+    excludedColleges,
+    includedMajors,
+    excludedMajors,
+    includedTags,
+    excludedTags,
+    onModalClose,
+    dispatch,
+  ]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
@@ -109,21 +138,7 @@ export default function UserFilter({
       </section>
       <button
         className={`${style.button.base} ${style.button.colorSet.main} mt-2`}
-        onClick={() => {
-          dispatch(getUsers({
-            page: 1,
-            gender: interestedGender ? interestedGender : Gender.ALL,
-            minAge: ageRange[0],
-            maxAge: ageRange[1],
-            includedColleges: includedColleges.map((c) => c.key),
-            excludedColleges: excludedColleges.map((c) => c.key),
-            includedMajors: includedMajors.map((m) => m.key),
-            excludedMajors: excludedMajors.map((m) => m.key),
-            includedTags: includedTags.map((t) => t.key),
-            excludedTags: excludedTags.map((t) => t.key),
-          }));
-          onModalClose();
-        }}
+        onClick={onClickApply}
       >
         적용
       </button>

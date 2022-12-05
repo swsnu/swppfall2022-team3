@@ -18,10 +18,12 @@ import { savePageYPosition, scrollToPrevPosition } from "../util/pageScroll";
 export default function Search() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const users = useSelector(selectUser).users;
   const loginUser = useSelector(selectUser).loginUser;
+  const users = useSelector(selectUser).users;
+  const filter = useSelector(selectUser).filter;
   const urlPath = useLocation().pathname;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const pageBody = useRef<HTMLDivElement>(null);
 
   const saveYPosition = useCallback(() => {
@@ -39,15 +41,25 @@ export default function Search() {
   }, [loginUser, navigate]);
 
   useEffect(() => {
-    dispatch(getUsers({
-      page: 1,
-      gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL,
-    }));
-  }, [dispatch, loginUser?.interestedGender]);
+    if (filter) {
+      dispatch(getUsers(filter));
+    } else {
+      dispatch(getUsers({
+        page: 1,
+        gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL,
+      }));
+    }
+  }, [dispatch, filter, loginUser?.interestedGender]);
 
   useEffect(() => {
     scrollToPrevPosition(pageBody, urlPath);
   }, [pageBody, urlPath]);
+
+  // const getMoreUsers = useCallback(async () => {
+  //   setIsLoaded(true);
+
+  //   setIsLoaded(false);
+  // }, []);
 
   const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
     <span {...props} ref={ref}>

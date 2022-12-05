@@ -32,8 +32,9 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   college: { colleges: colleges },
   major: { majors: majors },
   user: {
-    users: users,
     loginUser: shouldLogin ? users[0] : null,
+    users: users,
+    filter: null,
     interestingUser: shouldLogin ? users[3] : null,
     pitapat: {
       senders: shouldLogin ? [users[1]] : [],
@@ -56,8 +57,9 @@ export const getNoPhotoMockStore = () => getMockStore({
   college: { colleges: colleges },
   major: { majors: majors },
   user: {
-    users: users,
     loginUser: users[0],
+    users: users,
+    filter: null,
     interestingUser: null,
     pitapat: {
       senders: [],
@@ -80,8 +82,9 @@ export const getNointerestingUserMockStore = () => getMockStore({
   college: { colleges: colleges },
   major: { majors: majors },
   user: {
-    users: users,
     loginUser: users[0],
+    users: users,
+    filter: null,
     interestingUser: null,
     pitapat: {
       senders: [users[1]],

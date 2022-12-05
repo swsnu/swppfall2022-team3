@@ -30,6 +30,19 @@ export type SimplifiedRawUser = {
   repr_photo: string;
 }
 
+export type SearchFilter = {
+  page: number;
+  gender: Gender;
+  minAge?: number;
+  maxAge?: number;
+  includedColleges?: number[];
+  excludedColleges?: number[];
+  includedMajors?: number[];
+  excludedMajors?: number[];
+  includedTags?: number[];
+  excludedTags?: number[];
+}
+
 export const getGender = (genderStr: string): Gender => {
   if (genderStr === "M") {
     return Gender.MALE;
@@ -88,8 +101,9 @@ export const userToRawData = (user: User): RawUser => (
 );
 
 export interface UserState {
-  users: User[];
   loginUser: User | null;
+  users: User[];
+  filter: SearchFilter | null;
   interestingUser: User | null;
   pitapat: {
     senders: User[];
@@ -104,10 +118,11 @@ export interface UserState {
 const savedLoginUser = sessionStorage.getItem("loginUser");
 
 const initialState: UserState = {
-  users: [],
   loginUser: savedLoginUser ?
     JSON.parse(savedLoginUser) as User :
     null,
+  users: [],
+  filter: null,
   interestingUser: null,
   pitapat: {
     senders: [],
@@ -166,18 +181,7 @@ export const fetchSignup = createAsyncThunk(
 
 export const getUsers = createAsyncThunk(
   "user/get-all",
-  async (param?: {
-    page: number;
-    gender: Gender;
-    minAge?: number;
-    maxAge?: number;
-    includedColleges?: number[];
-    excludedColleges?: number[];
-    includedMajors?: number[];
-    excludedMajors?: number[];
-    includedTags?: number[];
-    excludedTags?: number[];
-  }): Promise<User[] | null> => {
+  async (param?: SearchFilter): Promise<User[] | null> => {
     let paramUrl = "";
     if (param) {
       paramUrl = `page=${param.page}${param.gender !== Gender.ALL ? `&gender=${param.gender}` : ""}`;
@@ -254,7 +258,6 @@ export const getUser = createAsyncThunk(
   }
 );
 
-
 export const getPitapatSenders = createAsyncThunk(
   "user/pitapat-senders-to-user",
   async (userKey: number): Promise<User[] | null> => {
@@ -300,6 +303,10 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setFilter: (state, action: PayloadAction<SearchFilter>) => {
+      state.filter = action.payload;
+      // TODO: save in localStorage
+    },
     setPitapatListTabIndex: (state, action: PayloadAction<0 | 1>) => {
       state.pitapatListTabIndex = action.payload;
     },
