@@ -73,6 +73,11 @@ export default function ImageUpload({
     setStep(6);
   }, [photoInfos, setUploadedPhotos, setStep]);
 
+  const backOnClick = useCallback(() => {
+    setUploadedPhotos([]);
+    setStep(4);
+  }, [setUploadedPhotos, setStep]);
+
   return (
     <section className={style.page.base}>
       <p className={style.component.signIn.notification}>
@@ -111,6 +116,12 @@ export default function ImageUpload({
         ※ 본인의 사진이어야 합니다.
       </article>
       <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={backOnClick}
+        >
+          뒤로 가기
+        </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
