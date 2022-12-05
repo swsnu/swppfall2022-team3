@@ -47,7 +47,7 @@ export default function Setting() {
           </div>
         </article>
         <article
-          className={"w-full flex items-center h-12 border-b ml-4 text-left text-lg"}
+          className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
           role={"presentation"}
           onClick={() => dispatch(fetchSignout())}
         >
