@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Gender, User } from "../../types";
 import { RootState } from "../index";
-import { signinUrl, signoutUrl, authUserUrl, userUrl } from "../urls";
+import { signinUrl, signoutUrl, authUserUrl, userUrl, chatroomUrl } from "../urls";
 
 
 export type RawUser = {
@@ -286,7 +286,7 @@ export const getPitapatReceivers = createAsyncThunk(
 export const getChatParticipants = createAsyncThunk(
   "user/get-all-by-chatroom",
   async (chatroomKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`/chatroom/${chatroomKey}${userUrl}`);
+    const response = await axios.get(`${chatroomUrl}${chatroomKey}/user/`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
