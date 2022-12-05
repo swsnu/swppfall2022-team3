@@ -5,7 +5,6 @@ export const signoutUrl = `${backendUrl}/auth/logout/`;
 export const authUserUrl = `${backendUrl}/auth/user/`;
 export const userUrl = `${backendUrl}/user`;
 
-export const chatroomUrl = `${backendUrl}/chatroom`;
 export const chatroomSocketUrl = process.env.REACT_APP_SOCKET_URL;
 
 export const universityUrl = `${backendUrl}/university/`;
