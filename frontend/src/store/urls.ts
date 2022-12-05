@@ -13,3 +13,5 @@ export const collegeUrl = `${backendUrl}/college/`;
 export const majorUrl = `${backendUrl}/major/`;
 
 export const tagUrl = `${backendUrl}/tag`;
+
+export const pitapatUrl = `${backendUrl}/pitapat`;
