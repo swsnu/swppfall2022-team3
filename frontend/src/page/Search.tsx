@@ -11,6 +11,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getUsers, selectUser } from "../store/slices/user";
+import { Gender } from "../types";
 import { savePageYPosition, scrollToPrevPosition } from "../util/pageScroll";
 
 
@@ -35,11 +36,14 @@ export default function Search() {
     if (!loginUser) {
       navigate(paths.signIn);
     }
-    if (users.length === 0) {
-      dispatch(getUsers());
-    }
+  }, [loginUser, navigate]);
 
-  }, [loginUser, users, navigate, dispatch]);
+  useEffect(() => {
+    dispatch(getUsers({
+      page: 1,
+      gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL,
+    }));
+  }, [dispatch, loginUser?.interestedGender]);
 
   useEffect(() => {
     scrollToPrevPosition(pageBody, urlPath);

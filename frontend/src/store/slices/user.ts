@@ -169,14 +169,14 @@ export const getUsers = createAsyncThunk(
   async (param?: {
     page: number;
     gender: Gender;
-    minAge: number;
-    maxAge: number;
-    includedColleges: number[];
-    excludedColleges: number[];
-    includedMajors: number[];
-    excludedMajors: number[];
-    includedTags: number[];
-    excludedTags: number[];
+    minAge?: number;
+    maxAge?: number;
+    includedColleges?: number[];
+    excludedColleges?: number[];
+    includedMajors?: number[];
+    excludedMajors?: number[];
+    includedTags?: number[];
+    excludedTags?: number[];
   }): Promise<User[] | null> => {
     let paramUrl = "";
     if (param) {
@@ -187,42 +187,42 @@ export const getUsers = createAsyncThunk(
       if (param.maxAge) {
         paramUrl += `&age_max=${param.maxAge}`;
       }
-      if (param.includedColleges.length > 0) {
+      if (param.includedColleges && param.includedColleges.length > 0) {
         const lastIndex = param.includedColleges.length - 1;
         paramUrl += "&colleges_included=";
         param.includedColleges.forEach((college, index) => {
           paramUrl += `${college}${index < lastIndex ? "," : ""}`;
         });
       }
-      if (param.excludedColleges.length > 0) {
+      if (param.excludedColleges && param.excludedColleges.length > 0) {
         const lastIndex = param.excludedColleges.length - 1;
         paramUrl += "&colleges_excluded=";
         param.excludedColleges.forEach((college, index) => {
           paramUrl += `${college}${index < lastIndex ? "," : ""}`;
         });
       }
-      if (param.includedMajors.length > 0) {
+      if (param.includedMajors && param.includedMajors.length > 0) {
         const lastIndex = param.includedMajors.length - 1;
         paramUrl += "&majors_included=";
         param.includedMajors.forEach((major, index) => {
           paramUrl += `${major}${index < lastIndex ? "," : ""}`;
         });
       }
-      if (param.excludedMajors.length > 0) {
+      if (param.excludedMajors && param.excludedMajors.length > 0) {
         const lastIndex = param.excludedMajors.length - 1;
         paramUrl += "&majors_excluded=";
         param.excludedMajors.forEach((major, index) => {
           paramUrl += `${major}${index < lastIndex - 1 ? "," : ""}`;
         });
       }
-      if (param.includedTags.length > 0) {
+      if (param.includedTags && param.includedTags.length > 0) {
         const lastIndex = param.includedTags.length - 1;
         paramUrl += "&tags_included=";
         param.includedTags.forEach((tag, index) => {
           paramUrl += `${tag}${index < lastIndex - 1 ? "," : ""}`;
         });
       }
-      if (param.excludedTags.length > 0) {
+      if (param.excludedTags && param.excludedTags.length > 0) {
         const lastIndex = param.excludedTags.length - 1;
         paramUrl += "&tags_excluded=";
         param.excludedTags.forEach((tag, index) => {

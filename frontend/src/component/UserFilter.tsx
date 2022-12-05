@@ -19,6 +19,7 @@ interface IProps {
 export default function UserFilter({
   onModalClose,
 }: IProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const interestedGender = useSelector(selectUser).loginUser?.interestedGender;
   const university = useSelector(selectUser).loginUser?.university;
   const colleges = useSelector(selectCollege).colleges;
@@ -34,7 +35,6 @@ export default function UserFilter({
   const [includedTags, setIncludedTags] = useState<Tag[]>([]);
   const [excludedTags, setExcludedTags] = useState<Tag[]>([]);
   const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (university) {
