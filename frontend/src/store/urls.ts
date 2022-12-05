@@ -1,4 +1,4 @@
-const backendUrl = "";
+const backendUrl = "/api";
 
 export const signinUrl = `${backendUrl}/auth/login/`;
 export const signoutUrl = `${backendUrl}/auth/logout/`;

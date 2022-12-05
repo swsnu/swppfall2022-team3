@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000/api",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "start": "env-cmd -f .env.local react-scripts start",
     "start:prod": "env-cmd -f .env.production react-scripts start",
