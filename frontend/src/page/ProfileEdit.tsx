@@ -8,7 +8,7 @@ import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajors, selectMajor } from "../store/slices/major";
-import {getTags, selectTag} from "../store/slices/tag";
+import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/date";
 
