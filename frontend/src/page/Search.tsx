@@ -35,11 +35,11 @@ export default function Search() {
     if (!loginUser) {
       navigate(paths.signIn);
     }
-    else {
+    if (users.length === 0) {
       dispatch(getUsers());
     }
 
-  }, [navigate, loginUser, dispatch]);
+  }, [loginUser, users, navigate, dispatch]);
 
   useEffect(() => {
     scrollToPrevPosition(pageBody, urlPath);
