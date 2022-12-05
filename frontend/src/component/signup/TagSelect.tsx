@@ -58,6 +58,10 @@ export default function TagSelect({
     }
   }, [setStep, tags]);
 
+  const backOnClick = useCallback(() => {
+    setTags([]);
+    setStep(2);
+  }, [setTags, setStep]);
   return (
     <section className={style.page.base}>
       <p className={style.component.signIn.notification}>
@@ -128,6 +132,12 @@ export default function TagSelect({
         </article>
       </section>
       <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={backOnClick}
+        >
+          뒤로 가기
+        </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}

@@ -77,6 +77,13 @@ export default function PersonalInformation({
     }
   }, [password, passwordCheck, setStep, nickname, birthday, college, major, gender, targetGender]);
 
+  const backOnClick = useCallback(() => {
+    setNickname("");
+    setPassword("");
+    setPhone("");
+    setStep(0);
+  }, [setNickname, setPassword, setPhone, setStep]);
+
   useEffect(() => {
     if (university) {
       dispatch(getColleges(university.key));
@@ -130,7 +137,7 @@ export default function PersonalInformation({
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
-      <p className={style.component.signIn.notification}>
+      <p className={"my-8 text-center text-pink-500"}>
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!
       </p>
@@ -217,6 +224,12 @@ export default function PersonalInformation({
         />
       </section>
       <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={backOnClick}
+        >
+          뒤로 가기
+        </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}

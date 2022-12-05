@@ -100,16 +100,22 @@ export default function EmailVerification({
       </section>
       <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={`${style.button.base} ${style.button.colorSet.main} mb-2`}
-          onClick={confirmOnClick}
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={() => setStep(0)}
         >
-          확인
+          뒤로 가기
         </button>
         <button
-          className={`${style.button.base} ${style.button.colorSet.secondary}`}
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
           onClick={resendOnClick}
         >
           재전송
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.main}`}
+          onClick={confirmOnClick}
+        >
+          확인
         </button>
       </section>
     </section>

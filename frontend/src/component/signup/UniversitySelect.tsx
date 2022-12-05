@@ -1,7 +1,9 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import paths from "../../constant/path";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
@@ -34,6 +36,7 @@ export default function UniversitySelect({
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [emailInput, setEmailInput] = useState<string>("");
@@ -134,6 +137,12 @@ export default function UniversitySelect({
         </section>
       </section>
       <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={() => navigate(paths.signIn)}
+        >
+          뒤로 가기
+        </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}
