@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect } from "react";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import Modal from "@mui/material/Modal";
 import AppBar from "../component/AppBar";
+import LoginInfoChanger from "../component/LoginInfoChanger";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -12,6 +14,17 @@ export default function Setting() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  const onPasswordModalClose = useCallback(() => {
+    setModalOpen(false);
+  }, [setModalOpen]);
+
+  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
+    <span {...props} ref={ref}>
+      {props.children}
+    </span>
+  ));
 
   useEffect(() => {
     if (!loginUser) {
@@ -46,6 +59,14 @@ export default function Setting() {
             </button>
           </div>
         </article>
+
+        <article
+          className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
+          role={"presentation"}
+          onClick={() => setModalOpen(true)}
+        >
+          로그인 정보 변경
+        </article>
         <article
           className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
           role={"presentation"}
@@ -54,6 +75,21 @@ export default function Setting() {
           로그아웃
         </article>
       </section>
+
+      <Modal
+        open={isModalOpen}
+        onClose={onPasswordModalClose}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Wrapper>
+          <LoginInfoChanger onModalClose={onPasswordModalClose}/>
+        </Wrapper>
+      </Modal>
+
     </section>
   );
 }
