@@ -6,7 +6,7 @@ import { pink } from "@mui/material/colors";
 import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
-import { getTags, selectTag } from "../../store/slices/tag";
+import { selectTag } from "../../store/slices/tag";
 import { fetchLoginUser, selectUser } from "../../store/slices/user";
 import { userUrl } from "../../store/urls";
 import { Tag } from "../../types";

@@ -7,6 +7,7 @@ import PhotoSlider from "../component/PhotoSlider";
 import CollegeMajorEdit from "../component/pitapat-edit/CollegeMajorEdit";
 import EditButton from "../component/pitapat-edit/EditButton";
 import IntroEdit from "../component/pitapat-edit/IntroEdit";
+import PhotosEdit from "../component/pitapat-edit/PhotosEdit";
 import TagsEdit from "../component/pitapat-edit/TagsEdit";
 import paths from "../constant/path";
 import style from "../constant/style";
@@ -166,7 +167,9 @@ export default function ProfileEdit() {
 
       </section>
     ) : (
-      <section/>
+      <PhotosEdit
+        setPhotoEdit={setPhotoEdit}
+      />
     );
 }
 
