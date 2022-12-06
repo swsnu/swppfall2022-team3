@@ -6,7 +6,7 @@ export interface IProps {
   setOption: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function EditButton({setOption}: IProps) {
+export default function EditButton({ setOption }: IProps) {
   const iconClassName = "text-pink-500 h-8 w-8 mx-2";
 
   return (

@@ -16,7 +16,7 @@ interface IProps {
   selectedCollegeKey: number;
 }
 
-export default function CollegeMajorEdit({onModalClose, setSelectedCollegeKey, selectedCollegeKey}: IProps) {
+export default function CollegeMajorEdit({ onModalClose, setSelectedCollegeKey, selectedCollegeKey }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;

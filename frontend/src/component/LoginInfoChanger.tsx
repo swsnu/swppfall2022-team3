@@ -12,7 +12,7 @@ interface IProps {
   onModalClose: () => void;
 }
 
-export default function LoginInfoChanger({onModalClose}: IProps) {
+export default function LoginInfoChanger({ onModalClose }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
   const dispatch = useDispatch<AppDispatch>();
   const [nickname, setNickname] = useState<string>(loginUser?.nickname ?? "");

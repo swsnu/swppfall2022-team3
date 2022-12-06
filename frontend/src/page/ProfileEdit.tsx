@@ -6,6 +6,7 @@ import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import CollegeMajorEdit from "../component/pitapat-edit/CollegeMajorEdit";
 import EditButton from "../component/pitapat-edit/EditButton";
+import IntroEdit from "../component/pitapat-edit/IntroEdit";
 import TagsEdit from "../component/pitapat-edit/TagsEdit";
 import paths from "../constant/path";
 import style from "../constant/style";
@@ -56,7 +57,7 @@ export default function ProfileEdit() {
     setTagsModalOpen(false);
   }, [setTagsModalOpen]);
 
-  const onItroModalClose = useCallback(() => {
+  const onIntroModalClose = useCallback(() => {
     setIntroModalOpen(false);
   }, [setIntroModalOpen]);
 
@@ -149,19 +150,19 @@ export default function ProfileEdit() {
           </Wrapper>
         </Modal>
 
-        {/*<Modal*/}
-        {/*  open={isIntroModalOpen}*/}
-        {/*  onClose={onItroModalClose}*/}
-        {/*  style={{*/}
-        {/*    display: "flex",*/}
-        {/*    alignItems: "center",*/}
-        {/*    justifyContent: "center",*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <Wrapper>*/}
-        {/*    <RemoveAccount onModalClose={onItroModalClose}/>*/}
-        {/*  </Wrapper>*/}
-        {/*</Modal>*/}
+        <Modal
+          open={isIntroModalOpen}
+          onClose={onIntroModalClose}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Wrapper>
+            <IntroEdit onModalClose={onIntroModalClose}/>
+          </Wrapper>
+        </Modal>
 
       </section>
     ) : (

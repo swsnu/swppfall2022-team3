@@ -13,7 +13,7 @@ interface IProps {
   onModalClose: () => void;
 }
 
-export default function RemoveAccount({onModalClose}: IProps) {
+export default function RemoveAccount({ onModalClose }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
