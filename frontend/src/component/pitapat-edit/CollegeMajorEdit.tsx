@@ -43,7 +43,6 @@ export default function CollegeMajorEdit({onModalClose, setSelectedCollegeKey, s
       tags: loginUser?.tags,
     }).then(() => {
       dispatch(fetchLoginUser(loginUser?.key ?? 0));
-      onModalClose();
     });
     onModalClose();
   },
