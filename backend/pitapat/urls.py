@@ -194,4 +194,11 @@ urlpatterns = [
         }),
         name='user_block'
     ),
+    path(
+        'user/<int:user_key>/photo/',
+        views.UserPhotoViewSet.as_view({
+            'get': 'list',
+        }),
+        name='user_photo'
+    ),
 ]

@@ -9,3 +9,4 @@ from .user import (UserListSerializer, UserListFilterSerializer, UserCreateSeria
                    UserDetailSerializer)
 from .user_tag import UserTagCreateSerializer
 from .university import UniversitySerializer, CollegeSerializer, MajorSerializer
+from .user_photo import UserPhotoSerializer
