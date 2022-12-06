@@ -2,7 +2,7 @@ import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@redu
 import axios from "axios";
 import { chatrooms } from "../../../dummyData";
 import chatReducer, { RawChatroom, getChatrooms, ChatState } from "../../../store/slices/chat";
-import { getUsers } from "../../../store/slices/user";
+// import { getUsers } from "../../../store/slices/user";
 import { Chatroom } from "../../../types";
 
 

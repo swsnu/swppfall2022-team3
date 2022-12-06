@@ -7,7 +7,7 @@ import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajors, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
-import { getUsers, selectUser, userActions } from "../store/slices/user";
+import { getNewUsers, selectUser, userActions } from "../store/slices/user";
 import { College, Gender, Major, Tag } from "../types";
 import UserFilterElement from "./UserFilterElement";
 
@@ -69,8 +69,8 @@ export default function UserFilter({
       includedTags: includedTags.map((t) => t.key),
       excludedTags: excludedTags.map((t) => t.key),
     };
-    await dispatch(getUsers(filter));
     dispatch(userActions.setFilter(filter));
+    dispatch(getNewUsers(filter));
     onModalClose();
   }, [
     interestedGender,

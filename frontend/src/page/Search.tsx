@@ -10,7 +10,7 @@ import UserFilter from "../component/UserFilter";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { getUsers, selectUser } from "../store/slices/user";
+import { getNextUsers, selectUser } from "../store/slices/user";
 import { Gender } from "../types";
 import { savePageYPosition, scrollToPrevPosition } from "../util/pageScroll";
 
@@ -53,7 +53,7 @@ export default function Search() {
       ...(filter ? filter : defaultFilter),
       pageIndex: pageIndex + 1,
     };
-    dispatch(getUsers(nextPageFilter)).then(() => {
+    dispatch(getNextUsers(nextPageFilter)).then(() => {
       setIsLoaded(false);
     });
   }, [dispatch, filter, loginUser, pageIndex]);
