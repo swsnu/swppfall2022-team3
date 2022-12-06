@@ -47,6 +47,7 @@ const universitySlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.universities = action.payload;
+          state.universities = state.universities.filter((u) => u.name !== "admin");
         }
       }
     );
