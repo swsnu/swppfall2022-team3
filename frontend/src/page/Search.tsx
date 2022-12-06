@@ -77,10 +77,10 @@ export default function Search() {
     return () => observer && observer.disconnect();
   }, [target, onIntersect]);
 
-  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
-    <span {...props} ref={ref}>
+  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLDivElement>) => (
+    <div {...props} ref={ref}>
       {props.children}
-    </span>
+    </div>
   ));
 
   return (
@@ -103,7 +103,7 @@ export default function Search() {
               />
             ))
           }
-          <div ref={setTarget}>loading</div>
+          <div ref={setTarget}>loading...</div>
         </section>
         <NavigationBar saveYPosition={saveYPosition}/>
         <Modal
