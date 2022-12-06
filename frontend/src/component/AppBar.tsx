@@ -33,7 +33,7 @@ export default function AppBar({
     //   saveYPosition();
     // }
     navigate("/setting");
-  }, [navigate]);
+  }, [navigate, saveYPosition]);
 
   const filterOnClick = useCallback(() => {
     if (setIsModalOpen !== undefined) {
