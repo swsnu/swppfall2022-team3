@@ -74,7 +74,7 @@ export default function AppBar({
     }
     setIsBlockModalOpen(false);
     setIsMoreModalOpen(false);
-    navigate(-1);
+    navigate("/search");
   }, [from, to, dispatch, navigate, setIsBlockModalOpen]);
 
   const cansleBlockOnClick = useCallback(() => {
