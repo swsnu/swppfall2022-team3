@@ -123,17 +123,24 @@ urlpatterns = [
     ),
     path(
         'college/university/<int:university_key>/',
-        views.CollegeViewSet.as_view({
+        views.CollegeUniversityViewSet.as_view({
             'get': 'list',
         }),
         name='college_university',
     ),
     path(
         'major/college/<int:college_key>/',
-        views.MajorViewSet.as_view({
+        views.MajorCollegeViewSet.as_view({
             'get': 'list',
         }),
         name='major_college',
+    ),
+    path(
+        'major/university/<int:university_key>/',
+        views.MajorUniversityViewSet.as_view({
+            'get': 'list',
+        }),
+        name='major_university',
     ),
     path(
         'photo/user/<int:user_key>/',

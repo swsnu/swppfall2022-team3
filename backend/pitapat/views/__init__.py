@@ -4,7 +4,7 @@ from .pitapat import PitapatViewSet
 from .block import BlockViewSet
 from .photo import PhotoCreateViewSet, PhotoDetailViewSet
 from .tag import TagViewSet
-from .university import UniversityViewSet, CollegeViewSet, MajorViewSet
+from .university import UniversityViewSet, MajorUniversityViewSet, CollegeUniversityViewSet, MajorCollegeViewSet
 from .user import UserViewSet, UserDetailViewSet, UserExistenceCheckViewSet
 from .user_chatroom import UserChatroomViewSet
 from .user_introduction import UserIntroductionViewSet

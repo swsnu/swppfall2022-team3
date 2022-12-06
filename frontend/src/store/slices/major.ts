@@ -13,14 +13,35 @@ const initialState: MajorState = {
   majors: [],
 };
 
-export const getMajors = createAsyncThunk(
+export const getMajorsByCollege = createAsyncThunk(
   "major/get-all-by-college",
   async (collegeKey: number): Promise<Major[] | null> => {
-    const response = await axios.get(`${majorUrl}college/${collegeKey}/`);
-    if (response.status === 200) {
-      return response.data as Major[];
+    try {
+      const response = await axios.get(`${majorUrl}college/${collegeKey}/`);
+      if (response.status === 200) {
+        return response.data as Major[];
+      } else {
+        return null;
+      }
+    } catch (_) {
+      return null;
     }
-    return null;
+  }
+);
+
+export const getMajorsByUniversity = createAsyncThunk(
+  "major/get-all-by-university",
+  async (universityKey: number): Promise<Major[] | null> => {
+    try {
+      const response = await axios.get(`${majorUrl}university/${universityKey}`);
+      if (response.status === 200) {
+        return response.data as Major[];
+      } else {
+        return null;
+      }
+    } catch (_) {
+      return null;
+    }
   }
 );
 
@@ -30,7 +51,15 @@ const majorSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(
-      getMajors.fulfilled,
+      getMajorsByCollege.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.majors = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getMajorsByUniversity.fulfilled,
       (state, action) => {
         if (action.payload) {
           state.majors = action.payload;

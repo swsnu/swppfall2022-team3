@@ -23,10 +23,10 @@ export default function Search() {
   const filter = useSelector(selectUser).filter;
   const pageIndex = useSelector(selectUser).searchPageIndex;
   const urlPath = useLocation().pathname;
+  const pageBody = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [target, setTarget] = useState<HTMLDivElement | null>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const pageBody = useRef<HTMLDivElement>(null);
 
   const saveYPosition = useCallback(() => {
     savePageYPosition(pageBody, urlPath);
