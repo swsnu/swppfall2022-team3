@@ -14,8 +14,6 @@ export interface IProps {
   setNickname: Dispatch<SetStateAction<string>>;
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
-  phone: string;
-  setPhone: Dispatch<SetStateAction<string>>;
   birthday: Date;
   setBirthday: Dispatch<SetStateAction<Date>>;
   university: University | null;
@@ -35,8 +33,6 @@ export default function PersonalInformation({
   setNickname,
   password,
   setPassword,
-  phone,
-  setPhone,
   birthday,
   setBirthday,
   university,
@@ -80,9 +76,8 @@ export default function PersonalInformation({
   const backOnClick = useCallback(() => {
     setNickname("");
     setPassword("");
-    setPhone("");
     setStep(0);
-  }, [setNickname, setPassword, setPhone, setStep]);
+  }, [setNickname, setPassword, setStep]);
 
   useEffect(() => {
     if (university) {
@@ -164,13 +159,6 @@ export default function PersonalInformation({
           type={"text"}
           required={true}
           isPassword={true}
-        />
-        <InformationInput
-          label={"휴대폰"}
-          value={phone}
-          setValue={setPhone}
-          type={"text"}
-          required={true}
         />
         <InformationInput
           label={"생년월일"}

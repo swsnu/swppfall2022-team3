@@ -32,7 +32,6 @@ export default function CollegeMajorEdit({onModalClose, setSelectedCollegeKey, s
   const confirmHandler = useCallback( async () => {
     await axios.put(`${userUrl}${loginUser?.key}/`, {
       email: loginUser?.email,
-      phone: null,
       nickname: loginUser?.nickname,
       gender: loginUser?.gender,
       interested_gender: loginUser?.interestedGender,
