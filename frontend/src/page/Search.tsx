@@ -22,6 +22,7 @@ export default function Search() {
   const users = useSelector(selectUser).users;
   const filter = useSelector(selectUser).filter;
   const pageIndex = useSelector(selectUser).searchPageIndex;
+  const nextPageUrl = useSelector(selectUser).nextPageUrl;
   const urlPath = useLocation().pathname;
   const pageBody = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -54,9 +55,11 @@ export default function Search() {
       pageIndex: pageIndex + 1,
     };
     dispatch(getNextUsers(nextPageFilter)).then(() => {
-      setIsLoaded(false);
+      if (nextPageUrl !== null) {
+        setIsLoaded(false);
+      }
     });
-  }, [dispatch, filter, loginUser, pageIndex]);
+  }, [dispatch, filter, loginUser, pageIndex, nextPageUrl]);
 
   const onIntersect = useCallback(async ([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
     if (entry.isIntersecting && !isLoaded) {

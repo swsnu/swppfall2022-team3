@@ -35,6 +35,7 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
     loginUser: shouldLogin ? users[0] : null,
     users: users,
     filter: null,
+    nextPageUrl: null,
     searchPageIndex: 1,
     interestingUser: shouldLogin ? users[3] : null,
     pitapat: {
@@ -61,6 +62,7 @@ export const getNoPhotoMockStore = () => getMockStore({
     loginUser: users[0],
     users: users,
     filter: null,
+    nextPageUrl: null,
     searchPageIndex: 1,
     interestingUser: null,
     pitapat: {
@@ -87,6 +89,7 @@ export const getNointerestingUserMockStore = () => getMockStore({
     loginUser: users[0],
     users: users,
     filter: null,
+    nextPageUrl: null,
     searchPageIndex: 1,
     interestingUser: null,
     pitapat: {

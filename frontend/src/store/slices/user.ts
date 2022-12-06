@@ -104,6 +104,7 @@ export interface UserState {
   loginUser: User | null;
   users: User[];
   searchPageIndex: number;
+  nextPageUrl: string | null;
   filter: SearchFilter | null;
   interestingUser: User | null;
   pitapat: {
@@ -124,6 +125,7 @@ const initialState: UserState = {
     null,
   users: [],
   searchPageIndex: 0,
+  nextPageUrl: "",
   filter: null,
   interestingUser: null,
   pitapat: {
@@ -205,7 +207,7 @@ export interface PageSearchFilter extends SearchFilter {
   pageIndex: number;
 }
 
-const getUsers = async (filter: PageSearchFilter): Promise<{users: User[]; pageIndex: number} | null> => {
+const getUsers = async (filter: PageSearchFilter): Promise<{users: User[]; pageIndex: number; nextPageUrl: string | null} | null> => {
   let filterParams = "";
   if (filter) {
     filterParams = `page=${filter.pageIndex}${filter.gender !== Gender.ALL ? `&gender=${filter.gender}` : ""}`;
@@ -263,6 +265,7 @@ const getUsers = async (filter: PageSearchFilter): Promise<{users: User[]; pageI
     return {
       users: (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser),
       pageIndex: filter.pageIndex,
+      nextPageUrl: response.data.next,
     };
   } catch (_) {
     return null;
@@ -389,6 +392,7 @@ const userSlice = createSlice({
         if (action.payload) {
           state.users = action.payload.users;
           state.searchPageIndex = action.payload.pageIndex;
+          state.nextPageUrl = action.payload.nextPageUrl;
         }
       }
     );
@@ -398,6 +402,7 @@ const userSlice = createSlice({
         if (action.payload && state.searchPageIndex < action.payload.pageIndex) {
           state.users = state.users.concat(action.payload.users);
           state.searchPageIndex = action.payload.pageIndex;
+          state.nextPageUrl = action.payload.nextPageUrl;
         }
       }
     );
