@@ -6,6 +6,7 @@ import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
 import CollegeMajorEdit from "../component/pitapat-edit/CollegeMajorEdit";
 import EditButton from "../component/pitapat-edit/EditButton";
+import TagsEdit from "../component/pitapat-edit/TagsEdit";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -134,19 +135,19 @@ export default function ProfileEdit() {
           </Wrapper>
         </Modal>
 
-        {/*<Modal*/}
-        {/*  open={isTagsModalOpen}*/}
-        {/*  onClose={onTagsModalClose}*/}
-        {/*  style={{*/}
-        {/*    display: "flex",*/}
-        {/*    alignItems: "center",*/}
-        {/*    justifyContent: "center",*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <Wrapper>*/}
-        {/*    <RemoveAccount onModalClose={onTagsModalClose}/>*/}
-        {/*  </Wrapper>*/}
-        {/*</Modal>*/}
+        <Modal
+          open={isTagsModalOpen}
+          onClose={onTagsModalClose}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Wrapper>
+            <TagsEdit onModalClose={onTagsModalClose}/>
+          </Wrapper>
+        </Modal>
 
         {/*<Modal*/}
         {/*  open={isIntroModalOpen}*/}
@@ -167,3 +168,4 @@ export default function ProfileEdit() {
       <section/>
     );
 }
+
