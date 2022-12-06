@@ -30,13 +30,13 @@ export default function PitapatList() {
   const urlPath = useLocation().pathname;
   const pageBody = useRef<HTMLDivElement>(null);
 
-  const saveYPosition = useCallback(() => {
-    savePageYPosition(pageBody, urlPath);
-  }, [pageBody, urlPath]);
+  // const saveYPosition = useCallback(() => {
+  //   savePageYPosition(pageBody, urlPath);
+  // }, [pageBody, urlPath]);
 
-  useEffect(() => {
-    scrollToPrevPosition(pageBody, urlPath);
-  }, [pageBody, urlPath]);
+  // useEffect(() => {
+  //   scrollToPrevPosition(pageBody, urlPath);
+  // }, [pageBody, urlPath]);
 
   useEffect(() => {
     if (!loginUser) {
@@ -50,7 +50,8 @@ export default function PitapatList() {
 
   return (
     <section className={`${style.page.base} ${style.page.margin.topWithTab} ${style.page.margin.bottom}`}>
-      <AppBar saveYPosition={saveYPosition}/>
+      {/* <AppBar saveYPosition={saveYPosition}/> */}
+      <AppBar />
       <ThemeProvider theme={theme}>
         <Tabs
           className={"top-12 w-full flex flex-row h-12 z-10 fixed"}
@@ -70,7 +71,7 @@ export default function PitapatList() {
         className={style.page.body}
         role={"presentation"}
         ref={pageBody}
-        onClick={saveYPosition}
+        // onClick={saveYPosition}
       >
         {
           pitapatListTabIndex === 0 ?
@@ -78,7 +79,8 @@ export default function PitapatList() {
             (<PitapatSent/>)
         }
       </section>
-      <NavigationBar saveYPosition={saveYPosition}/>
+      {/* <NavigationBar saveYPosition={saveYPosition}/> */}
+      <NavigationBar/>
     </section>
   );
 }

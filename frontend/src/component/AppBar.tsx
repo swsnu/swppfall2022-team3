@@ -6,7 +6,7 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 
 export interface IProps {
   title?: string;
-  saveYPosition?: () => void;
+  // saveYPosition?: () => void;
   setIsModalOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -16,7 +16,7 @@ const defaultTitle = "두근두근 캠퍼스";
 export default function AppBar({
   title=defaultTitle,
   setIsModalOpen,
-  saveYPosition,
+  // saveYPosition,
 }: IProps) {
   const pathName = window.location.pathname;
   const navigate = useNavigate();
@@ -29,9 +29,9 @@ export default function AppBar({
   }, [navigate]);
 
   const settingOnClick = useCallback(() => {
-    if (saveYPosition) {
-      saveYPosition();
-    }
+    // if (saveYPosition) {
+    //   saveYPosition();
+    // }
     navigate("/setting");
   }, [navigate]);
 

@@ -20,13 +20,13 @@ export default function ChatList() {
   const urlPath = useLocation().pathname;
   const pageBody = useRef<HTMLDivElement>(null);
 
-  const saveYPosition = useCallback(() => {
-    savePageYPosition(pageBody, urlPath);
-  }, [pageBody, urlPath]);
+  // const saveYPosition = useCallback(() => {
+  //   savePageYPosition(pageBody, urlPath);
+  // }, [pageBody, urlPath]);
 
-  useEffect(() => {
-    scrollToPrevPosition(pageBody, urlPath);
-  }, [pageBody, urlPath]);
+  // useEffect(() => {
+  //   scrollToPrevPosition(pageBody, urlPath);
+  // }, [pageBody, urlPath]);
 
   useEffect(() => {
     if (loginUser) {
@@ -37,12 +37,13 @@ export default function ChatList() {
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
-        <AppBar saveYPosition={saveYPosition}/>
+        {/* <AppBar saveYPosition={saveYPosition}/> */}
+        <AppBar/>
         <section
           className={style.page.body}
           role={"presentation"}
           ref={pageBody}
-          onClick={saveYPosition}
+          // onClick={saveYPosition}
         >
           {
             chatrooms.map(({ key, name, imagePath, chats }) => (
@@ -55,7 +56,8 @@ export default function ChatList() {
               />
             ))
           }</section>
-        <NavigationBar saveYPosition={saveYPosition}/>
+        {/* <NavigationBar saveYPosition={saveYPosition}/> */}
+        <NavigationBar/>
       </section> :
       <Navigate replace to={paths.signIn}/>
   );
