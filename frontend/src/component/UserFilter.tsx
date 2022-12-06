@@ -38,6 +38,7 @@ export default function UserFilter({
 
   useEffect(() => {
     if (university) {
+
       dispatch(getColleges(university));
     }
   }, [dispatch, university]);

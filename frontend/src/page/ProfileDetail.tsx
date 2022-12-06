@@ -9,7 +9,7 @@ import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { selectChat } from "../store/slices/chat";
 import { getColleges, selectCollege } from "../store/slices/college";
-import { getMajorsByCollege, selectMajor } from "../store/slices/major";
+import { getMajorsByUniversity, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/date";
@@ -53,7 +53,7 @@ export default function ProfileDetail() {
       const majorKeys = majors.map((major) => major.key);
       const shouldGetMajors = majorKeys.indexOf(interestingUser.major) < 0;
       if (shouldGetMajors) {
-        dispatch(getMajorsByCollege(interestingUser.college));
+        dispatch(getMajorsByUniversity(interestingUser.university));
       }
     }
   }, [interestingUser, tags, colleges, majors, dispatch]);

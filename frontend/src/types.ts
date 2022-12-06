@@ -10,6 +10,7 @@ export enum Gender {
 export interface Major {
   key: number;
   name: string;
+  college: number;
 }
 
 export interface College {

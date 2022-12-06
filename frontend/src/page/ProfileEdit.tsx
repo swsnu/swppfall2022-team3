@@ -12,7 +12,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
-import { getMajorsByCollege, selectMajor } from "../store/slices/major";
+import { getMajorsByUniversity, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/date";
@@ -38,15 +38,15 @@ export default function ProfileEdit() {
     else {
       dispatch(getTags());
       dispatch(getColleges(loginUser.university));
-      dispatch(getMajorsByCollege(loginUser.college));
+      dispatch(getMajorsByUniversity(loginUser.university));
     }
   }, [navigate, loginUser, dispatch]);
 
-  useEffect(() => {
-    if (selectedCollegeKey) {
-      dispatch(getMajorsByCollege(selectedCollegeKey));
-    }
-  }, [dispatch, selectedCollegeKey]);
+  // useEffect(() => {
+  //   if (selectedCollegeKey) {
+  //     dispatch(getMajorsByUniversity(selectedCollegeKey));
+  //   }
+  // }, [dispatch, selectedCollegeKey]);
 
   const onCollegeMajorModalClose = useCallback(() => {
     setSelectedCollegeKey(loginUser?.college ?? 0);

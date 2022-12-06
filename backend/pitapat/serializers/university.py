@@ -18,4 +18,4 @@ class CollegeSerializer(serializers.ModelSerializer):
 class MajorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Major
-        fields = ['key', 'name']
+        fields = ['key', 'name', 'college']

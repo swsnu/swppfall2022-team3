@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getColleges, selectCollege } from "../../store/slices/college";
-import { getMajorsByCollege, selectMajor } from "../../store/slices/major";
+import { getMajorsByUniversity, selectMajor } from "../../store/slices/major";
 import { College, Gender, Major, University } from "../../types";
 import InformationInput from "./InformationInput";
 import SignInModal from "./SignInModal";
@@ -86,10 +86,10 @@ export default function PersonalInformation({
   }, [dispatch, university]);
 
   useEffect(() => {
-    if (college) {
-      dispatch(getMajorsByCollege(college.key));
+    if (university) {
+      dispatch(getMajorsByUniversity(university.key));
     }
-  }, [dispatch, college]);
+  }, [dispatch, university]);
 
   useEffect(() => {
     if (colleges.length !== 0) {
@@ -184,7 +184,11 @@ export default function PersonalInformation({
           type={"select"}
           required={true}
           options={
-            majors.map((m) => ({ name: m.name, value: m.key }))
+            college
+              ? majors
+                .filter((m) => m.college === college.key)
+                .map((m) => ({ name: m.name, value: m.key }))
+              : []
           }
         />
         <InformationInput

@@ -83,7 +83,9 @@ export default function CollegeMajorEdit({ onModalClose, setSelectedCollegeKey, 
           type={"select"}
           required={true}
           options={
-            majors.map((m) => ({ name: m.name, value: m.key }))
+            majors
+              .filter((m) => m.college === selectedCollegeKey)
+              .map((m) => ({ name: m.name, value: m.key }))
           }
         />
       </section>
