@@ -16,7 +16,7 @@ class PhotoTestCase(TestCase):
         data = {'name': 'this is a name', 'age': 12}
         data['file'] = (io.BytesIO(b"abcdef"), 'test.jpg')
 
-        response = client.post(f'/photo/user/{user.key}/',
+        response = client.post(f'/api/photo/user/{user.key}/',
                               {'file': None},
                               content_type='multipart/form-data'
                               )
@@ -27,7 +27,7 @@ class PhotoTestCase(TestCase):
             tmp_file = file
             image.save(tmp_file)
             tmp_file.seek(0)
-            response = client.post(f'/photo/user/{user.key}/',
+            response = client.post(f'/api/photo/user/{user.key}/',
                                    {'file': tmp_file},
                                    format='multipart'
                                    )

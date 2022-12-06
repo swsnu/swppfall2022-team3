@@ -16,5 +16,5 @@ class ChatroomTestCase(TestCase):
                                    reg_dt=date.today(), upd_dt=date.today())
         self.assertEqual(str(chatroom), f'chatroom {chatroom.key}')
         self.assertEqual(str(chat), f'{user.nickname}: {chat.content}')
-        response = client.get(f'/chatroom/{user.key}/user/')
+        response = client.get(f'/api/chatroom/{user.key}/user/')
         self.assertEqual(response.status_code, 200)
