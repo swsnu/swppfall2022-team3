@@ -18,7 +18,6 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
   const [nickname, setNickname] = useState<string>(loginUser?.nickname ?? "");
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
     if (password === "" || nickname ==="") {
@@ -45,7 +44,6 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
       }
       await axios.put(`${userUrl}${loginUser?.key}/`, {
         email: loginUser?.email,
-        phone: phone,
         nickname: nickname,
         gender: loginUser?.gender,
         interested_gender: loginUser?.interestedGender,
@@ -60,8 +58,8 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
         onModalClose();
       });
     }
-  },
-  [dispatch,
+  }, [
+    dispatch,
     loginUser?.birthday,
     loginUser?.college,
     loginUser?.email,
@@ -76,7 +74,7 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
     onModalClose,
     password,
     passwordCheck,
-    phone]);
+  ]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
@@ -103,13 +101,6 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
           type={"text"}
           required={true}
           isPassword={true}
-        />
-        <InformationInput
-          label={"휴대폰"}
-          value={phone}
-          setValue={setPhone}
-          type={"text"}
-          required={true}
         />
       </section>
       <section className={style.component.signIn.buttonWrapper}>

@@ -16,7 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     major = models.ForeignKey(Major, models.RESTRICT, db_column='major_key')
     nickname = models.CharField(unique=True, max_length=30, db_column='nickname')
     email = models.EmailField(unique=True, max_length=50)
-    phone = models.CharField(unique=True, max_length=20)
+    phone = models.CharField(null=True, max_length=20)
     status = models.CharField(max_length=1)
     gender = models.CharField(max_length=1)
     interested_gender = models.CharField(max_length=1)
