@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import {fetchSignin, selectUser} from "../store/slices/user";
+import { fetchSignin, selectUser } from "../store/slices/user";
 import { userUrl } from "../store/urls";
 import InformationInput from "./signup/InformationInput";
 
@@ -76,6 +76,11 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
     passwordCheck,
   ]);
 
+  const cancelOnClickHandler = useCallback( () => {
+    onModalClose();
+  },
+  [onModalClose]);
+
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
       <section className={"space-y-4"}>
@@ -109,6 +114,12 @@ export default function LoginInfoChanger({onModalClose}: IProps) {
           onClick={confirmOnClick}
         >
           적용
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
+          onClick={cancelOnClickHandler}
+        >
+          취소
         </button>
       </section>
     </section>
