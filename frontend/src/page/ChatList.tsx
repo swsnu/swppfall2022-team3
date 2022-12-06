@@ -37,7 +37,7 @@ export default function ChatList() {
   return (
     loginUser ?
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
-        <AppBar/>
+        <AppBar saveYPosition={saveYPosition}/>
         <section
           className={style.page.body}
           role={"presentation"}
@@ -55,7 +55,7 @@ export default function ChatList() {
               />
             ))
           }</section>
-        <NavigationBar/>
+        <NavigationBar saveYPosition={saveYPosition}/>
       </section> :
       <Navigate replace to={paths.signIn}/>
   );
