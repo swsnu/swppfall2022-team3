@@ -5,7 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Introduction, Photo, Pitapat, User, UserChatroom, UserTag
+from pitapat.models import Introduction, Photo, Pitapat, User, UserChatroom, UserTag, Block
 from pitapat.paginations import UserListPagination
 from pitapat.serializers import (UserListSerializer, UserListFilterSerializer,
                                  UserCreateSerializer, UserDetailSerializer)
@@ -31,6 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
         filters &= Q(university=request.user.university)
         filters &= exclude_pitapat_users(request.user)
         filters &= exclude_chatroom_users(request.user)
+        filters &= exclude_blocked_users(request.user)
 
         gender = request.GET.get('gender')
         if gender:
@@ -148,6 +149,17 @@ def exclude_chatroom_users(session_user):
             )]
         )
     return ~Q(key__in=chatroom_users)
+
+
+def exclude_blocked_users(session_user):
+    filters = Q()
+    sended_blocks = Block.objects.filter(to=session_user, is_from__isnull=False)
+    sender_keys = [block.is_from.key for block in sended_blocks]
+    filters &= ~Q(key__in=sender_keys)
+    received_blocks = Block.objects.filter(is_from=session_user, to__isnull=False)
+    receiver_keys = [block.to.key for block in received_blocks]
+    filters &= ~Q(key__in=receiver_keys)
+    return filters
 
 
 def parse_int_query_parameters(params):

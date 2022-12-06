@@ -22,11 +22,14 @@ export default function SignInModal({
     <Modal
       className={"flex justify-center"}
       open={modalOpen}
+      style={{
+        justifyContent: "center",
+      }}
       aria-describedby="modal-modal-description"
     >
       <Box
         sx={style}
-        className={"items-center rounded-md text-center mt-72 w-3/5 h-40"}
+        className={"items-center rounded-md text-center mt-72 w-3/5 max-w-xs h-40"}
       >
         <section className={"h-24"}>
           <Typography

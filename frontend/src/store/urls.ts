@@ -6,6 +6,7 @@ export const authUserUrl = `${backendUrl}/auth/user/`;
 export const authEmailUrl = `${backendUrl}/auth/email/`;
 export const authVerifyUrl = `${backendUrl}/auth/verify/`;
 export const userUrl = `${backendUrl}/user/`;
+export const blockUrl = `${backendUrl}/block/`;
 
 export const chatroomUrl = `${backendUrl}/chatroom/`;
 export const chatroomSocketUrl = process.env.REACT_APP_SOCKET_URL;

@@ -3,7 +3,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from pitapat.models import Block, User, Chatroom, UserChatroom
+from pitapat.models import Block, User, Chatroom, UserChatroom, Pitapat
 from pitapat.serializers import BlockSerializer
 
 
@@ -26,18 +26,37 @@ class BlockViewSet(viewsets.ModelViewSet):
         if Block.objects.filter(is_from=from_user, to=to_user):
             return Response(status=409)
 
-        from_user_chatroom_key = [user_chat_room.chatroom.key for user_chat_room in UserChatroom.objects.filter(user=from_user)]
-        to_user_chatroom_key = [user_chat_room.chatroom.key for user_chat_room in UserChatroom.objects.filter(user=to_user)]
+        from_user_chatroom_key = [user_chat_room.chatroom.key
+                                  for user_chat_room
+                                  in UserChatroom.objects.filter(user=from_user)
+                                  ]
+        to_user_chatroom_key = [user_chat_room.chatroom.key
+                                for user_chat_room
+                                in UserChatroom.objects.filter(user=to_user)
+                                ]
 
-        chatroom_key = [chatroom_key for chatroom_key in to_user_chatroom_key if chatroom_key in from_user_chatroom_key]
-        if not chatroom_key:
-            return Response(status=409)
+        chatroom_key = [chatroom_key
+                        for chatroom_key
+                        in to_user_chatroom_key
+                        if chatroom_key in from_user_chatroom_key
+                        ]
+        if chatroom_key:
+            chatroom = Chatroom.objects.get(key=chatroom_key[0])
+            if chatroom:
+                chatroom.delete()
 
-        chatroom = Chatroom.objects.get(key=chatroom_key[0])
-        if not chatroom:
-            return Response(status=409)
+        try:
+            reverse_pitapat = Pitapat.objects.get(is_from=from_user, to=to_user)
+            reverse_pitapat.delete()
+        except Pitapat.DoesNotExist:
+            pass
 
-        chatroom.delete()
+        try:
+            pitapat = Pitapat.objects.get(is_from=to_user, to=from_user)
+            pitapat.delete()
+        except Pitapat.DoesNotExist:
+            pass
+
 
         Block.objects.create(is_from=from_user, to=to_user)
         return Response(status=201)
