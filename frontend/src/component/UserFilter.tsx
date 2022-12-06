@@ -5,7 +5,7 @@ import Slider from "@mui/material/Slider";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
-import { getMajors, selectMajor } from "../store/slices/major";
+import { getMajorsByUniversity, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { getNewUsers, selectUser, userActions } from "../store/slices/user";
 import { College, Gender, Major, Tag } from "../types";
@@ -43,10 +43,10 @@ export default function UserFilter({
   }, [dispatch, university]);
 
   useEffect(() => {
-    if (college) {
-      dispatch(getMajors(college));
+    if (university) {
+      dispatch(getMajorsByUniversity(university));
     }
-  }, [dispatch, college]);
+  }, [dispatch, university]);
 
   useEffect(() => {
     dispatch(getTags());

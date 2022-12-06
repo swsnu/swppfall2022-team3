@@ -11,7 +11,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { getColleges, selectCollege } from "../store/slices/college";
-import { getMajors, selectMajor } from "../store/slices/major";
+import { getMajorsByCollege, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { selectUser } from "../store/slices/user";
 import { getKoreanAge } from "../util/date";
@@ -37,13 +37,13 @@ export default function ProfileEdit() {
     else {
       dispatch(getTags());
       dispatch(getColleges(loginUser.university));
-      dispatch(getMajors(loginUser.college));
+      dispatch(getMajorsByCollege(loginUser.college));
     }
   }, [navigate, loginUser, dispatch]);
 
   useEffect(() => {
     if (selectedCollegeKey) {
-      dispatch(getMajors(selectedCollegeKey));
+      dispatch(getMajorsByCollege(selectedCollegeKey));
     }
   }, [dispatch, selectedCollegeKey]);
 
