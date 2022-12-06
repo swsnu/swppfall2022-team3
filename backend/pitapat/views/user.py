@@ -86,7 +86,7 @@ class UserViewSet(viewsets.ModelViewSet):
                                                   .values('user'))
 
         return paginate(
-            User.objects.filter(filters).order_by('key'),
+            User.objects.filter(filters).order_by('-reg_dt'),
             self.paginate_queryset,
             self.get_serializer,
             self.get_paginated_response,
