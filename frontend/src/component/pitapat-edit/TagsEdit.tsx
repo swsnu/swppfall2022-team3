@@ -1,15 +1,15 @@
-import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {pink} from "@mui/material/colors";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { pink } from "@mui/material/colors";
 import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
-import {getTags, selectTag} from "../../store/slices/tag";
+import { getTags, selectTag } from "../../store/slices/tag";
 import { fetchLoginUser, selectUser } from "../../store/slices/user";
 import { userUrl } from "../../store/urls";
-import {Tag} from "../../types";
+import { Tag } from "../../types";
 import TagElement from "../signup/TagElement";
 
 
@@ -17,7 +17,7 @@ interface IProps {
   onModalClose: () => void;
 }
 
-export default function TagsEdit({onModalClose}: IProps) {
+export default function TagsEdit({ onModalClose }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
   const loadedTags = useSelector(selectTag).tags;
   const dispatch = useDispatch<AppDispatch>();
@@ -34,7 +34,7 @@ export default function TagsEdit({onModalClose}: IProps) {
   const confirmHandler = useCallback( async () => {
     if (newTags.length !== 0) {
       await axios.delete(`${userUrl}${loginUser?.key}/tag/`);
-      await axios.post(`${userUrl}${loginUser?.key}/tag/`, {tags: newTags.map((tag) => tag.key)});
+      await axios.post(`${userUrl}${loginUser?.key}/tag/`, { tags: newTags.map((tag) => tag.key) });
       dispatch(fetchLoginUser(loginUser?.key ?? 0));
     }
     else {
