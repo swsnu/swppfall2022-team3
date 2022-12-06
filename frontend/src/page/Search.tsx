@@ -106,7 +106,7 @@ export default function Search() {
               />
             ))
           }
-          <div ref={setTarget}>loading...</div>
+          <div ref={setTarget}></div>
         </section>
         <NavigationBar saveYPosition={saveYPosition}/>
         <Modal
