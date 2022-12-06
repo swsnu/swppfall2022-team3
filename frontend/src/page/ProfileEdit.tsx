@@ -38,7 +38,7 @@ export default function ProfileEdit() {
       dispatch(getColleges(loginUser.university));
       dispatch(getMajors(loginUser.college));
     }
-  }, [navigate, loginUser]);
+  }, [navigate, loginUser, dispatch]);
 
   useEffect(() => {
     if (selectedCollegeKey) {
