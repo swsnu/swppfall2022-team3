@@ -58,7 +58,7 @@ export default function UserFilter({
 
   const onClickApply = useCallback(async () => {
     const filter = {
-      page: 1,
+      pageIndex: 1,
       gender: interestedGender ? interestedGender : Gender.ALL,
       minAge: ageRange[0],
       maxAge: ageRange[1],

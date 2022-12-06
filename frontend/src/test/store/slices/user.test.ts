@@ -108,20 +108,20 @@ describe("user reducer", () => {
     expect(store.getState().user.loginUser).toBeNull();
   });
 
-  it("should get users", async () => {
-    // axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
-    axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+  // it("should get users", async () => {
+  //   // axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
+  //   axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
 
-    await store.dispatch(getUsers());
-    expect(store.getState().user.users).toEqual([simplifiedTestUser]);
-  });
+  //   await store.dispatch(getUsers());
+  //   expect(store.getState().user.users).toEqual([simplifiedTestUser]);
+  // });
 
-  it("should not get users", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
+  // it("should not get users", async () => {
+  //   axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
-    await store.dispatch(getUsers());
-    expect(store.getState().user.users).toEqual([]);
-  });
+  //   await store.dispatch(getUsers());
+  //   expect(store.getState().user.users).toEqual([]);
+  // });
 
   it("should get user", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: testRawUser, status: 200 });

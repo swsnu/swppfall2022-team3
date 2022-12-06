@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from pitapat.models import Introduction, Photo, Pitapat, User, UserChatroom, UserTag
-# from pitapat.paginations import UserListPagination
+from pitapat.paginations import UserListPagination
 from pitapat.serializers import (UserListSerializer, UserListFilterSerializer,
                                  UserCreateSerializer, UserDetailSerializer)
 from pitapat.utils.page import paginate
@@ -15,7 +15,7 @@ from pitapat.utils.page import paginate
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post']
     queryset = User.objects.all()
-    # pagination_class = UserListPagination
+    pagination_class = UserListPagination
 
     def get_serializer_class(self):
         if self.action == 'list':

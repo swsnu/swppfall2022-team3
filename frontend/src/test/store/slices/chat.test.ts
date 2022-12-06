@@ -50,9 +50,9 @@ describe("chat reducer", () => {
     expect(store.getState().chat.chatrooms.length).toBe(0);
   });
 
-  it("should not get users", async () => {
-    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
+  // it("should not get users", async () => {
+  //   axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
 
-    await store.dispatch(getUsers());
-  });
+  //   await store.dispatch(getUsers());
+  // });
 });

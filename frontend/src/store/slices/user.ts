@@ -30,8 +30,7 @@ export type SimplifiedRawUser = {
   repr_photo: string;
 }
 
-export type SearchFilter = {
-  page: number;
+export interface SearchFilter {
   gender: Gender;
   minAge?: number;
   maxAge?: number;
@@ -103,6 +102,7 @@ export const userToRawData = (user: User): RawUser => (
 export interface UserState {
   loginUser: User | null;
   users: User[];
+  searchPageIndex: number;
   filter: SearchFilter | null;
   interestingUser: User | null;
   pitapat: {
@@ -122,6 +122,7 @@ const initialState: UserState = {
     JSON.parse(savedLoginUser) as User :
     null,
   users: [],
+  searchPageIndex: 0,
   filter: null,
   interestingUser: null,
   pitapat: {
@@ -190,65 +191,72 @@ export const fetchSignup = createAsyncThunk(
   }
 );
 
+export interface PageSearchFilter extends SearchFilter {
+  pageIndex: number;
+}
+
 export const getUsers = createAsyncThunk(
   "user/get-all",
-  async (param?: SearchFilter): Promise<User[] | null> => {
-    let paramUrl = "";
-    if (param) {
-      paramUrl = `page=${param.page}${param.gender !== Gender.ALL ? `&gender=${param.gender}` : ""}`;
-      if (param.minAge) {
-        paramUrl += `&age_min=${param.minAge}`;
+  async (filter: PageSearchFilter): Promise<{users: User[]; pageIndex: number} | null> => {
+    let filterParams = "";
+    if (filter) {
+      filterParams = `page=${filter.pageIndex}${filter.gender !== Gender.ALL ? `&gender=${filter.gender}` : ""}`;
+      if (filter.minAge) {
+        filterParams += `&age_min=${filter.minAge}`;
       }
-      if (param.maxAge) {
-        paramUrl += `&age_max=${param.maxAge}`;
+      if (filter.maxAge) {
+        filterParams += `&age_max=${filter.maxAge}`;
       }
-      if (param.includedColleges && param.includedColleges.length > 0) {
-        const lastIndex = param.includedColleges.length - 1;
-        paramUrl += "&colleges_included=";
-        param.includedColleges.forEach((college, index) => {
-          paramUrl += `${college}${index < lastIndex ? "," : ""}`;
+      if (filter.includedColleges && filter.includedColleges.length > 0) {
+        const lastIndex = filter.includedColleges.length - 1;
+        filterParams += "&colleges_included=";
+        filter.includedColleges.forEach((college, index) => {
+          filterParams += `${college}${index < lastIndex ? "," : ""}`;
         });
       }
-      if (param.excludedColleges && param.excludedColleges.length > 0) {
-        const lastIndex = param.excludedColleges.length - 1;
-        paramUrl += "&colleges_excluded=";
-        param.excludedColleges.forEach((college, index) => {
-          paramUrl += `${college}${index < lastIndex ? "," : ""}`;
+      if (filter.excludedColleges && filter.excludedColleges.length > 0) {
+        const lastIndex = filter.excludedColleges.length - 1;
+        filterParams += "&colleges_excluded=";
+        filter.excludedColleges.forEach((college, index) => {
+          filterParams += `${college}${index < lastIndex ? "," : ""}`;
         });
       }
-      if (param.includedMajors && param.includedMajors.length > 0) {
-        const lastIndex = param.includedMajors.length - 1;
-        paramUrl += "&majors_included=";
-        param.includedMajors.forEach((major, index) => {
-          paramUrl += `${major}${index < lastIndex ? "," : ""}`;
+      if (filter.includedMajors && filter.includedMajors.length > 0) {
+        const lastIndex = filter.includedMajors.length - 1;
+        filterParams += "&majors_included=";
+        filter.includedMajors.forEach((major, index) => {
+          filterParams += `${major}${index < lastIndex ? "," : ""}`;
         });
       }
-      if (param.excludedMajors && param.excludedMajors.length > 0) {
-        const lastIndex = param.excludedMajors.length - 1;
-        paramUrl += "&majors_excluded=";
-        param.excludedMajors.forEach((major, index) => {
-          paramUrl += `${major}${index < lastIndex - 1 ? "," : ""}`;
+      if (filter.excludedMajors && filter.excludedMajors.length > 0) {
+        const lastIndex = filter.excludedMajors.length - 1;
+        filterParams += "&majors_excluded=";
+        filter.excludedMajors.forEach((major, index) => {
+          filterParams += `${major}${index < lastIndex - 1 ? "," : ""}`;
         });
       }
-      if (param.includedTags && param.includedTags.length > 0) {
-        const lastIndex = param.includedTags.length - 1;
-        paramUrl += "&tags_included=";
-        param.includedTags.forEach((tag, index) => {
-          paramUrl += `${tag}${index < lastIndex - 1 ? "," : ""}`;
+      if (filter.includedTags && filter.includedTags.length > 0) {
+        const lastIndex = filter.includedTags.length - 1;
+        filterParams += "&tags_included=";
+        filter.includedTags.forEach((tag, index) => {
+          filterParams += `${tag}${index < lastIndex - 1 ? "," : ""}`;
         });
       }
-      if (param.excludedTags && param.excludedTags.length > 0) {
-        const lastIndex = param.excludedTags.length - 1;
-        paramUrl += "&tags_excluded=";
-        param.excludedTags.forEach((tag, index) => {
-          paramUrl += `${tag}${index < lastIndex - 1 ? "," : ""}`;
+      if (filter.excludedTags && filter.excludedTags.length > 0) {
+        const lastIndex = filter.excludedTags.length - 1;
+        filterParams += "&tags_excluded=";
+        filter.excludedTags.forEach((tag, index) => {
+          filterParams += `${tag}${index < lastIndex - 1 ? "," : ""}`;
         });
       }
     }
-    const response = await axios.get(`${userUrl}${paramUrl ? `?${paramUrl}` : ""}`);
+    const response = await axios.get(`${userUrl}${filterParams ? `?${filterParams}` : ""}`);
     if (response.status === 200) {
-      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
-      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return {
+        users: (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser),
+        pageIndex: filter.pageIndex,
+      };
+      // return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
     else {
       return null;
@@ -362,8 +370,9 @@ const userSlice = createSlice({
     builder.addCase(
       getUsers.fulfilled,
       (state, action) => {
-        if (action.payload) {
-          state.users = action.payload;
+        if (action.payload && state.searchPageIndex < action.payload.pageIndex) {
+          state.users = state.users.concat(action.payload.users);
+          state.searchPageIndex = action.payload.pageIndex;
         }
       }
     );

@@ -21,9 +21,11 @@ export default function Search() {
   const loginUser = useSelector(selectUser).loginUser;
   const users = useSelector(selectUser).users;
   const filter = useSelector(selectUser).filter;
+  const pageIndex = useSelector(selectUser).searchPageIndex;
   const urlPath = useLocation().pathname;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [target, setTarget] = useState<HTMLDivElement | null>();
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const pageBody = useRef<HTMLDivElement>(null);
 
   const saveYPosition = useCallback(() => {
@@ -41,28 +43,39 @@ export default function Search() {
   }, [loginUser, navigate]);
 
   useEffect(() => {
-    if (users.length === 0) {
-      if (filter) {
-        dispatch(getUsers(filter));
-      }
-      else {
-        dispatch(getUsers({
-          page: 1,
-          gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL,
-        }));
-      }
-    }
-  }, [dispatch, users, filter, loginUser?.interestedGender]);
-
-  useEffect(() => {
     scrollToPrevPosition(pageBody, urlPath);
   }, [pageBody, urlPath]);
 
-  // const getMoreUsers = useCallback(async () => {
-  //   setIsLoaded(true);
+  const getMoreUsers = useCallback(async () => {
+    setIsLoaded(true);
+    const defaultFilter = { gender: loginUser?.interestedGender ? loginUser.interestedGender : Gender.ALL };
+    const nextPageFilter = {
+      ...(filter ? filter : defaultFilter),
+      pageIndex: pageIndex + 1,
+    };
+    dispatch(getUsers(nextPageFilter)).then(() => {
+      setIsLoaded(false);
+    });
+  }, [dispatch, filter, loginUser, pageIndex]);
 
-  //   setIsLoaded(false);
-  // }, []);
+  const onIntersect = useCallback(async ([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+    if (entry.isIntersecting && !isLoaded) {
+      observer.unobserve(entry.target);
+      await getMoreUsers();
+      observer.observe(entry.target);
+    }
+  }, [getMoreUsers, isLoaded]);
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.5,
+      });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target, onIntersect]);
 
   const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
     <span {...props} ref={ref}>
@@ -90,6 +103,7 @@ export default function Search() {
               />
             ))
           }
+          <div ref={setTarget}>loading</div>
         </section>
         <NavigationBar saveYPosition={saveYPosition}/>
         <Modal
