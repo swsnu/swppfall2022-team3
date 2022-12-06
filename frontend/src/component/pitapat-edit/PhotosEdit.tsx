@@ -18,7 +18,7 @@ type FixedSizePhotoInfoArray = [
 const initPhotoInfo = (): PhotoInfo => (
   {
     file: null,
-    src: "plus.jpeg",
+    src: "/plus.jpeg",
   }
 );
 
