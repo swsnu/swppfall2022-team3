@@ -171,7 +171,10 @@ export const fetchSignin = createAsyncThunk(
 export const fetchSignout = createAsyncThunk(
   "user/signout",
   async (): Promise<void> => {
-    await axios.post(signoutUrl);
+    try {
+      await axios.post(signoutUrl);
+    }
+    catch (_) { /* empty */ }
   }
 );
 
