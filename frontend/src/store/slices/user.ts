@@ -140,7 +140,7 @@ const initialState: UserState = {
 
 export const fetchLoginUser = createAsyncThunk(
   "user/login-user",
-  async (loginUserKey: number) : Promise<User | null> => {
+  async (loginUserKey: number): Promise<User | null> => {
     try {
       const loginUserResponse = await axios.get(`${userUrl}${loginUserKey}/`);
       return rawDataToUser(loginUserResponse.data as RawUser);
@@ -156,12 +156,12 @@ export const fetchSignin = createAsyncThunk(
     try {
       // get session token
       const signInResponse = await axios.post(signinUrl, user);
-      if (signInResponse.status !== 200 ){
+      if (signInResponse.status !== 200) {
         return null;
       }
       const sessionToken = signInResponse.data.key;
       const cookies = new Cookies();
-      cookies.set("sessionid", sessionToken);
+      cookies.set("sessionid", sessionToken, { path: "/" });
       // get user key
       const authResponse = await axios.get(authUserUrl);
       if (authResponse.status !== 200) {
@@ -182,8 +182,8 @@ export const fetchSignout = createAsyncThunk(
   async (): Promise<void> => {
     try {
       await axios.post(signoutUrl);
+    } catch (_) { /* empty */
     }
-    catch (_) { /* empty */ }
   }
 );
 
@@ -207,7 +207,7 @@ export interface PageSearchFilter extends SearchFilter {
   pageIndex: number;
 }
 
-const getUsers = async (filter: PageSearchFilter): Promise<{users: User[]; pageIndex: number; nextPageUrl: string | null} | null> => {
+const getUsers = async (filter: PageSearchFilter): Promise<{ users: User[]; pageIndex: number; nextPageUrl: string | null } | null> => {
   let filterParams = "";
   if (filter) {
     filterParams = `page=${filter.pageIndex}${filter.gender !== Gender.ALL ? `&gender=${filter.gender}` : ""}`;
