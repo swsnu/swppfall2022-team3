@@ -17,7 +17,7 @@ export default function RemoveAccount({onModalClose}: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const remainOnClickHandler = useCallback( () => {
+  const cancelOnClickHandler = useCallback( () => {
     onModalClose();
   },
   [onModalClose]);
@@ -38,21 +38,25 @@ export default function RemoveAccount({onModalClose}: IProps) {
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
-      <div>
-        정말로 계정을 삭제하겠습니까?
-      </div>
-      <button
-        className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
-        onClick={removeOnClickHandler}
-      >
-        계정 삭제
-      </button>
-      <button
-        className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
-        onClick={remainOnClickHandler}
-      >
-        유지
-      </button>
+      <section className={"space-y-4"}>
+        <div>
+          정말로 계정을 삭제하겠습니까?
+        </div>
+      </section>
+      <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
+          onClick={removeOnClickHandler}
+        >
+          계정 삭제
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
+          onClick={cancelOnClickHandler}
+        >
+          취소
+        </button>
+      </section>
     </section>
   );
 }

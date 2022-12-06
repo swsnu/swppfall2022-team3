@@ -1,15 +1,15 @@
-import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {pink} from "@mui/material/colors";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { pink } from "@mui/material/colors";
 import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
-import {getTags, selectTag} from "../../store/slices/tag";
+import { selectTag } from "../../store/slices/tag";
 import { fetchLoginUser, selectUser } from "../../store/slices/user";
 import { userUrl } from "../../store/urls";
-import {Tag} from "../../types";
+import { Tag } from "../../types";
 import TagElement from "../signup/TagElement";
 
 
@@ -76,76 +76,79 @@ export default function TagsEdit({onModalClose}: IProps) {
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4 space-y-8"}>
-      <div>
-        테그들을 선택해 주세요.
-      </div>
-      <section className={"w-full flex-1 flex flex-col items-center"}>
-        <div className={"flex flex-row justify-center mt-8"}>
-          <article className={"flex flex-col item-center"}>
-            <FormControl
-              sx={{
-                maxWidth: 320,
-                minWidth: 240,
-              }}
-              size={"small"}
-              required
-            >
-              <InputLabel>
-                {"태그"}
-              </InputLabel>
-              <Select
-                label={"태그"}
-                variant={"outlined"}
-                value={selectedTagKey}
-                onChange={(e) => {
-                  (setSelectedTagKey as Dispatch<SetStateAction<string | number>>)(e.target.value);
-                }}
-              >
-                {
-                  loadedTags
-                    .map((t) => ({ name: t.name, value: t.key }))
-                    .map(({ name, value }) => (<MenuItem value={value} key={value}>{name}</MenuItem>))
-                }
-              </Select>
-            </FormControl>
-          </article>
-          <button
-            className={"ml-2"}
-            onClick={addTagOnClick}
-          >
-            <AddCircleIcon
-              style={{ color: pink[500] }}
-              fontSize={"large"}
-            />
-          </button>
+      <section className={"space-y-4"}>
+        <div>
+          테그들을 선택해 주세요.
         </div>
-        <article
-          className={"w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold justify-start mt-4"}
-        >
-          {
-            newTags.map((tag) => (
-              <TagElement
-                key={tag.key}
-                name={tag.name}
-                onDelete={() => { deleteTag(tag.key); }}
+        <section className={"w-full flex-1 flex flex-col items-center"}>
+          <div className={"flex flex-row justify-center mt-8"}>
+            <article className={"flex flex-col item-center"}>
+              <FormControl
+                sx={{
+                  maxWidth: 320,
+                  minWidth: 240,
+                }}
+                size={"small"}
+                required
+              >
+                <InputLabel>
+                  {"태그"}
+                </InputLabel>
+                <Select
+                  label={"태그"}
+                  variant={"outlined"}
+                  value={selectedTagKey}
+                  onChange={(e) => {
+                    (setSelectedTagKey as Dispatch<SetStateAction<string | number>>)(e.target.value);
+                  }}
+                >
+                  {
+                    loadedTags
+                      .map((t) => ({ name: t.name, value: t.key }))
+                      .map(({ name, value }) => (<MenuItem value={value} key={value}>{name}</MenuItem>))
+                  }
+                </Select>
+              </FormControl>
+            </article>
+            <button
+              className={"ml-2"}
+              onClick={addTagOnClick}
+            >
+              <AddCircleIcon
+                style={{ color: pink[500] }}
+                fontSize={"large"}
               />
-            ))
-          }
-        </article>
+            </button>
+          </div>
+          <article
+            className={"w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold justify-start mt-4"}
+          >
+            {
+              newTags.map((tag) => (
+                <TagElement
+                  key={tag.key}
+                  name={tag.name}
+                  onDelete={() => { deleteTag(tag.key); }}
+                />
+              ))
+            }
+          </article>
+        </section>
       </section>
-      <button
-        className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
-        onClick={confirmHandler}
-      >
-        정보 수정
-      </button>
-      <button
-        className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
-        onClick={cancelOnClickHandler}
-      >
-        유지
-      </button>
+      <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
+          onClick={confirmHandler}
+        >
+          정보 수정
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
+          onClick={cancelOnClickHandler}
+        >
+          취소
+        </button>
+      </section>
     </section>
   );
 }
-

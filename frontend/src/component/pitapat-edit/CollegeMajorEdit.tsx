@@ -62,41 +62,45 @@ export default function CollegeMajorEdit({onModalClose, setSelectedCollegeKey, s
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4 space-y-8"}>
-      <div>
-        수정할 학과를 선택해 주세요.
-      </div>
-      <InformationInput
-        label={"단과대"}
-        value={selectedCollegeKey}
-        setValue={setSelectedCollegeKey}
-        type={"select"}
-        required={true}
-        options={
-          colleges.map((col) => ({ name: col.name, value: col.key }))
-        }
-      />
-      <InformationInput
-        label={"학과"}
-        value={selectedMajorKey}
-        setValue={setSelectedMajorKey}
-        type={"select"}
-        required={true}
-        options={
-          majors.map((m) => ({ name: m.name, value: m.key }))
-        }
-      />
-      <button
-        className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
-        onClick={confirmHandler}
-      >
-        정보 수정
-      </button>
-      <button
-        className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
-        onClick={cancelOnClickHandler}
-      >
-        유지
-      </button>
+      <section className={"space-y-4"}>
+        <div>
+          수정할 학과를 선택해 주세요.
+        </div>
+        <InformationInput
+          label={"단과대"}
+          value={selectedCollegeKey}
+          setValue={setSelectedCollegeKey}
+          type={"select"}
+          required={true}
+          options={
+            colleges.map((col) => ({ name: col.name, value: col.key }))
+          }
+        />
+        <InformationInput
+          label={"학과"}
+          value={selectedMajorKey}
+          setValue={setSelectedMajorKey}
+          type={"select"}
+          required={true}
+          options={
+            majors.map((m) => ({ name: m.name, value: m.key }))
+          }
+        />
+      </section>
+      <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.main} mt-16`}
+          onClick={confirmHandler}
+        >
+          정보 수정
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
+          onClick={cancelOnClickHandler}
+        >
+          취소
+        </button>
+      </section>
     </section>
   );
 }
