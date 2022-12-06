@@ -50,7 +50,7 @@ export default function PitapatList() {
 
   return (
     <section className={`${style.page.base} ${style.page.margin.topWithTab} ${style.page.margin.bottom}`}>
-      <AppBar/>
+      <AppBar saveYPosition={saveYPosition}/>
       <ThemeProvider theme={theme}>
         <Tabs
           className={"top-12 w-full flex flex-row h-12 z-10 fixed"}
@@ -78,7 +78,7 @@ export default function PitapatList() {
             (<PitapatSent/>)
         }
       </section>
-      <NavigationBar/>
+      <NavigationBar saveYPosition={saveYPosition}/>
     </section>
   );
 }
