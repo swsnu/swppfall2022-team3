@@ -16,14 +16,14 @@ class UniversityTestCase(TestCase):
         self.assertEqual(str(college), 'snu engineering')
         self.assertEqual(str(major), 'snu engineering CS')
 
-        response = client.get('/college/university/0/')
+        response = client.get('/api/college/university/0/')
         self.assertEqual(response.status_code, 404)
 
-        response = client.get(f'/college/university/{university.key}/')
+        response = client.get(f'/api/college/university/{university.key}/')
         self.assertEqual(response.status_code, 200)
 
-        response = client.get('/major/college/0/')
+        response = client.get('/api/major/college/0/')
         self.assertEqual(response.status_code, 404)
 
-        response = client.get(f'/major/college/{college.key}/')
+        response = client.get(f'/api/major/college/{college.key}/')
         self.assertEqual(response.status_code, 200)

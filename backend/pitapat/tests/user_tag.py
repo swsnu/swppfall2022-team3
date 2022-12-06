@@ -17,13 +17,13 @@ class UserTagTestCase(TestCase):
 
         self.assertEqual(str(tag), tag.name)
 
-        response = client.post(f'/user/{user_key}/tag/',
+        response = client.post(f'/api/user/{user_key}/tag/',
                                json.dumps({'tags': tags}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
         self.assertEqual(str(UserTag.objects.get(tag=tag)), f'user {user_key} - tag {tag.key}')
 
-        response = client.delete(f'/user/{user_key}/tag/',
+        response = client.delete(f'/api/user/{user_key}/tag/',
                                json.dumps({'tags': tags}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 204)

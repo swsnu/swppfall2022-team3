@@ -11,8 +11,8 @@ class UserPitapatTestCase(TestCase):
         client = Client()
         user_key = User.objects.get(nickname='a').key
 
-        response = client.get(f'/user/{user_key}/pitapat/to/')
+        response = client.get(f'/api/user/{user_key}/pitapat/to/')
         self.assertEqual(response.status_code, 200)
 
-        response = client.get(f'/user/{user_key}/pitapat/from/')
+        response = client.get(f'/api/user/{user_key}/pitapat/from/')
         self.assertEqual(response.status_code, 200)
