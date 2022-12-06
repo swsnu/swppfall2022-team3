@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
+import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import style from "../../constant/style";
@@ -9,6 +9,11 @@ import ImageUploadIcon from "../signup/ImageUploadIcon";
 type PhotoInfo = {
   file: File | null;
   src: string;
+}
+
+type UserPhoto = {
+  key: number;
+  scr: string;
 }
 type FixedSizePhotoInfoArray = [
   PhotoInfo, PhotoInfo, PhotoInfo,
@@ -42,6 +47,13 @@ export default function PhotosEdit({
     () => photoInfos.filter((p) => p.file !== null).length,
     [photoInfos]
   );
+  const [userPhotos, setUserPhotos] = useState<UserPhoto[]>([]);
+
+  useEffect(() => {
+    axios.get(`/user/${loginUser?.key}/photo/`).then((response) => {
+      setUserPhotos(response.data as UserPhoto[]);
+    });
+  }, [loginUser?.key]);
 
   const setIthPhoto = useCallback((i: number, file: File) => {
     const newPhotos: FixedSizePhotoInfoArray = [...photoInfos];
