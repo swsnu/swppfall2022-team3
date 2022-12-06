@@ -1,3 +1,4 @@
+import { Cookies } from "react-cookie";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Gender, User } from "../../types";
@@ -152,7 +153,13 @@ export const fetchSignin = createAsyncThunk(
   async (user: { username: string; password: string }): Promise<User | null> => {
     try {
       // get session token
-      await axios.post(signinUrl, user);
+      const signInResponse = await axios.post(signinUrl, user);
+      if (signInResponse.status !== 200 ){
+        return null;
+      }
+      const sessionToken = signInResponse.data.key;
+      const cookies = new Cookies();
+      cookies.set("sessionid", sessionToken);
       // get user key
       const authResponse = await axios.get(authUserUrl);
       if (authResponse.status !== 200) {
