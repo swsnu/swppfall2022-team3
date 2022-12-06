@@ -42,19 +42,7 @@ export default function TagsEdit({ onModalClose }: IProps) {
     }
     onModalClose();
   },
-  [dispatch,
-    loginUser?.birthday,
-    loginUser?.college,
-    loginUser?.email,
-    loginUser?.gender,
-    loginUser?.interestedGender,
-    loginUser?.introduction,
-    loginUser?.key,
-    loginUser?.major,
-    loginUser?.nickname,
-    loginUser?.university,
-    onModalClose,
-    newTags]);
+  [dispatch, loginUser?.key, onModalClose, newTags]);
 
   useEffect(() => {
     const targetTag = loadedTags.find((t) => (t.key === selectedTagKey));

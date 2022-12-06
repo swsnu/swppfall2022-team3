@@ -35,19 +35,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
       setHasSubmit(true);
     }
   },
-  [dispatch,
-    introduction,
-    loginUser?.birthday,
-    loginUser?.college,
-    loginUser?.email,
-    loginUser?.gender,
-    loginUser?.interestedGender,
-    loginUser?.key,
-    loginUser?.major,
-    loginUser?.nickname,
-    loginUser?.tags,
-    loginUser?.university,
-    onModalClose]);
+  [dispatch, introduction, loginUser?.key, onModalClose]);
 
   return (
     <section className={"h-fit w-[90vw] max-w-[400px] flex flex-col items-center bg-white p-4 space-y-8"}>
