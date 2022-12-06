@@ -316,6 +316,15 @@ const userSlice = createSlice({
     deleteReceiver: (state, action: PayloadAction<number>) => {
       state.pitapat.receivers = state.pitapat.receivers.filter((u) => u.key !== action.payload);
     },
+    deleteUser: (state, action: PayloadAction<number>) => {
+      state.users = state.users.filter((u) => u.key !== action.payload);
+    },
+    addUser: (state, action: PayloadAction<number>) => {
+      const user = state.pitapat.receivers.find((u) => u.key === action.payload);
+      if(user){
+        state.users.unshift(user);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
