@@ -11,6 +11,7 @@ import UniversitySelect from "../component/signup/UniversitySelect";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { selectUser } from "../store/slices/user";
+import { photoUrl, userUrl } from "../store/urls";
 import { College, Gender, Major, Tag, University } from "../types";
 import { dateToString } from "../util/date";
 
@@ -41,7 +42,7 @@ export default function SignUp() {
   }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(async () => {
-    const user = await axios.post("/user/", {
+    const user = await axios.post(userUrl, {
       email: email,
       password: password,
       nickname: nickname,
@@ -58,7 +59,7 @@ export default function SignUp() {
     uploadedPhotos.forEach(async (photo) => {
       const form = new FormData();
       form.append("file", photo);
-      await axios.post(`/photo/user/${user.data.key}/`, form, {
+      await axios.post(`${photoUrl}user/${user.data.key}/`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Content-Disposition": `form-data; filename=${photo.name};`,

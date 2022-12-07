@@ -15,6 +15,8 @@ export const universityUrl = `${backendUrl}/university/`;
 export const collegeUrl = `${backendUrl}/college/`;
 export const majorUrl = `${backendUrl}/major/`;
 
+export const photoUrl = `${backendUrl}/photo/`;
+
 export const tagUrl = `${backendUrl}/tag/`;
 
 export const pitapatUrl = `${backendUrl}/pitapat/`;
