@@ -77,7 +77,7 @@ export default function PitapatList() {
         </Tabs>
       </ThemeProvider>
       <section
-        className={style.page.body}
+        className={`${style.page.body} w-full justify-center items-center`}
         role={"presentation"}
         ref={pageBody}
         onClick={pitapatListTabIndex === 0? saveYPositionFromReceived : saveYPositionFromSent}

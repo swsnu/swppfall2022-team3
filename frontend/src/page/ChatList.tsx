@@ -39,7 +39,7 @@ export default function ChatList() {
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar saveYPosition={saveYPosition}/>
         <section
-          className={style.page.body}
+          className={`${style.page.body} w-full justify-center items-center text-gray-600`}
           role={"presentation"}
           ref={pageBody}
           onClick={saveYPosition}
@@ -54,7 +54,13 @@ export default function ChatList() {
                 lastChat={chats.length === 0 ? null : chats[chats.length - 1].content}
               />
             ))
-          }</section>
+          }
+          {
+            chatrooms.length === 0 ?
+              "매칭된 사람이 없어요" :
+              null
+          }
+        </section>
         <NavigationBar saveYPosition={saveYPosition}/>
       </section> :
       <Navigate replace to={paths.signIn}/>
