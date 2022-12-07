@@ -36,7 +36,6 @@ export default function EmailVerification({
       }
       else {
         clearInterval(countdown);
-        //alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.");
         setIsOpenTimeoutModal(true);
         setStep(0);
       }
