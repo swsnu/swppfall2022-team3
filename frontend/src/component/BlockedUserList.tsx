@@ -36,7 +36,7 @@ export default function BlockedUserList({ setBlockedEdit }: IProps) {
         <div className={iconClassName} />
       </section>
       <section
-        className={style.page.body}
+        className={`${style.page.body} ${blockedUsers.length === 0 ? "w-full justify-center items-center text-gray-600" : ""}`}
         role={"presentation"}
         ref={pageBody}
       >
@@ -50,7 +50,13 @@ export default function BlockedUserList({ setBlockedEdit }: IProps) {
               imagePath={photos[0]}
             />
           ))
-        }</section>
+        }
+        {
+          blockedUsers.length === 0 ?
+            "차단한 사람이 없어요" :
+            null
+        }
+      </section>
     </section>
   );
 }
