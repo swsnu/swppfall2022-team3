@@ -4,11 +4,11 @@ import { useNavigate } from "react-router";
 import Modal from "@mui/material/Modal";
 import AppBar from "../component/AppBar";
 import PhotoSlider from "../component/PhotoSlider";
-import CollegeMajorEdit from "../component/pitapat-edit/CollegeMajorEdit";
-import EditButton from "../component/pitapat-edit/EditButton";
-import IntroEdit from "../component/pitapat-edit/IntroEdit";
-import PhotosEdit from "../component/pitapat-edit/PhotosEdit";
-import TagsEdit from "../component/pitapat-edit/TagsEdit";
+import CollegeMajorEdit from "../component/profile-edit/CollegeMajorEdit";
+import EditButton from "../component/profile-edit/EditButton";
+import IntroEdit from "../component/profile-edit/IntroEdit";
+import PhotosEdit from "../component/profile-edit/PhotosEdit";
+import TagsEdit from "../component/profile-edit/TagsEdit";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -43,12 +43,6 @@ export default function ProfileEdit() {
     }
   }, [navigate, loginUser, dispatch]);
 
-  // useEffect(() => {
-  //   if (selectedCollegeKey) {
-  //     dispatch(getMajorsByUniversity(selectedCollegeKey));
-  //   }
-  // }, [dispatch, selectedCollegeKey]);
-
   const onCollegeMajorModalClose = useCallback(() => {
     setSelectedCollegeKey(loginUser?.college ?? 0);
     setCollegeMajorModalOpen(false);
@@ -70,8 +64,6 @@ export default function ProfileEdit() {
 
   return (!loginUser) ? <section/> :
     (!isPhotoEdit) ? (
-      // add bottom margin if navigation bar is added
-      // <section className={"w-full flex-1 flex flex-col mt-12 mb-16"}>
       <section className={`${style.page.base} ${style.page.margin.top}`}>
         <AppBar title={`${loginUser.nickname}/${getKoreanAge(loginUser.birthday)}`}/>
         <section className={"w-full flex-1 z-0 flex flex-col"}>

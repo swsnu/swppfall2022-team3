@@ -15,24 +15,24 @@ type UserPhoto = {
   key: number;
   scr: string;
 }
+
 type FixedSizePhotoInfoArray = [
   PhotoInfo, PhotoInfo, PhotoInfo,
   PhotoInfo, PhotoInfo, PhotoInfo,
   PhotoInfo, PhotoInfo, PhotoInfo,
 ]
-const initPhotoInfo = (): PhotoInfo => (
-  {
-    file: null,
-    src: "/plus.jpeg",
-  }
-);
+
+const initPhotoInfo = (): PhotoInfo => ({
+  file: null,
+  src: "/plus.jpeg",
+});
 
 export interface IProps {
   setPhotoEdit: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function PhotosEdit({
-  setPhotoEdit
+  setPhotoEdit,
 }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
   const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
