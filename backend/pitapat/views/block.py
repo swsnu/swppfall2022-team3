@@ -24,9 +24,9 @@ class BlockViewSet(viewsets.ModelViewSet):
         if Block.objects.filter(is_from=from_user, to=to_user): # duplicated request
             return Response(status=409)
 
-        from_user_chatroom_keys = UserChatroom.objects.filter(user=from_user).values('chatroom')
-        to_user_chatroom_keys = UserChatroom.objects.filter(user=to_user).values('chatroom')
-        chatroom_keys = [key['chatroom'] for key in from_user_chatroom_keys if key in to_user_chatroom_keys]
+        from_user_chatrooms = UserChatroom.objects.filter(user=from_user).values('chatroom')
+        to_user_chatrooms = UserChatroom.objects.filter(user=to_user).values('chatroom')
+        chatroom_keys = [key['chatroom'] for key in from_user_chatrooms if key in to_user_chatrooms]
         for chatroom_key in chatroom_keys:
             chatroom = Chatroom.objects.get(key=chatroom_key)
             if chatroom.user_count == 2:  # 1:1 chatroom

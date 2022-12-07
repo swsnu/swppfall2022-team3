@@ -1,7 +1,7 @@
 from django.db import models
 
-from ..custom_field.unsigned_auto_field import UnsignedAutoField
-from ..user import User
+from pitapat.models.custom_field.unsigned_auto_field import UnsignedAutoField
+from pitapat.models.user import User
 
 
 class Block(models.Model):

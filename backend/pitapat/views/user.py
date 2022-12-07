@@ -82,9 +82,9 @@ class UserViewSet(viewsets.ModelViewSet):
         if tags_excluded:
             tags_excluded = parse_int_query_parameters(tags_excluded)
             filters &= ~Q(key__in=UserTag.objects.filter(tag__in=tags_excluded)
-                                                  .values('user')
-                                                  .distinct()
-                                                  .values('user'))
+                                                 .values('user')
+                                                 .distinct()
+                                                 .values('user'))
 
         return paginate(
             User.objects.filter(filters).order_by('-reg_dt'),

@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from pitapat.models import Block, User
 # from pitapat.paginations import UserListPagination
 from pitapat.serializers import UserListSerializer
-from pitapat.utils.page import paginate
+# from pitapat.utils.page import paginate
 
 
 class BlockFromUserViewSet(viewsets.ModelViewSet):
@@ -17,11 +18,5 @@ class BlockFromUserViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         blocks = Block.objects.filter(is_from=user, to__isnull=False)
         receiver_keys = [block.to.key for block in blocks]
-        users = User.objects.filter(key__in=receiver_keys).order_by('key')
-
-        return paginate(
-            users,
-            self.paginate_queryset,
-            self.get_serializer,
-            self.get_paginated_response,
-        )
+        blocked_users = User.objects.filter(key__in=receiver_keys).order_by('-reg_dt')
+        return Response(blocked_users)

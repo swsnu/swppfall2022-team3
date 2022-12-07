@@ -1,8 +1,8 @@
 from django.db import models
 
-from ..chatroom import Chatroom
-from ..custom_field.unsigned_auto_field import UnsignedAutoField
-from ..user import User
+from pitapat.models.custom_field.unsigned_auto_field import UnsignedAutoField
+from pitapat.models.chatroom import Chatroom
+from pitapat.models.user import User
 
 
 class UserChatroom(models.Model):
