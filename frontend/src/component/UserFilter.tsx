@@ -29,37 +29,40 @@ export default function UserFilter({
   const [college, setCollege] = useState<number | "">("");
   const [major, setMajor] = useState<number | "">("");
   const [tag, setTag] = useState<number | "">("");
-  const [includedColleges, setIncludedColleges] = useState<College[]>(
-    filter?.includedColleges ?
-      colleges.filter((c) => (filter?.includedColleges?.indexOf(c.key) ?? -1) >= 0 ) :
-      []
-  );
-  const [excludedColleges, setExcludedColleges] = useState<College[]>(
-    filter?.excludedColleges ?
-      colleges.filter((c) => (filter?.excludedColleges?.indexOf(c.key) ?? -1) >= 0 ) :
-      []
-  );
-  const [includedMajors, setIncludedMajors] = useState<Major[]>(
-    filter?.includedMajors ?
-      majors.filter((m) => (filter?.includedMajors?.indexOf(m.key) ?? -1) >= 0 ) :
-      []
-  );
-  const [excludedMajors, setExcludedMajors] = useState<Major[]>(
-    filter?.excludedMajors ?
-      majors.filter((m) => (filter?.excludedMajors?.indexOf(m.key) ?? -1) >= 0 ) :
-      []
-  );
-  const [includedTags, setIncludedTags] = useState<Tag[]>(
-    filter?.includedTags ?
-      tags.filter((t) => (filter?.includedTags?.indexOf(t.key) ?? -1) >= 0 ) :
-      []
-  );
-  const [excludedTags, setExcludedTags] = useState<Tag[]>(
-    filter?.excludedTags ?
-      tags.filter((t) => (filter?.excludedTags?.indexOf(t.key) ?? -1) >= 0 ) :
-      []
-  );
+  const [includedColleges, setIncludedColleges] = useState<College[]>([]);
+  const [excludedColleges, setExcludedColleges] = useState<College[]>([]);
+  const [includedMajors, setIncludedMajors] = useState<Major[]>([]);
+  const [excludedMajors, setExcludedMajors] = useState<Major[]>([]);
+  const [includedTags, setIncludedTags] = useState<Tag[]>([]);
+  const [excludedTags, setExcludedTags] = useState<Tag[]>([]);
   const [ageRange, setAgeRange] = useState<number[]>([filter?.minAge ?? 19, filter?.maxAge ?? 30]);
+
+  useEffect(() => {
+    if (filter?.includedColleges) {
+      setIncludedColleges(colleges.filter((c) => (filter?.includedColleges?.indexOf(c.key) ?? -1) >= 0 ));
+    }
+    if (filter?.excludedColleges) {
+      setExcludedColleges(colleges.filter((c) => (filter?.excludedColleges?.indexOf(c.key) ?? -1) >= 0 ));
+    }
+  }, [filter, colleges, setIncludedColleges, setExcludedColleges]);
+
+  useEffect(() => {
+    if (filter?.includedMajors) {
+      setIncludedMajors(majors.filter((m) => (filter?.includedMajors?.indexOf(m.key) ?? -1) >= 0 ));
+    }
+    if (filter?.excludedMajors) {
+      setExcludedMajors(majors.filter((m) => (filter?.excludedMajors?.indexOf(m.key) ?? -1) >= 0 ));
+    }
+  }, [filter, majors, setIncludedMajors, setExcludedMajors]);
+
+  useEffect(() => {
+    if (filter?.includedTags) {
+      setIncludedTags(tags.filter((t) => (filter?.includedTags?.indexOf(t.key) ?? -1) >= 0 ));
+    }
+    if (filter?.excludedTags) {
+      setExcludedTags(tags.filter((t) => (filter?.excludedTags?.indexOf(t.key) ?? -1) >= 0 ));
+    }
+  }, [filter, tags, setIncludedTags, setExcludedTags]);
 
   useEffect(() => {
     if (university && colleges.length === 0) {
