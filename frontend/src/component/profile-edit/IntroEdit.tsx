@@ -25,7 +25,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
 
   const confirmHandler = useCallback( async () => {
     if (introduction) {
-      await axios.put(`${userUrl}${loginUser?.key}${paths.introduction}/`, {
+      await axios.put(`${userUrl}/${loginUser?.key}${paths.introduction}/`, {
         content: introduction
       }).then(() => {
         dispatch(fetchLoginUser(loginUser?.key ?? 0));

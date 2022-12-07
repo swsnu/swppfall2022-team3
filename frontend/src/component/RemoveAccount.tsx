@@ -25,7 +25,7 @@ export default function RemoveAccount({ onModalClose }: IProps) {
   const removeOnClickHandler = useCallback( async () => {
     const removedLoginUser = { username: "", password: "" };
     try {
-      await axios.delete(`${userUrl}${loginUser?.key}/`);
+      await axios.delete(`${userUrl}/${loginUser?.key}/`);
     }
     catch  {
       // do nothing

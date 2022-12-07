@@ -48,7 +48,7 @@ const initialState: ChatState = {
 export const getChatrooms = createAsyncThunk(
   "chatroom/get-all-by-user",
   async (userKey: number): Promise<Chatroom[]> => {
-    const response = await axios.get(`${userUrl}${userKey}/chatroom/`);
+    const response = await axios.get(`${userUrl}/${userKey}/chatroom/`);
     if (response.status === 200) {
       return (response.data as RawChatroom[]).map(rawChatroomToChatroom);
     }

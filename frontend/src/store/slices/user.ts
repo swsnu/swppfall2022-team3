@@ -147,7 +147,7 @@ export const fetchLoginUser = createAsyncThunk(
   "user/login-user",
   async (loginUserKey: number): Promise<User | null> => {
     try {
-      const loginUserResponse = await axios.get(`${userUrl}${loginUserKey}/`);
+      const loginUserResponse = await axios.get(`${userUrl}/${loginUserKey}/`);
       return rawDataToUser(loginUserResponse.data as RawUser);
     } catch (_) {
       return null;
@@ -160,7 +160,7 @@ export const fetchSignin = createAsyncThunk(
   async (user: { username: string; password: string }): Promise<User | null> => {
     try {
       // get session token
-      const signInResponse = await axios.post(signinUrl, user);
+      const signInResponse = await axios.post(`${signinUrl}/`, user);
       if (signInResponse.status !== 200) {
         return null;
       }
@@ -168,13 +168,13 @@ export const fetchSignin = createAsyncThunk(
       const cookies = new Cookies();
       cookies.set("sessionid", sessionToken, { path: "/" });
       // get user key
-      const authResponse = await axios.get(authUserUrl);
+      const authResponse = await axios.get(`${authUserUrl}/`);
       if (authResponse.status !== 200) {
         return null;
       }
       const userKey = authResponse.data.pk as number;
       // get user data
-      const userResponse = await axios.get(`${userUrl}${userKey}/`);
+      const userResponse = await axios.get(`${userUrl}/${userKey}/`);
       return rawDataToUser(userResponse.data as RawUser);
     } catch (_) {
       return null;
@@ -186,7 +186,7 @@ export const fetchSignout = createAsyncThunk(
   "user/signout",
   async (): Promise<void> => {
     try {
-      await axios.post(signoutUrl);
+      await axios.post(`${signoutUrl}`);
     } catch (_) { /* empty */
     }
   }
@@ -196,7 +196,7 @@ export const fetchSignup = createAsyncThunk(
   "user/signup",
   async (user: User): Promise<User | null> => {
     const response = await axios.post(
-      userUrl,
+      `${userUrl}/`,
       userToRawData(user),
     );
     if (response.status === 200) {
@@ -265,7 +265,7 @@ const getUsers = async (filter: PageSearchFilter): Promise<{ users: User[]; page
       });
     }
   }
-  const response = await axios.get(`${userUrl}${filterParams ? `?${filterParams}` : ""}`);
+  const response = await axios.get(`${userUrl}/${filterParams ? `?${filterParams}` : ""}`);
   try {
     return {
       users: (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser),
@@ -290,7 +290,7 @@ export const getNextUsers = createAsyncThunk(
 export const getUser = createAsyncThunk(
   "user/get-one",
   async (userKey: number): Promise<User | null> => {
-    const response = await axios.get(`${userUrl}${userKey}/`);
+    const response = await axios.get(`${userUrl}/${userKey}/`);
     if (response.status === 200) {
       return rawDataToUser(response.data as RawUser);
     }
@@ -303,7 +303,7 @@ export const getUser = createAsyncThunk(
 export const getPitapatSenders = createAsyncThunk(
   "user/pitapat-senders-to-user",
   async (userKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}${userKey}/pitapat/to/`);
+    const response = await axios.get(`${userUrl}/${userKey}/pitapat/to/`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
@@ -317,7 +317,7 @@ export const getPitapatSenders = createAsyncThunk(
 export const getPitapatReceivers = createAsyncThunk(
   "user/pitapat-receivers-to-user",
   async (userKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}${userKey}/pitapat/from/`);
+    const response = await axios.get(`${userUrl}/${userKey}/pitapat/from/`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
@@ -331,7 +331,7 @@ export const getPitapatReceivers = createAsyncThunk(
 export const getBlockedUsers = createAsyncThunk(
   "user/blocked-user",
   async (userKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${userUrl}${userKey}/block/`);
+    const response = await axios.get(`${userUrl}/${userKey}/block/`);
     if (response.status === 200) {
       // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
@@ -345,7 +345,7 @@ export const getBlockedUsers = createAsyncThunk(
 export const getChatParticipants = createAsyncThunk(
   "user/get-all-by-chatroom",
   async (chatroomKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`${chatroomUrl}${chatroomKey}/user/`);
+    const response = await axios.get(`${chatroomUrl}/${chatroomKey}/user/`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }

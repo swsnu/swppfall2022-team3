@@ -45,7 +45,7 @@ export default function EmailVerification({
 
   const resendOnClick = useCallback(async () => {
     setRequestTime(new Date());
-    await axios.post(`${authEmailUrl}`, {
+    await axios.post(`${authEmailUrl}/`, {
       email: email,
       request_time: requestTime,
     });
@@ -54,7 +54,7 @@ export default function EmailVerification({
 
   const confirmOnClick = useCallback(async () => {
     try {
-      const result = await axios.post(`${authVerifyUrl}`, {
+      const result = await axios.post(`${authVerifyUrl}/`, {
         email: email,
         request_time: requestTime,
         code: code,

@@ -23,7 +23,7 @@ export default function BlockedUserElement({
   const dispatch = useDispatch<AppDispatch>();
 
   const elementOnClick = useCallback(async () => {
-    await axios.delete(`${blockUrl}`, { data: {
+    await axios.delete(`${blockUrl}/`, { data: {
       from: fromUserKey,
       to: toUserKey
     } });
