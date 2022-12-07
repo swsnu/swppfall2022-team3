@@ -19,11 +19,14 @@ class PitapatToUserViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         pitapats = Pitapat.objects.filter(to=user, is_from__isnull=False)
         user_chatrooms = UserChatroom.objects.filter(user=user)
-        chatroom_participants = [
-            UserChatroom.objects.get(
-            Q(chatroom=user_chatroom.chatroom) & ~Q(user=user_chatroom.user)).user
-            for user_chatroom in user_chatrooms
-        ]
+        chatroom_participants = []
+        for user_chatroom in user_chatrooms:
+            try:
+                chatroom_participant = UserChatroom.objects.get(
+                    Q(chatroom=user_chatroom.chatroom) & ~Q(user=user_chatroom.user)).user
+                chatroom_participants.append(chatroom_participant)
+            except:
+                pass
         for chatroom_participant in chatroom_participants:
             pitapats=pitapats.exclude(is_from=chatroom_participant)
         sender_keys = [pitapat.is_from.key for pitapat in pitapats]
@@ -40,11 +43,14 @@ class PitapatFromUserViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(User.objects.all(), key=kwargs['user_key'])
         pitapats = Pitapat.objects.filter(is_from=user, to__isnull=False)
         user_chatrooms = UserChatroom.objects.filter(user=user)
-        chatroom_participants = [
-            UserChatroom.objects.get(
-            Q(chatroom=user_chatroom.chatroom) & ~Q(user=user_chatroom.user)).user
-            for user_chatroom in user_chatrooms
-        ]
+        chatroom_participants = []
+        for user_chatroom in user_chatrooms:
+            try:
+                chatroom_participant = UserChatroom.objects.get(
+                    Q(chatroom=user_chatroom.chatroom) & ~Q(user=user_chatroom.user)).user
+                chatroom_participants.append(chatroom_participant)
+            except:
+                pass
         for chatroom_participant in chatroom_participants:
             pitapats=pitapats.exclude(to=chatroom_participant)
         receiver_keys = [pitapat.to.key for pitapat in pitapats]
