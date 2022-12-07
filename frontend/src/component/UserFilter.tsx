@@ -62,20 +62,22 @@ export default function UserFilter({
   const [ageRange, setAgeRange] = useState<number[]>([filter?.minAge ?? 19, filter?.maxAge ?? 30]);
 
   useEffect(() => {
-    if (university) {
+    if (university && colleges.length === 0) {
       dispatch(getColleges(university));
     }
-  }, [dispatch, university]);
+  }, [dispatch, university, colleges]);
 
   useEffect(() => {
-    if (university) {
+    if (university && majors.length === 0) {
       dispatch(getMajorsByUniversity(university));
     }
-  }, [dispatch, university]);
+  }, [dispatch, university, majors]);
 
   useEffect(() => {
-    dispatch(getTags());
-  }, [dispatch]);
+    if (tags.length === 0) {
+      dispatch(getTags());
+    }
+  }, [dispatch, tags]);
 
   const onAgeChange = useCallback((_: Event, newValue: number | number[]) => {
     setAgeRange(newValue as number[]);
