@@ -26,7 +26,7 @@ jest.mock("react-redux", () => ({
 
 jest.mock("../../component/AppBar", () => () => <div>appbar</div>);
 jest.mock("../../component/Profile", () =>
-  ({photo}: {photo: string}) => <div data-testid="profile">{photo}</div>
+  ({ photo }: {photo: string}) => <div data-testid="profile">{photo}</div>
 );
 jest.mock("../../component/NavigationBar", () => () => <div></div>);
 

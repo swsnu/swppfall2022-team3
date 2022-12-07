@@ -16,7 +16,7 @@ jest.mock("react-router", () => ({
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
-  useDispatch: () => async () => Promise.resolve({type: "user/signin/fulfilled", payload: null, meta: {}}),
+  useDispatch: () => async () => Promise.resolve({ type: "user/signin/fulfilled", payload: null, meta: {} }),
 }));
 
 window.alert = jest.fn();

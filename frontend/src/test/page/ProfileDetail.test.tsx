@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import {render, screen, waitFor} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import ProfileDetail from "../../page/ProfileDetail";
 import { getDefaultMockStore, getNointerestingUserMockStore } from "../../test-utils/mocks";
 
