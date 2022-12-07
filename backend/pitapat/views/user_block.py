@@ -19,4 +19,4 @@ class BlockFromUserViewSet(viewsets.ModelViewSet):
         blocks = Block.objects.filter(is_from=user, to__isnull=False)
         receiver_keys = [block.to.key for block in blocks]
         blocked_users = User.objects.filter(key__in=receiver_keys).order_by('-reg_dt')
-        return Response(blocked_users)
+        return Response(self.get_serializer(blocked_users, many=True).data)
