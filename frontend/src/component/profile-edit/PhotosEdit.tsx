@@ -3,18 +3,28 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import style from "../../constant/style";
 import { selectUser } from "../../store/slices/user";
+import { photoUrl, userUrl } from "../../store/urls";
 import ImageUploadIcon from "../signup/ImageUploadIcon";
 
 
 type PhotoInfo = {
+  type: "url" | "file";
+  key: number;
   file: File | null;
   src: string;
 }
 
-type UserPhoto = {
+type RawUserPhoto = {
   key: number;
-  scr: string;
+  name: string;
 }
+
+const rawDataToPhotoInfo = (rawData: RawUserPhoto): PhotoInfo => ({
+  type: "url",
+  key: rawData.key,
+  file: null,
+  src: rawData.name,
+});
 
 type FixedSizePhotoInfoArray = [
   PhotoInfo, PhotoInfo, PhotoInfo,
@@ -23,6 +33,8 @@ type FixedSizePhotoInfoArray = [
 ]
 
 const initPhotoInfo = (): PhotoInfo => ({
+  type: "file",
+  key: -1,
   file: null,
   src: "/plus.jpeg",
 });
@@ -35,7 +47,6 @@ export default function PhotosEdit({
   setPhotoEdit,
 }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
-  const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
   const [photoInfos, setPhotoInfos] = useState<FixedSizePhotoInfoArray>(
     [
       initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
@@ -43,21 +54,40 @@ export default function PhotosEdit({
       initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
     ]
   );
+  const [beDeletedPhotoKeys, setBeDeletedPhotoKeys] = useState<number[]>([]);
   const photoNumber = useMemo(
-    () => photoInfos.filter((p) => p.file !== null).length,
+    () => photoInfos.filter((p) => (p.file !== null) || (p.type === "url")).length,
     [photoInfos]
   );
-  const [userPhotos, setUserPhotos] = useState<UserPhoto[]>([]);
 
   useEffect(() => {
-    axios.get(`/user/${loginUser?.key}/photo/`).then((response) => {
-      setUserPhotos(response.data as UserPhoto[]);
+    axios.get(`${userUrl}${loginUser?.key}/photo/`).then((response) => {
+      if (response.status === 200) {
+        const rawUserPhotos = response.data as RawUserPhoto[];
+        const existingPhotoInfo = rawUserPhotos.map(rawDataToPhotoInfo);
+        const newPhotoInfos: FixedSizePhotoInfoArray = [
+          initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+          initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+          initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
+        ];
+        existingPhotoInfo.forEach((photoInfo, idx) => {
+          if (idx < 9) {
+            newPhotoInfos[idx] = photoInfo;
+          }
+        });
+        setPhotoInfos(newPhotoInfos);
+      }
     });
-  }, [loginUser?.key]);
+  }, [loginUser, setPhotoInfos]);
 
   const setIthPhoto = useCallback((i: number, file: File) => {
     const newPhotos: FixedSizePhotoInfoArray = [...photoInfos];
-    newPhotos[i] = { file, src: URL.createObjectURL(file) };
+    newPhotos[i] = {
+      type: "file",
+      key: -1,
+      file,
+      src: URL.createObjectURL(file)
+    };
     setPhotoInfos(newPhotos);
   }, [photoInfos, setPhotoInfos]);
 
@@ -72,37 +102,46 @@ export default function PhotosEdit({
         newFixedSizePhotos[index] = photoInfos[index];
       }
       else if (index > i) {
-        newFixedSizePhotos[index - i] = photoInfos[index];
+        newFixedSizePhotos[index - 1] = photoInfos[index];
+      }
+      else {
+        if (photo.type === "url") {
+          const newBeDeletedPhotoKeys = [...beDeletedPhotoKeys];
+          newBeDeletedPhotoKeys.push(photo.key);
+          setBeDeletedPhotoKeys(newBeDeletedPhotoKeys);
+        }
       }
     });
     setPhotoInfos(newFixedSizePhotos);
-  }, [photoInfos, setPhotoInfos]);
+  }, [photoInfos, setPhotoInfos, setBeDeletedPhotoKeys, beDeletedPhotoKeys]);
 
   const confirmOnClick = useCallback(() => {
-    setUploadedPhotos(
-      photoInfos
-        .filter((info) => (info.file !== null))
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        .map((info) => info.file!)
-    );
+    if (!loginUser) {
+      return;
+    }
+    const uploadedPhotos: File[] = photoInfos
+      .filter((info) => (info.file !== null) && (info.type === "file"))
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .map((info) => info.file!);
+    uploadedPhotos.forEach(async (photo) => {
+      const form = new FormData();
+      form.append("file", photo);
+      await axios.post(`${photoUrl}user/${loginUser.key}/`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Content-Disposition": `form-data; filename=${photo.name};`,
+        },
+      });
+    });
+    beDeletedPhotoKeys.forEach(async (photoKey) => {
+      await axios.delete(`${photoUrl}${photoKey}/`);
+    });
     setPhotoEdit(false);
-  }, [photoInfos, setUploadedPhotos, setPhotoEdit]);
+  }, [loginUser, photoInfos, setPhotoEdit, beDeletedPhotoKeys]);
 
   const backOnClick = useCallback(() => {
-    setUploadedPhotos([]);
     setPhotoEdit(false);
-  }, [setUploadedPhotos, setPhotoEdit]);
-
-  uploadedPhotos.forEach(async (photo) => {
-    const form = new FormData();
-    form.append("file", photo);
-    await axios.post(`/photo/user/${loginUser?.key ?? 0}/`, form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Content-Disposition": `form-data; filename=${photo.name};`,
-      },
-    });
-  });
+  }, [setPhotoEdit]);
 
   return (
     <section className={style.page.base}>
@@ -114,7 +153,7 @@ export default function PhotosEdit({
         <section className={"grid grid-cols-3 gap-2 px-12"}>
           {
             photoInfos.map((info, index) => (
-              info.file ?
+              info.file || (info.type === "url") ?
                 (
                   <ImageUploadIcon
                     key={index}
