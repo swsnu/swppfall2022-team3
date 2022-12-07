@@ -57,7 +57,7 @@ export default function ImageUpload({
         newFixedSizePhotos[index] = photoInfos[index];
       }
       else if (index > i) {
-        newFixedSizePhotos[index - i] = photoInfos[index];
+        newFixedSizePhotos[index - 1] = photoInfos[index];
       }
     });
     setPhotoInfos(newFixedSizePhotos);
