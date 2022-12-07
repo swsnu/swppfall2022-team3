@@ -28,7 +28,7 @@ class PitapatToUserViewSet(viewsets.ModelViewSet):
             pitapats=pitapats.exclude(is_from=chatroom_participant)
         sender_keys = [pitapat.is_from.key for pitapat in pitapats]
         sender_users = User.objects.filter(key__in=sender_keys).order_by('-reg_dt')
-        return Response(sender_users)
+        return Response(self.get_serializer(sender_users, many=True).data)
 
 class PitapatFromUserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
@@ -49,4 +49,4 @@ class PitapatFromUserViewSet(viewsets.ModelViewSet):
             pitapats=pitapats.exclude(to=chatroom_participant)
         receiver_keys = [pitapat.to.key for pitapat in pitapats]
         receiver_users = User.objects.filter(key__in=receiver_keys).order_by('-reg_dt')
-        return Response(receiver_users)
+        return Response(self.get_serializer(receiver_users, many=True).data)
