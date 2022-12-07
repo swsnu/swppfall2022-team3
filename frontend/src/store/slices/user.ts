@@ -402,7 +402,9 @@ const userSlice = createSlice({
       fetchSignout.fulfilled,
       (state) => {
         sessionStorage.removeItem("loginUser");
+        localStorage.removeItem("user-filter");
         state.loginUser = null;
+        state.filter = null;
       }
     );
     builder.addCase(
