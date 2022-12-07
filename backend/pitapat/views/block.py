@@ -15,34 +15,21 @@ class BlockViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         from_key = request.data.get('from')
         to_key = request.data.get('to')
-
         if not from_key or not to_key:
             return Response(status=400)
 
         from_user = get_object_or_404(User.objects.all(), key=from_key)
         to_user = get_object_or_404(User.objects.all(), key=to_key)
 
-        # duplicated request
-        if Block.objects.filter(is_from=from_user, to=to_user):
+        if Block.objects.filter(is_from=from_user, to=to_user): # duplicated request
             return Response(status=409)
 
-        from_user_chatroom_key = [user_chat_room.chatroom.key
-                                  for user_chat_room
-                                  in UserChatroom.objects.filter(user=from_user)
-                                  ]
-        to_user_chatroom_key = [user_chat_room.chatroom.key
-                                for user_chat_room
-                                in UserChatroom.objects.filter(user=to_user)
-                                ]
-
-        chatroom_key = [chatroom_key
-                        for chatroom_key
-                        in to_user_chatroom_key
-                        if chatroom_key in from_user_chatroom_key
-                        ]
-        if chatroom_key:
-            chatroom = Chatroom.objects.get(key=chatroom_key[0])
-            if chatroom:
+        from_user_chatroom_keys = UserChatroom.objects.filter(user=from_user).values('chatroom')
+        to_user_chatroom_keys = UserChatroom.objects.filter(user=to_user).values('chatroom')
+        chatroom_keys = [key['chatroom'] for key in from_user_chatroom_keys if key in to_user_chatroom_keys]
+        for chatroom_key in chatroom_keys:
+            chatroom = Chatroom.objects.get(key=chatroom_key)
+            if chatroom.user_count == 2:  # 1:1 chatroom
                 chatroom.delete()
 
         try:
@@ -57,8 +44,8 @@ class BlockViewSet(viewsets.ModelViewSet):
         except Pitapat.DoesNotExist:
             pass
 
-
         Block.objects.create(is_from=from_user, to=to_user)
+
         return Response(status=201)
 
     @swagger_auto_schema(request_body=BlockSerializer)
@@ -75,9 +62,6 @@ class BlockViewSet(viewsets.ModelViewSet):
             block = Block.objects.get(is_from=from_user, to=to_user)
         except Block.DoesNotExist:
             return Response(status=404)
-
         block.delete()
-        chatroom = Chatroom.objects.create(user_count=2)
-        UserChatroom.objects.create(user=from_user, chatroom=chatroom)
-        UserChatroom.objects.create(user=to_user, chatroom=chatroom)
+
         return Response(status=204)
