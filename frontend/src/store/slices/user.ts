@@ -111,6 +111,7 @@ export interface UserState {
     senders: User[];
     receivers: User[];
   };
+  blocked: User[];
   chat: {
     participants: User[];
   };
@@ -132,6 +133,7 @@ const initialState: UserState = {
     senders: [],
     receivers: [],
   },
+  blocked: [],
   chat: {
     participants: [],
   },
@@ -323,6 +325,20 @@ export const getPitapatReceivers = createAsyncThunk(
   }
 );
 
+export const getBlockedUsers = createAsyncThunk(
+  "user/blocked-user",
+  async (userKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}${userKey}/block/`);
+    if (response.status === 200) {
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
 export const getChatParticipants = createAsyncThunk(
   "user/get-all-by-chatroom",
   async (chatroomKey: number): Promise<User[] | null> => {
@@ -427,6 +443,14 @@ const userSlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.pitapat.receivers = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getBlockedUsers.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.blocked = action.payload;
         }
       }
     );

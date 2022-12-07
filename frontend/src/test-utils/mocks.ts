@@ -42,6 +42,7 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
       senders: shouldLogin ? [users[1]] : [],
       receivers: shouldLogin ? [users[2]] : [],
     },
+    blocked: [],
     chat: {
       participants: [],
     },
@@ -69,6 +70,7 @@ export const getNoPhotoMockStore = () => getMockStore({
       senders: [],
       receivers: [],
     },
+    blocked: [],
     chat: {
       participants: [],
     },
@@ -96,6 +98,7 @@ export const getNointerestingUserMockStore = () => getMockStore({
       senders: [users[1]],
       receivers: [users[2]],
     },
+    blocked: [],
     chat: {
       participants: [],
     },
