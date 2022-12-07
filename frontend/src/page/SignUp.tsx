@@ -56,7 +56,7 @@ export default function SignUp() {
       tags: tags.map((tag) => tag.key),
     });
 
-    uploadedPhotos.forEach(async (photo) => {
+    for (const photo of uploadedPhotos) {
       const form = new FormData();
       form.append("file", photo);
       await axios.post(`${photoUrl}user/${user.data.key}/`, form, {
@@ -65,7 +65,7 @@ export default function SignUp() {
           "Content-Disposition": `form-data; filename=${photo.name};`,
         },
       });
-    });
+    }
 
     navigate("/signin");
   }, [
