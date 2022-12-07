@@ -25,16 +25,41 @@ export default function UserFilter({
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
   const tags = useSelector(selectTag).tags;
+  const filter = useSelector(selectUser).filter;
   const [college, setCollege] = useState<number | "">("");
   const [major, setMajor] = useState<number | "">("");
   const [tag, setTag] = useState<number | "">("");
-  const [includedColleges, setIncludedColleges] = useState<College[]>([]);
-  const [excludedColleges, setExcludedColleges] = useState<College[]>([]);
-  const [includedMajors, setIncludedMajors] = useState<Major[]>([]);
-  const [excludedMajors, setExcludedMajors] = useState<Major[]>([]);
-  const [includedTags, setIncludedTags] = useState<Tag[]>([]);
-  const [excludedTags, setExcludedTags] = useState<Tag[]>([]);
-  const [ageRange, setAgeRange] = useState<number[]>([19, 30]);
+  const [includedColleges, setIncludedColleges] = useState<College[]>(
+    filter?.includedColleges ?
+      colleges.filter((c) => (filter?.includedColleges?.indexOf(c.key) ?? -1) >= 0 ) :
+      []
+  );
+  const [excludedColleges, setExcludedColleges] = useState<College[]>(
+    filter?.excludedColleges ?
+      colleges.filter((c) => (filter?.excludedColleges?.indexOf(c.key) ?? -1) >= 0 ) :
+      []
+  );
+  const [includedMajors, setIncludedMajors] = useState<Major[]>(
+    filter?.includedMajors ?
+      majors.filter((m) => (filter?.includedMajors?.indexOf(m.key) ?? -1) >= 0 ) :
+      []
+  );
+  const [excludedMajors, setExcludedMajors] = useState<Major[]>(
+    filter?.excludedMajors ?
+      majors.filter((m) => (filter?.excludedMajors?.indexOf(m.key) ?? -1) >= 0 ) :
+      []
+  );
+  const [includedTags, setIncludedTags] = useState<Tag[]>(
+    filter?.includedTags ?
+      tags.filter((t) => (filter?.includedTags?.indexOf(t.key) ?? -1) >= 0 ) :
+      []
+  );
+  const [excludedTags, setExcludedTags] = useState<Tag[]>(
+    filter?.excludedTags ?
+      tags.filter((t) => (filter?.excludedTags?.indexOf(t.key) ?? -1) >= 0 ) :
+      []
+  );
+  const [ageRange, setAgeRange] = useState<number[]>([filter?.minAge ?? 19, filter?.maxAge ?? 30]);
 
   useEffect(() => {
     if (university) {

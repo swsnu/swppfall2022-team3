@@ -88,7 +88,7 @@ export default function Search() {
 
   return (
     loginUser ?
-      <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
+      <section className={`flex-1 flex flex-col w-full ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar setIsModalOpen={setIsModalOpen} />
         <section
           className={"h-fit overflow-y-scroll w-full"}

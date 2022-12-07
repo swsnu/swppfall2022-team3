@@ -119,6 +119,7 @@ export interface UserState {
 }
 
 const savedLoginUser = sessionStorage.getItem("loginUser");
+const savedFilter = localStorage.getItem("user-filter");
 
 const initialState: UserState = {
   loginUser: savedLoginUser ?
@@ -127,7 +128,9 @@ const initialState: UserState = {
   users: [],
   searchPageIndex: 0,
   nextPageUrl: "",
-  filter: null,
+  filter: savedFilter ?
+    JSON.parse(savedFilter) as SearchFilter :
+    null,
   interestingUser: null,
   pitapat: {
     senders: [],
@@ -359,7 +362,7 @@ const userSlice = createSlice({
     setFilter: (state, action: PayloadAction<SearchFilter>) => {
       state.filter = action.payload;
       state.searchPageIndex = 0;
-      // TODO: save in localStorage
+      localStorage.setItem("user-filter", JSON.stringify(action.payload));
     },
     setPitapatListTabIndex: (state, action: PayloadAction<0 | 1>) => {
       state.pitapatListTabIndex = action.payload;
