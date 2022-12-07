@@ -24,17 +24,22 @@ export default function TagSelect({
   const dispatch = useDispatch<AppDispatch>();
   const loadedTags = useSelector(selectTag).tags;
   const [selectedTag, setSelectedTag] = useState<Tag>();
-  const [selectedTagKey, setSelectedTagKey] = useState<number>(1);
+  const [selectedTagKey, setSelectedTagKey] = useState<number>(-1);
   const [submittedWithNoTag, setSubmittedWithNoTag] = useState<boolean>(false);
+  const [isTagLoaded, setIsTagLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    if ((selectedTagKey < 1) && isTagLoaded) {
+      return;
+    }
     let targetTag = loadedTags.find((t) => (t.key === selectedTagKey));
     if (!targetTag) {
       dispatch(getTags());
       targetTag = loadedTags.find((t) => (t.key === selectedTagKey));
+      setIsTagLoaded(true);
     }
     setSelectedTag(targetTag);
-  }, [loadedTags, selectedTagKey, dispatch]);
+  }, [loadedTags, selectedTagKey, dispatch, isTagLoaded]);
 
   const addTagOnClick = useCallback(() => {
     if (selectedTag) {
@@ -87,7 +92,7 @@ export default function TagSelect({
                 variant={"outlined"}
                 value={selectedTagKey}
                 onChange={(e) => {
-                  (setSelectedTagKey as Dispatch<SetStateAction<string | number>>)(e.target.value);
+                  setSelectedTagKey(parseInt(`${e.target.value}`));
                 }}
               >
                 {
