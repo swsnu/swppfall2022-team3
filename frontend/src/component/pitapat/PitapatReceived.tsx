@@ -8,7 +8,13 @@ export default function PitapatReceived() {
   const users = useSelector(selectUser).pitapat.senders;
 
   return (
-    <section className={"flex flex-col items-center justify-center text-gray-600"}>
+    <section
+      className={
+        users.length === 0 ?
+          "h-full flex flex-col items-center justify-center text-gray-600" :
+          ""
+      }
+    >
       {
         users.map((user, index) => (
           <Profile

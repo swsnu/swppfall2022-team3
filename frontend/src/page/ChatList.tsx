@@ -39,7 +39,7 @@ export default function ChatList() {
       <section className={`${style.page.base} ${style.page.margin.top} ${style.page.margin.bottom}`}>
         <AppBar saveYPosition={saveYPosition}/>
         <section
-          className={`${style.page.body} w-full justify-center items-center text-gray-600`}
+          className={`${style.page.body} ${chatrooms.length === 0 ? "w-full justify-center items-center text-gray-600" : ""}`}
           role={"presentation"}
           ref={pageBody}
           onClick={saveYPosition}
