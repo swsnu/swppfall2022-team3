@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import style from "../../constant/style";
-import { selectUser } from "../../store/slices/user";
+import { AppDispatch } from "../../store";
+import { fetchLoginUser, selectUser } from "../../store/slices/user";
 import { photoUrl, userUrl } from "../../store/urls";
 import ImageUploadIcon from "../signup/ImageUploadIcon";
 
@@ -47,6 +48,7 @@ export default function PhotosEdit({
   setPhotoEdit,
 }: IProps) {
   const loginUser = useSelector(selectUser).loginUser;
+  const dispatch = useDispatch<AppDispatch>();
   const [photoInfos, setPhotoInfos] = useState<FixedSizePhotoInfoArray>(
     [
       initPhotoInfo(), initPhotoInfo(), initPhotoInfo(),
@@ -115,7 +117,7 @@ export default function PhotosEdit({
     setPhotoInfos(newFixedSizePhotos);
   }, [photoInfos, setPhotoInfos, setBeDeletedPhotoKeys, beDeletedPhotoKeys]);
 
-  const confirmOnClick = useCallback(() => {
+  const confirmOnClick = useCallback(async () => {
     if (!loginUser) {
       return;
     }
@@ -123,7 +125,7 @@ export default function PhotosEdit({
       .filter((info) => (info.file !== null) && (info.type === "file"))
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       .map((info) => info.file!);
-    uploadedPhotos.forEach(async (photo) => {
+    for (const photo of uploadedPhotos) {
       const form = new FormData();
       form.append("file", photo);
       await axios.post(`${photoUrl}user/${loginUser.key}/`, form, {
@@ -132,12 +134,14 @@ export default function PhotosEdit({
           "Content-Disposition": `form-data; filename=${photo.name};`,
         },
       });
-    });
-    beDeletedPhotoKeys.forEach(async (photoKey) => {
+    }
+    for (const photoKey of beDeletedPhotoKeys) {
       await axios.delete(`${photoUrl}${photoKey}/`);
+    }
+    await dispatch(fetchLoginUser(loginUser.key)).then(() => {
+      setPhotoEdit(false);
     });
-    setPhotoEdit(false);
-  }, [loginUser, photoInfos, setPhotoEdit, beDeletedPhotoKeys]);
+  }, [loginUser, photoInfos, beDeletedPhotoKeys, dispatch, setPhotoEdit]);
 
   const backOnClick = useCallback(() => {
     setPhotoEdit(false);
