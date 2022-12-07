@@ -402,9 +402,19 @@ const userSlice = createSlice({
       fetchSignout.fulfilled,
       (state) => {
         sessionStorage.removeItem("loginUser");
+        sessionStorage.clear();
         localStorage.removeItem("user-filter");
         state.loginUser = null;
         state.filter = null;
+        state.users = [];
+        state.searchPageIndex = 0;
+        state.nextPageUrl = "";
+        state.interestingUser = null;
+        state.pitapat.senders = [];
+        state.pitapat.receivers = [];
+        state.blocked = [];
+        state.chat.participants = [];
+        state.pitapatListTabIndex = 0;
       }
     );
     builder.addCase(

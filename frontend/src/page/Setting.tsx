@@ -9,6 +9,7 @@ import RemoveAccount from "../component/RemoveAccount";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
+import { chatAction } from "../store/slices/chat";
 import { fetchSignout, getBlockedUsers, selectUser } from "../store/slices/user";
 
 
@@ -94,7 +95,10 @@ export default function Setting() {
           <article
             className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
             role={"presentation"}
-            onClick={() => dispatch(fetchSignout())}
+            onClick={() => {
+              dispatch(chatAction.setChatroomEmpty());
+              dispatch(fetchSignout());
+            }}
           >
             로그아웃
           </article>

@@ -63,6 +63,10 @@ const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    setChatroomEmpty: (state) => {
+      state.chatrooms = [];
+      state.chatSockets = [];
+    },
     setSocket: (state, action: PayloadAction<number>) => {
       const chatroomKey = action.payload;
       state.chatSockets = [ ...state.chatSockets, new WebSocket(getChatroomSocketUrl(chatroomKey)) ];
