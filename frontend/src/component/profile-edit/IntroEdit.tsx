@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import paths from "../../constant/path";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { fetchLoginUser, selectUser } from "../../store/slices/user";
@@ -24,7 +25,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
 
   const confirmHandler = useCallback( async () => {
     if (introduction) {
-      await axios.put(`${userUrl}${loginUser?.key}/introduction/`, {
+      await axios.put(`${userUrl}${loginUser?.key}${paths.introduction}/`, {
         content: introduction
       }).then(() => {
         dispatch(fetchLoginUser(loginUser?.key ?? 0));

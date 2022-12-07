@@ -7,6 +7,10 @@ const chatDetail = "/chat/:encrypted";
 const pitapat = "/pitapat";
 const setting = "/setting";
 const profileEdit = "/profile/edit";
+const block = "/block";
+const introduction = "/introduction";
+const tag = "/tag";
+
 
 const paths = {
   signIn,
@@ -18,6 +22,9 @@ const paths = {
   pitapat,
   setting,
   profileEdit,
+  block,
+  introduction,
+  tag,
 };
 
 export default paths;

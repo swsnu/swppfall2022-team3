@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { AppDispatch } from "../store";
 import { getBlockedUsers } from "../store/slices/user";
+import { blockUrl } from "../store/urls";
 
 
 interface IProps {
@@ -22,7 +23,7 @@ export default function BlockedUserElement({
   const dispatch = useDispatch<AppDispatch>();
 
   const elementOnClick = useCallback(async () => {
-    await axios.delete("/api/block/", { data: {
+    await axios.delete(`${blockUrl}`, { data: {
       from: fromUserKey,
       to: toUserKey
     } });

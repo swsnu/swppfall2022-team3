@@ -4,7 +4,7 @@ import axios from "axios";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { fetchSignin, selectUser } from "../store/slices/user";
-import { userUrl } from "../store/urls";
+import { passwordChange, userUrl } from "../store/urls";
 import InformationInput from "./signup/InformationInput";
 
 
@@ -32,7 +32,7 @@ export default function LoginInfoChanger({ onModalClose }: IProps) {
         password: password,
       };
       try {
-        await axios.post("/api/auth/password/change/", {
+        await axios.post(`${passwordChange}`, {
           new_password1: password,
           new_password2: password,
         });

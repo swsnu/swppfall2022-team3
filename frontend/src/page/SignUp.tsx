@@ -42,7 +42,7 @@ export default function SignUp() {
   }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(async () => {
-    const user = await axios.post(userUrl, {
+    const user = await axios.post(`${userUrl}`, {
       email: email,
       password: password,
       nickname: nickname,

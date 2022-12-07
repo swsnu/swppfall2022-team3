@@ -4,6 +4,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { pink } from "@mui/material/colors";
 import axios from "axios";
+import paths from "../../constant/path";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { selectTag } from "../../store/slices/tag";
@@ -33,8 +34,8 @@ export default function TagsEdit({ onModalClose }: IProps) {
 
   const confirmHandler = useCallback( async () => {
     if (newTags.length !== 0) {
-      await axios.delete(`${userUrl}${loginUser?.key}/tag/`);
-      await axios.post(`${userUrl}${loginUser?.key}/tag/`, { tags: newTags.map((tag) => tag.key) });
+      await axios.delete(`${userUrl}${loginUser?.key}${paths.tag}/`);
+      await axios.post(`${userUrl}${loginUser?.key}${paths.tag}/`, { tags: newTags.map((tag) => tag.key) });
       dispatch(fetchLoginUser(loginUser?.key ?? 0));
     }
     else {
