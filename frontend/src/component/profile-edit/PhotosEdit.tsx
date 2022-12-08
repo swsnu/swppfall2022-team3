@@ -63,7 +63,7 @@ export default function PhotosEdit({
   );
 
   useEffect(() => {
-    axios.get(`${userUrl}${loginUser?.key}/photo/`).then((response) => {
+    axios.get(`${userUrl}/${loginUser?.key}/photo/`).then((response) => {
       if (response.status === 200) {
         const rawUserPhotos = response.data as RawUserPhoto[];
         const existingPhotoInfo = rawUserPhotos.map(rawDataToPhotoInfo);
@@ -128,7 +128,7 @@ export default function PhotosEdit({
     for (const photo of uploadedPhotos) {
       const form = new FormData();
       form.append("file", photo);
-      await axios.post(`${photoUrl}user/${loginUser.key}/`, form, {
+      await axios.post(`${photoUrl}/user/${loginUser.key}/`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Content-Disposition": `form-data; filename=${photo.name};`,
@@ -136,7 +136,7 @@ export default function PhotosEdit({
       });
     }
     for (const photoKey of beDeletedPhotoKeys) {
-      await axios.delete(`${photoUrl}${photoKey}/`);
+      await axios.delete(`${photoUrl}/${photoKey}/`);
     }
     await dispatch(fetchLoginUser(loginUser.key)).then(() => {
       setPhotoEdit(false);

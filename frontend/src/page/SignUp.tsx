@@ -42,7 +42,7 @@ export default function SignUp() {
   }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(async () => {
-    const user = await axios.post(`${userUrl}`, {
+    const user = await axios.post(`${userUrl}/`, {
       email: email,
       password: password,
       nickname: nickname,
@@ -59,7 +59,7 @@ export default function SignUp() {
     for (const photo of uploadedPhotos) {
       const form = new FormData();
       form.append("file", photo);
-      await axios.post(`${photoUrl}user/${user.data.key}/`, form, {
+      await axios.post(`${photoUrl}/user/${user.data.key}/`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Content-Disposition": `form-data; filename=${photo.name};`,

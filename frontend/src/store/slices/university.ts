@@ -28,7 +28,7 @@ const initialState: UniversityState = {
 export const getUniversities = createAsyncThunk(
   "university/get-all",
   async (): Promise<University[] | null> => {
-    const response = await axios.get(universityUrl);
+    const response = await axios.get(`${universityUrl}/`);
     if (response.status === 200) {
       const rawData: RawUniversity[] = response.data;
       return rawData.map(rawDataToUniversity);

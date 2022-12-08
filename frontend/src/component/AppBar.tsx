@@ -68,7 +68,7 @@ export default function AppBar({
   },[setIsBlockModalOpen]);
 
   const confirmBlockOnClick = useCallback(async() => {
-    await axios.post(`${blockUrl}`, { from: from, to: to });
+    await axios.post(`${blockUrl}/`, { from: from, to: to });
     if(to){
       dispatch(userActions.deleteUser(to));
     }

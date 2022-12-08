@@ -82,16 +82,16 @@ export default function PitapatButton({
     if (!loginUser) { return; }
 
     if (!isAccept) {
-      await axios.delete(`${pitapatUrl}`, { data: { from: to, to: from } });
+      await axios.delete(`${pitapatUrl}/`, { data: { from: to, to: from } });
       dispatch(userActions.deleteSender(to));
     }
     else if (getPitapatStatus() === PitapatStatus.FROM_ME) {
       dispatch(userActions.addUser(to));
-      await axios.delete(`${pitapatUrl}`, { data: { from: from, to: to } });
+      await axios.delete(`${pitapatUrl}/`, { data: { from: from, to: to } });
       dispatch(userActions.deleteReceiver(to));
     }
     else {
-      await axios.post(`${pitapatUrl}`, { from: from, to: to });
+      await axios.post(`${pitapatUrl}/`, { from: from, to: to });
       dispatch(userActions.deleteUser(to));
       dispatch(userActions.deleteSender(to));
     }

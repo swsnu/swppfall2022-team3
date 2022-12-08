@@ -34,8 +34,8 @@ export default function TagsEdit({ onModalClose }: IProps) {
 
   const confirmHandler = useCallback( async () => {
     if (newTags.length !== 0) {
-      await axios.delete(`${userUrl}${loginUser?.key}${paths.tag}/`);
-      await axios.post(`${userUrl}${loginUser?.key}${paths.tag}/`, { tags: newTags.map((tag) => tag.key) });
+      await axios.delete(`${userUrl}/${loginUser?.key}${paths.tag}/`);
+      await axios.post(`${userUrl}/${loginUser?.key}${paths.tag}/`, { tags: newTags.map((tag) => tag.key) });
       dispatch(fetchLoginUser(loginUser?.key ?? 0));
     }
     else {

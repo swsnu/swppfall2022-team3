@@ -17,7 +17,7 @@ export const getMajorsByCollege = createAsyncThunk(
   "major/get-all-by-college",
   async (collegeKey: number): Promise<Major[] | null> => {
     try {
-      const response = await axios.get(`${majorUrl}college/${collegeKey}/`);
+      const response = await axios.get(`${majorUrl}/college/${collegeKey}/`);
       if (response.status === 200) {
         return response.data as Major[];
       } else {
@@ -33,7 +33,7 @@ export const getMajorsByUniversity = createAsyncThunk(
   "major/get-all-by-university",
   async (universityKey: number): Promise<Major[] | null> => {
     try {
-      const response = await axios.get(`${majorUrl}university/${universityKey}/`);
+      const response = await axios.get(`${majorUrl}/university/${universityKey}/`);
       if (response.status === 200) {
         return response.data as Major[];
       } else {

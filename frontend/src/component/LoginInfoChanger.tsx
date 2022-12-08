@@ -42,7 +42,7 @@ export default function LoginInfoChanger({ onModalClose }: IProps) {
         onModalClose();
         return;
       }
-      await axios.put(`${userUrl}${loginUser?.key}/`, {
+      await axios.put(`${userUrl}/${loginUser?.key}/`, {
         email: loginUser?.email,
         nickname: nickname,
         gender: loginUser?.gender,
