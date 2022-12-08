@@ -4,7 +4,7 @@ import axios from "axios";
 import paths from "../../constant/path";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
-import { fetchLoginUser, selectUser } from "../../store/slices/user";
+import { getLoginUser, selectUser } from "../../store/slices/user";
 import { userUrl } from "../../store/urls";
 
 
@@ -28,7 +28,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
       await axios.put(`${userUrl}/${loginUser?.key}${paths.introduction}/`, {
         content: introduction
       }).then(() => {
-        dispatch(fetchLoginUser(loginUser?.key ?? 0));
+        dispatch(getLoginUser(loginUser?.key ?? 0));
       });
       onModalClose();
     }

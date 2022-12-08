@@ -5,7 +5,7 @@ import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { selectCollege } from "../../store/slices/college";
 import { selectMajor } from "../../store/slices/major";
-import { fetchLoginUser, selectUser } from "../../store/slices/user";
+import { getLoginUser, selectUser } from "../../store/slices/user";
 import { userUrl } from "../../store/urls";
 import InformationInput from "../signup/InformationInput";
 
@@ -42,7 +42,7 @@ export default function CollegeMajorEdit({ onModalClose, setSelectedCollegeKey, 
       introduction: loginUser?.introduction,
       tags: loginUser?.tags,
     }).then(() => {
-      dispatch(fetchLoginUser(loginUser?.key ?? 0));
+      dispatch(getLoginUser(loginUser?.key ?? 0));
     });
     onModalClose();
   },

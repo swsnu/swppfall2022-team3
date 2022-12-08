@@ -2,20 +2,19 @@ import { AnyAction, configureStore, EnhancedStore, ThunkMiddleware } from "@redu
 import axios from "axios";
 import { users } from "../../../dummyData";
 import userReducer, {
-  getGender,
   fetchSignin,
-  fetchSignup,
-  getUser,
-  getNewUsers,
-  getNextUsers,
+  fetchSignout,
+  fetchSignup, getBlockedUsers,
+  getChatParticipants,
+  getGender, getLoginUser,
   getPitapatReceivers,
   getPitapatSenders,
-  SimplifiedRawUser,
+  getUser,
+  SearchFilter,
   simplifiedRawDataToUser,
-  userToRawData,
-  fetchSignout,
+  SimplifiedRawUser, userActions,
   UserState,
-  getChatParticipants,
+  userToRawData,
 } from "../../../store/slices/user";
 import { Gender, User } from "../../../types";
 
@@ -35,6 +34,17 @@ describe("user reducer", () => {
   const simplifiedTestUser = simplifiedRawDataToUser(userToSimplifiedRawData(testUser));
   const testRawUser = userToRawData(testUser);
   const testSimplifiedRawUser = userToSimplifiedRawData(testUser);
+  const searchFilter: SearchFilter = {
+    excludedColleges: [],
+    includedColleges: [],
+    excludedMajors: [],
+    includedMajors: [],
+    excludedTags: [],
+    includedTags: [],
+    gender: Gender.ALL,
+    maxAge: 10,
+    minAge: 30,
+  };
 
   let store: EnhancedStore<
     { user: UserState },
@@ -54,8 +64,20 @@ describe("user reducer", () => {
     expect(store.getState().user.pitapat.receivers).toEqual([]);
   });
 
-  it("should sign in with valid input", async () => {
-    axios.post = jest.fn().mockResolvedValue({ status: 200 });
+  it("should change state", async () => {
+    store.dispatch(userActions.setFilter(searchFilter));
+    store.dispatch(userActions.setPitapatListTabIndex(1));
+    store.dispatch(userActions.deleteSender(10));
+    store.dispatch(userActions.deleteReceiver(11));
+
+    expect(store.getState().user.filter).toEqual(searchFilter);
+    expect(store.getState().user.pitapatListTabIndex).toEqual(1);
+    expect(store.getState().user.pitapat.senders.map(u => u.key).indexOf(10) < 0).toBeTruthy();
+    expect(store.getState().user.pitapat.receivers.map(u => u.key).indexOf(11) < 0).toBeTruthy();
+
+  });
+
+  it("should get login User", async () => {
     axios.get = jest.fn().mockResolvedValue(
       {
         status: 200,
@@ -63,8 +85,22 @@ describe("user reducer", () => {
       }
     );
 
-    await store.dispatch(fetchSignin({ username: testUser.email, password: "password" }));
+    await store.dispatch(getLoginUser(testUser.key));
     expect(store.getState().user.loginUser).toEqual(testUser);
+  });
+
+  it("should not get login User", async () => {
+    axios.get = jest.fn().mockResolvedValue({ status: 400 });
+
+    await store.dispatch(getLoginUser(testUser.key));
+    expect(store.getState().user.loginUser).toEqual(null);
+  });
+
+  it("should get login user", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: testRawUser, status: 200 });
+
+    await store.dispatch(getUser(1));
+    expect(store.getState().user.interestingUser).toEqual(testUser);
   });
 
   it("should not sign in with invalid input", async () => {
@@ -166,6 +202,20 @@ describe("user reducer", () => {
 
     await store.dispatch(getPitapatReceivers(1));
     expect(store.getState().user.pitapat.receivers).toEqual([]);
+  });
+
+  it("should get blocked users", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+
+    await store.dispatch(getBlockedUsers(1));
+    expect(store.getState().user.chat.participants).toEqual([simplifiedTestUser]);
+  });
+
+  it("should not get blocked users when it fails", async () => {
+    axios.get = jest.fn().mockResolvedValue({ status: 400 });
+
+    await store.dispatch(getBlockedUsers(1));
+    expect(store.getState().user.chat.participants).toEqual([]);
   });
 
   it("should get chat participants", async () => {

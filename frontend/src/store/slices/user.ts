@@ -143,18 +143,6 @@ const initialState: UserState = {
   pitapatListTabIndex: 0,
 };
 
-export const fetchLoginUser = createAsyncThunk(
-  "user/login-user",
-  async (loginUserKey: number): Promise<User | null> => {
-    try {
-      const loginUserResponse = await axios.get(`${userUrl}/${loginUserKey}/`);
-      return rawDataToUser(loginUserResponse.data as RawUser);
-    } catch (_) {
-      return null;
-    }
-  }
-);
-
 export const fetchSignin = createAsyncThunk(
   "user/signin",
   async (user: { username: string; password: string }): Promise<User | null> => {
@@ -300,6 +288,18 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const getLoginUser = createAsyncThunk(
+  "user/get-login-user",
+  async (loginUserKey: number): Promise<User | null> => {
+    try {
+      const loginUserResponse = await axios.get(`${userUrl}/${loginUserKey}/`);
+      return rawDataToUser(loginUserResponse.data as RawUser);
+    } catch (_) {
+      return null;
+    }
+  }
+);
+
 export const getPitapatSenders = createAsyncThunk(
   "user/pitapat-senders-to-user",
   async (userKey: number): Promise<User[] | null> => {
@@ -385,7 +385,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(
-      fetchLoginUser.fulfilled,
+      getLoginUser.fulfilled,
       (state, action) => {
         sessionStorage.setItem("loginUser", JSON.stringify(action.payload));
         state.loginUser = action.payload;

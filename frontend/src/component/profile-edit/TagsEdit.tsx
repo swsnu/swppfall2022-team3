@@ -8,7 +8,7 @@ import paths from "../../constant/path";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { selectTag } from "../../store/slices/tag";
-import { fetchLoginUser, selectUser } from "../../store/slices/user";
+import { getLoginUser, selectUser } from "../../store/slices/user";
 import { userUrl } from "../../store/urls";
 import { Tag } from "../../types";
 import TagElement from "../signup/TagElement";
@@ -36,7 +36,7 @@ export default function TagsEdit({ onModalClose }: IProps) {
     if (newTags.length !== 0) {
       await axios.delete(`${userUrl}/${loginUser?.key}${paths.tag}/`);
       await axios.post(`${userUrl}/${loginUser?.key}${paths.tag}/`, { tags: newTags.map((tag) => tag.key) });
-      dispatch(fetchLoginUser(loginUser?.key ?? 0));
+      dispatch(getLoginUser(loginUser?.key ?? 0));
     }
     else {
       alert("최소한 한 개의 태그가 있어야 해요.");

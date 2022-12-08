@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
-import { fetchLoginUser, selectUser } from "../../store/slices/user";
+import { getLoginUser, selectUser } from "../../store/slices/user";
 import { photoUrl, userUrl } from "../../store/urls";
 import ImageUploadIcon from "../signup/ImageUploadIcon";
 
@@ -138,7 +138,7 @@ export default function PhotosEdit({
     for (const photoKey of beDeletedPhotoKeys) {
       await axios.delete(`${photoUrl}/${photoKey}/`);
     }
-    await dispatch(fetchLoginUser(loginUser.key)).then(() => {
+    await dispatch(getLoginUser(loginUser.key)).then(() => {
       setPhotoEdit(false);
     });
   }, [loginUser, photoInfos, beDeletedPhotoKeys, dispatch, setPhotoEdit]);
