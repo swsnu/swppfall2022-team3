@@ -374,7 +374,11 @@ const userSlice = createSlice({
       state.pitapat.receivers = state.pitapat.receivers.filter((u) => u.key !== action.payload);
     },
     deleteUser: (state, action: PayloadAction<number>) => {
-      state.users = state.users.filter((u) => u.key !== action.payload);
+      const user = state.users.find((u) => u.key === action.payload);
+      if (user) {
+        state.users = state.users.filter((u) => u.key !== action.payload);
+        state.pitapat.receivers.push(user);
+      }
     },
     addUser: (state, action: PayloadAction<number>) => {
       const user = state.pitapat.receivers.find((u) => u.key === action.payload);
