@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import UniversitySelect from "../../../component/signup/UniversitySelect";
 import { universities } from "../../../dummyData";
@@ -80,9 +80,8 @@ describe("UniversitySelect", () => {
 
   it("should be move to the previous step when clicked back button", () => {
     render(getElement(university));
-    fireEvent.mouseDown(screen.getByRole("button"));
-    const listbox = within(screen.getByRole("listbox"));
-    fireEvent.click(listbox.getByText("공과대학"));
-    fireEvent.click(listbox.getByText(""));
+    const backButton = screen.getByText("뒤로 가기");
+    fireEvent.click(backButton);
+    expect(mockNavigate).toBeCalled();
   });
 });

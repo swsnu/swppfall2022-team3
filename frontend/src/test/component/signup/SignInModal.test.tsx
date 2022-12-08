@@ -22,7 +22,7 @@ describe("InformationInput", () => {
 
   it("renders InformationInput", () => {
     render(getElement());
-    const confirmButton = screen.getByRole("확인");
+    const confirmButton = screen.getByText("확인");
     fireEvent.click(confirmButton);
     expect(mockSetModalOpen).toBeCalled();
   });
