@@ -13,13 +13,19 @@ class ChatroomSerializer(serializers.ModelSerializer):
 
     def get_name(self, user_chatroom: UserChatroom):
         chatroom = user_chatroom.chatroom
-        user = UserChatroom.objects.get(Q(chatroom=chatroom) & ~Q(user=user_chatroom.user)).user
+        try:
+            user = UserChatroom.objects.get(Q(chatroom=chatroom) & ~Q(user=user_chatroom.user)).user
+        except UserChatroom.DoesNotExist:
+            return '(알수없음)'
         return user.nickname
     name = serializers.SerializerMethodField()
 
     def get_image_path(self, user_chatroom: UserChatroom):
         chatroom = user_chatroom.chatroom
-        user = UserChatroom.objects.get(Q(chatroom=chatroom) & ~Q(user=user_chatroom.user)).user
+        try:
+            user = UserChatroom.objects.get(Q(chatroom=chatroom) & ~Q(user=user_chatroom.user)).user
+        except UserChatroom.DoesNotExist:
+            return ''
         return f'{IMAGE_URL}{user.photos.all()[0].name}' if user.photos.all() else ''
     image_path = serializers.SerializerMethodField()
 
