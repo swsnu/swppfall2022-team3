@@ -440,3 +440,6 @@ coverage.json
 
 # ide
 .idea
+
+# shell scripts
+*.sh
