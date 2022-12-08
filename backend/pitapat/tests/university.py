@@ -27,3 +27,9 @@ class UniversityTestCase(TestCase):
 
         response = client.get(f'/api/major/college/{college.key}/')
         self.assertEqual(response.status_code, 200)
+
+        response = client.get('/api/major/university/9999/')
+        self.assertEqual(response.status_code, 404)
+
+        response = client.get(f'/api/major/university/{university.key}/')
+        self.assertEqual(response.status_code, 200)
