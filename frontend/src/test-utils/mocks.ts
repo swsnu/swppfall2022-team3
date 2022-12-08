@@ -55,6 +55,34 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   },
 });
 
+export const getNoCollegeMajorMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: [] },
+  major: { majors: [] },
+  user: {
+    loginUser: null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [],
+      receivers: [],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
 export const getNoPhotoMockStore = () => getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },

@@ -74,8 +74,14 @@ describe("EmailVerification", () => {
     });
   });
 
+  it("should catch axios error", async () => {
+    axios.post = jest.fn().mockResolvedValue(null);
+    render(component());
+    const confirmButton = screen.getByText("확인");
+    fireEvent.click(confirmButton);
+  });
+
   it ("should alert when the time is over", async () => {
-    const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
     axios.post = jest.fn().mockResolvedValue({ status: 204 });
     jest.useFakeTimers();
 
@@ -94,7 +100,7 @@ describe("EmailVerification", () => {
     act(() => {
       jest.advanceTimersByTime(3 * 60 * 1000 + 1);
     });
-    expect(spyAlert).toBeCalled();
+    expect(mockSetStep).toBeCalled();
   });
 
   it("should handle resend button click", async () => {
@@ -106,5 +112,12 @@ describe("EmailVerification", () => {
     await waitFor(() => {
       expect(axios.post).toBeCalled();
     });
+  });
+
+  it("should be move to the previous step when clicked back button", () => {
+    render(component());
+    const backmButton = screen.getByText("뒤로 가기");
+    fireEvent.click(backmButton);
+    expect(mockSetStep).toBeCalled();
   });
 });
