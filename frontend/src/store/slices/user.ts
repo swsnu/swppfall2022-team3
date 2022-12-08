@@ -186,7 +186,7 @@ export const fetchSignout = createAsyncThunk(
   "user/signout",
   async (): Promise<void> => {
     try {
-      await axios.post(`${signoutUrl}`);
+      await axios.post(`${signoutUrl}/`);
     } catch (_) { /* empty */
     }
   }
