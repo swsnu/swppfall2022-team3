@@ -2,6 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { fireEvent, render, screen } from "@testing-library/react";
+import axios from "axios";
 import { IProps as EmailProps } from "../../component/signup/EmailVerification";
 import { IProps as ImageProps } from "../../component/signup/ImageUpload";
 import { IProps as IntroProps } from "../../component/signup/Introduction";
@@ -16,7 +17,7 @@ import { getDefaultMockStore } from "../../test-utils/mocks";
 const mockUniversity = universities[0];
 const mockCollege = colleges[0];
 const mockMajor = majors[0];
-const mockTag = [tags[0]];
+const mockTag = [tags[0], tags[1]];
 
 const mockNavigate = jest.fn();
 jest.mock("react-router", () => ({
@@ -86,9 +87,14 @@ jest.mock("../../component/signup/Introduction", () => (props: IntroProps) => (
   </div>
 ));
 
+const mockFile = new File(["test"], "test.jpeg");
+
 jest.mock("../../component/signup/ImageUpload", () => (props: ImageProps) => (
   <div data-testid="spyImageUpload">
-    <button onClick={() => (props.setStep(6))}>
+    <button onClick={() => {
+      props.setUploadedPhotos([mockFile]);
+      props.setStep(6);
+    }}>
       next
     </button>
   </div>
@@ -121,6 +127,7 @@ describe("SignUp", () => {
   });
 
   it("should render correct component for the step", () => {
+    jest.spyOn(axios, "post").mockResolvedValue({ data: 1 });
     render(getElement(mockStore));
     screen.getByTestId("spyUniversitySelect");
     let nextButton = screen.getByText("next");
@@ -140,6 +147,8 @@ describe("SignUp", () => {
     screen.getByTestId("spyImageUpload");
     nextButton = screen.getByText("next");
     fireEvent.click(nextButton);
+    const confirmButton = screen.getByText("완료");
+    fireEvent.click(confirmButton);
   });
 
   it("render empty component for the default step", () => {
