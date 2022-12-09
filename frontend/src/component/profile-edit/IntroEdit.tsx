@@ -24,11 +24,14 @@ export default function IntroEdit({ onModalClose }: IProps) {
   [onModalClose]);
 
   const confirmHandler = useCallback( async () => {
+    if (!loginUser) {
+      return;
+    }
     if (introduction) {
-      await axios.put(`${userUrl}/${loginUser?.key}${paths.introduction}/`, {
+      await axios.put(`${userUrl}/${loginUser.key}${paths.introduction}/`, {
         content: introduction
       }).then(() => {
-        dispatch(getLoginUser(loginUser?.key ?? 0));
+        dispatch(getLoginUser(loginUser.key));
       });
       onModalClose();
     }
@@ -36,7 +39,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
       setHasSubmit(true);
     }
   },
-  [dispatch, introduction, loginUser?.key, onModalClose]);
+  [loginUser, dispatch, introduction, onModalClose]);
 
   return (
     <section className={"h-fit w-[90vw] max-w-[400px] flex flex-col items-center bg-white p-4 space-y-8"}>
@@ -47,7 +50,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
         <section className="flex-1 flex flex-col justify-start">
           <textarea
             className={"w-full h-80 align-text-top border-solid border-b-4 border-l-2 border-r-2 rounded-md"}
-            placeholder="소개글을 작성해주세요!"
+            placeholder={"소개글을 작성해주세요!"}
             value={introduction}
             onChange={(event) => setIntroduction(event.target.value)}
           />
