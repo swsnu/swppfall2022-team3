@@ -83,6 +83,62 @@ export const getNoCollegeMajorMockStore = () => getMockStore({
   },
 });
 
+export const getLoginUserFromMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: [] },
+  major: { majors: [] },
+  user: {
+    loginUser: users[0],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [users[2]],
+      receivers: [users[1]],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
+export const getLoginUserToMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: [] },
+  major: { majors: [] },
+  user: {
+    loginUser: users[1],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [users[0]],
+      receivers: [users[2]],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
 export const getNoTagMockStore = () => getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },
