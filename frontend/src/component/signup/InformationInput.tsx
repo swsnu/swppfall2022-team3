@@ -85,6 +85,7 @@ export default function InformationInput({
               }}
               size={"small"}
               label={label}
+              placeholder={label}
               type={isPassword ? "password" : "text"}
               variant={"outlined"}
               value={value}

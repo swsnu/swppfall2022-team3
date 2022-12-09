@@ -20,15 +20,16 @@ export default function LoginInfoChanger({ onModalClose }: IProps) {
   const [passwordCheck, setPasswordCheck] = useState<string>("");
 
   const confirmOnClick = useCallback(async () => {
-    if (password === "" || nickname ==="") {
-      alert("올바르지 않은 페스워드, 닉네임 입니다.");
+    if (password === "" || nickname === "") {
+      alert("닉네임과 비밀번호를 입력해야 합니다.");
     }
     else if (password !== passwordCheck) {
       alert("비밀번호가 일치하지 않습니다.");
     }
     else {
       const newLoginUser = {
-        username: loginUser?.email ?? "",
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        username: loginUser!.email,
         password: password,
       };
       try {
@@ -53,30 +54,20 @@ export default function LoginInfoChanger({ onModalClose }: IProps) {
         major: loginUser?.major,
         introduction: loginUser?.introduction,
         tags: loginUser?.tags,
-      }).then(() => {
-        dispatch(fetchSignin(newLoginUser));
-        onModalClose();
       });
+      dispatch(fetchSignin(newLoginUser));
+      onModalClose();
     }
   }, [
     dispatch,
-    loginUser?.birthday,
-    loginUser?.college,
-    loginUser?.email,
-    loginUser?.gender,
-    loginUser?.interestedGender,
-    loginUser?.introduction,
-    loginUser?.key,
-    loginUser?.major,
-    loginUser?.tags,
-    loginUser?.university,
+    loginUser,
     nickname,
     onModalClose,
     password,
     passwordCheck,
   ]);
 
-  const cancelOnClickHandler = useCallback( () => {
+  const cancelOnClick = useCallback( () => {
     onModalClose();
   },
   [onModalClose]);
@@ -117,7 +108,7 @@ export default function LoginInfoChanger({ onModalClose }: IProps) {
         </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.secondary} mt-8`}
-          onClick={cancelOnClickHandler}
+          onClick={cancelOnClick}
         >
           취소
         </button>
