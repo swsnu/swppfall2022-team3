@@ -196,3 +196,31 @@ export const getWebSocketMockStore = (key: number) => getMockStore({
     chatSockets: [new WebSocket(`${fakeUrl}/${key}/`)],
   },
 });
+
+export const getBlockedMockStore = (shouldLogin = true) => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    loginUser: shouldLogin ? users[0] : null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: shouldLogin ? users[3] : null,
+    pitapat: {
+      senders: shouldLogin ? [users[1]] : [],
+      receivers: shouldLogin ? [users[2]] : [],
+    },
+    blocked: [users[4]],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
