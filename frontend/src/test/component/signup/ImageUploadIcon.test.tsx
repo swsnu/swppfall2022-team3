@@ -34,6 +34,20 @@ describe("ImageUploadIcon", () => {
     expect(container).toBeTruthy();
   });
 
+  it("should render ImageUploadIcon when showDeleteButton is false", () => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ImageUploadIcon
+          index={0}
+          src={"plus.jpeg"}
+          setIthPhoto={() => {}}
+          removeIthPhoto={() => {}}
+          showDeleteButton={false}
+        />
+      </Provider>
+    );
+    expect(container).toBeTruthy();
+  });
 
   it("should set photo when file is uploaded", () => {
     render(getElement());
@@ -53,4 +67,9 @@ describe("ImageUploadIcon", () => {
     fireEvent.click(imageButton);
   });
 
+  it("should remove Ithphoto", () => {
+    render(getElement());
+    const deleteButton = screen.getAllByRole("button")[1];
+    fireEvent.click(deleteButton);
+  });
 });

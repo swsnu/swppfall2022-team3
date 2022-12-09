@@ -3,7 +3,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import style from "../../constant/style";
 
 
-interface IProps {
+export interface IProps {
   name: string;
   included?: boolean;
   onDelete: (() => void) | null;

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useRef } from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 
-interface IProps {
+export interface IProps {
   index: number;
   src: string;
   setIthPhoto: (i: number, file: File) => void;
