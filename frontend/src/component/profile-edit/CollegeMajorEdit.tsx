@@ -46,19 +46,7 @@ export default function CollegeMajorEdit({ onModalClose, setSelectedCollegeKey, 
     });
     onModalClose();
   },
-  [dispatch,
-    loginUser?.birthday,
-    loginUser?.email,
-    loginUser?.gender,
-    loginUser?.interestedGender,
-    loginUser?.introduction,
-    loginUser?.key,
-    loginUser?.nickname,
-    loginUser?.tags,
-    loginUser?.university,
-    onModalClose,
-    selectedCollegeKey,
-    selectedMajorKey]);
+  [dispatch, loginUser, onModalClose, selectedCollegeKey, selectedMajorKey]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4 space-y-8"}>
