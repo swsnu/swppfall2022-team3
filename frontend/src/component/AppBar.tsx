@@ -69,7 +69,7 @@ export default function AppBar({
 
   const confirmBlockOnClick = useCallback(async() => {
     await axios.post(`${blockUrl}/`, { from: from, to: to });
-    if(to){
+    if (to) {
       dispatch(userActions.deleteUser(to));
     }
     setIsBlockModalOpen(false);
@@ -77,7 +77,7 @@ export default function AppBar({
     navigate("/search");
   }, [from, to, dispatch, navigate, setIsBlockModalOpen]);
 
-  const cansleBlockOnClick = useCallback(() => {
+  const cancelBlockOnClick = useCallback(() => {
     setIsBlockModalOpen(false);
     setIsMoreModalOpen(false);
   }, [setIsBlockModalOpen]);
@@ -144,6 +144,7 @@ export default function AppBar({
             bgcolor: "background.paper",
           }}
           className={"items-center rounded-md text-center mt-72 w-4/5 max-w-xs h-48"}
+          data-testid="warning"
         >
           <section className={"h-32"}>
             <Typography
@@ -172,7 +173,7 @@ export default function AppBar({
             </button>
             <button
               className={`w-24 min-h-8 h-8 rounded-md text-center shadow ${style.button.colorSet.secondary}`}
-              onClick={cansleBlockOnClick}
+              onClick={cancelBlockOnClick}
             >
             취소
             </button>
@@ -198,18 +199,19 @@ export default function AppBar({
             onClick={settingOnClick}
           /> :
           isFilterVisible ?
-            <button
+            <TuneOutlinedIcon
               className={iconClassName}
               onClick={filterOnClick}
-            >
-              <TuneOutlinedIcon fontSize="large" />
-            </button>
+              fontSize="large"
+              data-testid="filter"
+            />
             :
             isMoreVisible ?
               <MoreHorizIcon
                 className={iconClassName}
-                fontSize="large"
                 onClick={moreOnClick}
+                fontSize="large"
+                data-testid="more"
               /> :
               <div className={iconClassName}/>
       }
