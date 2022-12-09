@@ -32,7 +32,7 @@ export default function LoginInfoChanger({ onModalClose }: IProps) {
         password: password,
       };
       try {
-        await axios.post(`${passwordChange}`, {
+        await axios.post(`${passwordChange}/`, {
           new_password1: password,
           new_password2: password,
         });
