@@ -33,17 +33,20 @@ export default function TagsEdit({ onModalClose }: IProps) {
   [onModalClose]);
 
   const confirmHandler = useCallback( async () => {
+    if (!loginUser) {
+      return;
+    }
     if (newTags.length !== 0) {
-      await axios.delete(`${userUrl}/${loginUser?.key}${paths.tag}/`);
-      await axios.post(`${userUrl}/${loginUser?.key}${paths.tag}/`, { tags: newTags.map((tag) => tag.key) });
-      dispatch(getLoginUser(loginUser?.key ?? 0));
+      await axios.delete(`${userUrl}/${loginUser.key}${paths.tag}/`);
+      await axios.post(`${userUrl}/${loginUser.key}${paths.tag}/`, { tags: newTags.map((tag) => tag.key) });
+      dispatch(getLoginUser(loginUser.key));
     }
     else {
       alert("최소한 한 개의 태그가 있어야 해요.");
     }
     onModalClose();
   },
-  [dispatch, loginUser?.key, onModalClose, newTags]);
+  [dispatch, loginUser, onModalClose, newTags]);
 
   useEffect(() => {
     const targetTag = loadedTags.find((t) => (t.key === selectedTagKey));

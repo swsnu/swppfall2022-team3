@@ -83,6 +83,34 @@ export const getNoCollegeMajorMockStore = () => getMockStore({
   },
 });
 
+export const getNoTagMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    loginUser: null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [],
+      receivers: [],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: [] },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
 export const getNoPhotoMockStore = () => getMockStore({
   university: { universities: universities },
   college: { colleges: colleges },
