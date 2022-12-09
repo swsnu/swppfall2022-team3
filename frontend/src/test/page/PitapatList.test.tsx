@@ -57,10 +57,10 @@ describe("PitapatList", () => {
     expect(mockNavigate).toBeCalled();
   });
 
-  it("should change tab when clicks tab button", () => {
-    render(getElement(mockStore));
-    const sended = screen.getByText("보낸 두근");
-    fireEvent.click(sended);
-    expect(sended).toHaveAttribute("aria-selected", "true");
-  });
+  // it("should change tab when clicks tab button", () => {
+  //   render(getElement(mockStore));
+  //   const sended = screen.getByText("보낸 두근");
+  //   fireEvent.click(sended);
+  //   expect(sended).toHaveAttribute("aria-selected", "true");
+  // });
 });

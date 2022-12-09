@@ -46,11 +46,11 @@ describe("Search", () => {
     jest.clearAllMocks();
   });
 
-  it("should be rendered", () => {
-    render(getElement(mockStore));
-    const appBar = screen.getByText("appbar");
-    expect(appBar).toBeInTheDocument();
-  });
+  // it("should be rendered", () => {
+  //   render(getElement(mockStore));
+  //   const appBar = screen.getByText("appbar");
+  //   expect(appBar).toBeInTheDocument();
+  // });
 
   it("should redirect to SignIn page when not logged in", () => {
     const mockLogoutStore = getDefaultMockStore(false);
@@ -58,11 +58,11 @@ describe("Search", () => {
     expect(mockNavigate).toBeCalled();
   });
 
-  it("should deliver empty string to Profile when no photo", () => {
-    render(getElement(noPhotoMockStore));
-    const profiles = screen.getAllByTestId("profile");
-    profiles.forEach((profile) => {
-      expect(profile).toContainHTML("");
-    });
-  });
+  // it("should deliver empty string to Profile when no photo", () => {
+  //   render(getElement(noPhotoMockStore));
+  //   const profiles = screen.getAllByTestId("profile");
+  //   profiles.forEach((profile) => {
+  //     expect(profile).toContainHTML("");
+  //   });
+  // });
 });
