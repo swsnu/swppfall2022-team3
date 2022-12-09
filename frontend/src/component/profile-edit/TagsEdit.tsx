@@ -93,14 +93,13 @@ export default function TagsEdit({ onModalClose }: IProps) {
                 >
                   {
                     loadedTags
-                      .map((t) => ({ name: t.name, value: t.key }))
-                      .map(({ name, value }) => (<MenuItem value={value} key={value}>{name}</MenuItem>))
+                      .map(({ name, key }) => (<MenuItem value={key} key={key}>{name}</MenuItem>))
                   }
                 </Select>
               </FormControl>
             </article>
             <button
-              className={"ml-2"}
+              className={"add-tag-button ml-2"}
               onClick={addTagOnClick}
             >
               <AddCircleIcon
