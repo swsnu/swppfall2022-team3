@@ -23,9 +23,12 @@ export default function RemoveAccount({ onModalClose }: IProps) {
   [onModalClose]);
 
   const removeOnClickHandler = useCallback( async () => {
+    if (!loginUser) {
+      return;
+    }
     const removedLoginUser = { username: "", password: "" };
     try {
-      await axios.delete(`${userUrl}/${loginUser?.key}/`);
+      await axios.delete(`${userUrl}/${loginUser.key}/`);
     }
     catch  {
       // do nothing
@@ -34,7 +37,7 @@ export default function RemoveAccount({ onModalClose }: IProps) {
     navigate(paths.signIn);
     onModalClose();
   },
-  [dispatch, loginUser?.key, navigate, onModalClose]);
+  [dispatch, loginUser, navigate, onModalClose]);
 
   return (
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4"}>
