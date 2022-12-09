@@ -14,7 +14,7 @@ export default function EditButton({ setOption }: IProps) {
       className={iconClassName}
       onClick={() => setOption(true)}
     >
-      <ModeEditOutlineOutlinedIcon fontSize="medium" />
+      <ModeEditOutlineOutlinedIcon fontSize="medium"/>
     </button>
   );
 }
