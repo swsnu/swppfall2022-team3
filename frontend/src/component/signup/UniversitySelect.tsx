@@ -10,7 +10,7 @@ import { getUniversities, selectUniversity } from "../../store/slices/university
 import { userUrl , authEmailUrl } from "../../store/urls";
 import { University } from "../../types";
 import InformationInput from "./InformationInput";
-import SignInModal from "./SignInModal";
+import SignInModal from "../SignInModal";
 
 
 export interface IProps {

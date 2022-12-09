@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
-import SignInModal from "../component/signup/SignInModal";
+import SignInModal from "../component/SignInModal";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";

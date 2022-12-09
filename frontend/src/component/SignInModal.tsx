@@ -1,10 +1,10 @@
 import React, { Dispatch, ReactElement, SetStateAction, useCallback } from "react";
 import { Modal, Box, Typography } from "@mui/material";
-import style from "../../constant/style";
+import style from "../constant/style";
 
 
 export interface IProps {
-  description: ReactElement;
+  description: ReactElement | string;
   modalOpen: boolean;
   setModalOpen: Dispatch<SetStateAction<boolean>>;
 }

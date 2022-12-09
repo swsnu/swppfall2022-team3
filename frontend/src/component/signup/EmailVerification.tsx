@@ -3,7 +3,7 @@ import axios from "axios";
 import style from "../../constant/style";
 import { authEmailUrl, authVerifyUrl } from "../../store/urls";
 import InformationInput from "./InformationInput";
-import SignInModal from "./SignInModal";
+import SignInModal from "../SignInModal";
 
 
 export interface IProps {

@@ -6,7 +6,7 @@ import { getColleges, selectCollege } from "../../store/slices/college";
 import { getMajorsByUniversity, selectMajor } from "../../store/slices/major";
 import { College, Gender, Major, University } from "../../types";
 import InformationInput from "./InformationInput";
-import SignInModal from "./SignInModal";
+import SignInModal from "../SignInModal";
 
 
 export interface IProps {
