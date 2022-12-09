@@ -3,10 +3,10 @@ import axios from "axios";
 import { Chat, Chatroom } from "../../types";
 import { dateToString } from "../../util/date";
 import { RootState } from "../index";
-import { userUrl, chatroomSocketUrl } from "../urls";
+import { userUrl } from "../urls";
 
 
-export const getChatroomSocketUrl = (chatroomKey: number): string => `${chatroomSocketUrl}/${chatroomKey}/`;
+export const getChatroomSocketUrl = (chatroomKey: number): string => `${process.env.REACT_APP_SOCKET_URL}/${chatroomKey}/`;
 
 export type RawChatroom = {
   chatroom: number;

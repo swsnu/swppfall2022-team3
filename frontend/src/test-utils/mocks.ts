@@ -138,3 +138,33 @@ export const getNointerestingUserMockStore = () => getMockStore({
     chatSockets: [],
   },
 });
+
+export const fakeUrl = "ws://localhost:8000/ws/chat";
+
+export const getWebSocketMockStore = (key: number) => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    loginUser: users[0],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: users[3],
+    pitapat: {
+      senders: [users[1]],
+      receivers: [users[2]],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms: chatrooms,
+    chatSockets: [new WebSocket(`${fakeUrl}/${key}/`)],
+  },
+});

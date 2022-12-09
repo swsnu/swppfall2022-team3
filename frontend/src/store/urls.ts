@@ -10,7 +10,6 @@ export const blockUrl = `${backendUrl}/block`;
 export const passwordChange = `${backendUrl}/auth/password/change`;
 
 export const chatroomUrl = `${backendUrl}/chatroom`;
-export const chatroomSocketUrl = process.env.REACT_APP_SOCKET_URL;
 
 export const universityUrl = `${backendUrl}/university`;
 export const collegeUrl = `${backendUrl}/college`;
