@@ -63,7 +63,10 @@ export default function PhotosEdit({
   );
 
   useEffect(() => {
-    axios.get(`${userUrl}/${loginUser?.key}/photo/`).then((response) => {
+    if (!loginUser) {
+      return;
+    }
+    axios.get(`${userUrl}/${loginUser.key}/photo/`).then((response) => {
       if (response.status === 200) {
         const rawUserPhotos = response.data as RawUserPhoto[];
         const existingPhotoInfo = rawUserPhotos.map(rawDataToPhotoInfo);
@@ -138,9 +141,8 @@ export default function PhotosEdit({
     for (const photoKey of beDeletedPhotoKeys) {
       await axios.delete(`${photoUrl}/${photoKey}/`);
     }
-    await dispatch(getLoginUser(loginUser.key)).then(() => {
-      setPhotoEdit(false);
-    });
+    await dispatch(getLoginUser(loginUser.key));
+    setPhotoEdit(false);
   }, [loginUser, photoInfos, beDeletedPhotoKeys, dispatch, setPhotoEdit]);
 
   const backOnClick = useCallback(() => {
