@@ -6,10 +6,11 @@ import userReducer, {
   fetchSignout,
   fetchSignup, getBlockedUsers,
   getChatParticipants,
-  getGender, getLoginUser,
+  getGender, getLoginUser, getNewUsers,
   getPitapatReceivers,
   getPitapatSenders,
   getUser,
+  PageSearchFilter,
   SearchFilter,
   simplifiedRawDataToUser,
   SimplifiedRawUser, userActions,
@@ -34,14 +35,17 @@ describe("user reducer", () => {
   const simplifiedTestUser = simplifiedRawDataToUser(userToSimplifiedRawData(testUser));
   const testRawUser = userToRawData(testUser);
   const testSimplifiedRawUser = userToSimplifiedRawData(testUser);
-  const searchFilter: SearchFilter = {
-    excludedColleges: [],
-    includedColleges: [],
-    excludedMajors: [],
-    includedMajors: [],
-    excludedTags: [],
-    includedTags: [],
+  const defaultSearchFilter: SearchFilter = {
     gender: Gender.ALL,
+  };
+  const filledSearchFilter: SearchFilter = {
+    excludedColleges: [1, 2],
+    includedColleges: [3, 4],
+    excludedMajors: [5, 6],
+    includedMajors: [7, 8],
+    excludedTags: [9, 10],
+    includedTags: [11, 12],
+    gender: Gender.MALE,
     maxAge: 10,
     minAge: 30,
   };
@@ -65,12 +69,12 @@ describe("user reducer", () => {
   });
 
   it("should change state", async () => {
-    store.dispatch(userActions.setFilter(searchFilter));
+    store.dispatch(userActions.setFilter(defaultSearchFilter));
     store.dispatch(userActions.setPitapatListTabIndex(1));
     store.dispatch(userActions.deleteSender(10));
     store.dispatch(userActions.deleteReceiver(11));
 
-    expect(store.getState().user.filter).toEqual(searchFilter);
+    expect(store.getState().user.filter).toEqual(defaultSearchFilter);
     expect(store.getState().user.pitapatListTabIndex).toEqual(1);
     expect(store.getState().user.pitapat.senders.map(u => u.key).indexOf(10) < 0).toBeTruthy();
     expect(store.getState().user.pitapat.receivers.map(u => u.key).indexOf(11) < 0).toBeTruthy();
@@ -145,20 +149,41 @@ describe("user reducer", () => {
     expect(store.getState().user.loginUser).toBeNull();
   });
 
-  // it("should get users", async () => {
-  //   // axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
-  //   axios.get = jest.fn().mockResolvedValue({ data: [testSimplifiedRawUser], status: 200 });
+  it("should get users", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
 
-  //   await store.dispatch(getUsers());
-  //   expect(store.getState().user.users).toEqual([simplifiedTestUser]);
-  // });
+    const pagedFilter: PageSearchFilter = {
+      ...defaultSearchFilter,
+      pageIndex: 1,
+    };
 
-  // it("should not get users", async () => {
-  //   axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
+    await store.dispatch(getNewUsers(pagedFilter));
+    expect(store.getState().user.users).toEqual([simplifiedTestUser]);
+  });
 
-  //   await store.dispatch(getUsers());
-  //   expect(store.getState().user.users).toEqual([]);
-  // });
+  it("should get users with filled filter", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: { results: [testSimplifiedRawUser] }, status: 200 });
+
+    const pagedFilter: PageSearchFilter = {
+      ...filledSearchFilter,
+      pageIndex: 1,
+    };
+
+    await store.dispatch(getNewUsers(pagedFilter));
+    expect(store.getState().user.users).toEqual([simplifiedTestUser]);
+  });
+
+  it("should not get users", async () => {
+    axios.get = jest.fn().mockResolvedValue({ data: null, status: 500 });
+
+    const pagedFilter: PageSearchFilter = {
+      ...defaultSearchFilter,
+      pageIndex: 1,
+    };
+
+    await store.dispatch(getNewUsers(pagedFilter));
+    expect(store.getState().user.users).toEqual([]);
+  });
 
   it("should get user", async () => {
     axios.get = jest.fn().mockResolvedValue({ data: testRawUser, status: 200 });

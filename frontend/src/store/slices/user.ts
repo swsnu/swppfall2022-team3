@@ -200,58 +200,56 @@ export interface PageSearchFilter extends SearchFilter {
   pageIndex: number;
 }
 
-const getUsers = async (filter: PageSearchFilter): Promise<{ users: User[]; pageIndex: number; nextPageUrl: string | null } | null> => {
+export const getUsers = async (filter: PageSearchFilter): Promise<{ users: User[]; pageIndex: number; nextPageUrl: string | null } | null> => {
   let filterParams = "";
-  if (filter) {
-    filterParams = `page=${filter.pageIndex}${filter.gender !== Gender.ALL ? `&gender=${filter.gender}` : ""}`;
-    if (filter.minAge) {
-      filterParams += `&age_min=${filter.minAge}`;
-    }
-    if (filter.maxAge) {
-      filterParams += `&age_max=${filter.maxAge}`;
-    }
-    if (filter.includedColleges && filter.includedColleges.length > 0) {
-      const lastIndex = filter.includedColleges.length - 1;
-      filterParams += "&colleges_included=";
-      filter.includedColleges.forEach((college, index) => {
-        filterParams += `${college}${index < lastIndex ? "," : ""}`;
-      });
-    }
-    if (filter.excludedColleges && filter.excludedColleges.length > 0) {
-      const lastIndex = filter.excludedColleges.length - 1;
-      filterParams += "&colleges_excluded=";
-      filter.excludedColleges.forEach((college, index) => {
-        filterParams += `${college}${index < lastIndex ? "," : ""}`;
-      });
-    }
-    if (filter.includedMajors && filter.includedMajors.length > 0) {
-      const lastIndex = filter.includedMajors.length - 1;
-      filterParams += "&majors_included=";
-      filter.includedMajors.forEach((major, index) => {
-        filterParams += `${major}${index < lastIndex ? "," : ""}`;
-      });
-    }
-    if (filter.excludedMajors && filter.excludedMajors.length > 0) {
-      const lastIndex = filter.excludedMajors.length - 1;
-      filterParams += "&majors_excluded=";
-      filter.excludedMajors.forEach((major, index) => {
-        filterParams += `${major}${index < lastIndex - 1 ? "," : ""}`;
-      });
-    }
-    if (filter.includedTags && filter.includedTags.length > 0) {
-      const lastIndex = filter.includedTags.length - 1;
-      filterParams += "&tags_included=";
-      filter.includedTags.forEach((tag, index) => {
-        filterParams += `${tag}${index < lastIndex - 1 ? "," : ""}`;
-      });
-    }
-    if (filter.excludedTags && filter.excludedTags.length > 0) {
-      const lastIndex = filter.excludedTags.length - 1;
-      filterParams += "&tags_excluded=";
-      filter.excludedTags.forEach((tag, index) => {
-        filterParams += `${tag}${index < lastIndex - 1 ? "," : ""}`;
-      });
-    }
+  filterParams = `page=${filter.pageIndex}${filter.gender !== Gender.ALL ? `&gender=${filter.gender}` : ""}`;
+  if (filter.minAge) {
+    filterParams += `&age_min=${filter.minAge}`;
+  }
+  if (filter.maxAge) {
+    filterParams += `&age_max=${filter.maxAge}`;
+  }
+  if (filter.includedColleges && filter.includedColleges.length > 0) {
+    const lastIndex = filter.includedColleges.length - 1;
+    filterParams += "&colleges_included=";
+    filter.includedColleges.forEach((college, index) => {
+      filterParams += `${college}${index < lastIndex ? "," : ""}`;
+    });
+  }
+  if (filter.excludedColleges && filter.excludedColleges.length > 0) {
+    const lastIndex = filter.excludedColleges.length - 1;
+    filterParams += "&colleges_excluded=";
+    filter.excludedColleges.forEach((college, index) => {
+      filterParams += `${college}${index < lastIndex ? "," : ""}`;
+    });
+  }
+  if (filter.includedMajors && filter.includedMajors.length > 0) {
+    const lastIndex = filter.includedMajors.length - 1;
+    filterParams += "&majors_included=";
+    filter.includedMajors.forEach((major, index) => {
+      filterParams += `${major}${index < lastIndex ? "," : ""}`;
+    });
+  }
+  if (filter.excludedMajors && filter.excludedMajors.length > 0) {
+    const lastIndex = filter.excludedMajors.length - 1;
+    filterParams += "&majors_excluded=";
+    filter.excludedMajors.forEach((major, index) => {
+      filterParams += `${major}${index < lastIndex ? "," : ""}`;
+    });
+  }
+  if (filter.includedTags && filter.includedTags.length > 0) {
+    const lastIndex = filter.includedTags.length - 1;
+    filterParams += "&tags_included=";
+    filter.includedTags.forEach((tag, index) => {
+      filterParams += `${tag}${index < lastIndex ? "," : ""}`;
+    });
+  }
+  if (filter.excludedTags && filter.excludedTags.length > 0) {
+    const lastIndex = filter.excludedTags.length - 1;
+    filterParams += "&tags_excluded=";
+    filter.excludedTags.forEach((tag, index) => {
+      filterParams += `${tag}${index < lastIndex ? "," : ""}`;
+    });
   }
   const response = await axios.get(`${userUrl}/${filterParams ? `?${filterParams}` : ""}`);
   try {
