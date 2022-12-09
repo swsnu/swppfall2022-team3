@@ -68,6 +68,7 @@ export default function UserFilterElement<T extends {key: number; name: string}>
         <button
           className={"ml-2"}
           onClick={addIncludedValues}
+          data-testid="plus"
         >
           <AddCircleIcon
             style={{ color: pink[400] }}
@@ -77,6 +78,7 @@ export default function UserFilterElement<T extends {key: number; name: string}>
         <button
           className={"ml-2"}
           onClick={addExcludedValues}
+          data-testid="minus"
         >
           <RemoveCircleIcon
             style={{ color: blue[400] }}
