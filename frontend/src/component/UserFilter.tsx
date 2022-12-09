@@ -8,7 +8,7 @@ import { getColleges, selectCollege } from "../store/slices/college";
 import { getMajorsByUniversity, selectMajor } from "../store/slices/major";
 import { getTags, selectTag } from "../store/slices/tag";
 import { getNewUsers, selectUser, userActions } from "../store/slices/user";
-import { College, Gender, Major, Tag } from "../types";
+import { College, Major, Tag } from "../types";
 import UserFilterElement from "./UserFilterElement";
 
 
@@ -20,8 +20,7 @@ export default function UserFilter({
   onModalClose,
 }: IProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const interestedGender = useSelector(selectUser).loginUser?.interestedGender;
-  const university = useSelector(selectUser).loginUser?.university;
+  const loginUser = useSelector(selectUser).loginUser;
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
   const tags = useSelector(selectTag).tags;
@@ -38,43 +37,57 @@ export default function UserFilter({
   const [ageRange, setAgeRange] = useState<number[]>([filter?.minAge ?? 19, filter?.maxAge ?? 30]);
 
   useEffect(() => {
-    if (filter?.includedColleges) {
-      setIncludedColleges(colleges.filter((c) => (filter?.includedColleges?.indexOf(c.key) ?? -1) >= 0 ));
+    const includedColleges = filter?.includedColleges;
+    const excludedColleges = filter?.excludedColleges;
+    if (includedColleges) {
+      setIncludedColleges(colleges.filter((c) => includedColleges.indexOf(c.key) >= 0 ));
     }
-    if (filter?.excludedColleges) {
-      setExcludedColleges(colleges.filter((c) => (filter?.excludedColleges?.indexOf(c.key) ?? -1) >= 0 ));
+    if (excludedColleges) {
+      setExcludedColleges(colleges.filter((c) => excludedColleges.indexOf(c.key) >= 0 ));
     }
   }, [filter, colleges, setIncludedColleges, setExcludedColleges]);
 
   useEffect(() => {
-    if (filter?.includedMajors) {
-      setIncludedMajors(majors.filter((m) => (filter?.includedMajors?.indexOf(m.key) ?? -1) >= 0 ));
+    const includedMajors = filter?.includedMajors;
+    const excludedMajors = filter?.excludedMajors;
+    if (includedMajors) {
+      setIncludedMajors(majors.filter((m) => includedMajors.indexOf(m.key) >= 0 ));
     }
-    if (filter?.excludedMajors) {
-      setExcludedMajors(majors.filter((m) => (filter?.excludedMajors?.indexOf(m.key) ?? -1) >= 0 ));
+    if (excludedMajors) {
+      setExcludedMajors(majors.filter((m) => excludedMajors.indexOf(m.key) >= 0 ));
     }
   }, [filter, majors, setIncludedMajors, setExcludedMajors]);
 
   useEffect(() => {
-    if (filter?.includedTags) {
-      setIncludedTags(tags.filter((t) => (filter?.includedTags?.indexOf(t.key) ?? -1) >= 0 ));
+    const includedTags = filter?.includedTags;
+    const excludedTags = filter?.excludedTags;
+    if (includedTags) {
+      setIncludedTags(tags.filter((t) => includedTags.indexOf(t.key) >= 0 ));
     }
-    if (filter?.excludedTags) {
-      setExcludedTags(tags.filter((t) => (filter?.excludedTags?.indexOf(t.key) ?? -1) >= 0 ));
+    if (excludedTags) {
+      setExcludedTags(tags.filter((t) => excludedTags.indexOf(t.key) >= 0 ));
     }
   }, [filter, tags, setIncludedTags, setExcludedTags]);
 
   useEffect(() => {
+    if (!loginUser) {
+      return;
+    }
+    const university = loginUser.university;
     if (university && colleges.length === 0) {
       dispatch(getColleges(university));
     }
-  }, [dispatch, university, colleges]);
+  }, [dispatch, loginUser, colleges]);
 
   useEffect(() => {
+    if (!loginUser) {
+      return;
+    }
+    const university = loginUser.university;
     if (university && majors.length === 0) {
       dispatch(getMajorsByUniversity(university));
     }
-  }, [dispatch, university, majors]);
+  }, [dispatch, loginUser, majors]);
 
   useEffect(() => {
     if (tags.length === 0) {
@@ -87,9 +100,12 @@ export default function UserFilter({
   }, [setAgeRange]);
 
   const onClickApply = useCallback(async () => {
+    if (!loginUser) {
+      return;
+    }
     const filter = {
       pageIndex: 1,
-      gender: interestedGender ? interestedGender : Gender.ALL,
+      gender: loginUser.interestedGender,
       minAge: ageRange[0],
       maxAge: ageRange[1],
       includedColleges: includedColleges.map((c) => c.key),
@@ -103,7 +119,7 @@ export default function UserFilter({
     dispatch(getNewUsers(filter));
     onModalClose();
   }, [
-    interestedGender,
+    loginUser,
     ageRange,
     includedColleges,
     excludedColleges,
