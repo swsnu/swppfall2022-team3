@@ -982,16 +982,16 @@ Frontend development is prioritized before the mid-presentation for demo. Backen
 | 4   | `/user/login/`                  | Log in                                  |            | 2            | 2    | 4       |                                        |
 | 5   | `/user/logout/`                 | Log out                                 | 3          | 2            | 2    | 4       |                                        |
 | 6   | `/user/<id:int>/`               | Get, edit, and delete a user            | 2          | 3            | 4    | 4       |                                        |
-| 7   | `/univ/`                        | Get univeresity list                    |            | 1            | 1    | 4       |                                        |
-| 8   | `/univ/<id:int>/`               | Get a university                        |            | 1            | 1    | 4       |                                        |
-| 9   | `/photo/`                       | Create a photo                          |            | 5            | 5    | 4       | Using AWS S3                           |
-| 10  | `/photo/<id:int>/`              | Get and delete a photo                  | 11         | 5            | 5    | 4       | Using AWS S3                           |
-| 11  | `/tag/`                         | Get and create a tag                    |            | 3            | 3    | 4       |                                        |
-| 12  | `/pitapat/from/<userid:int>/`   | Create a pitapat                        |            | 2            | 2    | 4       |                                        |
-| 13  | `/pitapat/to/<userid:int>/`     | Get pitapat list                        | 11         | 2            | 2    | 4       |                                        |
-| 14  | `/pitapat/<from:int>/<to:int>/` | Accept and delete a pitapat             | 11         | 3            | 3    | 4       |                                        |
-| 15  | `/block/`                       | create, delete a block                  |            | 4            | 4    | 5       |                                        |
-| 16  | `/user/<id:int>/blcok/`         | Get block list of a user                |            | 4            | 4    | 5       |                                        |
+| 7   | `/user/<id:int>/blcok/`         | Get block list of a user                |            | 4            | 4    | 5       |                                        |
+| 8   | `/univ/`                        | Get univeresity list                    |            | 1            | 1    | 4       |                                        |
+| 9   | `/univ/<id:int>/`               | Get a university                        |            | 1            | 1    | 4       |                                        |
+| 10  | `/photo/`                       | Create a photo                          |            | 5            | 5    | 4       | Using AWS S3                           |
+| 11  | `/photo/<id:int>/`              | Get and delete a photo                  | 11         | 5            | 5    | 4       | Using AWS S3                           |
+| 12  | `/tag/`                         | Get and create a tag                    |            | 3            | 3    | 4       |                                        |
+| 13  | `/pitapat/from/<userid:int>/`   | Create a pitapat                        |            | 2            | 2    | 4       |                                        |
+| 14  | `/pitapat/to/<userid:int>/`     | Get pitapat list                        | 11         | 2            | 2    | 4       |                                        |
+| 15  | `/pitapat/<from:int>/<to:int>/` | Accept and delete a pitapat             | 11         | 3            | 3    | 4       |                                        |
+| 16  | `/block/`                       | create, delete a block                  |            | 4            | 4    | 5       |                                        |
 | 17  | `/chat/<userid:int>/`           | Get chat list of a user                 |            | 2            | 2    | 5       |                                        |
 
 ## Testing Plan
