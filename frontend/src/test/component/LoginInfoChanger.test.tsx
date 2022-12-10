@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import LoginInfoChanger from "../../component/LoginInfoChanger";
 import { getDefaultMockStore } from "../../test-utils/mocks";
@@ -81,11 +81,9 @@ describe("LoginInfoChanger", () => {
     fireEvent.change(passwordField, { target: { value: "test" } });
     fireEvent.change(passwordConfirmField, { target: { value: "test" } });
     fireEvent.click(confirmButton);
-    await waitFor(() => {
-      expect(axios.post).toBeCalled();
-    });
-    await waitFor(() => {
-      expect(axios.put).toBeCalled();
+    await act(async () => {
+      await expect(axios.post).toBeCalled();
+      await expect(axios.put).toBeCalled();
     });
   });
 

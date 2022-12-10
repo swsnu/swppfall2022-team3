@@ -33,7 +33,7 @@ describe("EmailVerification", () => {
     expect(screen.getByText("재전송")).toBeInTheDocument();
   });
 
-  it("should also be rendered.. for higher coverage", () => {
+  it("should also be rendered.. for higher coverage", async () => {
     jest.useFakeTimers();
     render(
       <EmailVerification
@@ -47,7 +47,7 @@ describe("EmailVerification", () => {
       />
     );
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(60 * 1000 + 1);
     });
 
@@ -79,6 +79,11 @@ describe("EmailVerification", () => {
     render(component());
     const confirmButton = screen.getByText("확인");
     fireEvent.click(confirmButton);
+
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(() => {
+      /* empty */
+    });
   });
 
   it ("should alert when the time is over", async () => {
@@ -97,7 +102,7 @@ describe("EmailVerification", () => {
       />
     );
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(3 * 60 * 1000 + 1);
     });
     expect(mockSetStep).toBeCalled();
@@ -116,8 +121,8 @@ describe("EmailVerification", () => {
 
   it("should be move to the previous step when clicked back button", () => {
     render(component());
-    const backmButton = screen.getByText("뒤로 가기");
-    fireEvent.click(backmButton);
+    const backButton = screen.getByText("뒤로 가기");
+    fireEvent.click(backButton);
     expect(mockSetStep).toBeCalled();
   });
 });

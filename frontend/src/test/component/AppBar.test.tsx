@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import AppBar from "../../component/AppBar";
 import { getDefaultMockStore } from "../../test-utils/mocks";
@@ -102,7 +102,7 @@ describe("AppBar", () => {
     expect(mockNavigate).toBeCalled();
   });
 
-  it("should set modal when clicks filter button", () => {
+  it("should set modal when clicks filter button", async () => {
     Object.defineProperty(window, "location", {
       value: { pathname: "/search" },
       writable: true,
@@ -110,7 +110,10 @@ describe("AppBar", () => {
     render(getComponent());
     const filterButton = screen.getByTestId("filter");
     fireEvent.click(filterButton);
-    expect(setIsModalOpen).toBeCalled();
+
+    await act(async () => {
+      await expect(setIsModalOpen).toBeCalled();
+    });
   });
 
   it("should display user block modal when clicks block box", () => {
@@ -127,7 +130,7 @@ describe("AppBar", () => {
     expect(warning).toBeInTheDocument();
   });
 
-  it("should call dispatch when click block confirm button", () => {
+  it("should call dispatch when click block confirm button", async () => {
     Object.defineProperty(window, "location", {
       value: { pathname: "/profile" },
       writable: true,
@@ -140,10 +143,13 @@ describe("AppBar", () => {
     fireEvent.click(box);
     const confirmButton = screen.getByText("확인");
     fireEvent.click(confirmButton);
-    expect(axios.post).toBeCalled();
+    await act(async () => {
+      await expect(axios.post).toBeCalled();
+    });
+
   });
 
-  it("should close modal when click block cancel button", () => {
+  it("should close modal when click block cancel button", async () => {
     Object.defineProperty(window, "location", {
       value: { pathname: "/profile" },
       writable: true,
@@ -156,6 +162,8 @@ describe("AppBar", () => {
     fireEvent.click(box);
     const cancelButton = screen.getByText("취소");
     fireEvent.click(cancelButton);
-    expect(() => screen.getByTestId("warning")).toThrowError();
+    await act(async () => {
+      await expect(() => screen.getByTestId("warning")).toThrowError();
+    });
   });
 });
