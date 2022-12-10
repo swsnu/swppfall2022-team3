@@ -2,7 +2,7 @@
 
 ## Revised Documentations
 
-### Requrements and Specification
+### Requirements and Specification
 
 Search page user interface including tag filtering is added.
 
