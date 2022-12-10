@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import UniversitySelect from "../../../component/signup/UniversitySelect";
 import { universities } from "../../../dummyData";
@@ -65,6 +65,10 @@ describe("UniversitySelect", () => {
     const confirmButton = screen.getByText("확인");
     fireEvent.change(emailField, { target: { value: "user@snu.ac.kr" } });
     fireEvent.click(confirmButton);
+    await act( async () => {
+      await expect(axios.post).not.toBeCalled();
+    });
+
   });
 
   it("should proceed to the next step when email is not exist", async () => {

@@ -7,10 +7,10 @@ import paths from "../../constant/path";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
-import { userUrl , authEmailUrl } from "../../store/urls";
+import { userUrl, authEmailUrl } from "../../store/urls";
 import { University } from "../../types";
-import InformationInput from "./InformationInput";
 import SignInModal from "../SignInModal";
+import InformationInput from "./InformationInput";
 
 
 export interface IProps {
@@ -77,8 +77,8 @@ export default function UniversitySelect({
       <SignInModal
         description={
           <p>
-            입력 가능한 시간이 지났습니다.<br />
-            다시 학교 이메일을<br />
+            입력 가능한 시간이 지났습니다.<br/>
+            다시 학교 이메일을<br/>
             입력해주세요.
           </p>
         }
@@ -88,8 +88,8 @@ export default function UniversitySelect({
       <SignInModal
         description={
           <p>
-            해당 계정이 이미 존재합니다.<br />
-            다른 이메일을<br />
+            해당 계정이 이미 존재합니다.<br/>
+            다른 이메일을<br/>
             입력해주세요.
           </p>
         }
@@ -98,7 +98,7 @@ export default function UniversitySelect({
       />
       <section className={"flex-1"}>
         <p className={style.component.signIn.notification}>
-          소속대학과<br />
+          소속대학과<br/>
           학교 이메일을 입력해주세요
         </p>
         <section className="flex flex-col items-center space-y-4 mt-8">
@@ -130,7 +130,9 @@ export default function UniversitySelect({
               }}
               required
             />
-            <article className={`flex-initial w-16 mx-2 text-left ${university ? "" : "text-gray-400"} overflow-x-visible`}>
+            <article
+              className={`flex-initial w-16 mx-2 text-left ${university ? "" : "text-gray-400"} overflow-x-visible`}
+            >
               {university ? `@${university.domain}` : "@pitapat.com"}
             </article>
           </article>
