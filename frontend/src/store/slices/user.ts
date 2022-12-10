@@ -209,47 +209,23 @@ export const getUsers = async (filter: PageSearchFilter): Promise<{ users: User[
   if (filter.maxAge) {
     filterParams += `&age_max=${filter.maxAge}`;
   }
-  if (filter.includedColleges && filter.includedColleges.length > 0) {
-    const lastIndex = filter.includedColleges.length - 1;
-    filterParams += "&colleges_included=";
-    filter.includedColleges.forEach((college, index) => {
-      filterParams += `${college}${index < lastIndex ? "," : ""}`;
-    });
+  if (filter.includedColleges?.length) {
+    filterParams += `&colleges_included=${filter.includedColleges.join()}`;
   }
-  if (filter.excludedColleges && filter.excludedColleges.length > 0) {
-    const lastIndex = filter.excludedColleges.length - 1;
-    filterParams += "&colleges_excluded=";
-    filter.excludedColleges.forEach((college, index) => {
-      filterParams += `${college}${index < lastIndex ? "," : ""}`;
-    });
+  if (filter.excludedColleges?.length) {
+    filterParams += `&colleges_excluded=${filter.excludedColleges.join()}`;
   }
-  if (filter.includedMajors && filter.includedMajors.length > 0) {
-    const lastIndex = filter.includedMajors.length - 1;
-    filterParams += "&majors_included=";
-    filter.includedMajors.forEach((major, index) => {
-      filterParams += `${major}${index < lastIndex ? "," : ""}`;
-    });
+  if (filter.includedMajors?.length) {
+    filterParams += `&majors_included=${filter.includedMajors.join()}`;
   }
-  if (filter.excludedMajors && filter.excludedMajors.length > 0) {
-    const lastIndex = filter.excludedMajors.length - 1;
-    filterParams += "&majors_excluded=";
-    filter.excludedMajors.forEach((major, index) => {
-      filterParams += `${major}${index < lastIndex ? "," : ""}`;
-    });
+  if (filter.excludedMajors?.length) {
+    filterParams += `&majors_excluded=${filter.excludedMajors.join()}`;
   }
-  if (filter.includedTags && filter.includedTags.length > 0) {
-    const lastIndex = filter.includedTags.length - 1;
-    filterParams += "&tags_included=";
-    filter.includedTags.forEach((tag, index) => {
-      filterParams += `${tag}${index < lastIndex ? "," : ""}`;
-    });
+  if (filter.includedTags?.length) {
+    filterParams += `&tags_included=${filter.includedTags}`;
   }
-  if (filter.excludedTags && filter.excludedTags.length > 0) {
-    const lastIndex = filter.excludedTags.length - 1;
-    filterParams += "&tags_excluded=";
-    filter.excludedTags.forEach((tag, index) => {
-      filterParams += `${tag}${index < lastIndex ? "," : ""}`;
-    });
+  if (filter.excludedTags?.length) {
+    filterParams += `&tags_excluded=${filter.excludedTags}`;
   }
   const response = await axios.get(`${userUrl}/${filterParams ? `?${filterParams}` : ""}`);
   try {
