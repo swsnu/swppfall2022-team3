@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { University } from "../../types";
 import { RootState } from "../index";
+import { universityUrl } from "../urls";
 
-
-const universityUrl = "/university/";
 
 export type RawUniversity = {
   key: number;
@@ -29,7 +28,7 @@ const initialState: UniversityState = {
 export const getUniversities = createAsyncThunk(
   "university/get-all",
   async (): Promise<University[] | null> => {
-    const response = await axios.get(universityUrl);
+    const response = await axios.get(`${universityUrl}/`);
     if (response.status === 200) {
       const rawData: RawUniversity[] = response.data;
       return rawData.map(rawDataToUniversity);
@@ -48,6 +47,7 @@ const universitySlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.universities = action.payload;
+          state.universities = state.universities.filter((u) => u.name !== "admin");
         }
       }
     );

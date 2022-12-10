@@ -72,6 +72,13 @@ urlpatterns = [
         name='user_detail',
     ),
     path(
+        'user/exist/<str:email>',
+        views.UserExistenceCheckViewSet.as_view({
+            'get': 'retrieve',
+        }),
+        name='user_existence',
+    ),
+    path(
         'user/<int:user_key>/introduction/',
         views.UserIntroductionViewSet.as_view({
             'put': 'update',
@@ -116,17 +123,24 @@ urlpatterns = [
     ),
     path(
         'college/university/<int:university_key>/',
-        views.CollegeViewSet.as_view({
+        views.CollegeUniversityViewSet.as_view({
             'get': 'list',
         }),
         name='college_university',
     ),
     path(
         'major/college/<int:college_key>/',
-        views.MajorViewSet.as_view({
+        views.MajorCollegeViewSet.as_view({
             'get': 'list',
         }),
         name='major_college',
+    ),
+    path(
+        'major/university/<int:university_key>/',
+        views.MajorUniversityViewSet.as_view({
+            'get': 'list',
+        }),
+        name='major_university',
     ),
     path(
         'photo/user/<int:user_key>/',
@@ -164,5 +178,27 @@ urlpatterns = [
             'get': 'list',
         }),
         name='chatroom_user',
+    ),
+    path(
+        'block/',
+        views.BlockViewSet.as_view({
+            'post': 'create',
+            'delete': 'destroy',
+        }),
+        name='block',
+    ),
+    path(
+        'user/<int:user_key>/block/',
+        views.BlockFromUserViewSet.as_view({
+            'get': 'list',
+        }),
+        name='user_block'
+    ),
+    path(
+        'user/<int:user_key>/photo/',
+        views.UserPhotoViewSet.as_view({
+            'get': 'list',
+        }),
+        name='user_photo'
     ),
 ]

@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Tag } from "../../types";
 import { RootState } from "../index";
+import { tagUrl } from "../urls";
 
-
-const tagUrl = "/tag";
 
 export interface TagState {
   tags: Tag[];

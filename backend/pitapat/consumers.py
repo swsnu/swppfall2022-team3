@@ -39,8 +39,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         return Chatroom.objects.get(key=self.chatroom_key)
 
     def get_chats(self):
-        chats = Chatroom.objects.get(key=self.chatroom_key).chats.all()
-        return [{'content': chat.content, 'author': chat.author.key} for chat in chats]
+        def reg_dt_parser(chat):
+            chat['reg_dt'] = str(chat['reg_dt'])
+            return chat
+
+        chatroom = Chatroom.objects.get(key=self.chatroom_key)
+        chats = chatroom.chats.all().values('key', 'content', 'author', "reg_dt")
+        return [reg_dt_parser(chat) for chat in chats]
 
     async def load_past_messages(self, event):
         await self.send(text_data=json.dumps({

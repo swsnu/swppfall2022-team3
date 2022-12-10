@@ -7,14 +7,18 @@ import EmailVerification from "../../../component/signup/EmailVerification";
 describe("EmailVerification", () => {
   const mockSetStep = jest.fn();
   const mockSetRequestTime = jest.fn();
+  const mockSetIsOpenTimeoutModal = jest.fn();
+
   function component() {
     return (
       <EmailVerification
         email={""}
         limitSec={3 * 60}
         requestTime={new Date()}
+        isOpenTimeoutModal={false}
         setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
+        setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
       />
     );
   }
@@ -29,19 +33,21 @@ describe("EmailVerification", () => {
     expect(screen.getByText("재전송")).toBeInTheDocument();
   });
 
-  it("should also be rendered.. for higher coverage", () => {
+  it("should also be rendered.. for higher coverage", async () => {
     jest.useFakeTimers();
     render(
       <EmailVerification
         email={""}
         limitSec={59}
         requestTime={new Date()}
+        isOpenTimeoutModal={false}
         setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
+        setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
       />
     );
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(60 * 1000 + 1);
     });
 
@@ -68,19 +74,19 @@ describe("EmailVerification", () => {
     });
   });
 
-  it("should alert with axios error", async () => {
-    window.alert = jest.fn();
-    axios.post = jest.fn().mockRejectedValue({});
+  it("should catch axios error", async () => {
+    axios.post = jest.fn().mockResolvedValue(null);
     render(component());
     const confirmButton = screen.getByText("확인");
     fireEvent.click(confirmButton);
-    await waitFor(() => {
-      expect(window.alert).toBeCalled();
+
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(() => {
+      /* empty */
     });
   });
 
   it ("should alert when the time is over", async () => {
-    const spyAlert = jest.spyOn(window, "alert").mockImplementation(() => true);
     axios.post = jest.fn().mockResolvedValue({ status: 204 });
     jest.useFakeTimers();
 
@@ -88,16 +94,18 @@ describe("EmailVerification", () => {
       <EmailVerification
         email={""}
         limitSec={0}
+        isOpenTimeoutModal={false}
         requestTime={new Date()}
         setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
+        setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
       />
     );
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(3 * 60 * 1000 + 1);
     });
-    expect(spyAlert).toBeCalled();
+    expect(mockSetStep).toBeCalled();
   });
 
   it("should handle resend button click", async () => {
@@ -109,5 +117,12 @@ describe("EmailVerification", () => {
     await waitFor(() => {
       expect(axios.post).toBeCalled();
     });
+  });
+
+  it("should be move to the previous step when clicked back button", () => {
+    render(component());
+    const backButton = screen.getByText("뒤로 가기");
+    fireEvent.click(backButton);
+    expect(mockSetStep).toBeCalled();
   });
 });

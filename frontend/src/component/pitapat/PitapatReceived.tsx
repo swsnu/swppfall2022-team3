@@ -8,7 +8,13 @@ export default function PitapatReceived() {
   const users = useSelector(selectUser).pitapat.senders;
 
   return (
-    <section>
+    <section
+      className={
+        users.length === 0 ?
+          "h-full flex flex-col items-center justify-center text-gray-600" :
+          ""
+      }
+    >
       {
         users.map((user, index) => (
           <Profile
@@ -18,6 +24,11 @@ export default function PitapatReceived() {
             isLastElement={index === users.length - 1}
           />
         ))
+      }
+      {
+        users.length === 0 ?
+          "아직 받은 두근이 없어요" :
+          null
       }
     </section>
   );

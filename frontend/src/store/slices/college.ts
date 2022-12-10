@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { College } from "../../types";
 import { RootState } from "../index";
+import { collegeUrl } from "../urls";
 
-
-const collegeUrl = "/college/";
 
 export interface CollegeState {
   colleges: College[];
@@ -17,7 +16,7 @@ const initialState: CollegeState = {
 export const getColleges = createAsyncThunk(
   "college/get-all-by-university",
   async (universityKey: number): Promise<College[] | null> => {
-    const response = await axios.get(`${collegeUrl}university/${universityKey}/`);
+    const response = await axios.get(`${collegeUrl}/university/${universityKey}/`);
     if (response.status === 200) {
       return response.data as College[];
     }

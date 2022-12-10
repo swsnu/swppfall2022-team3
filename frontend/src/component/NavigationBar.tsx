@@ -10,7 +10,13 @@ import style from "../constant/style";
 
 type TabIndex = 0 | 1 | 2;
 
-export default function NavigationBar(){
+interface IProps {
+  saveYPosition?: () => void;
+}
+
+export default function NavigationBar({
+  saveYPosition,
+}: IProps) {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
 
@@ -62,6 +68,7 @@ export default function NavigationBar(){
         right: 0,
       }}
       elevation={3}
+      onClick={saveYPosition}
     >
       <BottomNavigation
         className={"fixed bottom-0 w-full"}

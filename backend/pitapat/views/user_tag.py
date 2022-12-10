@@ -26,8 +26,11 @@ class UserTagViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(request_body=UserTagCreateSerializer)
     def destroy(self, request, *args, **kwargs):
         user = User.objects.get(key=kwargs['user_key'])
-        tag_keys = request.data['tags']
-        for tag_key in tag_keys:
-            user_tag = UserTag.objects.get(user=user, tag=tag_key)
+#         tag_keys = request.data['tags']
+#         for tag_key in tag_keys:
+#             user_tag = UserTag.objects.get(user=user, tag=tag_key)
+#             user_tag.delete()
+        user_tags = UserTag.objects.filter(user=user)
+        for user_tag in user_tags:
             user_tag.delete()
         return Response(status=204)

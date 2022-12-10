@@ -1,5 +1,5 @@
 from datetime import date
-from ..models import User, University, College, Major
+from pitapat.models import User, University, College, Major
 
 
 def setup():

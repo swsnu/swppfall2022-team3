@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { PreloadedState } from "redux";
-import { chatrooms, chats, colleges, majors, tags, universities, users } from "../dummyData";
+import { chatrooms, colleges, majors, tags, universities, users } from "../dummyData";
 import { RootState } from "../store";
 import chatReducer from "../store/slices/chat";
 import collegeReducer from "../store/slices/college";
@@ -32,21 +32,137 @@ export const getDefaultMockStore = (shouldLogin = true) => getMockStore({
   college: { colleges: colleges },
   major: { majors: majors },
   user: {
-    users: users,
     loginUser: shouldLogin ? users[0] : null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
     interestingUser: shouldLogin ? users[3] : null,
     pitapat: {
       senders: shouldLogin ? [users[1]] : [],
       receivers: shouldLogin ? [users[2]] : [],
     },
+    blocked: [],
     chat: {
       participants: [],
-    }
+    },
+    pitapatListTabIndex: 0,
   },
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats: chats,
+    chatSockets: [],
+  },
+});
+
+export const getNoCollegeMajorMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: [] },
+  major: { majors: [] },
+  user: {
+    loginUser: null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [],
+      receivers: [],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
+export const getLoginUserFromMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: [] },
+  major: { majors: [] },
+  user: {
+    loginUser: users[0],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [users[2]],
+      receivers: [users[1]],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
+export const getLoginUserToMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: [] },
+  major: { majors: [] },
+  user: {
+    loginUser: users[1],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [users[0]],
+      receivers: [users[2]],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
+    chatSockets: [],
+  },
+});
+
+export const getNoTagMockStore = () => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    loginUser: null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: null,
+    pitapat: {
+      senders: [],
+      receivers: [],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: [] },
+  chat: {
+    chatrooms,
     chatSockets: [],
   },
 });
@@ -56,21 +172,25 @@ export const getNoPhotoMockStore = () => getMockStore({
   college: { colleges: colleges },
   major: { majors: majors },
   user: {
-    users: users,
     loginUser: users[0],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
     interestingUser: null,
     pitapat: {
       senders: [],
       receivers: [],
     },
+    blocked: [],
     chat: {
       participants: [],
-    }
+    },
+    pitapatListTabIndex: 0,
   },
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats,
     chatSockets: [],
   },
 });
@@ -80,21 +200,83 @@ export const getNointerestingUserMockStore = () => getMockStore({
   college: { colleges: colleges },
   major: { majors: majors },
   user: {
-    users: users,
     loginUser: users[0],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
     interestingUser: null,
     pitapat: {
       senders: [users[1]],
       receivers: [users[2]],
     },
+    blocked: [],
     chat: {
       participants: [],
-    }
+    },
+    pitapatListTabIndex: 1,
   },
   tag: { tags: tags },
   chat: {
     chatrooms,
-    chats: chats,
+    chatSockets: [],
+  },
+});
+
+export const fakeUrl = "ws://localhost:8000/ws/chat";
+
+export const getWebSocketMockStore = (key: number) => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    loginUser: users[0],
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: users[3],
+    pitapat: {
+      senders: [users[1]],
+      receivers: [users[2]],
+    },
+    blocked: [],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms: chatrooms,
+    chatSockets: [new WebSocket(`${fakeUrl}/${key}/`)],
+  },
+});
+
+export const getBlockedMockStore = (shouldLogin = true) => getMockStore({
+  university: { universities: universities },
+  college: { colleges: colleges },
+  major: { majors: majors },
+  user: {
+    loginUser: shouldLogin ? users[0] : null,
+    users: users,
+    filter: null,
+    nextPageUrl: null,
+    searchPageIndex: 1,
+    interestingUser: shouldLogin ? users[3] : null,
+    pitapat: {
+      senders: shouldLogin ? [users[1]] : [],
+      receivers: shouldLogin ? [users[2]] : [],
+    },
+    blocked: [users[4]],
+    chat: {
+      participants: [],
+    },
+    pitapatListTabIndex: 0,
+  },
+  tag: { tags: tags },
+  chat: {
+    chatrooms,
     chatSockets: [],
   },
 });

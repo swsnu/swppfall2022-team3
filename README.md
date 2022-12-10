@@ -10,6 +10,7 @@
 
 ```shell
 cd frontend
+yarn
 yarn start
 ```
 
@@ -24,8 +25,11 @@ yarn test --coverage --watchAll=false
 
 ### Run
 
+- `redis-server` required
+
 ```shell
 cd backend
+pip install -r requirements.txt
 python manage.py runserver
 ```
 
@@ -33,6 +37,6 @@ python manage.py runserver
 
 ```shell
 cd backend
-coverage run --source='.' manage.py test
+coverage run --source='./pitapat' manage.py test
 ```
 

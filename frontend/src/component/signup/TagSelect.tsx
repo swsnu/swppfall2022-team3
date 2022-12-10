@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { pink } from "@mui/material/colors";
@@ -7,6 +7,7 @@ import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getTags, selectTag } from "../../store/slices/tag";
 import { Tag } from "../../types";
+import TagElement from "./TagElement";
 
 
 export interface IProps {
@@ -23,17 +24,22 @@ export default function TagSelect({
   const dispatch = useDispatch<AppDispatch>();
   const loadedTags = useSelector(selectTag).tags;
   const [selectedTag, setSelectedTag] = useState<Tag>();
-  const [selectedTagKey, setSelectedTagKey] = useState<number>(1);
+  const [selectedTagKey, setSelectedTagKey] = useState<number>(-1);
   const [submittedWithNoTag, setSubmittedWithNoTag] = useState<boolean>(false);
+  const [isTagLoaded, setIsTagLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    if ((selectedTagKey < 1) && isTagLoaded) {
+      return;
+    }
     let targetTag = loadedTags.find((t) => (t.key === selectedTagKey));
     if (!targetTag) {
       dispatch(getTags());
       targetTag = loadedTags.find((t) => (t.key === selectedTagKey));
+      setIsTagLoaded(true);
     }
     setSelectedTag(targetTag);
-  }, [loadedTags, selectedTagKey, dispatch]);
+  }, [loadedTags, selectedTagKey, dispatch, isTagLoaded]);
 
   const addTagOnClick = useCallback(() => {
     if (selectedTag) {
@@ -43,18 +49,28 @@ export default function TagSelect({
     }
   }, [selectedTag, tags, setTags]);
 
+  const deleteTag = useCallback((tagKey: number) => {
+    const newTags = tags.filter((t) => t.key !== tagKey);
+    setTags(newTags);
+  }, [tags, setTags]);
+
   const confirmOnClick = useCallback(() => {
     if (tags.length !== 0) {
       setStep(4);
-    } else {
+    }
+    else {
       setSubmittedWithNoTag(true);
     }
   }, [setStep, tags]);
 
+  const backOnClick = useCallback(() => {
+    setTags([]);
+    setStep(2);
+  }, [setTags, setStep]);
   return (
     <section className={style.page.base}>
       <p className={style.component.signIn.notification}>
-        나를 표현하는 태그를 입력해보세요!<br />
+        나를 표현하는 태그를 입력해보세요!<br/>
         ex) 취미 (등산, 그림, ...)
       </p>
       <section className={"w-full flex-1 flex flex-col items-center"}>
@@ -76,7 +92,7 @@ export default function TagSelect({
                 variant={"outlined"}
                 value={selectedTagKey}
                 onChange={(e) => {
-                  (setSelectedTagKey as Dispatch<SetStateAction<string | number>>)(e.target.value);
+                  setSelectedTagKey(parseInt(`${e.target.value}`));
                 }}
               >
                 {
@@ -97,16 +113,36 @@ export default function TagSelect({
             />
           </button>
         </div>
-        <article className={"ml-2 text-red-500 mb-4 text-sm"}>{(submittedWithNoTag) ? "최소한 한 개의 태그가 있어야 해요." : " "}</article>
-        <article className={`w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold text-${style.color.main} justify-start`}>
-          {tags.map((t) =>
-            <div key={t.key} className={`flex-none px-2.5 py-0.5 m-1 rounded-2xl border-2 border-${style.color.main}`}>
-              {t.name}
-            </div>
-          )}
+        <article
+          className={"ml-2 text-red-500 mb-4 text-sm"}
+        >
+          {
+            (submittedWithNoTag) ?
+              "최소한 한 개의 태그가 있어야 해요." :
+              null
+          }
+        </article>
+        <article
+          className={"w-4/5 max-w-xs flex flex-row flex-wrap text-base font-bold justify-start"}
+        >
+          {
+            tags.map((tag) => (
+              <TagElement
+                key={tag.key}
+                name={tag.name}
+                onDelete={() => { deleteTag(tag.key); }}
+              />
+            ))
+          }
         </article>
       </section>
       <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={backOnClick}
+        >
+          뒤로 가기
+        </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}

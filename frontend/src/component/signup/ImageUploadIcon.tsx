@@ -1,34 +1,39 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useRef } from "react";
+import React, { ChangeEvent, useCallback, useRef } from "react";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 
-interface IProps {
+export interface IProps {
+  index: number;
   src: string;
-  disabled: boolean;
-  uploadedPhotos: File[];
-  setUploadedPhotos: Dispatch<SetStateAction<File[]>>;
+  setIthPhoto: (i: number, file: File) => void;
+  removeIthPhoto: (i: number) => void;
+  showDeleteButton?: boolean;
 }
 
 export default function ImageUploadIcon({
+  index,
   src,
-  disabled,
-  uploadedPhotos,
-  setUploadedPhotos,
+  setIthPhoto,
+  removeIthPhoto,
+  showDeleteButton = true,
 }: IProps) {
   const uploadRef = useRef<HTMLInputElement | null>(null);
 
   const imageOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const uploaded = event.target.files;
+    const inputFiles = event.target.files;
+    const uploaded = inputFiles ? inputFiles[0] : null;
+
     if (uploaded) {
-      setUploadedPhotos([...uploadedPhotos, uploaded[0]]);
+      setIthPhoto(index, uploaded);
     }
-  }, [uploadedPhotos, setUploadedPhotos]);
+  }, [index, setIthPhoto]);
 
   const imageOnClick = useCallback(() => {
     uploadRef.current?.click();
   }, []);
 
   return (
-    <div className={"w-fit h-fit"}>
+    <div className={"relative w-fit h-fit flex flex-row"}>
       <input
         ref={uploadRef}
         className={"hidden"}
@@ -36,7 +41,6 @@ export default function ImageUploadIcon({
         type="file"
         accept="image/*"
         onChange={imageOnChange}
-        disabled={disabled}
       />
       <button
         className={"w-fit h-fit"}
@@ -48,6 +52,18 @@ export default function ImageUploadIcon({
           alt=""
         />
       </button>
+      {
+        showDeleteButton ?
+          (
+            <button
+              className={"absolute right-[-0.6rem] top-[-0.6rem] w-fit h-fit top-0 rounded-full shadow text-red-500 bg-white"}
+              onClick={() => removeIthPhoto(index)}
+            >
+              <HighlightOffIcon/>
+            </button>
+          ) :
+          null
+      }
     </div>
   );
 }

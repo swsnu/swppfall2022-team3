@@ -79,7 +79,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         fields = [
             'email',
             'password',
-            'phone',
             'nickname',
             'gender',
             'interested_gender',
@@ -111,7 +110,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = [
             'key',
             'email',
-            'phone',
             'nickname',
             'gender',
             'interested_gender',

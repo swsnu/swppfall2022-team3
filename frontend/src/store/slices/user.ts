@@ -1,13 +1,10 @@
+import { Cookies } from "react-cookie";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Gender, User } from "../../types";
 import { RootState } from "../index";
+import { signinUrl, signoutUrl, authUserUrl, userUrl, chatroomUrl } from "../urls";
 
-
-export const signinUrl = "/auth/login/";
-export const signoutUrl = "/auth/logout/";
-export const authUserUrl = "/auth/user/";
-export const userUrl = "/user";
 
 export type RawUser = {
   key: number;
@@ -32,6 +29,18 @@ export type SimplifiedRawUser = {
   college: number;
   major: number;
   repr_photo: string;
+}
+
+export interface SearchFilter {
+  gender: Gender;
+  minAge?: number;
+  maxAge?: number;
+  includedColleges?: number[];
+  excludedColleges?: number[];
+  includedMajors?: number[];
+  excludedMajors?: number[];
+  includedTags?: number[];
+  excludedTags?: number[];
 }
 
 export const getGender = (genderStr: string): Gender => {
@@ -92,48 +101,70 @@ export const userToRawData = (user: User): RawUser => (
 );
 
 export interface UserState {
-  users: User[];
   loginUser: User | null;
+  users: User[];
+  searchPageIndex: number;
+  nextPageUrl: string | null;
+  filter: SearchFilter | null;
   interestingUser: User | null;
   pitapat: {
     senders: User[];
     receivers: User[];
   };
+  blocked: User[];
   chat: {
     participants: User[];
   };
+  pitapatListTabIndex: 0 | 1;
 }
 
+const savedLoginUser = sessionStorage.getItem("loginUser");
+const savedFilter = localStorage.getItem("user-filter");
+
 const initialState: UserState = {
+  loginUser: savedLoginUser ?
+    JSON.parse(savedLoginUser) as User :
+    null,
   users: [],
-  loginUser: null,
+  searchPageIndex: 0,
+  nextPageUrl: "",
+  filter: savedFilter ?
+    JSON.parse(savedFilter) as SearchFilter :
+    null,
   interestingUser: null,
   pitapat: {
     senders: [],
     receivers: [],
   },
+  blocked: [],
   chat: {
     participants: [],
-  }
+  },
+  pitapatListTabIndex: 0,
 };
-
 
 export const fetchSignin = createAsyncThunk(
   "user/signin",
   async (user: { username: string; password: string }): Promise<User | null> => {
     try {
       // get session token
-      await axios.post(signinUrl, user);
+      const signInResponse = await axios.post(`${signinUrl}/`, user);
+      if (signInResponse.status !== 200) {
+        return null;
+      }
+      const sessionToken = signInResponse.data.key;
+      const cookies = new Cookies();
+      cookies.set("sessionid", sessionToken, { path: "/" });
       // get user key
-      const authResponse = await axios.get(authUserUrl);
-      if (authResponse.status !== 200)
-      {return null;}
+      const authResponse = await axios.get(`${authUserUrl}/`);
+      if (authResponse.status !== 200) {
+        return null;
+      }
       const userKey = authResponse.data.pk as number;
       // get user data
-      const userResponse = await axios.get(`${userUrl}/${userKey}`);
+      const userResponse = await axios.get(`${userUrl}/${userKey}/`);
       return rawDataToUser(userResponse.data as RawUser);
-    }
-    catch (_) {
+    } catch (_) {
       return null;
     }
   }
@@ -142,7 +173,10 @@ export const fetchSignin = createAsyncThunk(
 export const fetchSignout = createAsyncThunk(
   "user/signout",
   async (): Promise<void> => {
-    await axios.post(signoutUrl);
+    try {
+      await axios.post(`${signoutUrl}/`);
+    } catch (_) { /* empty */
+    }
   }
 );
 
@@ -150,7 +184,7 @@ export const fetchSignup = createAsyncThunk(
   "user/signup",
   async (user: User): Promise<User | null> => {
     const response = await axios.post(
-      userUrl,
+      `${userUrl}/`,
       userToRawData(user),
     );
     if (response.status === 200) {
@@ -162,19 +196,57 @@ export const fetchSignup = createAsyncThunk(
   }
 );
 
-export const getUsers = createAsyncThunk(
-  "user/get-all",
-  async (page: number): Promise<User[] | null> => {
-    // const response = await axios.get(`${userUrl}/?page=${page}`);
-    const response = await axios.get(`${userUrl}/`);
-    if (response.status === 200) {
-      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
-      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
-    }
-    else {
-      return null;
-    }
+export interface PageSearchFilter extends SearchFilter {
+  pageIndex: number;
+}
+
+export const getUsers = async (filter: PageSearchFilter): Promise<{ users: User[]; pageIndex: number; nextPageUrl: string | null } | null> => {
+  let filterParams = "";
+  filterParams = `page=${filter.pageIndex}${filter.gender !== Gender.ALL ? `&gender=${filter.gender}` : ""}`;
+  if (filter.minAge) {
+    filterParams += `&age_min=${filter.minAge}`;
   }
+  if (filter.maxAge) {
+    filterParams += `&age_max=${filter.maxAge}`;
+  }
+  if (filter.includedColleges?.length) {
+    filterParams += `&colleges_included=${filter.includedColleges.join()}`;
+  }
+  if (filter.excludedColleges?.length) {
+    filterParams += `&colleges_excluded=${filter.excludedColleges.join()}`;
+  }
+  if (filter.includedMajors?.length) {
+    filterParams += `&majors_included=${filter.includedMajors.join()}`;
+  }
+  if (filter.excludedMajors?.length) {
+    filterParams += `&majors_excluded=${filter.excludedMajors.join()}`;
+  }
+  if (filter.includedTags?.length) {
+    filterParams += `&tags_included=${filter.includedTags}`;
+  }
+  if (filter.excludedTags?.length) {
+    filterParams += `&tags_excluded=${filter.excludedTags}`;
+  }
+  const response = await axios.get(`${userUrl}/${filterParams ? `?${filterParams}` : ""}`);
+  try {
+    return {
+      users: (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser),
+      pageIndex: filter.pageIndex,
+      nextPageUrl: response.data.next,
+    };
+  } catch (_) {
+    return null;
+  }
+};
+
+export const getNewUsers = createAsyncThunk(
+  "user/get-all-new",
+  getUsers,
+);
+
+export const getNextUsers = createAsyncThunk(
+  "user/get-all-next",
+  getUsers,
 );
 
 export const getUser = createAsyncThunk(
@@ -190,33 +262,13 @@ export const getUser = createAsyncThunk(
   }
 );
 
-/**
- * should be called after state.interestedUser is set
- */
-export const getUserTags = createAsyncThunk(
-  "user/tags",
-  async (userKey: number): Promise<number[] | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/tag/`);
-    if (response.status === 200) {
-      return response.data as number[];
-    }
-    else {
-      return null;
-    }
-  }
-);
-
-/**
- * should be called after state.interestedUser is set
- */
-export const getUserIntroduction = createAsyncThunk(
-  "user/introduction",
-  async (userKey: number): Promise<string | null> => {
-    const response = await axios.get(`${userUrl}/${userKey}/introduction/`);
-    if (response.status === 200) {
-      return response.data.content as string;
-    }
-    else {
+export const getLoginUser = createAsyncThunk(
+  "user/get-login-user",
+  async (loginUserKey: number): Promise<User | null> => {
+    try {
+      const loginUserResponse = await axios.get(`${userUrl}/${loginUserKey}/`);
+      return rawDataToUser(loginUserResponse.data as RawUser);
+    } catch (_) {
       return null;
     }
   }
@@ -250,10 +302,24 @@ export const getPitapatReceivers = createAsyncThunk(
   }
 );
 
+export const getBlockedUsers = createAsyncThunk(
+  "user/blocked-user",
+  async (userKey: number): Promise<User[] | null> => {
+    const response = await axios.get(`${userUrl}/${userKey}/block/`);
+    if (response.status === 200) {
+      // return (response.data.results as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+      return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
+    }
+    else {
+      return null;
+    }
+  }
+);
+
 export const getChatParticipants = createAsyncThunk(
   "user/get-all-by-chatroom",
   async (chatroomKey: number): Promise<User[] | null> => {
-    const response = await axios.get(`/chatroom/${chatroomKey}${userUrl}`);
+    const response = await axios.get(`${chatroomUrl}/${chatroomKey}/user/`);
     if (response.status === 200) {
       return (response.data as SimplifiedRawUser[]).map(simplifiedRawDataToUser);
     }
@@ -267,8 +333,13 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setInterestedUser: (state, action: PayloadAction<User>) => {
-      state.interestingUser = action.payload;
+    setFilter: (state, action: PayloadAction<SearchFilter>) => {
+      state.filter = action.payload;
+      state.searchPageIndex = 0;
+      localStorage.setItem("user-filter", JSON.stringify(action.payload));
+    },
+    setPitapatListTabIndex: (state, action: PayloadAction<0 | 1>) => {
+      state.pitapatListTabIndex = action.payload;
     },
     deleteSender: (state, action: PayloadAction<number>) => {
       state.pitapat.senders = state.pitapat.senders.filter((u) => u.key !== action.payload);
@@ -276,25 +347,71 @@ const userSlice = createSlice({
     deleteReceiver: (state, action: PayloadAction<number>) => {
       state.pitapat.receivers = state.pitapat.receivers.filter((u) => u.key !== action.payload);
     },
+    deleteUser: (state, action: PayloadAction<number>) => {
+      const user = state.users.find((u) => u.key === action.payload);
+      if (user) {
+        state.users = state.users.filter((u) => u.key !== action.payload);
+        state.pitapat.receivers.push(user);
+      }
+    },
+    addUser: (state, action: PayloadAction<number>) => {
+      const user = state.pitapat.receivers.find((u) => u.key === action.payload);
+      if (user) {
+        state.users.unshift(user);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
+      getLoginUser.fulfilled,
+      (state, action) => {
+        sessionStorage.setItem("loginUser", JSON.stringify(action.payload));
+        state.loginUser = action.payload;
+      }
+    );
+    builder.addCase(
       fetchSignin.fulfilled,
       (state, action) => {
+        sessionStorage.setItem("loginUser", JSON.stringify(action.payload));
         state.loginUser = action.payload;
       }
     );
     builder.addCase(
       fetchSignout.fulfilled,
       (state) => {
+        sessionStorage.removeItem("loginUser");
+        sessionStorage.clear();
+        localStorage.removeItem("user-filter");
         state.loginUser = null;
+        state.filter = null;
+        state.users = [];
+        state.searchPageIndex = 0;
+        state.nextPageUrl = "";
+        state.interestingUser = null;
+        state.pitapat.senders = [];
+        state.pitapat.receivers = [];
+        state.blocked = [];
+        state.chat.participants = [];
+        state.pitapatListTabIndex = 0;
       }
     );
     builder.addCase(
-      getUsers.fulfilled,
+      getNewUsers.fulfilled,
       (state, action) => {
         if (action.payload) {
-          state.users = action.payload;
+          state.users = action.payload.users;
+          state.searchPageIndex = action.payload.pageIndex;
+          state.nextPageUrl = action.payload.nextPageUrl;
+        }
+      }
+    );
+    builder.addCase(
+      getNextUsers.fulfilled,
+      (state, action) => {
+        if (action.payload && state.searchPageIndex < action.payload.pageIndex) {
+          state.users = state.users.concat(action.payload.users);
+          state.searchPageIndex = action.payload.pageIndex;
+          state.nextPageUrl = action.payload.nextPageUrl;
         }
       }
     );
@@ -303,32 +420,6 @@ const userSlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.interestingUser = action.payload;
-        }
-      }
-    );
-    builder.addCase(
-      getUserTags.fulfilled,
-      (state, action) => {
-        if (action.payload && state.interestingUser) {
-          const newInterestedUser: User = {
-            ...state.interestingUser,
-            tags: action.payload,
-          };
-          state.interestingUser = newInterestedUser;
-          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
-        }
-      }
-    );
-    builder.addCase(
-      getUserIntroduction.fulfilled,
-      (state, action) => {
-        if (action.payload && state.interestingUser) {
-          const newInterestedUser: User = {
-            ...state.interestingUser,
-            introduction: action.payload,
-          };
-          state.interestingUser = newInterestedUser;
-          state.users = state.users.map((user) => user.key === newInterestedUser.key ? newInterestedUser : user);
         }
       }
     );
@@ -345,6 +436,14 @@ const userSlice = createSlice({
       (state, action) => {
         if (action.payload) {
           state.pitapat.receivers = action.payload;
+        }
+      }
+    );
+    builder.addCase(
+      getBlockedUsers.fulfilled,
+      (state, action) => {
+        if (action.payload) {
+          state.blocked = action.payload;
         }
       }
     );

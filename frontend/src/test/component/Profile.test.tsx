@@ -1,41 +1,37 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import Profile, { IProps } from "../../component/Profile";
+import Profile from "../../component/Profile";
 import { users } from "../../dummyData";
 import { getDefaultMockStore } from "../../test-utils/mocks";
 
 
-const mockIProps: IProps = {
-  user: users[2],
-  showRejectButton: false,
-  isLastElement: false,
-};
-
-const mockIPropsLastAndReject: IProps = {
-  ...mockIProps,
-  showRejectButton: true,
-  isLastElement: true,
-};
-
 const mockStore = getDefaultMockStore();
+const logoutMockStore = getDefaultMockStore(false);
+
 const mockNavigate = jest.fn();
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useNavigate: () => mockNavigate,
+  Navigate: () => <div>navigate</div>,
 }));
+
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
 }));
 
+jest.mock("../../component/PitapatButton", () => () => <div>pitapat</div>);
+
 describe("Profile", () => {
-  function getElement(props: IProps) {
+  function getComponent(login: boolean, reject=false, last=true) {
     return (
-      <Provider store={mockStore}>
+      <Provider store={login ? mockStore : logoutMockStore}>
         <Profile
-          {...props}
+          user={users[2]}
+          showRejectButton={reject}
+          isLastElement={last}
         />
       </Provider>
     );
@@ -45,21 +41,35 @@ describe("Profile", () => {
     jest.clearAllMocks();
   });
 
-  it("should render without error(no reject button & not last element) and should navigate", async () => {
-    const { container } = render(getElement(mockIProps));
+  it("should render component", () => {
+    const { container } = render(getComponent(true));
     expect(container).toBeTruthy();
-    const profilePictures = screen.getAllByRole("img");
-    profilePictures.forEach((picture) => {
-      fireEvent.click(picture);
-    });
+  });
 
+  it("should navigate to user detail page when clicked", async () => {
+    render(getComponent(true));
+    const profileButton = screen.getByRole("button");
+    fireEvent.click(profileButton);
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledTimes(profilePictures.length);
+      expect(mockNavigate).toBeCalled();
     });
   });
 
-  it("should render without error(reject button & last element)", () => {
-    const { container } = render(getElement(mockIPropsLastAndReject));
-    expect(container).toBeTruthy();
+  it("should show 2 PitapatButton when showRejectButton is true", () => {
+    render(getComponent(true, true));
+    const reject = screen.getAllByText("pitapat");
+    expect(reject.length).toBe(2);
+  });
+
+  it("should have margin in not last profile element", () => {
+    render(getComponent(true, false, false));
+    const profile = screen.getByTestId("profile");
+    expect(profile).toHaveClass("mb-2");
+  });
+
+  it("should navigate to signin page when not logged in", () => {
+    render(getComponent(false));
+    const navigate = screen.getByText("navigate");
+    expect(navigate).toBeInTheDocument();
   });
 });

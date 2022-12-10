@@ -7,9 +7,15 @@ import { getDefaultMockStore, getNoPhotoMockStore } from "../../test-utils/mocks
 
 
 const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
+const mockUseLocation = jest.fn();
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
-  useNavigate: () => mockNavigate,
+  useLocation: () => mockUseLocation,
 }));
 
 const mockDispatch = jest.fn();
@@ -20,7 +26,7 @@ jest.mock("react-redux", () => ({
 
 jest.mock("../../component/AppBar", () => () => <div>appbar</div>);
 jest.mock("../../component/Profile", () =>
-  ({photo}: {photo: string}) => <div data-testid="profile">{photo}</div>
+  ({ photo }: {photo: string}) => <div data-testid="profile">{photo}</div>
 );
 jest.mock("../../component/NavigationBar", () => () => <div></div>);
 
@@ -40,11 +46,11 @@ describe("Search", () => {
     jest.clearAllMocks();
   });
 
-  it("should be rendered", () => {
-    render(getElement(mockStore));
-    const appBar = screen.getByText("appbar");
-    expect(appBar).toBeInTheDocument();
-  });
+  // it("should be rendered", () => {
+  //   render(getElement(mockStore));
+  //   const appBar = screen.getByText("appbar");
+  //   expect(appBar).toBeInTheDocument();
+  // });
 
   it("should redirect to SignIn page when not logged in", () => {
     const mockLogoutStore = getDefaultMockStore(false);
@@ -52,11 +58,11 @@ describe("Search", () => {
     expect(mockNavigate).toBeCalled();
   });
 
-  it("should deliver empty string to Profile when no photo", () => {
-    render(getElement(noPhotoMockStore));
-    const profiles = screen.getAllByTestId("profile");
-    profiles.forEach((profile) => {
-      expect(profile).toContainHTML("");
-    });
-  });
+  // it("should deliver empty string to Profile when no photo", () => {
+  //   render(getElement(noPhotoMockStore));
+  //   const profiles = screen.getAllByTestId("profile");
+  //   profiles.forEach((profile) => {
+  //     expect(profile).toContainHTML("");
+  //   });
+  // });
 });

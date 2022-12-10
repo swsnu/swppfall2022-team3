@@ -19,6 +19,7 @@ describe("InformationInput", () => {
       value={""}
       setValue={mockSetValue}
       type={"text"}
+      required={true}
     />
   );
   const selectInformationInput = (
@@ -27,6 +28,7 @@ describe("InformationInput", () => {
       value={"test"}
       setValue={mockSetValue}
       type={"select"}
+      required={true}
       options={
         ([{ key: 0, name: "" }] as College[])
           .concat(colleges)
@@ -40,6 +42,7 @@ describe("InformationInput", () => {
       value={new Date()}
       setValue={mockSetValue}
       type={"date"}
+      required={true}
     />
   );
 

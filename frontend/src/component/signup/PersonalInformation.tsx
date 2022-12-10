@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "../../constant/style";
 import { AppDispatch } from "../../store";
 import { getColleges, selectCollege } from "../../store/slices/college";
-import { getMajors, selectMajor } from "../../store/slices/major";
+import { getMajorsByUniversity, selectMajor } from "../../store/slices/major";
 import { College, Gender, Major, University } from "../../types";
+import SignInModal from "../SignInModal";
 import InformationInput from "./InformationInput";
 
 
@@ -13,8 +14,6 @@ export interface IProps {
   setNickname: Dispatch<SetStateAction<string>>;
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
-  phone: string;
-  setPhone: Dispatch<SetStateAction<string>>;
   birthday: Date;
   setBirthday: Dispatch<SetStateAction<Date>>;
   university: University | null;
@@ -34,8 +33,6 @@ export default function PersonalInformation({
   setNickname,
   password,
   setPassword,
-  phone,
-  setPhone,
   birthday,
   setBirthday,
   university,
@@ -52,11 +49,16 @@ export default function PersonalInformation({
   const colleges = useSelector(selectCollege).colleges;
   const majors = useSelector(selectMajor).majors;
   const dispatch = useDispatch<AppDispatch>();
+  const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(colleges.length === 0 ? 0 : colleges[0].key);
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(majors.length === 0 ? 0 : majors[0].key);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const confirmOnClick = useCallback(() => {
-    if (
+    if (password !== passwordCheck) {
+      setModalOpen(true);
+    }
+    else if (
       nickname &&
       birthday &&
       ((college?.key ?? 0) > 0) &&
@@ -69,7 +71,13 @@ export default function PersonalInformation({
     else {
       // do something later
     }
-  }, [setStep, nickname, birthday, college, major, gender, targetGender]);
+  }, [password, passwordCheck, setStep, nickname, birthday, college, major, gender, targetGender]);
+
+  const backOnClick = useCallback(() => {
+    setNickname("");
+    setPassword("");
+    setStep(0);
+  }, [setNickname, setPassword, setStep]);
 
   useEffect(() => {
     if (university) {
@@ -78,10 +86,10 @@ export default function PersonalInformation({
   }, [dispatch, university]);
 
   useEffect(() => {
-    if (college) {
-      dispatch(getMajors(college.key));
+    if (university) {
+      dispatch(getMajorsByUniversity(university.key));
     }
-  }, [dispatch, college]);
+  }, [dispatch, university]);
 
   useEffect(() => {
     if (colleges.length !== 0) {
@@ -114,7 +122,17 @@ export default function PersonalInformation({
 
   return (
     <section className={style.page.base}>
-      <p className={style.component.signIn.notification}>
+      <SignInModal
+        description={
+          <p>
+            비밀번호를<br />
+            정확히 입력해주세요.
+          </p>
+        }
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
+      <p className={"my-8 text-center text-pink-500"}>
         인증 완료!!<br/>
         다른 친구들에게 본인을 소개해보세요!
       </p>
@@ -124,31 +142,37 @@ export default function PersonalInformation({
           value={nickname}
           setValue={setNickname}
           type={"text"}
+          required={true}
         />
         <InformationInput
           label={"비밀번호"}
           value={password}
           setValue={setPassword}
           type={"text"}
+          required={true}
           isPassword={true}
         />
         <InformationInput
-          label={"휴대폰"}
-          value={phone}
-          setValue={setPhone}
+          label={"비밀번호 확인"}
+          value={passwordCheck}
+          setValue={setPasswordCheck}
           type={"text"}
+          required={true}
+          isPassword={true}
         />
         <InformationInput
           label={"생년월일"}
           value={birthday}
           setValue={setBirthday}
           type={"date"}
+          required={true}
         />
         <InformationInput
           label={"단과대"}
           value={selectedCollegeKey}
           setValue={setSelectedCollegeKey}
           type={"select"}
+          required={true}
           options={
             colleges.map((col) => ({ name: col.name, value: col.key }))
           }
@@ -158,8 +182,13 @@ export default function PersonalInformation({
           value={selectedMajorKey}
           setValue={setSelectedMajorKey}
           type={"select"}
+          required={true}
           options={
-            majors.map((m) => ({ name: m.name, value: m.key }))
+            college
+              ? majors
+                .filter((m) => m.college === college.key)
+                .map((m) => ({ name: m.name, value: m.key }))
+              : []
           }
         />
         <InformationInput
@@ -167,6 +196,7 @@ export default function PersonalInformation({
           value={gender}
           setValue={setGender}
           type={"select"}
+          required={true}
           options={[
             { name: "남자", value: Gender.MALE },
             { name: "여자", value: Gender.FEMALE },
@@ -177,6 +207,7 @@ export default function PersonalInformation({
           value={targetGender}
           setValue={setTargetGender}
           type={"select"}
+          required={true}
           options={[
             { name: "남자", value: Gender.MALE },
             { name: "여자", value: Gender.FEMALE },
@@ -185,6 +216,12 @@ export default function PersonalInformation({
         />
       </section>
       <section className={style.component.signIn.buttonWrapper}>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={backOnClick}
+        >
+          뒤로 가기
+        </button>
         <button
           className={`${style.button.base} ${style.button.colorSet.main}`}
           onClick={confirmOnClick}

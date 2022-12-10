@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { createTheme, Tab, Tabs, ThemeProvider } from "@mui/material";
 import AppBar from "../component/AppBar";
@@ -9,10 +10,9 @@ import PitapatSent from "../component/pitapat/PitapatSent";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
-import { getPitapatReceivers, getPitapatSenders, selectUser } from "../store/slices/user";
+import { getPitapatReceivers, getPitapatSenders, selectUser, userActions } from "../store/slices/user";
+import { savePageYPosition, scrollToPrevPosition } from "../util/pageScroll";
 
-
-type TabIndex = 0 | 1;
 
 const theme = createTheme({
   palette: {
@@ -26,7 +26,26 @@ export default function PitapatList() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
-  const [selectedTabIndex, setSelectedTabIndex] = useState<TabIndex>(0);
+  const pitapatListTabIndex = useSelector(selectUser).pitapatListTabIndex;
+  const urlPath = useLocation().pathname;
+  const pageBody = useRef<HTMLDivElement>(null);
+
+  const saveYPositionFromReceived = useCallback(() => {
+    savePageYPosition(pageBody, urlPath, true, true);
+  }, [pageBody, urlPath]);
+
+  const saveYPositionFromSent = useCallback(() => {
+    savePageYPosition(pageBody, urlPath, true, false);
+  }, [pageBody, urlPath]);
+
+  useEffect(() => {
+    if (pitapatListTabIndex === 0) {
+      scrollToPrevPosition(pageBody, urlPath, true, true);
+    }
+    else {
+      scrollToPrevPosition(pageBody, urlPath, true, false);
+    }
+  }, [pageBody, pitapatListTabIndex, urlPath]);
 
   useEffect(() => {
     if (!loginUser) {
@@ -40,30 +59,36 @@ export default function PitapatList() {
 
   return (
     <section className={`${style.page.base} ${style.page.margin.topWithTab} ${style.page.margin.bottom}`}>
-      <AppBar/>
+      <AppBar saveYPosition={pitapatListTabIndex === 0? saveYPositionFromReceived : saveYPositionFromSent}/>
       <ThemeProvider theme={theme}>
         <Tabs
           className={"top-12 w-full flex flex-row h-12 z-10 fixed"}
-          value={selectedTabIndex}
-          onChange={(_, newValue) => setSelectedTabIndex(newValue)}
+          value={pitapatListTabIndex}
+          onChange={(_, newValue) => dispatch(userActions.setPitapatListTabIndex(newValue))}
           sx={{
             backgroundColor: "white",
           }}
           textColor={"primary"}
           variant={"fullWidth"}
+          onClick={pitapatListTabIndex === 0? saveYPositionFromReceived : saveYPositionFromSent}
         >
           <Tab label={"받은 두근"}/>
           <Tab label={"보낸 두근"}/>
         </Tabs>
       </ThemeProvider>
-      <section className={style.page.body}>
+      <section
+        className={style.page.body}
+        role={"presentation"}
+        ref={pageBody}
+        onClick={pitapatListTabIndex === 0? saveYPositionFromReceived : saveYPositionFromSent}
+      >
         {
-          selectedTabIndex === 0 ?
+          pitapatListTabIndex === 0 ?
             (<PitapatReceived/>) :
             (<PitapatSent/>)
         }
       </section>
-      <NavigationBar/>
+      <NavigationBar saveYPosition={pitapatListTabIndex === 0? saveYPositionFromReceived : saveYPositionFromSent}/>
     </section>
   );
 }

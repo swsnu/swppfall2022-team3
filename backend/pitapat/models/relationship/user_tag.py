@@ -1,8 +1,8 @@
 from django.db import models
 
-from ..custom_field.unsigned_auto_field import UnsignedAutoField
-from ..tag import Tag
-from ..user import User
+from pitapat.models.custom_field.unsigned_auto_field import UnsignedAutoField
+from pitapat.models.tag import Tag
+from pitapat.models.user import User
 
 
 class UserTag(models.Model):

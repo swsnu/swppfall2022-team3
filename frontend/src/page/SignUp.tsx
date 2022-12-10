@@ -11,6 +11,7 @@ import UniversitySelect from "../component/signup/UniversitySelect";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { selectUser } from "../store/slices/user";
+import { photoUrl, userUrl } from "../store/urls";
 import { College, Gender, Major, Tag, University } from "../types";
 import { dateToString } from "../util/date";
 
@@ -23,7 +24,6 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [college, setCollege] = useState<College | null>(null);
   const [major, setMajor] = useState<Major | null>(null);
@@ -32,6 +32,7 @@ export default function SignUp() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [introduction, setIntroduction] = useState<string>("");
   const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
+  const [isOpenTimeoutModal, setIsOpenTimeoutModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,10 +42,9 @@ export default function SignUp() {
   }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(async () => {
-    const user = await axios.post("/user/", {
+    const user = await axios.post(`${userUrl}/`, {
       email: email,
       password: password,
-      phone: phone,
       nickname: nickname,
       gender: gender,
       interested_gender: interestedGender,
@@ -56,16 +56,16 @@ export default function SignUp() {
       tags: tags.map((tag) => tag.key),
     });
 
-    uploadedPhotos.forEach(async (photo) => {
+    for (const photo of uploadedPhotos) {
       const form = new FormData();
       form.append("file", photo);
-      await axios.post(`/photo/user/${user.data.key}/`, form, {
+      await axios.post(`${photoUrl}/user/${user.data.key}/`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Content-Disposition": `form-data; filename=${photo.name};`,
         },
       });
-    });
+    }
 
     navigate("/signin");
   }, [
@@ -73,7 +73,6 @@ export default function SignUp() {
     university,
     email,
     password,
-    phone,
     nickname,
     gender,
     interestedGender,
@@ -95,6 +94,8 @@ export default function SignUp() {
         setUniversity={setUniversity}
         setEmail={setEmail}
         setStep={setStep}
+        isOpenTimeoutModal={isOpenTimeoutModal}
+        setIsOpenTimeoutModal={setIsOpenTimeoutModal}
       />;
     case 1:
       return <EmailVerification
@@ -103,6 +104,8 @@ export default function SignUp() {
         setRequestTime={setRequestTime}
         limitSec={3 * 60}
         setStep={setStep}
+        isOpenTimeoutModal={isOpenTimeoutModal}
+        setIsOpenTimeoutModal={setIsOpenTimeoutModal}
       />;
     case 2:
       return <PersonalInformation
@@ -110,8 +113,6 @@ export default function SignUp() {
         setNickname={setNickname}
         password={password}
         setPassword={setPassword}
-        phone={phone}
-        setPhone={setPhone}
         birthday={birthday}
         setBirthday={setBirthday}
         university={university}
@@ -139,7 +140,6 @@ export default function SignUp() {
       />;
     case 5:
       return <ImageUpload
-        uploadedPhotos={uploadedPhotos}
         setUploadedPhotos={setUploadedPhotos}
         setStep={setStep}
       />;
@@ -168,7 +168,6 @@ export default function SignUp() {
     email,
     nickname,
     password,
-    phone,
     birthday,
     college,
     major,
@@ -176,8 +175,9 @@ export default function SignUp() {
     interestedGender,
     tags,
     introduction,
-    uploadedPhotos,
+    isOpenTimeoutModal,
     confirmOnClick,
+    setIsOpenTimeoutModal,
   ]);
 
   return getPage(step);

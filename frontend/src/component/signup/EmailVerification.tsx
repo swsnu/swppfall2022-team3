@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import style from "../../constant/style";
+import { authEmailUrl, authVerifyUrl } from "../../store/urls";
+import SignInModal from "../SignInModal";
 import InformationInput from "./InformationInput";
 
 
@@ -8,19 +10,24 @@ export interface IProps {
   email: string;
   limitSec: number;
   requestTime: Date;
+  isOpenTimeoutModal: boolean;
   setRequestTime: Dispatch<SetStateAction<Date>>;
   setStep: Dispatch<SetStateAction<number>>;
+  setIsOpenTimeoutModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function EmailVerification({
   email,
   limitSec,
   requestTime,
+  isOpenTimeoutModal,
   setRequestTime,
   setStep,
+  setIsOpenTimeoutModal,
 }: IProps) {
   const [sec, setSec] = useState<number>(limitSec);
   const [code, setCode] = useState<string>("");
+  const [wrongModalOpen, setWrongModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -29,16 +36,16 @@ export default function EmailVerification({
       }
       else {
         clearInterval(countdown);
-        alert("입력 가능한 시간이 지났습니다. 다시 학교 이메일을 입력해주세요.");
+        setIsOpenTimeoutModal(true);
         setStep(0);
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [sec, setSec, setStep]);
+  }, [sec, setIsOpenTimeoutModal, setSec, setStep]);
 
   const resendOnClick = useCallback(async () => {
     setRequestTime(new Date());
-    await axios.post("/auth/email/", {
+    await axios.post(`${authEmailUrl}/`, {
       email: email,
       request_time: requestTime,
     });
@@ -47,7 +54,7 @@ export default function EmailVerification({
 
   const confirmOnClick = useCallback(async () => {
     try {
-      const result = await axios.post("/auth/verify/", {
+      const result = await axios.post(`${authVerifyUrl}/`, {
         email: email,
         request_time: requestTime,
         code: code,
@@ -56,15 +63,25 @@ export default function EmailVerification({
         setStep(2);
       }
     } catch (_) {
-      alert("잘못된 인증코드입니다 \n다시 한 번 확인해주세요.");
+      setWrongModalOpen(true);
     }
   }, [email, requestTime, code, setStep]);
 
   return (
     <section className={style.page.base}>
+      <SignInModal
+        description={
+          <p>
+            잘못된 인증코드입니다.<br/>
+            다시 한 번 확인해주세요.
+          </p>
+        }
+        modalOpen={wrongModalOpen}
+        setModalOpen={setWrongModalOpen}
+      />
       <section className={"flex-1 w-full"}>
         <p className={style.component.signIn.notification}>
-          인증 코드가 발송되었습니다!<br />
+          인증 코드가 발송되었습니다!<br/>
           이메일을 확인해주세요.
         </p>
         <div className={"flex flex-row justify-center"}>
@@ -73,6 +90,7 @@ export default function EmailVerification({
             value={code}
             setValue={setCode}
             type={"text"}
+            required={true}
           />
           <div className={"m-2"}>
             {`${Math.floor(sec / 60)}:`}{(sec % 60) < 10 ? `0${sec % 60}` : `${sec % 60}`}
@@ -81,16 +99,22 @@ export default function EmailVerification({
       </section>
       <section className={style.component.signIn.buttonWrapper}>
         <button
-          className={`${style.button.base} ${style.button.colorSet.main} mb-2`}
-          onClick={confirmOnClick}
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
+          onClick={() => setStep(0)}
         >
-          확인
+          뒤로 가기
         </button>
         <button
-          className={`${style.button.base} ${style.button.colorSet.secondary}`}
+          className={`${style.button.base} ${style.button.colorSet.secondary} mb-2`}
           onClick={resendOnClick}
         >
           재전송
+        </button>
+        <button
+          className={`${style.button.base} ${style.button.colorSet.main}`}
+          onClick={confirmOnClick}
+        >
+          확인
         </button>
       </section>
     </section>

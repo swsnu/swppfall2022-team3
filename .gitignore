@@ -250,6 +250,8 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+.env.development
+.env.production
 
 # parcel-bundler cache (https://parceljs.org/)
 .parcel-cache
@@ -418,12 +420,26 @@ sketch
 # django
 backend/backend/.secrets/
 backend/backend/secrets.tar
+backend/static
 
 # sample image
 frontend/public/psa.jpeg
 
 # yarn.lock
 yarn.lock
+# package-lock
+/frontend/package-lock.json
+# .env
+/frontend/.env.development
+/frontend/.env.local
+/frontend/.env.production
+/frontend/nginx.conf
 
 # coverage
 coverage.json
+
+# ide
+.idea
+
+# shell scripts
+*.sh

@@ -12,6 +12,11 @@ jest.mock("react-router", () => ({
   useNavigate: () => mockNavigate,
 }));
 
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => async () => Promise.resolve({ type: "user/getuser/fulfilled", payload: null, meta: {} }),
+}));
+
 const mockIPropsReceived: IProps = {
   sender: users[3],
   content: "hi",
@@ -54,10 +59,9 @@ describe("ChatBox", () => {
     expect(image).toBeInTheDocument();
   });
 
-  it("should navigate to other user's detail page when image is clicked", () => {
+  it("should redirect profile page when profile button clicked", () => {
     render(getElement(mockIPropsReceived));
-    const image = screen.getByRole("img");
-    fireEvent.click(image);
-    expect(mockNavigate).toBeCalled();
+    const profileButton = screen.getByRole("button");
+    fireEvent.click(profileButton);
   });
 });

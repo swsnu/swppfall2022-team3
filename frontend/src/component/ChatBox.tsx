@@ -1,7 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { selectUser } from "../store/slices/user";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import paths from "../constant/path";
+import { AppDispatch } from "../store";
+import { getUser, selectUser } from "../store/slices/user";
 import { User } from "../types";
 
 
@@ -19,7 +21,14 @@ export default function ChatBox({
   sender,
 }: IProps) {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
+
+  const profileOnClick = useCallback(async () => {
+    dispatch(getUser(sender.key)).then(() => {
+      navigate(paths.profile);
+    });
+  }, [navigate, sender.key, dispatch]);
 
   return (
     loginUser && (loginUser.key === sender.key) ?
@@ -32,7 +41,7 @@ export default function ChatBox({
         <article className={"flex p-2 w-full"}>
           <button
             className={"flex flex-col"}
-            onClick={() => navigate("/profile/" + sender)}
+            onClick={profileOnClick}
           >
             <img
               className={"w-10 h-10 m-2 bg-blue-100 rounded-full justify-self-top"}

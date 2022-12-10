@@ -18,7 +18,7 @@ class UserChatroomTestCase(TestCase):
         user_chatroom = UserChatroom.objects.create(user=user_one, chatroom=chatroom)
         UserChatroom.objects.create(user=user_two, chatroom=chatroom)
 
-        response = client.get(f'/user/{user_one.key}/chatroom/')
+        response = client.get(f'/api/user/{user_one.key}/chatroom/')
         self.assertEqual(response.status_code, 200)
 
         self.assertEqual(str(user_chatroom), f'user {user_one.key} - chatroom {chatroom.key}')

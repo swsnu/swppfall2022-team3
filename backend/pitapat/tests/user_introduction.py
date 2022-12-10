@@ -31,10 +31,10 @@ class UserIntroductionTestCase(TestCase):
         #                       content_type='application/json')
         #self.assertEqual(response.status_code, 200)
 
-        response = client.put(f'/user/{user_one.key}/introduction/')
+        response = client.put(f'/api/user/{user_one.key}/introduction/')
         self.assertEqual(response.status_code, 404)
 
-        response = client.put(f'/user/{user_one.key}/introduction/',
+        response = client.put(f'/api/user/{user_one.key}/introduction/',
                                json.dumps({'content': 'hello'}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 200)

@@ -1,6 +1,9 @@
 import json
+import tempfile
+from datetime import date
 from django.test import TestCase, Client
-from ..models import University, College, Major, Tag, User
+from PIL import Image
+from ..models import University, College, Major, Tag, User, Chatroom, UserChatroom
 
 
 class UserTestCase(TestCase):
@@ -22,17 +25,19 @@ class UserTestCase(TestCase):
         self.tag.save()
         tag = Tag.objects.create(name='sleep', type='HOBBY')
         tag.save()
+        User.objects.create(nickname='a', email='snu1@snu.ac.kr', university=self.university,
+                                    college=college, major=major, birthday=date.today(),
+                                    phone='000-0000-0000').save()
 
     def test_user(self):
         client = Client()
 
-        response = client.post('/user/')
+        response = client.post('/api/user/')
         self.assertEqual(response.status_code, 400)
 
-        response = client.post('/user/',
+        response = client.post('/api/user/',
                                json.dumps({'email': 'user1@snu.ac.kr',
                                            'password': 'qwe123',
-                                           'phone': '010-0000-000',
                                            'nickname': 'abc',
                                            'gender': 'M',
                                            'interested_gender': 'F',
@@ -46,14 +51,20 @@ class UserTestCase(TestCase):
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
-        client.post('/auth/login/',
+        client.post('/api/auth/login/',
                     json.dumps({'username': 'abc',
                                 'email': 'user1@snu.ac.kr',
                                 'password': 'qwe123'
                                 }),
                     content_type='application/json')
 
-        response = client.get('/user/',
+        user = User.objects.get(nickname='abc')
+        user_name_a = User.objects.get(nickname='a')
+        chatroom = Chatroom.objects.create(user_count=2)
+        UserChatroom.objects.create(user=user_name_a, chatroom=chatroom)
+        UserChatroom.objects.create(user=user, chatroom=chatroom)
+
+        response = client.get('/api/user/',
                               ({'page': 1,
                                 'gender': 'M',
                                 'age_min': 11,
@@ -70,10 +81,9 @@ class UserTestCase(TestCase):
 
     def test_user_detail(self):
         client = Client()
-        client.post('/user/',
+        client.post('/api/user/',
                     json.dumps({'email': 'user1@snu.ac.kr',
                                 'password': 'qwe123',
-                                'phone': '010-0000-000',
                                 'nickname': 'abc',
                                 'gender': 'M',
                                 'interested_gender': 'F',
@@ -87,5 +97,22 @@ class UserTestCase(TestCase):
 
         user = User.objects.get(nickname='abc')
         self.assertEqual(str(user), user.email)
-        response = client.delete(f'/user/{user.key}/')
+
+        image = Image.new('RGB', (100, 100))
+        with tempfile.NamedTemporaryFile(suffix='.jpg') as file:
+            tmp_file = file
+            image.save(tmp_file)
+            tmp_file.seek(0)
+            response = client.post(f'/api/photo/user/{user.key}/',
+                                   {'file': tmp_file},
+                                   format='multipart'
+                                   )
+
+        response = client.delete(f'/api/user/{user.key}/')
         self.assertEqual(response.status_code, 204)
+
+    def test_user_exist(self):
+        client = Client()
+
+        response = client.get('/api/user/exist/snu1@snu.ac.kr')
+        self.assertEqual(response.status_code, 200)

@@ -10,20 +10,20 @@ class AuthTestCase(TestCase):
 
     def test_auth_email(self):
         client = Client()
-        email = 'tjd3507@snu.ac.kr'
+        email = 'testemail@snu.ac.kr'
         request_time = '2022-11-18 16:59:42'
 
-        response = client.post('/auth/email/')
+        response = client.post('/api/auth/email/')
         self.assertEqual(response.status_code, 400)
 
-        response = client.post('/auth/email/',
+        response = client.post('/api/auth/email/',
                                json.dumps({'email': 'snu1@snu.ac.kr',
                                            'request_time': request_time
                                            }),
                                content_type='application/json')
         self.assertEqual(response.status_code, 409)
 
-        response = client.post('/auth/email/',
+        response = client.post('/api/auth/email/',
                                json.dumps({'email': email,
                                            'request_time': request_time
                                            }),
@@ -32,14 +32,14 @@ class AuthTestCase(TestCase):
 
     def test_auth_verify(self):
         client = Client()
-        email = 'tjd3507@snu.ac.kr'
+        email = 'testemail@snu.ac.kr'
         request_time = '2022-11-18 16:59:42'
         code = create_verification_code(email, request_time)
 
-        response = client.post('/auth/verify/')
+        response = client.post('/api/auth/verify/')
         self.assertEqual(response.status_code, 400)
 
-        response = client.post('/auth/verify/',
+        response = client.post('/api/auth/verify/',
                                json.dumps({'email': email,
                                            'request_time': request_time,
                                            'code': 'aaaaaa'
@@ -47,7 +47,7 @@ class AuthTestCase(TestCase):
                                content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
-        response = client.post('/auth/verify/',
+        response = client.post('/api/auth/verify/',
                                json.dumps({'email': email,
                                            'request_time': request_time,
                                            'code': code

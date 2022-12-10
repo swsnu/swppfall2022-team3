@@ -120,7 +120,7 @@ The functionality and the requirement for each page are described below.
 #### API
 
 | Model            | API                                        | GET                                           | POST                                    | PUT                            | DELETE                                                       |
-| ---------------- | ------------------------------------------ | --------------------------------------------- | --------------------------------------- | ------------------------------ | ------------------------------------------------------------ |
+| ---------------- |--------------------------------------------| --------------------------------------------- |-----------------------------------------| ------------------------------ | ------------------------------------------------------------ |
 | **University**   | `/university/`                             | get universities                              | X                                       | X                              | X                                                            |
 | **College**      | `/college/university/<int:university_key>` | get colleges of a university                  | X                                       | X                              | X                                                            |
 | **Major**        | `/major/college/<int:college_key>`         | get majors of a college                       | X                                       | X                              | X                                                            |
@@ -140,8 +140,8 @@ The functionality and the requirement for each page are described below.
 |                  | `/user/<int:user_key>/pitapat/to/`         | get pitapats to a user                        | X                                       | X                              | X                                                            |
 | **Chatroom**     | `/chatroom/<int:chatroom_key>/user/`       | get user list in a chatroom                   | X                                       | X                              | X                                                            |
 |                  | `/user/<int:user_key>/chatroom/`           | get chatroom list of a user                   | X                                       | X                              | X                                                            |
-| **Block**        | `/block/user/<int:user_key>`               | get blocks from a user                        | create new block from a user            | X                              | X                                                            |
-|                  | `/block/<int:key>`                         | X                                             | X                                       | X                              | delete a block                                               |
+| **Block**        | `/block/user/<int:user_key>`               | get blocks from a user                        | X                                       | X                              | X                                                            |
+|                  | `/block/`                                  | X                                             | create new block from a user            | X                              | delete a block                                               |
 
 #### HTTP Data Format
 
@@ -974,24 +974,25 @@ Frontend development is prioritized before the mid-presentation for demo. Backen
 
 ### Backend
 
-|      | API                             | Feature                                   | Dependency | Difficulties | Time | Sprints | Challenges                             |
-| ---- | ------------------------------- | ----------------------------------------- | ---------- | ------------ | ---- | ------- | -------------------------------------- |
-| 1    | `/auth/email/`                  | Receive email to send verification code   |            | 3            | 3    | 4       |                                        |
-| 2    | `/auth/verify/`                 | Check email authentication code           | 1          | 3            | 3    | 4       |                                        |
-| 3    | `/user/`                        | Get user list and create a user           |            | 5            | 5    | 4       | Filter users according to request body |
-| 4    | `/user/login/`                  | Log in                                    |            | 2            | 2    | 4       |                                        |
-| 5    | `/user/logout/`                 | Log out                                   | 3          | 2            | 2    | 4       |                                        |
-| 6    | `/user/<id:int>/`               | Get, edit, and delete a user              | 2          | 3            | 4    | 4       |                                        |
-| 7    | `/univ/`                        | Get univeresity list                      |            | 1            | 1    | 4       |                                        |
-| 8    | `/univ/<id:int>/`               | Get a university                          |            | 1            | 1    | 4       |                                        |
-| 9    | `/photo/`                       | Create a photo                            |            | 5            | 5    | 4       | Using AWS S3                           |
-| 10   | `/photo/<id:int>/`              | Get and delete a photo                    | 11         | 5            | 5    | 4       | Using AWS S3                           |
-| 11   | `/tag/`                         | Get and create a tag                      |            | 3            | 3    | 4       |                                        |
-| 12   | `/pitapat/from/<userid:int>/`   | Create a pitapat                          |            | 2            | 2    | 4       |                                        |
-| 13   | `/pitapat/to/<userid:int>/`     | Get pitapat list                          | 11         | 2            | 2    | 4       |                                        |
-| 14   | `/pitapat/<from:int>/<to:int>/` | Accept and delete a pitapat               | 11         | 3            | 3    | 4       |                                        |
-| 15   | `/block/<userid:int>/`          | Get block list and create, delete a block |            | 4            | 4    | 5       |                                        |
-| 16   | `/chat/<userid:int>/`           | Get chat list of a user                   |            | 2            | 2    | 5       |                                        |
+|     | API                             | Feature                                 | Dependency | Difficulties | Time | Sprints | Challenges                             |
+|-----|---------------------------------|-----------------------------------------| ---------- |--------------|------| ------- | -------------------------------------- |
+| 1   | `/auth/email/`                  | Receive email to send verification code |            | 3            | 3    | 4       |                                        |
+| 2   | `/auth/verify/`                 | Check email authentication code         | 1          | 3            | 3    | 4       |                                        |
+| 3   | `/user/`                        | Get user list and create a user         |            | 5            | 5    | 4       | Filter users according to request body |
+| 4   | `/user/login/`                  | Log in                                  |            | 2            | 2    | 4       |                                        |
+| 5   | `/user/logout/`                 | Log out                                 | 3          | 2            | 2    | 4       |                                        |
+| 6   | `/user/<id:int>/`               | Get, edit, and delete a user            | 2          | 3            | 4    | 4       |                                        |
+| 7   | `/user/<id:int>/blcok/`         | Get block list of a user                |            | 4            | 4    | 5       |                                        |
+| 8   | `/univ/`                        | Get univeresity list                    |            | 1            | 1    | 4       |                                        |
+| 9   | `/univ/<id:int>/`               | Get a university                        |            | 1            | 1    | 4       |                                        |
+| 10  | `/photo/`                       | Create a photo                          |            | 5            | 5    | 4       | Using AWS S3                           |
+| 11  | `/photo/<id:int>/`              | Get and delete a photo                  | 11         | 5            | 5    | 4       | Using AWS S3                           |
+| 12  | `/tag/`                         | Get and create a tag                    |            | 3            | 3    | 4       |                                        |
+| 13  | `/pitapat/from/<userid:int>/`   | Create a pitapat                        |            | 2            | 2    | 4       |                                        |
+| 14  | `/pitapat/to/<userid:int>/`     | Get pitapat list                        | 11         | 2            | 2    | 4       |                                        |
+| 15  | `/pitapat/<from:int>/<to:int>/` | Accept and delete a pitapat             | 11         | 3            | 3    | 4       |                                        |
+| 16  | `/block/`                       | create, delete a block                  |            | 4            | 4    | 5       |                                        |
+| 17  | `/chat/<userid:int>/`           | Get chat list of a user                 |            | 2            | 2    | 5       |                                        |
 
 ## Testing Plan
 

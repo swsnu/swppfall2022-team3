@@ -60,4 +60,18 @@ describe("Setting", () => {
     fireEvent.click(logoutButton);
     expect(mockDispatch).toBeCalled();
   });
+
+  it("should handle user blocking onClick", () => {
+    render(getElement(mockStore));
+    const userBlockArticle = screen.getByText("차단 유저 관리");
+    fireEvent.click(userBlockArticle);
+    expect(mockDispatch).toBeCalled();
+  });
+
+  it("should handle user information update onClick", () => {
+    render(getElement(mockStore));
+    const userBlockArticle = screen.getByText("회원정보 변경");
+    fireEvent.click(userBlockArticle);
+    expect(mockDispatch).toBeCalled();
+  });
 });
