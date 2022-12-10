@@ -2,8 +2,8 @@ import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } fro
 import axios from "axios";
 import style from "../../constant/style";
 import { authEmailUrl, authVerifyUrl } from "../../store/urls";
-import InformationInput from "./InformationInput";
 import SignInModal from "../SignInModal";
+import InformationInput from "./InformationInput";
 
 
 export interface IProps {
@@ -72,7 +72,7 @@ export default function EmailVerification({
       <SignInModal
         description={
           <p>
-            잘못된 인증코드입니다.<br />
+            잘못된 인증코드입니다.<br/>
             다시 한 번 확인해주세요.
           </p>
         }
@@ -81,7 +81,7 @@ export default function EmailVerification({
       />
       <section className={"flex-1 w-full"}>
         <p className={style.component.signIn.notification}>
-          인증 코드가 발송되었습니다!<br />
+          인증 코드가 발송되었습니다!<br/>
           이메일을 확인해주세요.
         </p>
         <div className={"flex flex-row justify-center"}>
