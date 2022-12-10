@@ -11,11 +11,20 @@ jest.mock("@mui/icons-material", () => ({
 }));
 
 jest.mock("../../component/signup/InformationInput", () =>
-  (props: {options: Tag[]}) =>
-    <div>{props.options.map((tag) => <div key={tag.key}>{tag.name}</div>)}</div>
+  (props: { options: Tag[] }) => (
+    <div>
+      {
+        props.options.map((tag, idx) => (
+          <div key={`${tag.key}_${idx}`}>
+            {tag.name}
+          </div>
+        ))
+      }
+    </div>
+  )
 );
 jest.mock("../../component/signup/TagElement", () =>
-  (props: {onDelete: () => void}) =>
+  (props: { onDelete: () => void }) =>
     <button onClick={props.onDelete}>delete</button>
 );
 
