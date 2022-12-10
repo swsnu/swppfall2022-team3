@@ -14,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     university = models.ForeignKey(University, models.RESTRICT, db_column='university_key')
     college = models.ForeignKey(College, models.RESTRICT, db_column='college_key')
     major = models.ForeignKey(Major, models.RESTRICT, db_column='major_key')
-    nickname = models.CharField(unique=True, max_length=30, db_column='nickname')
+    nickname = models.CharField(null=False, max_length=30, db_column='nickname')
     email = models.EmailField(unique=True, max_length=50)
     phone = models.CharField(null=True, max_length=20)
     status = models.CharField(max_length=1)
