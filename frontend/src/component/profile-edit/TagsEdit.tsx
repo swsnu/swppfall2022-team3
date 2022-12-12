@@ -70,7 +70,7 @@ export default function TagsEdit({ onModalClose }: IProps) {
     <section className={"h-fit w-fit flex flex-col items-center bg-white p-4 space-y-8"}>
       <section className={"space-y-4"}>
         <div>
-          테그들을 선택해 주세요.
+          수정할 태그를 선택해 주세요.
         </div>
         <section className={"w-full flex-1 flex flex-col items-center"}>
           <div className={"flex flex-row justify-center mt-8"}>

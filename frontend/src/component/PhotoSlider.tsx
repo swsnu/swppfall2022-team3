@@ -23,14 +23,20 @@ export default function PhotoSlider({
       dots={true}
       dotsClass={"dots"}
     >
-      {user.photos.map((photoPath, index) =>
+      {user.photos.length > 0 ?
+        user.photos.map((photoPath, index) =>
+          <img
+            key={index}
+            src={photoPath}
+            alt={photoPath}
+            className={"object-cover h-[100vw]"}
+          />
+        ) :
         <img
-          key={index}
-          src={photoPath}
-          alt={photoPath}
+          src={"/plus.jpeg"}
+          alt={"default"}
           className={"object-cover h-[100vw]"}
-        />
-      )}
+        />}
     </Slider>
   );
 }
