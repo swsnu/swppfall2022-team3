@@ -443,3 +443,6 @@ coverage.json
 
 # shell scripts
 *.sh
+
+# uwsgi settings
+uwsgi.ini
