@@ -12,7 +12,6 @@ const mockStore = getDefaultMockStore();
 const mockSetUniversity = jest.fn();
 const mockSetEmail = jest.fn();
 const mockSetStep = jest.fn();
-const mockSetIsOpenTimeoutModal = jest.fn();
 const mockNavigate = jest.fn();
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
@@ -30,13 +29,12 @@ describe("UniversitySelect", () => {
       <Provider store={mockStore}>
         <UniversitySelect
           university={university}
-          requestTime={new Date()}
           email={""}
-          isOpenTimeoutModal={false}
+          requestTime={new Date()}
+          timeout={false}
           setUniversity={mockSetUniversity}
           setEmail={mockSetEmail}
           setStep={mockSetStep}
-          setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
         />
       </Provider>
     );

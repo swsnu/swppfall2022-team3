@@ -27,25 +27,22 @@ export default function SignInModal({
       }}
       aria-describedby="modal-modal-description"
     >
-      <Box
-        sx={style}
-        className={"items-center rounded-md text-center mt-72 w-3/5 max-w-xs h-40"}
-      >
-        <section className={"h-24"}>
-          <article
-            className={"text-pink-400 p-4"}
-            id="modal-modal-description"
-          >
-            {description}
-          </article>
-        </section>
-        <button
-          className={`w-36 min-h-8 h-8 rounded-md text-center shadow ${style.button.colorSet.main}`}
-          onClick={handleClose}
+      <div className={"flex items-center w-3/5"}>
+        <Box
+          sx={style}
+          className={"flex-auto flex flex-col items-center px-4 rounded-md text-center max-w-xs"}
         >
+          <p className={"flex-auto h-fit mt-6 text-pink-400"}>
+            {description}
+          </p>
+          <button
+            className={`w-36 min-h-8 h-8 my-6 rounded-md text-center shadow ${style.button.colorSet.main}`}
+            onClick={handleClose}
+          >
           확인
-        </button>
-      </Box>
+          </button>
+        </Box>
+      </div>
     </Modal>
   );
 }

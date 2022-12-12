@@ -7,7 +7,6 @@ import EmailVerification from "../../../component/signup/EmailVerification";
 describe("EmailVerification", () => {
   const mockSetStep = jest.fn();
   const mockSetRequestTime = jest.fn();
-  const mockSetIsOpenTimeoutModal = jest.fn();
 
   function component() {
     return (
@@ -15,10 +14,9 @@ describe("EmailVerification", () => {
         email={""}
         limitSec={3 * 60}
         requestTime={new Date()}
-        isOpenTimeoutModal={false}
+        setTimeout={jest.fn()}
         setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
-        setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
       />
     );
   }
@@ -40,10 +38,9 @@ describe("EmailVerification", () => {
         email={""}
         limitSec={59}
         requestTime={new Date()}
-        isOpenTimeoutModal={false}
+        setTimeout={jest.fn()}
         setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
-        setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
       />
     );
 
@@ -94,11 +91,10 @@ describe("EmailVerification", () => {
       <EmailVerification
         email={""}
         limitSec={0}
-        isOpenTimeoutModal={false}
         requestTime={new Date()}
+        setTimeout={jest.fn()}
         setRequestTime={mockSetRequestTime}
         setStep={mockSetStep}
-        setIsOpenTimeoutModal={mockSetIsOpenTimeoutModal}
       />
     );
 

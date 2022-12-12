@@ -17,43 +17,61 @@ export interface IProps {
   university: University | null;
   email: string;
   requestTime: Date | undefined;
-  isOpenTimeoutModal: boolean;
+  timeout: boolean;
   setUniversity: Dispatch<SetStateAction<University | null>>;
   setEmail: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<number>>;
-  setIsOpenTimeoutModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function UniversitySelect({
   university,
   email,
   requestTime,
-  isOpenTimeoutModal,
+  timeout,
   setUniversity,
   setEmail,
   setStep,
-  setIsOpenTimeoutModal,
 }: IProps) {
   const universities = useSelector(selectUniversity).universities;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [selectedUniversityKey, setSelectedUniversityKey] = useState<number>(0);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [emailInput, setEmailInput] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<JSX.Element>(<div/>);
 
   const confirmOnClick = useCallback(async () => {
+    if (!university) {
+      setModalMessage(<p>대학을 선택해주세요.</p>);
+      setModalOpen(true);
+      return;
+    }
+    if (emailInput.length === 0) {
+      setModalMessage(<p>이메일을 입력해주세요.</p>);
+      setModalOpen(true);
+      return;
+    }
+
     const isExist = await axios.get(`${userUrl}/exist/${email}`);
     if (isExist.data.exists) {
+      setModalMessage(<p>해당 계정이 이미 존재합니다.</p>);
+      setModalOpen(true);
+      return;
+    }
+
+    await axios.post(`${authEmailUrl}/`, {
+      email: email,
+      request_time: requestTime,
+    });
+    setStep(1);
+  }, [university, emailInput, email, requestTime, setStep]);
+
+  useEffect(() => {
+    if (timeout) {
+      setModalMessage(<p>입력 가능한 시간이 지났습니다.<br/>다시 학교 이메일을 입력해주세요.</p>);
       setModalOpen(true);
     }
-    else {
-      await axios.post(`${authEmailUrl}/`, {
-        email: email,
-        request_time: requestTime,
-      });
-      setStep(1);
-    }
-  }, [email, requestTime, setStep]);
+  }, [timeout]);
 
   useEffect(() => {
     dispatch(getUniversities());
@@ -75,24 +93,7 @@ export default function UniversitySelect({
   return (
     <section className={style.page.base}>
       <SignInModal
-        description={
-          <p>
-            입력 가능한 시간이 지났습니다.<br/>
-            다시 학교 이메일을<br/>
-            입력해주세요.
-          </p>
-        }
-        modalOpen={isOpenTimeoutModal}
-        setModalOpen={setIsOpenTimeoutModal}
-      />
-      <SignInModal
-        description={
-          <p>
-            해당 계정이 이미 존재합니다.<br/>
-            다른 이메일을<br/>
-            입력해주세요.
-          </p>
-        }
+        description={modalMessage}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />

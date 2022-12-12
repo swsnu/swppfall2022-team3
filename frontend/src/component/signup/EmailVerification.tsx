@@ -8,26 +8,25 @@ import InformationInput from "./InformationInput";
 
 export interface IProps {
   email: string;
-  limitSec: number;
   requestTime: Date;
-  isOpenTimeoutModal: boolean;
+  limitSec: number;
   setRequestTime: Dispatch<SetStateAction<Date>>;
+  setTimeout: Dispatch<SetStateAction<boolean>>;
   setStep: Dispatch<SetStateAction<number>>;
-  setIsOpenTimeoutModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function EmailVerification({
   email,
-  limitSec,
   requestTime,
-  isOpenTimeoutModal,
+  limitSec,
   setRequestTime,
+  setTimeout,
   setStep,
-  setIsOpenTimeoutModal,
 }: IProps) {
   const [sec, setSec] = useState<number>(limitSec);
   const [code, setCode] = useState<string>("");
-  const [wrongModalOpen, setWrongModalOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<JSX.Element>(<div/>);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -36,12 +35,12 @@ export default function EmailVerification({
       }
       else {
         clearInterval(countdown);
-        setIsOpenTimeoutModal(true);
+        setTimeout(true);
         setStep(0);
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [sec, setIsOpenTimeoutModal, setSec, setStep]);
+  }, [sec, setTimeout, setSec, setStep]);
 
   const resendOnClick = useCallback(async () => {
     setRequestTime(new Date());
@@ -63,21 +62,17 @@ export default function EmailVerification({
         setStep(2);
       }
     } catch (_) {
-      setWrongModalOpen(true);
+      setModalOpen(true);
+      setModalMessage(<p>잘못된 인증코드입니다.<br/>다시 한 번 확인해주세요.</p>);
     }
   }, [email, requestTime, code, setStep]);
 
   return (
     <section className={style.page.base}>
       <SignInModal
-        description={
-          <p>
-            잘못된 인증코드입니다.<br/>
-            다시 한 번 확인해주세요.
-          </p>
-        }
-        modalOpen={wrongModalOpen}
-        setModalOpen={setWrongModalOpen}
+        description={modalMessage}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
       />
       <section className={"flex-1 w-full"}>
         <p className={style.component.signIn.notification}>

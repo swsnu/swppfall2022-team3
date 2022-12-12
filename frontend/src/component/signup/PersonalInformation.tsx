@@ -5,6 +5,7 @@ import { AppDispatch } from "../../store";
 import { getColleges, selectCollege } from "../../store/slices/college";
 import { getMajorsByUniversity, selectMajor } from "../../store/slices/major";
 import { College, Gender, Major, University } from "../../types";
+import { getKoreanAge } from "../../util/date";
 import SignInModal from "../SignInModal";
 import InformationInput from "./InformationInput";
 
@@ -53,24 +54,53 @@ export default function PersonalInformation({
   const [selectedCollegeKey, setSelectedCollegeKey] = useState<number>(colleges.length === 0 ? 0 : colleges[0].key);
   const [selectedMajorKey, setSelectedMajorKey] = useState<number>(majors.length === 0 ? 0 : majors[0].key);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<JSX.Element>(<div/>);
 
   const confirmOnClick = useCallback(() => {
-    if (password !== passwordCheck) {
+    if (nickname.length === 0) {
+      setModalMessage(<p>닉네임을 입력해주세요.</p>);
       setModalOpen(true);
+      return;
     }
-    else if (
-      nickname &&
-      birthday &&
-      ((college?.key ?? 0) > 0) &&
-      ((major?.key ?? 0) > 0) &&
-      gender &&
-      targetGender
-    ) {
-      setStep(3);
+    if (password !== passwordCheck) {
+      setModalMessage(<p>비밀번호 확인 값이 일치하지 않습니다.</p>);
+      setModalOpen(true);
+      return;
     }
-    else {
-      // do something later
+    if (password.length < 8) {
+      setModalMessage(<p>비밀번호가 너무 짧습니다.</p>);
+      setModalOpen(true);
+      return;
     }
+    const ageThreshold = 19;
+    if (getKoreanAge(birthday) < ageThreshold) {
+      setModalMessage(<p>{new Date().getFullYear() - (ageThreshold - 1)}년생 이상만 가입 가능합니다.</p>);
+      setModalOpen(true);
+      return;
+    }
+    if (!college) {
+      setModalMessage(<p>단과대를 선택해주세요.</p>);
+      setModalOpen(true);
+      return;
+    }
+    if (!major) {
+      setModalMessage(<p>학과를 선택해주세요.</p>);
+      setModalOpen(true);
+      return;
+    }
+    if (!gender) {
+      setModalMessage(<p>성별을 선택해주세요.</p>);
+      setModalOpen(true);
+      return;
+    }
+    if (!targetGender) {
+      setModalMessage(<p>관심성별을 선택해주세요.</p>);
+      setModalOpen(true);
+      return;
+    }
+
+    setStep(3);
+
   }, [password, passwordCheck, setStep, nickname, birthday, college, major, gender, targetGender]);
 
   const backOnClick = useCallback(() => {
@@ -119,16 +149,10 @@ export default function PersonalInformation({
     setMajor(targetMajor ?? null);
   }, [setMajor, selectedMajorKey, majors]);
 
-
   return (
     <section className={style.page.base}>
       <SignInModal
-        description={
-          <p>
-            비밀번호를<br />
-            정확히 입력해주세요.
-          </p>
-        }
+        description={modalMessage}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
       />
