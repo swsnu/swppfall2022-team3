@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import EmailVerification from "../component/signup/EmailVerification";
 import ImageUpload from "../component/signup/ImageUpload";
 import Introduction from "../component/signup/Introduction";
@@ -42,31 +42,42 @@ export default function SignUp() {
   }, [navigate, loginUser]);
 
   const confirmOnClick = useCallback(async () => {
-    const user = await axios.post(`${userUrl}/`, {
-      email: email,
-      password: password,
-      nickname: nickname,
-      gender: gender,
-      interested_gender: interestedGender,
-      birthday: dateToString(birthday),
-      university: university?.key,
-      college: college?.key,
-      major: major?.key,
-      introduction: introduction,
-      tags: tags.map((tag) => tag.key),
-    });
-
-    for (const photo of uploadedPhotos) {
-      const form = new FormData();
-      form.append("file", photo);
-      await axios.post(`${photoUrl}/user/${user.data.key}/`, form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Content-Disposition": `form-data; filename=${photo.name};`,
-        },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let user: AxiosResponse<any, any> | undefined;
+    try {
+      user = await axios.post(`${userUrl}/`, {
+        email: email,
+        password: password,
+        nickname: nickname,
+        gender: gender,
+        interested_gender: interestedGender,
+        birthday: dateToString(birthday),
+        university: university?.key,
+        college: college?.key,
+        major: major?.key,
+        introduction: introduction,
+        tags: tags.map((tag) => tag.key),
       });
+    } catch (_) {
+      alert("회원가입에 실패하였습니다.");
     }
 
+    if (user) {
+      for (const photo of uploadedPhotos) {
+        const form = new FormData();
+        form.append("file", photo);
+        try {
+          await axios.post(`${photoUrl}/user/${user.data.key}/`, form, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              "Content-Disposition": `form-data; filename=${photo.name};`,
+            },
+          });
+        } catch (_) {
+          alert("사진 업로드에 실패하였습니다.");
+        }
+      }
+    }
     navigate("/signin");
   }, [
     navigate,
