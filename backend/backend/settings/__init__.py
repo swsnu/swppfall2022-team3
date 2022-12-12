@@ -175,8 +175,8 @@ DEFAULT_AUTO_FIELD = 'pitapat.models.custom_field.unsigned_auto_field.UnsignedAu
 IMAGE_URL = get_external_value(f'{BASE_DIR}/backend/.secrets/s3.json', 'url')
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_CUSTOM_DOMAIN = 'pitapatcampus.s3.ap-northeast-2.amazonaws.com'
 
 AWS_S3_ACCESS_KEY_ID = get_external_value(f'{BASE_DIR}/backend/.secrets/s3.json', 'access_key_id')
 AWS_S3_SECRET_ACCESS_KEY = get_external_value(f'{BASE_DIR}/backend/.secrets/s3.json', 'secret_access_key')
