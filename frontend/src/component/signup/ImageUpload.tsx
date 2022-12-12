@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import style from "../../constant/style";
+import AlertModal from "../AlertModal";
 import ImageUploadIcon from "./ImageUploadIcon";
 
 
@@ -39,6 +40,8 @@ export default function ImageUpload({
     () => photoInfos.filter((p) => p.file !== null).length,
     [photoInfos]
   );
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<JSX.Element>(<div/>);
 
   const setIthPhoto = useCallback((i: number, file: File) => {
     const newPhotos: FixedSizePhotoInfoArray = [...photoInfos];
@@ -64,6 +67,12 @@ export default function ImageUpload({
   }, [photoInfos, setPhotoInfos]);
 
   const confirmOnClick = useCallback(() => {
+    if (photoInfos.filter((info) => (info.file !== null)).length === 0) {
+      setModalMessage(<p>최소한 한 장의 사진이<br/>있어야 해요.</p>);
+      setModalOpen(true);
+      return;
+    }
+
     setUploadedPhotos(
       photoInfos
         .filter((info) => (info.file !== null))
@@ -80,6 +89,11 @@ export default function ImageUpload({
 
   return (
     <section className={style.page.base}>
+      <AlertModal
+        description={modalMessage}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       <p className={style.component.signIn.notification}>
         나를 대표할 수 있는<br/>
         사진을 올려주세요!

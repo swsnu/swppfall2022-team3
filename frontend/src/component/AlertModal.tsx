@@ -9,7 +9,7 @@ export interface IProps {
   setModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function SignInModal({
+export default function AlertModal({
   description,
   modalOpen,
   setModalOpen,

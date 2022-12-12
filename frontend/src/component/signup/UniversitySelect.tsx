@@ -9,7 +9,7 @@ import { AppDispatch } from "../../store";
 import { getUniversities, selectUniversity } from "../../store/slices/university";
 import { userUrl, authEmailUrl } from "../../store/urls";
 import { University } from "../../types";
-import SignInModal from "../SignInModal";
+import AlertModal from "../AlertModal";
 import InformationInput from "./InformationInput";
 
 
@@ -92,7 +92,7 @@ export default function UniversitySelect({
 
   return (
     <section className={style.page.base}>
-      <SignInModal
+      <AlertModal
         description={modalMessage}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}

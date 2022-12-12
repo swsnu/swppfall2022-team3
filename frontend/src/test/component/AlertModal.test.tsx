@@ -1,14 +1,14 @@
 import * as React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import SignInModal from "../../component/SignInModal";
+import AlertModal from "../../component/AlertModal";
 
 
 const mockSetModalOpen = jest.fn();
 
-describe("SignInModal", () => {
+describe("AlertModal", () => {
   function getElement() {
     return (
-      <SignInModal
+      <AlertModal
         description={"test"}
         modalOpen={true}
         setModalOpen={mockSetModalOpen}

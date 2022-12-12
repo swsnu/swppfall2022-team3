@@ -6,7 +6,7 @@ import { getColleges, selectCollege } from "../../store/slices/college";
 import { getMajorsByUniversity, selectMajor } from "../../store/slices/major";
 import { College, Gender, Major, University } from "../../types";
 import { getKoreanAge } from "../../util/date";
-import SignInModal from "../SignInModal";
+import AlertModal from "../AlertModal";
 import InformationInput from "./InformationInput";
 
 
@@ -63,7 +63,7 @@ export default function PersonalInformation({
       return;
     }
     if (password !== passwordCheck) {
-      setModalMessage(<p>비밀번호 확인 값이 일치하지 않습니다.</p>);
+      setModalMessage(<p>비밀번호 확인 값이<br/>일치하지 않습니다.</p>);
       setModalOpen(true);
       return;
     }
@@ -151,7 +151,7 @@ export default function PersonalInformation({
 
   return (
     <section className={style.page.base}>
-      <SignInModal
+      <AlertModal
         description={modalMessage}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}

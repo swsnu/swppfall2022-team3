@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } fro
 import axios from "axios";
 import style from "../../constant/style";
 import { authEmailUrl, authVerifyUrl } from "../../store/urls";
-import SignInModal from "../SignInModal";
+import AlertModal from "../AlertModal";
 import InformationInput from "./InformationInput";
 
 
@@ -69,7 +69,7 @@ export default function EmailVerification({
 
   return (
     <section className={style.page.base}>
-      <SignInModal
+      <AlertModal
         description={modalMessage}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}

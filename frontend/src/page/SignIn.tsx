@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { TextField } from "@mui/material";
-import SignInModal from "../component/SignInModal";
+import AlertModal from "../component/AlertModal";
 import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
@@ -38,7 +38,7 @@ export default function SignIn() {
 
   return (
     <section className={style.page.base}>
-      <SignInModal
+      <AlertModal
         description={
           <p>
             로그인에 실패했습니다.<br />
