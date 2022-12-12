@@ -45,7 +45,7 @@ export default function IntroEdit({ onModalClose }: IProps) {
     <section className={"h-fit w-[90vw] max-w-[400px] flex flex-col items-center bg-white p-4 space-y-8"}>
       <section className={"space-y-4"}>
         <div>
-          소개글이 수정 가능합니다.
+          소개글 수정이 가능합니다.
         </div>
         <section className="flex-1 flex flex-col justify-start">
           <textarea
