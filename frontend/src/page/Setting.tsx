@@ -13,27 +13,28 @@ import { chatAction } from "../store/slices/chat";
 import { fetchSignout, getBlockedUsers, selectUser } from "../store/slices/user";
 
 
+const menuElementStyle = "flex items-center h-12 border-b ml-4 text-left text-lg";
+
 export default function Setting() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const loginUser = useSelector(selectUser).loginUser;
   const [isBlockedEdit, setBlockedEdit] = useState<boolean>(false);
   const [isLoginChangeModalOpen, setLoginChangeModalOpen] = useState<boolean>(false);
-  const [isRemoveAccModalOpen, setRemoveAccModalOpen] = useState<boolean>(false);
+  const [isRemoveAccountModalOpen, setRemoveAccountModalOpen] = useState<boolean>(false);
 
   const onLoginChangeModalClose = useCallback(() => {
     setLoginChangeModalOpen(false);
   }, [setLoginChangeModalOpen]);
 
   const onRemoveAccModalClose = useCallback(() => {
-    setRemoveAccModalOpen(false);
-  }, [setRemoveAccModalOpen]);
+    setRemoveAccountModalOpen(false);
+  }, [setRemoveAccountModalOpen]);
 
-
-  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
-    <span {...props} ref={ref}>
+  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLDivElement>) => (
+    <div {...props} ref={ref}>
       {props.children}
-    </span>
+    </div>
   ));
 
   useEffect(() => {
@@ -70,20 +71,8 @@ export default function Setting() {
               </button>
             </div>
           </article>
-
           <article
-            className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
-            role={"presentation"}
-            onClick={() => {
-              setBlockedEdit(true);
-              dispatch(getBlockedUsers(loginUser?.key ?? 0));
-            } }
-          >
-            차단 유저 관리
-          </article>
-
-          <article
-            className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
+            className={menuElementStyle}
             role={"presentation"}
             onClick={() => {
               setLoginChangeModalOpen(true);
@@ -93,7 +82,17 @@ export default function Setting() {
             회원정보 변경
           </article>
           <article
-            className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
+            className={menuElementStyle}
+            role={"presentation"}
+            onClick={() => {
+              setBlockedEdit(true);
+              dispatch(getBlockedUsers(loginUser?.key ?? 0));
+            } }
+          >
+            차단 유저 관리
+          </article>
+          <article
+            className={menuElementStyle}
             role={"presentation"}
             onClick={() => {
               dispatch(chatAction.setChatroomEmpty());
@@ -103,14 +102,13 @@ export default function Setting() {
             로그아웃
           </article>
           <article
-            className={"flex items-center h-12 border-b ml-4 text-left text-lg"}
+            className={menuElementStyle}
             role={"presentation"}
-            onClick={() => setRemoveAccModalOpen(true)}
+            onClick={() => setRemoveAccountModalOpen(true)}
           >
             회원 탈퇴
           </article>
         </section>
-
         <Modal
           open={isLoginChangeModalOpen}
           onClose={onLoginChangeModalClose}
@@ -124,9 +122,8 @@ export default function Setting() {
             <LoginInfoChanger onModalClose={onLoginChangeModalClose}/>
           </Wrapper>
         </Modal>
-
         <Modal
-          open={isRemoveAccModalOpen}
+          open={isRemoveAccountModalOpen}
           onClose={onRemoveAccModalClose}
           style={{
             display: "flex",

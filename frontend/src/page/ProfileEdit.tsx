@@ -56,10 +56,10 @@ export default function ProfileEdit() {
     setIntroModalOpen(false);
   }, [setIntroModalOpen]);
 
-  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLSpanElement>) => (
-    <span {...props} ref={ref}>
+  const Wrapper = forwardRef((props: {children: JSX.Element}, ref: React.LegacyRef<HTMLDivElement>) => (
+    <div {...props} ref={ref}>
       {props.children}
-    </span>
+    </div>
   ));
 
   return (!loginUser) ? <section/> :
