@@ -48,22 +48,28 @@ class UserViewSet(viewsets.ModelViewSet):
             filters &= Q(birthday__year__gte=datetime.now().year - age_max + 1)
 
         colleges_included = request.GET.get('colleges_included')
-        if colleges_included:
+        majors_included = request.GET.get('majors_included')
+        if colleges_included and majors_included:
+            colleges_included = parse_int_query_parameters(colleges_included)
+            majors_included = parse_int_query_parameters(majors_included)
+            filters &= (Q(college__in=colleges_included) | Q(major__in=majors_included))
+        elif colleges_included:
             colleges_included = parse_int_query_parameters(colleges_included)
             filters &= Q(college__in=colleges_included)
-
-        colleges_excluded = request.GET.get('colleges_excluded')
-        if colleges_excluded:
-            colleges_excluded = parse_int_query_parameters(colleges_excluded)
-            filters &= ~Q(college__in=colleges_excluded)
-
-        majors_included = request.GET.get('majors_included')
-        if majors_included:
+        elif majors_included:
             majors_included = parse_int_query_parameters(majors_included)
             filters &= Q(major__in=majors_included)
 
+        colleges_excluded = request.GET.get('colleges_excluded')
         majors_excluded = request.GET.get('majors_excluded')
-        if majors_excluded:
+        if colleges_excluded and majors_excluded:
+            colleges_excluded = parse_int_query_parameters(colleges_excluded)
+            majors_excluded = parse_int_query_parameters(majors_excluded)
+            filters &= (~Q(college__in=colleges_excluded) & ~Q(major__in=majors_excluded))
+        elif colleges_excluded:
+            colleges_excluded = parse_int_query_parameters(colleges_excluded)
+            filters &= ~Q(college__in=colleges_excluded)
+        elif majors_excluded:
             majors_excluded = parse_int_query_parameters(majors_excluded)
             filters &= ~Q(major__in=majors_excluded)
 
