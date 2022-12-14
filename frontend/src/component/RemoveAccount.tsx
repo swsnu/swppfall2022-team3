@@ -6,7 +6,7 @@ import paths from "../constant/path";
 import style from "../constant/style";
 import { AppDispatch } from "../store";
 import { chatAction } from "../store/slices/chat";
-import { selectUser, userActions } from "../store/slices/user";
+import { fetchSignout, selectUser } from "../store/slices/user";
 import { userUrl } from "../store/urls";
 
 
@@ -27,6 +27,9 @@ export default function RemoveAccount({ onModalClose }: IProps) {
     if (!loginUser) {
       return;
     }
+
+    dispatch(chatAction.setChatroomEmpty());
+    await dispatch(fetchSignout());
     try {
       await axios.delete(`${userUrl}/${loginUser.key}/`);
     }
@@ -35,8 +38,6 @@ export default function RemoveAccount({ onModalClose }: IProps) {
     }
     onModalClose();
     navigate(paths.signIn);
-    dispatch(userActions.setStateEmpty());
-    dispatch(chatAction.setChatroomEmpty());
   },
   [dispatch, loginUser, navigate, onModalClose]);
 
