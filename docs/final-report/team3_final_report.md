@@ -24,6 +24,185 @@ The customers will read this document when they want to know the overall feature
 Secondly, online university community services like Everytime are often used as dating platforms. Students who want to meet people in the same university can explore self-introduction posts on Everytime's "dating" board. This method hardly allows people to consider others’ appearance, one of the most important factors in choosing a potential sweetheart because most users do not upload their pictures on a public board. Furthermore, there are some irrelevant threads on the board that make the board's reputation bad.
 Compared to competitive services, *Pitapat Campus* provides an efficient method to choose one's partner in the same college community based on users' profiles, including pictures, tags, and self-introduction. Matched users can continue communication through one-to-one chatting.
 
+## User Stories
+
+### Signing Up
+
+- actor: a university student who wants to use Pitapat Campus
+- precondition: The user is on the login page.
+- trigger: The user clicks the sign-up button.
+- scenarios
+  - The user selects their own university.
+  - The mail domain is fixed, and the user enters the email, authentication mail is sent to the corresponding email.
+  - Authentication is completed when the user checks the authentication mail and enters the verification code.
+  - The user sets the password, and an account is created.
+- postcondition: The corresponding account is created.
+- exceptions
+  - The email already exists in user database.
+  - The authentication mail is sent, but the user doesn’t check it in time.
+  - The password is not strong.
+- acceptance tests
+  - (1)
+    - given: a valid email
+    - when: pushes confirm button
+    - then: authentication mail is sent to the corresponding email
+  - (2)
+    - given: already-existing email
+    - when: pushes confirm button
+    - then: alert that the email already exists, and stay on that page
+  - (3)
+    - given: authentication mail is sent
+    - when: user enters the verification code
+    - then: proceed to the password setting step
+  - (4)
+    - given: authentication mail is sent
+    - when: it is incorrect verification code or the time is over
+    - then: alert that verification code is wrong or the available time has passed, and re-send authentication mail to guide the user sign up
+
+### Creating a Profile
+
+- actor: a user who finished sign-up
+- precondition: The user only finished email authorization.
+- trigger: User's email is authorized but the user does not have profiles.
+- scenarios
+  - A user finishes email auth at the email-auth page.
+- postcondition: The user will have a profile.
+- exception: There are some required fields not filled.
+- acceptance tests:
+  - (1)
+    - given: valid inputs
+    - when: pushes submit button
+    - then: a user profile is made.
+  - (2)
+    - given: some necessary fields are not filled
+    - when: pushes submit button
+    - then: alert the user that necessary fields are not filled
+
+### Updating a Profile
+
+- actor: a user who finished sign-up
+- precondition: User should have their profiles.
+- trigger: The user pushes “change profile” button.
+- scenarios
+  - The profile-update page looks like the user-info page, but the user can update each profile element.
+  - Every profile element could be updated, but required fields should not be empty.
+  - After the user finishes update and click the “confirm” button, the user profile is updated.
+- postcondition: User will have an updated profile.
+- exceptions
+  - Tries to make required field empty.
+- acceptance tests:
+  - (1)
+    - given: valid inputs
+    - when: pushes submit button
+    - then: the user profile is updated
+  - (2)
+    - given: some necessary fields are updated as empty value
+    - when: pushes submit button
+    - then: alert the user that necessary fields are not filled
+
+### Sending Pitapat to Others
+
+- actor: a user who find out other impressive users
+- precondition: Pitapat sender and receiver are not yet matched.
+- trigger: The user presses “pitapat” button on the profile page.
+- scenarios
+  - The user search page contains other users’ basic information such as a nickname, main profile image, and age.
+  - The user can see the profile detail of the others by clicking the others’ main profile image.
+  - The user sends a request by pressing the pitapat button.
+- postconditions
+  - The receiver can check the pitapat on the list of Pitapats page.
+  - The sender’s pitapat button became already-sent state.
+- acceptance tests:
+  - (1)
+    - given: a receiver didn’t block a sender
+    - when: the sender pushes pitapat button
+    - then: pitapat alarm is sent to the receiver
+
+### Seeing the List of Pitapats from Others
+
+- actor: a user who gets a pitapat alarm
+- precondition: A sender has sent pitapat to other user.
+- trigger: The user presses a pitapat icon on the navigation bar.
+- scenarios
+  - The list of Pitapats page contains the sender’s basic information such as a nickname, main profile image, and age.
+  - The user can see the profile detail of the sender by clicking the sender’s main profile image.
+  - The user can press an accept button, which is under the sender’s profile image, or refuse the request by pressing “Refuse” button.
+- postconditions
+  - After matching up, they both can see others on the chat room list and the pitapat element should be disappeared from the list.
+  - After pressing “Refuse”, the pitapat element disappears from the list, and there is no additional chat room
+- exception: The user is matched with nobody.
+- acceptance tests:
+  - (1)
+    - given: after receiving Pitapats from others
+    - when: when the user check a received Pitapat and press receive button to exchange Pitapats
+    - then: both users get matched up successfully and they both can see others on chat room list page
+  - (2)
+    - given: after receiving Pitapats from others
+    - when: when the user check a received Pitapat and press the button to refuse
+    - then: there is no matching up
+
+### Seeing the List of Pitapats Sent to Others
+
+- actor: a user who sent pitapats to others.
+- precondition: A User has sent pitapats to other users.
+- trigger: The user presses a pitapat icon on the navigation bar and clicks  the 'pitapats sent list' tab.
+- scenarios
+  - The list of Pitapats sent to others contains the receiver’s basic information such as a nickname, main profile image, and age.
+  - The user can see the profile detail of the sender by clicking the receiver’s main profile image.
+  - The user can cancel a pitapat by clicking the pitapat button which is already toggled on.
+- postconditions
+  - After canceling a pitapat, the received user's profile is removed from the list.
+- acceptance tests:
+  - (1)
+    - given: after sending Pitapats to others
+    - when: when the user checks a sent Pitapat and presses the pitapat button to cancel
+    - then: a received user is removed from the list, and the user is removed from the received pitapats list of the other user who just got canceled
+
+### Entering the Chat Room List Page
+
+- actor: a user who has completed profile information
+- precondition: The user has signed in.
+- trigger: The user presses a “chatting” icon on the navigation bar.
+- scenarios
+  - The page contains a list of chat rooms with matched users.
+  - Each chatting list element shows matched user's name, profile picture, and recent message with him or her.
+  - When pressing the element, the user can move into an 1:1 chatting page with that user.
+- postconditions
+  - Pressing element of some matched user in the list: move into an 1:1 chat room view with him or her.
+- exception: The user is matched with nobody.
+- acceptance tests:
+  - (1)
+    - given: the user is in chat room list page
+    - when: the user presses a chat room element
+    - then: 1:1 chat room with him/her appears
+  - (2)
+    - given: the user is in the chat room list page
+    - when: the user receives a message from some matched user
+    - then: the preview message is updated
+
+### 1:1 Chatting with Matched User
+
+- actor: a user who is matched with some other user
+- precondition: Two users are matched through exchanging pitapat.
+- trigger: The user presses an element in the chat room list.
+- scenarios
+  - At the upper part of the view, the profile picture of the counterpart is shown. When pressing the name or the profile picture, the user can see the profile or him or her.
+  - The user can see sent or received messages with the counterpart at the center of the view. A speech bubble with messages points right if it contains a sent message, and points left with a received message. Message dispatch time is shown by the side of each speech bubble.
+- exception: The user tries to send an empty message.
+- acceptance tests:
+  - (1)
+    - given: the message input field contains a non-empty message
+    - when: the user presses the send button
+    - then: the message is sent and a speech bubble containing the message is added at the bottom of messages
+  - (2)
+    - given: the user is in the 1:1 chat room
+    - when: the message input field is empty
+    - then: the button is disabled
+  - (3)
+    - given: the user is in the 1:1 chat room with a matched user
+    - when: the user receives a message from the counterpart
+    - then: a speech bubble containing the message is added at the bottom of messages
+
 ## Backend
 
 #### Api Design
