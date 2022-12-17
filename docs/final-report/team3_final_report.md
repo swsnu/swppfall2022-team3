@@ -301,6 +301,8 @@ The functionality and the requirement for each page are described below.
 - A user can navigate to this page, from the chat list page, and the pitapats list page by clicking a setting button located in the top right corner.
 - A user can fix the settings of this service.
 - If a user clicks his/her profile picture at the top of the page, a user can fix his/her profile.
+- A user can delete account.
+- A user can manage block list.
 
 ## Implementation
 
