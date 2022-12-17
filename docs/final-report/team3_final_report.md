@@ -40,7 +40,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
 - postcondition: The corresponding account is created.
 - exceptions
   - The email already exists in user database.
-  - The authentication mail is sent, but the user doesn’t check it in time.
+  - The authentication mail is sent, but the user does not check it in time.
   - The password is not strong.
 - acceptance tests
   - (1)
@@ -115,7 +115,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
   - The sender’s pitapat button became already-sent state.
 - acceptance tests:
   - (1)
-    - given: a receiver didn’t block a sender
+    - given: a receiver did not block a sender
     - when: the sender pushes pitapat button
     - then: pitapat alarm is sent to the receiver
 
@@ -208,7 +208,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
 
 #### MVC Design Pattern
 
-*Pipapat Campus* uses the Model-View-Controller design pattern in system architecture. The frontend contains 8 views, the backend has 11 models, and the controller connects the frontend and the backend.
+*Pitapat Campus* uses the Model-View-Controller design pattern in system architecture. The frontend contains 8 views, the backend has 11 models, and the controller connects the frontend and the backend.
 
 ![mvc](../design-plan/mvc.png)
 
@@ -288,7 +288,7 @@ For frontend implementation, *Pitapat Campus* used React.js with Redux. Tailwind
     - `participants`: chatting participant user list in chat list page
   - `piatpatListTabIndex`: tab index(received/sent) in pitapat list page
 - reducers
-  - `fetchSignIn`: sign in at backend server, get sesson token and `sessionid` cookie
+  - `fetchSignIn`: sign in at backend server, get session token and `sessionid` cookie
   - `fetchSignOut`: sign out at backend server
   - `fetchSignUp`: send new user information to backend server
   - `getUsers`: get user list by filter
@@ -348,7 +348,7 @@ For frontend implementation, *Pitapat Campus* used React.js with Redux. Tailwind
 
 ### Backend Implementation
 
-Django is chosen as a backend server framework. For implementational convenience, Django REST Framework is used to construct RESTful APIs. Asynchoronous WebSocket connection for chat service is implemented using Python Channels library. Basic text data is stored in MariaDB, and image sources are saved in Amazon S3. Test codes used Python UnitTest module.
+Django is chosen as a backend server framework. For convenience in implementation, Django REST Framework is used to construct RESTful APIs. Asynchronous WebSocket connection for chat service is implemented using Python Channels library. Basic text data is stored in MariaDB, and image sources are saved in Amazon S3. Test codes used Python UnitTest module.
 
 #### API List
 
@@ -390,7 +390,7 @@ Django is chosen as a backend server framework. For implementational convenience
 ## Testing
 
 #### Unit Testing
-Both the frontend and backend test coverage recorded more than 90%, so the overall test coverage recorded 92%. We used various external libraries such as MUI for frontned and websocket for chat, but we thought that part was very intricate or insignificant to test, so we tried to raise the testing coverage of other parts.
+Both the frontend and backend test coverage recorded more than 90%, so the overall test coverage recorded 92%. We used various external libraries such as MUI for frontend and websocket for chat, but we thought that part was very intricate or insignificant to test, so we tried to raise the testing coverage of other parts.
 
 ###### Frontend
 
