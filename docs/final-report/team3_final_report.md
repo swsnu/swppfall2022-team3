@@ -206,13 +206,33 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
 
 ## Implementation
 
-### Frontend
+### Sprint Timeline
+
+| Sprint   | Tasks                                        |
+| -------- | -------------------------------------------- |
+| Sprint 1 | Requirements and specification               |
+| Sprint 2 | Design and planning                          |
+| Sprint 3 | Frontend implementation                      |
+| Sprint 4 | Backend implementation & FE-BE communication |
+| Sprint 5 | Additional features & deployment             |
+
+### Frontend Implementation
 
 For frontend implementation, *Pitapat Campus* used React.js with Redux. Tailwind CSS framework and Material UI components are adopted to realize UI design with better productivity. For testing, behavior-driven React Testing Library is used based on Jest framework.
 
-#### Page & Component Flow
+#### Pages & Components
 
-
+| Page            | Components                                                   |
+| --------------- | ------------------------------------------------------------ |
+| `SignIn`        |                                                              |
+| `SignUp`        | `UniversitySelect` (`AlertModal`, `InformationInput`)<br />`EmailVerification` (`AlertModal`, `InformationInput`)<br />`PersonalInformation` (`AlertModal`, `InformationInput`)<br />`TagSelect` (`TagElement`)<br />`Introduction`<br />`ImageUpload` (`AlertModal`, `ImageUploadIcon`) |
+| `Search`        | `AppBar`, `NavigationBar`<br />`Profile` (`PitapatButton`)<br />`UserFilter` (`UserFilterElement`) |
+| `ProfileDetail` | `AppBar`, `PhotoSlider`, `PitapatButton`,                    |
+| `PitapatList`   | `AppBar`, `NavigationBar`<br />`PitapatReceived` (`Profile`)<br />`PitapatSent` (`Profile`) |
+| `ChatList`      | `AppBar`, `NavigationBar`, `ChatListElement`                 |
+| `ChatDetail`    | `AppBar`, `ChatBox`                                          |
+| `Setting`       | `AppBar`, `LoginInfoChanger`, `RemoveAccount`<br />`BlockedUserList` (`BlockedUserElement`) |
+| `ProfileEdit`   | `AppBar`, `PhotoSlider`, `EditButton`<br />`CollegeMajorEdit` (`InformationInput`)<br />`TagsEdit` (`AlertModal`, `TagElement`)<br />`IntroEdit`<br />`PhotosEdit` (`ImageUploadIcon`) |
 
 #### Redux Slices
 
@@ -291,7 +311,7 @@ For frontend implementation, *Pitapat Campus* used React.js with Redux. Tailwind
   - `setChatroomChats`: set chats in chatroom
   - `addChat`: add a chat in chatroom
 
-### Backend
+### Backend Implementation
 
 Django is chosen as a backend server framework. For implementational convenience, Django REST Framework is used to construct RESTful APIs. Asynchoronous WebSocket connection for chat service is implemented using Python Channels library. Basic text data is stored in MariaDB, and image sources are saved in Amazon S3. Test codes used Python UnitTest module.
 
