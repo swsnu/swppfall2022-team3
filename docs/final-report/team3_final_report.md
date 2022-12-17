@@ -389,7 +389,7 @@ Django is chosen as a backend server framework. For convenience in implementatio
 
 ## Testing
 
-#### Unit Testing
+### Unit Testing
 Both the frontend and backend test coverage recorded more than 90%, so the overall test coverage recorded 92%. We used various external libraries such as MUI for frontend and websocket for chat, but we thought that part was very intricate or insignificant to test, so we tried to raise the testing coverage of other parts.
 
 #### Frontend
