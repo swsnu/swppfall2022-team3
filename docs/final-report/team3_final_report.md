@@ -400,7 +400,3 @@ Both the frontend and backend test coverage recorded more than 90%, so the overa
 ###### Backend
 
 <img src='../backlog/sprint5-backend-coverage.png' width=500 />
-
-#### Integration Testing
-
-For the integration test, we configured .travis.yml. Therefore, it was checked whether integration was possible when merged into the main branch through a pull request.
