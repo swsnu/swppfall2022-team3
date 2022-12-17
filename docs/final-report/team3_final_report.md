@@ -204,6 +204,41 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: the user receives a message from the counterpart
     - then: a speech bubble containing the message is added at the bottom of messages
 
+### System Architecture
+
+#### MVC Design Pattern
+
+*Pipapat Campus* uses the Model-View-Controller design pattern in system architecture. The frontend contains 8 views, the backend has 11 models, and the controller connects the frontend and the backend.
+
+![mvc](../design-plan/mvc.png)
+
+#### Model
+
+##### E-R Diagram
+
+Each table represents an entity or a relationship between entities. Entity tables and relationship tables are distinguished by their prefixes: `E_` and `R_`.
+
+A Line between two tables shows their relationship. Its relationship type is denoted as arrow shape and line color; these symbols are explained below the figure.
+
+![erd](../design-plan/erd.png)
+
+##### Entity Description
+
+| Model            | Description                                                                                                                                   |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| **University**   | A closed community that only users in the same university can see each other.                                                                 |
+| **College**      | Each university has a number of colleges.                                                                                                     |
+| **Major**        | Each college in a university has a number of majors. Used as a user's tag.                                                                    |
+| **User**         | The user that belongs to a university. Has its own introduction, photos, and tags. Can see profiles of other users and send pitapats to them. |
+| **Introduction** | Self-introduce text written by a user.                                                                                                        |
+| **Photo**        | Photos showing a user's appearance.                                                                                                           |
+| **Tag**          | Additional keywords that a user adds to appeal itself.                                                                                        |
+| **Pitapat**      | A request for matching from a user to another user.                                                                                           |
+| **Block**        | A request for blocking from a user to another user.                                                                                           |
+| **Chat**         | A Chat record contains chatroom key value, message, and sender.                                                                               |
+| **Chatroom**     | A Chatroom has relationship with two matched users.                                                                                           |                                                                                                                                
+
+
 ## Implementation
 
 ### Frontend
