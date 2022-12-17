@@ -225,14 +225,14 @@ For frontend implementation, *Pitapat Campus* used React.js with Redux. Tailwind
 | Page            | Components                                                   |
 | --------------- | ------------------------------------------------------------ |
 | `SignIn`        |                                                              |
-| `SignUp`        | `UniversitySelect` (`AlertModal`, `InformationInput`)<br />`EmailVerification` (`AlertModal`, `InformationInput`)<br />`PersonalInformation` (`AlertModal`, `InformationInput`)<br />`TagSelect` (`TagElement`)<br />`Introduction`<br />`ImageUpload` (`AlertModal`, `ImageUploadIcon`) |
-| `Search`        | `AppBar`, `NavigationBar`<br />`Profile` (`PitapatButton`)<br />`UserFilter` (`UserFilterElement`) |
-| `ProfileDetail` | `AppBar`, `PhotoSlider`, `PitapatButton`,                    |
-| `PitapatList`   | `AppBar`, `NavigationBar`<br />`PitapatReceived` (`Profile`)<br />`PitapatSent` (`Profile`) |
-| `ChatList`      | `AppBar`, `NavigationBar`, `ChatListElement`                 |
-| `ChatDetail`    | `AppBar`, `ChatBox`                                          |
-| `Setting`       | `AppBar`, `LoginInfoChanger`, `RemoveAccount`<br />`BlockedUserList` (`BlockedUserElement`) |
-| `ProfileEdit`   | `AppBar`, `PhotoSlider`, `EditButton`<br />`CollegeMajorEdit` (`InformationInput`)<br />`TagsEdit` (`AlertModal`, `TagElement`)<br />`IntroEdit`<br />`PhotosEdit` (`ImageUploadIcon`) |
+| `SignUp`        | - `UniversitySelect`<br />  - `AlertModal`<br />  - `InformationInput`<br />- `EmailVerification`<br />  - `AlertModal`<br />  - `InformationInput`<br />- `PersonalInformation`<br />  - `AlertModal`<br />  - `InformationInput`<br />- `TagSelect`<br />  - `TagElement`<br />- `Introduction`<br />- `ImageUpload`<br />  - `AlertModal`<br />  - `ImageUploadIcon` |
+| `Search`        | - `AppBar`<br />- `NavigationBar`<br />- `Profile`<br />  - `PitapatButton`<br />- `UserFilter`<br />  - `UserFilterElement` |
+| `ProfileDetail` | - `AppBar`<br />- `PhotoSlider`<br />- `PitapatButton`       |
+| `PitapatList`   | - `AppBar`<br />- `NavigationBar`<br />- `PitapatReceived`<br />  - `Profile`<br />- `PitapatSent`<br />  - `Profile` |
+| `ChatList`      | - `AppBar`<br />- `NavigationBar`<br />- `ChatListElement`   |
+| `ChatDetail`    | - `AppBar`<br />- `ChatBox`                                  |
+| `Setting`       | - `AppBar`<br />- `LoginInfoChanger`<br />- `RemoveAccount`<br />- `BlockedUserList`<br />  - `BlockedUserElement` |
+| `ProfileEdit`   | - `AppBar`<br />- `PhotoSlider`<br />- `EditButton`<br />- `CollegeMajorEdit`<br />  - `InformationInput`<br />- `TagsEdit`<br />  - `AlertModal`<br />  - `TagElement`<br />- `IntroEdit`<br />- `PhotosEdit`<br />  - `ImageUploadIcon` |
 
 #### Redux Slices
 
