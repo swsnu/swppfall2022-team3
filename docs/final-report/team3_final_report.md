@@ -23,9 +23,11 @@ The customers will read this document when they want to know the overall feature
 Secondly, online university community services like Everytime are often used as dating platforms. Students who want to meet people in the same university can explore self-introduction posts on Everytime's "dating" board. This method hardly allows people to consider others’ appearance, one of the most important factors in choosing a potential sweetheart because most users do not upload their pictures on a public board. Furthermore, there are some irrelevant threads on the board that make the board's reputation bad.
 Compared to competitive services, *Pitapat Campus* provides an efficient method to choose one's partner in the same college community based on users' profiles, including pictures, tags, and self-introduction. Matched users can continue communication through one-to-one chatting.
 
-## User Stories
+## Design
 
-### Signing Up
+### User Stories
+
+#### Signing Up
 
 - actor: a university student who wants to use Pitapat Campus
 - precondition: The user is on the login page.
@@ -58,7 +60,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: it is incorrect verification code or the time is over
     - then: alert that verification code is wrong or the available time has passed, and re-send authentication mail to guide the user sign up
 
-### Creating a Profile
+#### Creating a Profile
 
 - actor: a user who finished sign-up
 - precondition: The user only finished email authorization.
@@ -77,7 +79,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: pushes submit button
     - then: alert the user that necessary fields are not filled
 
-### Updating a Profile
+#### Updating a Profile
 
 - actor: a user who finished sign-up
 - precondition: User should have their profiles.
@@ -99,7 +101,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: pushes submit button
     - then: alert the user that necessary fields are not filled
 
-### Sending Pitapat to Others
+#### Sending Pitapat to Others
 
 - actor: a user who find out other impressive users
 - precondition: Pitapat sender and receiver are not yet matched.
@@ -117,7 +119,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: the sender pushes pitapat button
     - then: pitapat alarm is sent to the receiver
 
-### Seeing the List of Pitapats from Others
+#### Seeing the List of Pitapats from Others
 
 - actor: a user who gets a pitapat alarm
 - precondition: A sender has sent pitapat to other user.
@@ -140,7 +142,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: when the user check a received Pitapat and press the button to refuse
     - then: there is no matching up
 
-### Seeing the List of Pitapats Sent to Others
+#### Seeing the List of Pitapats Sent to Others
 
 - actor: a user who sent pitapats to others.
 - precondition: A User has sent pitapats to other users.
@@ -157,7 +159,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: when the user checks a sent Pitapat and presses the pitapat button to cancel
     - then: a received user is removed from the list, and the user is removed from the received pitapats list of the other user who just got canceled
 
-### Entering the Chat Room List Page
+#### Entering the Chat Room List Page
 
 - actor: a user who has completed profile information
 - precondition: The user has signed in.
@@ -179,7 +181,7 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: the user receives a message from some matched user
     - then: the preview message is updated
 
-### 1:1 Chatting with Matched User
+#### 1:1 Chatting with Matched User
 
 - actor: a user who is matched with some other user
 - precondition: Two users are matched through exchanging pitapat.
@@ -202,7 +204,6 @@ Compared to competitive services, *Pitapat Campus* provides an efficient method 
     - when: the user receives a message from the counterpart
     - then: a speech bubble containing the message is added at the bottom of messages
 
-## Backend
 ## Implementation
 
 ### Frontend
@@ -309,19 +310,19 @@ Django is chosen as a backend server framework. For implementational convenience
 |                  | `/user/exist/<str:email>`                  | check email is already exist                  | X                                       | X                              | X                                                             |
 |                  | `/user/`                                   | get users                                     | create new user                         | X                              | X                                                             |
 |                  | `/user/<int:key>/`                         | get a user and its introduction, photos, tags | X                                       | edit a user                    | delete a user and its introduction, photos, tag relationships |
-| **Introduction** | `/user/<int:user_key>/introduction/`       | X                                             | X                                       | edit an introduction of a user | X                                                            |
-| **Photo**        | `/photo/user/<int:user_key>/`              | X                                             | create new photo                        | X                              | X                                                            |
-|                  | `/photo/<int:key>/`                        | get a photo                                   | X                                       | X                              | delete a photo                           |
-|                  | `/user/<int:user_key>/photo/`                          | get photos of a user                                             |   X                            | X                              | X                             |           
-| **Tag**          | `/tag/`                                    | get tags                                      |  X                          | X                              | X                                                            |
-|                  | `/user/<int:user_key>/tag/`                | X                                             | create user-tag relationships           | X                              | delete user-tag relationships                                |
-| **Pitapat**      | `/pitapat/`                                | X                                             | create new pitapat                      | X                              | delete a pitapat                                             |
-|                  | `/user/<int:user_key>/pitapat/from/`       | get pitapats from a user                      | X                                       | X                              | X                                                            |
-|                  | `/user/<int:user_key>/pitapat/to/`         | get pitapats to a user                        | X                                       | X                              | X                                                            |
-| **Chatroom**     | `/chatroom/<int:chatroom_key>/user/`       | get user list in a chatroom                   | X                                       | X                              | X                                                            |
-|                  | `/user/<int:user_key>/chatroom/`           | get chatroom list of a user                   | X                                       | X                              | X                                                            |
-| **Block**        |  `/block/`                             |                           X                        |   create new block      |                                              X                           |                             delete a block              |
-|      |  `/user/<int:user_key>/block/`                             |                           get block list of a user                        |         x       |                                              X                           |                             x              |
+| **Introduction** | `/user/<int:user_key>/introduction/`       | X                                             | X                                       | edit an introduction of a user | X                                                             |
+| **Photo**        | `/photo/user/<int:user_key>/`              | X                                             | create new photo                        | X                              | X                                                             |
+|                  | `/photo/<int:key>/`                        | get a photo                                   | X                                       | X                              | delete a photo                                                |
+|                  | `/user/<int:user_key>/photo/`              | get photos of a user                          | X                                       | X                              | X                                                             |           
+| **Tag**          | `/tag/`                                    | get tags                                      | X                                       | X                              | X                                                             |
+|                  | `/user/<int:user_key>/tag/`                | X                                             | create user-tag relationships           | X                              | delete user-tag relationships                                 |
+| **Pitapat**      | `/pitapat/`                                | X                                             | create new pitapat                      | X                              | delete a pitapat                                              |
+|                  | `/user/<int:user_key>/pitapat/from/`       | get pitapats from a user                      | X                                       | X                              | X                                                             |
+|                  | `/user/<int:user_key>/pitapat/to/`         | get pitapats to a user                        | X                                       | X                              | X                                                             |
+| **Chatroom**     | `/chatroom/<int:chatroom_key>/user/`       | get user list in a chatroom                   | X                                       | X                              | X                                                             |
+|                  | `/user/<int:user_key>/chatroom/`           | get chatroom list of a user                   | X                                       | X                              | X                                                             |
+| **Block**        | `/block/`                                  | X                                             | create new block                        | X                              | delete a block                                                |
+|                  | `/user/<int:user_key>/block/`              | get block list of a user                      | x                                       | X                              | x                                                             |
 
 #### WebSocket Connection
 
