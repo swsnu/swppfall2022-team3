@@ -400,3 +400,31 @@ Both the frontend and backend test coverage recorded more than 90%, so the overa
 ###### Backend
 
 <img src='../backlog/sprint5-backend-coverage.png' width=500 />
+
+
+
+## Deploy
+
+First of all, the Pitapat Campus is deployed on AWS EC2. The frontend consists of React. Its status is kept by Redux. The backend is implemented by Django. We also used Django Rest Framework for development convenience.
+
+Nginx works as a web server proxy. It intermediates requests between the user, frontend, and backend. In the middle of Nginx and the backend, there are uWSGI and Daphne. uWSGI handles WSGI like HTTP requests, and Daphne handles ASGI, like web sockets, and it uses Redis for higher performance.
+
+AWS S3 is used for file storage, and AWS RDS(MariaDB) is used for the DB system.
+
+The feature below shows our workflow.
+
+<img src='final-deploy.png' width=500 />
+
+
+
+## Conclusion
+
+During the semester, we want to make a new dating platform for college students. In terms of software, we want to build a mobile-friendly web app. Building a mobile app with React was quite interesting and challenging. There were no other options since what we have learnt and shared for frontend was React. This challenge let us learn the details of React. Making Pitapat Campus with Android or Swift could be a new good project. We cannot dismiss talking about Django. It was an interesting and powerful framework. Django’s support such as ImageField was very convenient, but we regret that we couldn't fully use Django admin because we made our own database, not delegating it to Django to migrate, so it has some conflicts with admin and auth.
+
+The hardest part was the deployment. It was difficult to find where is the problem. Is it because of Django, uWSGI, Nginx, or React? Even an EC2 environment could be a cause. If it was a logical problem of code, then could test it, but it wasn’t. We had to try it manually, It consumed lots of time. It makes us aware of the importance of docker and official documents.
+
+Documentation is the most interesting part. It is easy to underestimate, not a part of development. However, it performs as a beacon when we had to implement complicated things and prevents us to do unnecessary things. I think solid documentation is a key feature of TDD.
+
+The test also required a lot of effort. In this project, we didn’t do TDD. Everything wasn’t fully defined, and we were in a hurry. 80% didn’t have a problem during implementation, but 20% was tricky. It consumed quite a big time than we expected. At that point, we could feel why we need TDD.
+
+We could learn how the software development process is going. What we have learnt is not only just typing code but also coworking with team members. It was a great experience to develop software from A to Z. We could experience that partial work never tell us. I want to say thank you to our team members, TAs, and professor.
