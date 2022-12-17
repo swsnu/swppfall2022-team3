@@ -244,7 +244,7 @@ A Line between two tables shows their relationship. Its relationship type is den
 ### Sprint Timeline
 
 | Sprint   | Tasks                                        |
-| -------- | -------------------------------------------- |
+|----------|----------------------------------------------|
 | Sprint 1 | Requirements and specification               |
 | Sprint 2 | Design and planning                          |
 | Sprint 3 | Frontend implementation                      |
@@ -257,17 +257,17 @@ For frontend implementation, *Pitapat Campus* used React.js with Redux. Tailwind
 
 #### Pages & Components
 
-| Page            | Components                                                   |
-| --------------- | ------------------------------------------------------------ |
-| `SignIn`        |                                                              |
+| Page            | Components                                                                                                                                                                                                                                                                                                                                                              |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SignIn`        |                                                                                                                                                                                                                                                                                                                                                                         |
 | `SignUp`        | - `UniversitySelect`<br />  - `AlertModal`<br />  - `InformationInput`<br />- `EmailVerification`<br />  - `AlertModal`<br />  - `InformationInput`<br />- `PersonalInformation`<br />  - `AlertModal`<br />  - `InformationInput`<br />- `TagSelect`<br />  - `TagElement`<br />- `Introduction`<br />- `ImageUpload`<br />  - `AlertModal`<br />  - `ImageUploadIcon` |
-| `Search`        | - `AppBar`<br />- `NavigationBar`<br />- `Profile`<br />  - `PitapatButton`<br />- `UserFilter`<br />  - `UserFilterElement` |
-| `ProfileDetail` | - `AppBar`<br />- `PhotoSlider`<br />- `PitapatButton`       |
-| `PitapatList`   | - `AppBar`<br />- `NavigationBar`<br />- `PitapatReceived`<br />  - `Profile`<br />- `PitapatSent`<br />  - `Profile` |
-| `ChatList`      | - `AppBar`<br />- `NavigationBar`<br />- `ChatListElement`   |
-| `ChatDetail`    | - `AppBar`<br />- `ChatBox`                                  |
-| `Setting`       | - `AppBar`<br />- `LoginInfoChanger`<br />- `RemoveAccount`<br />- `BlockedUserList`<br />  - `BlockedUserElement` |
-| `ProfileEdit`   | - `AppBar`<br />- `PhotoSlider`<br />- `EditButton`<br />- `CollegeMajorEdit`<br />  - `InformationInput`<br />- `TagsEdit`<br />  - `AlertModal`<br />  - `TagElement`<br />- `IntroEdit`<br />- `PhotosEdit`<br />  - `ImageUploadIcon` |
+| `Search`        | - `AppBar`<br />- `NavigationBar`<br />- `Profile`<br />  - `PitapatButton`<br />- `UserFilter`<br />  - `UserFilterElement`                                                                                                                                                                                                                                            |
+| `ProfileDetail` | - `AppBar`<br />- `PhotoSlider`<br />- `PitapatButton`                                                                                                                                                                                                                                                                                                                  |
+| `PitapatList`   | - `AppBar`<br />- `NavigationBar`<br />- `PitapatReceived`<br />  - `Profile`<br />- `PitapatSent`<br />  - `Profile`                                                                                                                                                                                                                                                   |
+| `ChatList`      | - `AppBar`<br />- `NavigationBar`<br />- `ChatListElement`                                                                                                                                                                                                                                                                                                              |
+| `ChatDetail`    | - `AppBar`<br />- `ChatBox`                                                                                                                                                                                                                                                                                                                                             |
+| `Setting`       | - `AppBar`<br />- `LoginInfoChanger`<br />- `RemoveAccount`<br />- `BlockedUserList`<br />  - `BlockedUserElement`                                                                                                                                                                                                                                                      |
+| `ProfileEdit`   | - `AppBar`<br />- `PhotoSlider`<br />- `EditButton`<br />- `CollegeMajorEdit`<br />  - `InformationInput`<br />- `TagsEdit`<br />  - `AlertModal`<br />  - `TagElement`<br />- `IntroEdit`<br />- `PhotosEdit`<br />  - `ImageUploadIcon`                                                                                                                               |
 
 #### Redux Slices
 
